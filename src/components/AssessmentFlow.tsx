@@ -1,0 +1,242 @@
+'use client';
+
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Brain, ChevronRight, ChevronLeft, BarChart3 } from 'lucide-react';
+import { ASSESSMENT_QUESTIONS } from '@/data/gaplessData';
+import { useGaplessContext } from '@/contexts/CareerContext';
+
+export function AssessmentFlow() {
+  const { answers, setAnswer, isAssessmentComplete, setView } =
+    useGaplessContext();
+  const [currentIdx, setCurrentIdx] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  const question = ASSESSMENT_QUESTIONS[currentIdx];
+  const total = ASSESSMENT_QUESTIONS.length;
+  const progress = ((currentIdx + 1) / total) * 100;
+
+  const handleSelect = (optionIndex: number) => {
+    setAnswer(question.id, optionIndex);
+  };
+
+  const handleNext = () => {
+    if (currentIdx < total - 1) {
+      setCurrentIdx((i) => i + 1);
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentIdx > 0) {
+      setCurrentIdx((i) => i - 1);
+    }
+  };
+
+  const handleFinish = () => {
+    setView('results');
+  };
+
+  // ── Start Screen ──
+  if (!started) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-space px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          className="text-center max-w-lg"
+        >
+          <div
+            className="flex items-center justify-center w-20 h-20 rounded-2xl mx-auto mb-6"
+            style={{
+              background: 'linear-gradient(135deg, #1d4ed8, #3b82f6, #22d3ee)',
+              boxShadow: '0 0 40px rgba(37,99,235,0.3)',
+            }}
+          >
+            <Brain size={36} className="text-white" />
+          </div>
+          <h1 className="text-4xl font-bold text-slate-900 mb-3">
+            <span className="gradient-text">Assesmen</span> Karir
+          </h1>
+          <p className="text-gray-500 text-lg mb-4 leading-relaxed">
+            Jawab 15 pertanyaan untuk menemukan trait karir dominanmu dan temukan
+            jalur karir yang paling cocok untukmu.
+          </p>
+          <p className="text-gray-400 text-sm mb-8">
+            100% client-side &middot; Tidak ada data yang keluar dari browsermu &middot; ~3 menit
+          </p>
+          <button
+            onClick={() => setStarted(true)}
+            className="btn-primary flex items-center gap-2 mx-auto text-base"
+          >
+            <Brain size={18} />
+            Mulai Assesmen
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // ── Completion Screen ──
+  if (isAssessmentComplete && currentIdx === total - 1 && answers[question.id] !== undefined) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-space px-6">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-md"
+        >
+          <div
+            className="w-20 h-20 rounded-full mx-auto mb-6 flex items-center justify-center"
+            style={{
+              background: 'linear-gradient(135deg, #10b981, #06b6d4)',
+              boxShadow: '0 0 40px rgba(16,185,129,0.3)',
+            }}
+          >
+            <BarChart3 size={36} className="text-white" />
+          </div>
+          <h2 className="text-3xl font-bold text-slate-900 mb-3">Assesmen Selesai!</h2>
+          <p className="text-gray-500 text-lg mb-8">
+            Semua {total} pertanyaan telah dijawab. Siap melihat hasilmu.
+          </p>
+          <button
+            onClick={handleFinish}
+            className="btn-primary flex items-center gap-2 mx-auto text-base"
+          >
+            Lihat Hasil
+            <ChevronRight size={18} />
+          </button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // ── Question Flow ──
+  return (
+    <div className="min-h-screen bg-space px-6 py-12">
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-2">
+            <Brain size={20} style={{ color: '#1d4ed8' }} />
+            <span className="text-sm font-semibold text-gray-500 uppercase tracking-widest">
+              Assesmen
+            </span>
+          </div>
+          <span className="text-sm text-gray-400">
+            {currentIdx + 1} / {total}
+          </span>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="progress-track mb-8">
+          <div className="progress-fill" style={{ width: `${progress}%` }} />
+        </div>
+
+        {/* Dimension Badge */}
+        <div className="mb-4">
+          <span
+            className="text-xs font-semibold px-3 py-1 rounded-full"
+            style={{
+              background: 'rgba(37,99,235,0.08)',
+              color: '#1d4ed8',
+            }}
+          >
+            {question.dimension}
+          </span>
+        </div>
+
+        {/* Question */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={question.id}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -30 }}
+            transition={{ duration: 0.3 }}
+          >
+            <h2 className="text-2xl font-bold text-slate-900 mb-8 leading-relaxed">
+              {question.question}
+            </h2>
+
+            {/* Options */}
+            <div className="space-y-3">
+              {question.options.map((opt, idx) => {
+                const isSelected = answers[question.id] === idx;
+                return (
+                  <motion.button
+                    key={opt.label}
+                    initial={{ opacity: 0, y: 15 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: idx * 0.06 }}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => handleSelect(idx)}
+                    className={`w-full text-left p-5 rounded-2xl transition-all duration-200 flex items-start gap-4 ${
+                      isSelected
+                        ? 'option-card selected'
+                        : 'option-card'
+                    }`}
+                  >
+                    <span
+                      className="shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold"
+                      style={{
+                        background: isSelected
+                          ? 'rgba(37,99,235,0.12)'
+                          : '#f1f5f9',
+                        color: isSelected ? '#1d4ed8' : '#94a3b8',
+                      }}
+                    >
+                      {opt.label}
+                    </span>
+                    <span
+                      className="text-base leading-relaxed pt-1"
+                      style={{
+                        color: isSelected ? '#1e293b' : '#64748b',
+                      }}
+                    >
+                      {opt.text}
+                    </span>
+                  </motion.button>
+                );
+              })}
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Navigation */}
+        <div className="flex items-center justify-between mt-10">
+          <button
+            onClick={handlePrev}
+            disabled={currentIdx === 0}
+            className="btn-ghost flex items-center gap-1 text-sm disabled:opacity-30"
+          >
+            <ChevronLeft size={16} />
+            Sebelumnya
+          </button>
+
+          {currentIdx === total - 1 ? (
+            <button
+              onClick={handleFinish}
+              disabled={!isAssessmentComplete}
+              className="btn-primary flex items-center gap-2 text-sm disabled:opacity-40"
+            >
+              Selesai
+              <BarChart3 size={16} />
+            </button>
+          ) : (
+            <button
+              onClick={handleNext}
+              disabled={answers[question.id] === undefined}
+              className="btn-primary flex items-center gap-2 text-sm disabled:opacity-40"
+            >
+              Selanjutnya
+              <ChevronRight size={16} />
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
