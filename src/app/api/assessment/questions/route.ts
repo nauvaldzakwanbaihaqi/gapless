@@ -3,6 +3,8 @@ import { db } from "@/db";
 import { questions } from "@/db/schema";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const randomIds = await db
     .select({ id: questions.id })

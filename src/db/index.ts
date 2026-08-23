@@ -5,8 +5,9 @@ import * as dotenv from "dotenv";
 
 dotenv.config({ path: ".env.local" });
 
-// Pastikan DATABASE_URL lu ngarah ke URL koneksi Neon yang berawalan postgres:// atau postgresql://
-const sql = neon(process.env.DATABASE_URL!);
+// Gunakan fallback dummy URL saat proses build di Vercel agar tidak error
+const connectionString = process.env.DATABASE_URL || "postgres://dummy:dummy@dummy/dummy";
+const sql = neon(connectionString);
 
 // Inisialisasi DB dengan skema Drizzle lu
 export const db = drizzle(sql, { schema });

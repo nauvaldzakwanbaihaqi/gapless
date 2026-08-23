@@ -2,6 +2,8 @@ import { db } from "@/db"; // Sesuaikan dengan instance Drizzle lu
 import { jobRoles } from "@/db/schema";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
     try {
         // Menghapus data lama terlebih dahulu agar tidak duplikat saat di-refresh
