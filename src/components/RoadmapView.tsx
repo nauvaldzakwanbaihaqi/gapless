@@ -1,7 +1,8 @@
 'use client';
 
-import { motion } from 'motion/react';
-import { Map, CheckCircle2, Circle, ChevronLeft, RotateCcw, Lock } from 'lucide-react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Map, CheckCircle2, Circle, ChevronLeft, ChevronDown, RotateCcw, Lock } from 'lucide-react';
 import { TRAIT_META } from '@/data/gaplessData';
 import { useGaplessContext } from '@/contexts/CareerContext';
 import { useSession } from 'next-auth/react';
@@ -13,6 +14,11 @@ const PHASE_ICONS = ['🌱', '🌿', '🌳', '🏔️'];
 export function RoadmapView() {
   const { selectedCareer, roadmapWithProgress, reset, setView } = useGaplessContext();
   const { data: session } = useSession();
+  const [expandedModule, setExpandedModule] = useState<string | null>(null);
+
+  const toggleModule = (key: string) => {
+    setExpandedModule((prev) => (prev === key ? null : key));
+  };
 
   if (!selectedCareer) return null;
 
@@ -207,57 +213,123 @@ export function RoadmapView() {
                     </div>
 
                     {/* Modules */}
-                    <div className="space-y-2.5">
+                    <div className="space-y-2">
                       {phase.modules.map((mod, modIdx) => {
                         const isModuleCompleted = phase.completedModules.includes(mod);
                         const skill = selectedCareer.skills[modIdx % selectedCareer.skills.length];
+                        const moduleKey = `${phaseIdx}-${modIdx}`;
+                        const isExpanded = expandedModule === moduleKey;
 
                         return (
-                          <motion.div
-                            key={mod}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6 + phaseIdx * 0.1 + modIdx * 0.04 }}
-                            className="flex items-center gap-3 py-2 px-3 rounded-xl transition-colors"
-                            style={{
-                              background: isModuleCompleted
-                                ? `${color}08`
-                                : 'transparent',
-                            }}
-                          >
-                            {isModuleCompleted ? (
-                              <CheckCircle2
-                                size={16}
-                                style={{ color, flexShrink: 0 }}
-                              />
-                            ) : (
-                              <Circle
-                                size={16}
-                                className="text-gray-300"
-                                style={{ flexShrink: 0 }}
-                              />
-                            )}
-                            <span
-                              className="text-sm"
+                          <div key={mod}>
+                            <motion.div
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ delay: 0.6 + phaseIdx * 0.1 + modIdx * 0.04 }}
+                              role="button"
+                              tabIndex={0}
+                              aria-expanded={isExpanded}
+                              onClick={() => toggleModule(moduleKey)}
+                              onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                  e.preventDefault();
+                                  toggleModule(moduleKey);
+                                }
+                              }}
+                              className={`flex items-center gap-3 py-2.5 px-3 rounded-xl transition-all cursor-pointer select-none ${
+                                isExpanded
+                                  ? 'ring-1 shadow-sm'
+                                  : 'hover:bg-gray-50'
+                              }`}
                               style={{
-                                color: isModuleCompleted
-                                  ? '#1e293b'
-                                  : '#94a3b8',
-                                textDecoration: isModuleCompleted ? 'line-through' : 'none',
-                                textDecorationColor: `${color}60`,
+                                background: isModuleCompleted
+                                  ? `${color}08`
+                                  : isExpanded
+                                  ? '#f8fafc'
+                                  : 'transparent',
+                                ...(isExpanded
+                                  ? { ringColor: `${color}30`, borderColor: `${color}20` }
+                                  : {}),
                               }}
                             >
-                              {mod}
-                            </span>
-                            {isModuleCompleted && skill && (
+                              {isModuleCompleted ? (
+                                <CheckCircle2
+                                  size={16}
+                                  style={{ color, flexShrink: 0 }}
+                                />
+                              ) : (
+                                <Circle
+                                  size={16}
+                                  className="text-gray-300"
+                                  style={{ flexShrink: 0 }}
+                                />
+                              )}
                               <span
-                                className="text-[10px] ml-auto shrink-0 px-1.5 py-0.5 rounded"
-                                style={{ background: `${color}12`, color }}
+                                className="text-sm flex-1"
+                                style={{
+                                  color: isModuleCompleted
+                                    ? '#1e293b'
+                                    : '#64748b',
+                                  textDecoration: isModuleCompleted ? 'line-through' : 'none',
+                                  textDecorationColor: `${color}60`,
+                                }}
                               >
-                                Skill terpenuhi
+                                {mod}
                               </span>
-                            )}
-                          </motion.div>
+                              {isModuleCompleted && skill && (
+                                <span
+                                  className="text-[10px] shrink-0 px-1.5 py-0.5 rounded"
+                                  style={{ background: `${color}12`, color }}
+                                >
+                                  Terpenuhi
+                                </span>
+                              )}
+                              <ChevronDown
+                                size={14}
+                                className={`shrink-0 text-gray-400 transition-transform duration-200 ${
+                                  isExpanded ? 'rotate-180' : ''
+                                }`}
+                              />
+                            </motion.div>
+
+                            {/* Expanded Detail */}
+                            <AnimatePresence>
+                              {isExpanded && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: 'auto', opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="overflow-hidden"
+                                >
+                                  <div
+                                    className="ml-9 mt-1 mb-2 p-3 rounded-lg text-xs space-y-1.5"
+                                    style={{ background: `${color}06`, border: `1px solid ${color}12` }}
+                                  >
+                                    <div className="flex items-center gap-2">
+                                      <span className="text-gray-500">Terkait skill:</span>
+                                      <span className="font-medium" style={{ color }}>
+                                        {skill?.name || 'Umum'}
+                                      </span>
+                                    </div>
+                                    {skill && (
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-gray-500">Target level:</span>
+                                        <span className="font-medium text-slate-700">
+                                          {['Tidak Ada', 'Dasar', 'Menengah', 'Lanjutan'][skill.required] || skill.required}
+                                        </span>
+                                      </div>
+                                    )}
+                                    <p className="text-gray-500 leading-relaxed pt-1">
+                                      {isModuleCompleted
+                                        ? '✅ Kamu sudah memenuhi skill ini. Modul ini bisa di-skip atau dijadikan review.'
+                                        : '📘 Modul ini perlu dipelajari untuk menutup gap skill-mu.'}
+                                    </p>
+                                  </div>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
                         );
                       })}
                     </div>

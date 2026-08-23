@@ -1,10 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Brain, ChevronRight, ChevronLeft, BarChart3 } from 'lucide-react';
-import { ASSESSMENT_QUESTIONS } from '@/data/gaplessData';
+import { ASSESSMENT_QUESTIONS, type AssessmentOption } from '@/data/gaplessData';
 import { useGaplessContext } from '@/contexts/CareerContext';
+
+// Fisher-Yates shuffle — creates a new shuffled array
+function shuffleArray<T>(arr: T[]): T[] {
+  const shuffled = [...arr];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
 
 export function AssessmentFlow() {
   const { answers, setAnswer, isAssessmentComplete, setView } =
@@ -15,6 +25,20 @@ export function AssessmentFlow() {
   const question = ASSESSMENT_QUESTIONS[currentIdx];
   const total = ASSESSMENT_QUESTIONS.length;
   const progress = ((currentIdx + 1) / total) * 100;
+
+  // Shuffle options once on mount — stable per session, different across sessions
+  // Each question gets its own shuffled order, stored as an array of
+  // { originalIndex, option } so we can map back to the original index for scoring
+  const shuffledOptionsMap = useMemo(() => {
+    const map: Record<number, { originalIndex: number; option: AssessmentOption }[]> = {};
+    for (const q of ASSESSMENT_QUESTIONS) {
+      const indexed = q.options.map((opt, idx) => ({ originalIndex: idx, option: opt }));
+      map[q.id] = shuffleArray(indexed);
+    }
+    return map;
+  }, []); // Empty deps = computed once on mount
+
+  const currentShuffledOptions = shuffledOptionsMap[question.id] || question.options.map((opt, idx) => ({ originalIndex: idx, option: opt }));
 
   const handleSelect = (optionIndex: number) => {
     setAnswer(question.id, optionIndex);
@@ -162,17 +186,17 @@ export function AssessmentFlow() {
 
             {/* Options */}
             <div className="space-y-3">
-              {question.options.map((opt, idx) => {
-                const isSelected = answers[question.id] === idx;
+              {currentShuffledOptions.map((item, displayIdx) => {
+                const isSelected = answers[question.id] === item.originalIndex;
                 return (
                   <motion.button
-                    key={opt.label}
+                    key={item.option.label + '-' + item.originalIndex}
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: idx * 0.06 }}
+                    transition={{ delay: displayIdx * 0.06 }}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.98 }}
-                    onClick={() => handleSelect(idx)}
+                    onClick={() => handleSelect(item.originalIndex)}
                     className={`w-full text-left p-5 rounded-2xl transition-all duration-200 flex items-start gap-4 ${
                       isSelected
                         ? 'option-card selected'
@@ -188,7 +212,7 @@ export function AssessmentFlow() {
                         color: isSelected ? '#1d4ed8' : '#94a3b8',
                       }}
                     >
-                      {opt.label}
+                      {['A', 'B', 'C', 'D'][displayIdx]}
                     </span>
                     <span
                       className="text-base leading-relaxed pt-1"
@@ -196,7 +220,7 @@ export function AssessmentFlow() {
                         color: isSelected ? '#1e293b' : '#64748b',
                       }}
                     >
-                      {opt.text}
+                      {item.option.text}
                     </span>
                   </motion.button>
                 );
@@ -219,7 +243,7 @@ export function AssessmentFlow() {
           {currentIdx === total - 1 ? (
             <button
               onClick={handleFinish}
-              disabled={!isAssessmentComplete}
+              disabled={answers[question.id] === undefined}
               className="btn-primary flex items-center gap-2 text-sm disabled:opacity-40"
             >
               Selesai

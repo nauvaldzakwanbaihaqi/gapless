@@ -62,169 +62,409 @@ export interface AssessmentQuestion {
 export const ASSESSMENT_QUESTIONS: AssessmentQuestion[] = [
   {
     id: 1,
-    question: 'Ketika kamu menghadapi masalah yang rumit, apa insting pertamamu?',
+    question: "Saat dihadapkan pada sebuah proyek baru yang lingkupnya belum terpetakan dengan jelas, langkah awal apa yang paling sering Anda ambil?",
     dimension: 'Pemecahan Masalah',
     options: [
-      { label: 'A', text: 'Mengurai masalah secara sistematis dan meneliti setiap sudut pandang', trait: 'The Thinker' },
-      { label: 'B', text: 'Mencari solusi kreatif yang belum pernah dicoba siapa pun', trait: 'The Creator' },
-      { label: 'C', text: 'Meminta pendapat tim sebelum mengambil tindakan', trait: 'The Connector' },
-      { label: 'D', text: 'Mengambil keputusan cepat dan menyesuaikan di perjalanan', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya membedah setiap komponen informasi yang tersedia untuk memahami pola dasar sebelum melangkah lebih jauh.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya membayangkan kemungkinan bentuk akhir yang berbeda dari standar yang biasanya diterapkan selama ini.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya menyelaraskan pemahaman dengan pihak lain agar seluruh elemen yang terlibat memiliki visi yang seragam.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya segera memulai eksekusi langkah pertama untuk melihat bagaimana situasi berkembang secara nyata di lapangan.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 2,
-    question: 'Dalam proyek kelompok, peran apa yang paling kamu nikmati?',
+    question: "Ketika dihadapkan pada sebuah inisiatif baru yang belum memiliki panduan atau struktur yang pasti, langkah apa yang paling cenderung Anda ambil?",
     dimension: 'Dinamika Tim',
     options: [
-      { label: 'A', text: 'Analitis yang menggali data dan fakta', trait: 'The Thinker' },
-      { label: 'B', text: 'Ideator yang menghasilkan konsep kreatif', trait: 'The Creator' },
-      { label: 'C', text: 'Mediator yang menjaga semua orang selaras dan didengar', trait: 'The Connector' },
-      { label: 'D', text: 'Pemimpin yang menentukan arah dan mendorong eksekusi', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya membedah setiap elemen yang ada untuk memahami keterkaitan antar variabel sebelum menentukan langkah selanjutnya.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya merumuskan berbagai kemungkinan pendekatan yang belum pernah dicoba sebelumnya untuk melihat potensi hasil yang unik.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya memastikan setiap anggota tim merasa dilibatkan dan memiliki pemahaman yang sama agar kolaborasi berjalan dengan harmonis.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya menetapkan target capaian yang jelas dan mengarahkan sumber daya yang tersedia untuk segera mewujudkan hasil nyata.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 3,
-    question: 'Bagaimana cara belajar yang paling kamu sukai untuk hal baru?',
+    question: "Ketika Anda dihadapkan pada sebuah proyek baru yang lingkupnya belum terdefinisi dengan jelas, langkah pertama apa yang paling cenderung Anda ambil?",
     dimension: 'Gaya Belajar',
     options: [
-      { label: 'A', text: 'Membaca dokumentasi, mempelajari teori, dan memahami dasar-dasarnya', trait: 'The Thinker' },
-      { label: 'B', text: 'Langsung praktik, bereksperimen, dan belajar dari kegagalan', trait: 'The Creator' },
-      { label: 'C', text: 'Berdiskusi dengan teman dan belajar melalui eksplorasi bersama', trait: 'The Connector' },
-      { label: 'D', text: 'Menemukan jalan tercepat ke hasil yang bisa digunakan, lalu optimasi', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya mengumpulkan berbagai referensi serta menelaah prinsip dasar yang relevan untuk menyusun kerangka pemahaman yang komprehensif.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya segera mencoba berbagai pendekatan secara langsung untuk melihat kemungkinan hasil yang muncul dari setiap tindakan tersebut.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya menginisiasi percakapan dengan pihak lain untuk menyelaraskan perspektif dan mengumpulkan masukan sebelum menentukan arah langkah.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya memetakan target utama yang ingin dicapai agar dapat segera menyusun alur kerja yang paling efisien dan memberikan dampak nyata.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 4,
-    question: 'Jenis proyek apa yang paling membuatmu bersemangat?',
+    question: "Saat dihadapkan pada sebuah inisiatif baru yang tujuan akhirnya belum terdefinisi dengan jelas, langkah apa yang paling mencerminkan pendekatan Anda?",
     dimension: 'Motivasi',
     options: [
-      { label: 'A', text: 'Inisiatif riset yang mengungkap pola tersembunyi dalam data', trait: 'The Thinker' },
-      { label: 'B', text: 'Mendesain produk inovatif dari kanvas kosong', trait: 'The Creator' },
-      { label: 'C', text: 'Membangun program komunitas yang mengubah kehidupan orang', trait: 'The Connector' },
-      { label: 'D', text: 'Meluncurkan startup yang mengguncang seluruh industri', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya memetakan seluruh variabel yang terlibat untuk memahami mekanisme mendasar sebelum menentukan arah tindakan.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya mengeksplorasi berbagai kemungkinan bentuk yang bisa dihasilkan untuk menemukan pendekatan yang paling unik.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya mengumpulkan pihak-pihak terkait untuk menyelaraskan visi agar inisiatif ini memberikan dampak positif bagi banyak orang.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya segera menetapkan target capaian yang ambisius dan menyusun strategi eksekusi agar inisiatif ini segera membuahkan hasil nyata.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 5,
-    question: 'Rekan kerja tidak setuju dengan pendekatanmu. Bagaimana reaksimu?',
+    question: "Saat dihadapkan pada sebuah proyek baru yang instruksinya masih sangat minim dan belum terarah, tindakan apa yang paling menggambarkan caramu memulai?",
     dimension: 'Penyelesaian Konflik',
     options: [
-      { label: 'A', text: 'Menyajikan bukti dan data untuk mendukung posisimu', trait: 'The Thinker' },
-      { label: 'B', text: 'Menawarkan pendekatan gabungan yang menggabungkan kedua ide', trait: 'The Creator' },
-      { label: 'C', text: 'Mendengarkan dengan mendalam untuk memahami perspektifnya dulu', trait: 'The Connector' },
-      { label: 'D', text: 'Tetap pada pendirian dan memperjuangkan rencanamu dengan tegas', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya memetakan variabel yang ada dan menyusun kerangka kerja sistematis sebelum melangkah lebih jauh.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya mengeksplorasi berbagai kemungkinan arah yang belum terpikirkan untuk menemukan potensi hasil yang unik.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya menjalin komunikasi dengan pihak terkait untuk menyelaraskan ekspektasi dan membangun pemahaman bersama.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya segera menetapkan target capaian yang konkret dan mengambil langkah eksekusi untuk memastikan progres berjalan.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 6,
-    question: 'Lingkungan kerja seperti apa yang membantumu bekerja secara optimal?',
+    question: "Saat dihadapkan pada sebuah proyek baru yang instruksinya masih sangat minim, tindakan apa yang paling cenderung Anda lakukan?",
     dimension: 'Lingkungan Kerja',
     options: [
-      { label: 'A', text: 'Ruang yang tenang di mana kamu bisa fokus tanpa gangguan', trait: 'The Thinker' },
-      { label: 'B', text: 'Studio yang dinamis dengan papan tulis, catatan tempel, dan musik', trait: 'The Creator' },
-      { label: 'C', text: 'Ruang kolaborasi terbuka dengan akses mudah ke rekan tim', trait: 'The Connector' },
-      { label: 'D', text: 'Lingkungan yang serba cepat di mana setiap hari membawa tantangan baru', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya menyendiri untuk memetakan alur kerja secara mendalam sebelum memulai langkah pertama.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya mencoba berbagai pendekatan eksperimental untuk melihat kemungkinan hasil yang muncul.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya mendiskusikan berbagai perspektif dengan orang lain untuk menyamakan pemahaman bersama.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya segera mengambil tindakan praktis untuk menguji efektivitas solusi di lapangan.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 7,
-    question: 'Ketika membuat keputusan karier penting, apa yang paling kamu andalkan?',
+    question: "Saat dihadapkan pada sebuah proyek baru yang lingkup pekerjaannya belum terdefinisi dengan jelas, langkah apa yang paling sering kamu ambil?",
     dimension: 'Pengambilan Keputusan',
     options: [
-      { label: 'A', text: 'Analisis kelebihan dan kekurangan dengan riset yang mendalam', trait: 'The Thinker' },
-      { label: 'B', text: 'Intuisi dan apakah ini terasa memuaskan secara kreatif', trait: 'The Creator' },
-      { label: 'C', text: 'Saran dari mentor dan orang-orang yang kamu percaya', trait: 'The Connector' },
-      { label: 'D', text: 'Firasat dan seberapa besar peluang yang ada', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Mengumpulkan berbagai referensi dan memetakan pola informasi untuk menyusun kerangka kerja yang sistematis.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Membayangkan berbagai kemungkinan hasil akhir dan mengeksplorasi cara-cara baru untuk memberikan sentuhan unik pada prosesnya.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Mendiskusikan tantangan tersebut dengan rekan kerja atau pihak terkait untuk menyelaraskan ekspektasi dan mendapatkan perspektif tambahan.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Mengambil inisiatif untuk segera memulai tindakan nyata agar dapat melihat hasil langsung dan menyesuaikan strategi di tengah jalan.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 8,
-    question: 'Bagaimana cara kamu menyampaikan ide yang rumit?',
+    question: "Saat kamu diminta untuk memaparkan sebuah konsep yang memiliki banyak lapisan kepada rekan kerja, langkah apa yang paling sering kamu ambil?",
     dimension: 'Komunikasi',
     options: [
-      { label: 'A', text: 'Melalui laporan detail dengan grafik, data, dan referensi', trait: 'The Thinker' },
-      { label: 'B', text: 'Melalui visual, prototipe, dan cerita yang menarik', trait: 'The Creator' },
-      { label: 'C', text: 'Melalui percakapan tatap muka dan workshop', trait: 'The Connector' },
-      { label: 'D', text: 'Melalui presentasi singkat yang langsung ke intinya', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Menyusun dokumen komprehensif yang memuat seluruh latar belakang serta bukti pendukung agar setiap detail dapat dipelajari secara mandiri.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Menggambarkan alur konsep tersebut melalui ilustrasi atau analogi agar audiens dapat menangkap esensi pesan dengan lebih berkesan.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Mengajak pihak terkait untuk berdiskusi langsung agar setiap poin dapat diselaraskan melalui pertukaran gagasan yang interaktif.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Menyampaikan poin-poin utama secara lugas dan terstruktur agar audiens dapat segera memahami langkah konkret yang perlu dilakukan.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 9,
-    question: 'Bagaimana pendekatanmu terhadap risiko?',
+    question: "Saat dihadapkan pada sebuah inisiatif baru yang arahnya belum terpetakan dengan jelas, langkah apa yang paling menggambarkan tindakan Anda?",
     dimension: 'Toleransi Risiko',
     options: [
-      { label: 'A', text: 'Menghitung probabilitas dan hanya melanjutkan jika hitungannya benar', trait: 'The Thinker' },
-      { label: 'B', text: 'Mengambil risiko kreatif jika potensi orisinalitasnya tinggi', trait: 'The Creator' },
-      { label: 'C', text: 'Hanya mengambil risiko setelah berkonsultasi dengan orang yang terdampak', trait: 'The Connector' },
-      { label: 'D', text: 'Menerima taruhan berani — risiko besar adalah harga dari hadiah besar', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya memetakan variabel yang ada dan menyusun skenario hasil akhir sebelum melangkah lebih jauh.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya mencoba berbagai pendekatan yang tidak lazim untuk melihat kemungkinan hasil yang belum pernah dicoba sebelumnya.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya mendiskusikan rencana tersebut dengan pihak-pihak terkait untuk memastikan keselarasan dan dukungan sebelum memulai.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya segera mengambil inisiatif untuk mengeksekusi langkah awal agar progres dapat langsung terlihat dan terasa dampaknya.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 10,
-    question: 'Ketika sebuah proyek gagal, apa reaksi pertamamu?',
+    question: "Saat dihadapkan pada sebuah inisiatif baru yang tujuan akhirnya masih belum terdefinisi dengan jelas, tindakan apa yang akan Anda ambil?",
     dimension: 'Resiliensi',
     options: [
-      { label: 'A', text: 'Melakukan analisis akar masalah untuk memahami apa yang salah', trait: 'The Thinker' },
-      { label: 'B', text: 'Merefokus kegagalan sebagai peluang belajar dan iterasi', trait: 'The Creator' },
-      { label: 'C', text: 'Menyemangati tim, meningkatkan moral, dan menentukan langkah bersama', trait: 'The Connector' },
-      { label: 'D', text: 'Langsung pivot dan menggandakan upaya pada apa yang mungkin berhasil', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya memetakan variabel yang ada dan menyusun kerangka kerja sistematis untuk meminimalisir ketidakpastian.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya mengeksplorasi berbagai kemungkinan pendekatan yang belum pernah dicoba untuk menemukan perspektif yang unik.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya mengumpulkan semua pihak terkait untuk menyelaraskan ekspektasi dan membangun komitmen bersama sejak awal.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya segera memulai eksekusi pada bagian yang paling konkret agar progres nyata dapat segera terlihat.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 11,
-    question: 'Bagaimana kamu mengukur kesuksesan profesional?',
+    question: "Saat dihadapkan pada sebuah proyek dengan instruksi yang sangat minim dan ambiguitas tinggi, langkah apa yang paling utama Anda lakukan?",
     dimension: 'Nilai',
     options: [
-      { label: 'A', text: 'Kedalaman insight dan akurasi dari hasil kerjamu', trait: 'The Thinker' },
-      { label: 'B', text: 'Orisinalitas dan dampak budaya dari apa yang kamu ciptakan', trait: 'The Creator' },
-      { label: 'C', text: 'Kekuatan hubungan dan kepercayaan yang telah kamu bangun', trait: 'The Connector' },
-      { label: 'D', text: 'Pendapatan, pertumbuhan, dan skala dari usahamu', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya memetakan seluruh variabel yang terlibat untuk memastikan setiap langkah didasarkan pada pemahaman yang paling mendalam.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya mengeksplorasi berbagai kemungkinan pendekatan yang belum pernah dicoba sebelumnya untuk menghasilkan sesuatu yang unik.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya mengumpulkan masukan dari berbagai pihak terkait guna menyelaraskan ekspektasi dan memperkuat kolaborasi tim.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya segera menetapkan target capaian yang terukur dan menyusun rencana eksekusi agar proyek dapat berjalan dengan efisien.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 12,
-    question: 'Hari kerja idealmu terlihat seperti...',
+    question: "Saat dihadapkan pada sebuah proyek baru yang lingkupnya masih sangat samar, langkah pertama yang paling alami bagi Anda adalah:",
     dimension: 'Gaya Kerja',
     options: [
-      { label: 'A', text: 'Kerja fokus mendalam — meneliti, menganalisis, dan memecahkan teka-teki', trait: 'The Thinker' },
-      { label: 'B', text: 'Berkarya — mendesain, menulis, memprototipe, dan menyempurnakan', trait: 'The Creator' },
-      { label: 'C', text: 'Berkoneksi — membimbing, bertemu, dan berkolaborasi dengan orang', trait: 'The Connector' },
-      { label: 'D', text: 'Membangun — mempresentasikan, bernegosiasi, dan menutup peluang baru', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Membedah setiap detail informasi yang tersedia untuk memahami pola dasar dan struktur masalahnya.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Membayangkan berbagai kemungkinan bentuk hasil akhir dan mulai menyusun kerangka kasar untuk diuji.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Mengumpulkan masukan dari berbagai pihak terkait untuk menyelaraskan perspektif dan kebutuhan semua orang.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Menentukan target capaian yang ingin diraih serta menyusun langkah praktis untuk segera mengeksekusi rencana.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 13,
-    question: 'Gaya kepemimpinan seperti apa yang paling cocok denganmu?',
+    question: "Ketika Anda diberi tanggung jawab untuk memimpin sebuah inisiatif baru yang belum memiliki panduan operasional, tindakan apa yang paling sering Anda ambil?",
     dimension: 'Kepemimpinan',
     options: [
-      { label: 'A', text: 'Memimpin berdasarkan keahlian — orang mengikutimu karena kamu paling tahu', trait: 'The Thinker' },
-      { label: 'B', text: 'Memimpin berdasarkan visi — menginspirasi orang dengan masa depan yang menarik', trait: 'The Creator' },
-      { label: 'C', text: 'Memimpin berdasarkan pemberdayaan — membantu orang lain membuka potensi mereka', trait: 'The Connector' },
-      { label: 'D', text: 'Memimpin dengan contoh — menetapkan kecepatan dan bekerja lebih keras dari semua orang', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya menyusun kerangka kerja yang sistematis berdasarkan analisis mendalam agar setiap langkah memiliki landasan yang teruji.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya merumuskan gambaran besar tentang hasil akhir yang ingin dicapai untuk memberikan arah yang menggugah semangat tim.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya memfasilitasi diskusi terbuka untuk menyelaraskan kekuatan setiap anggota tim agar mereka dapat berkontribusi secara optimal.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya langsung terjun ke lapangan untuk melakukan eksekusi awal sebagai standar acuan bagi seluruh anggota tim dalam bekerja.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 14,
-    question: 'Jika kamu bisa mengubah satu hal tentang dunia melalui pekerjaanmu, apa itu?',
+    question: "Ketika dihadapkan pada sebuah proyek baru yang tujuannya belum terdefinisi dengan jelas, langkah apa yang paling mencerminkan cara Anda bekerja?",
     dimension: 'Dampak',
     options: [
-      { label: 'A', text: 'Mempertahankan pengetahuan manusia melalui riset dan penemuan yang ketat', trait: 'The Thinker' },
-      { label: 'B', text: 'Menginspirasi orang melalui seni, desain, dan narasi yang kuat', trait: 'The Creator' },
-      { label: 'C', text: 'Membangun komunitas yang lebih kuat di mana semua orang merasa memiliki tempat', trait: 'The Connector' },
-      { label: 'D', text: 'Menciptakan peluang ekonomi dan lapangan kerja yang mengangkat orang', trait: 'The Builder' },
-    ],
+      {
+        label: 'A',
+        text: "Saya menyusun kerangka prinsip dasar dan memetakan variabel yang ada agar setiap langkah memiliki landasan yang dapat dipertanggungjawabkan.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Saya mengeksplorasi berbagai kemungkinan perspektif untuk menemukan pendekatan unik yang belum pernah terpikirkan oleh orang lain sebelumnya.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Saya mengumpulkan masukan dari berbagai pihak yang terlibat untuk memastikan setiap orang merasa dilibatkan dalam proses pengambilan keputusan.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Saya segera menetapkan target capaian yang konkret dan menyusun alur kerja yang efisien untuk memastikan hasil akhir segera terwujud.",
+        trait: 'The Builder'
+      }
+    ]
   },
   {
     id: 15,
-    question: 'Kekuatan super apa yang akan kamu pilih untuk kariermu?',
+    question: "Saat dihadapkan pada sebuah inisiatif baru yang tujuan akhirnya masih belum terdefinisi dengan jelas, langkah apa yang paling alami Anda ambil?",
     dimension: 'Aspirasi',
     options: [
-      { label: 'A', text: 'Melihat langsung ke akar masalah dari setiap permasalahan', trait: 'The Thinker' },
-      { label: 'B', text: 'Mengubah ide apa pun menjadi kenyataan yang sempurna dalam hitungan menit', trait: 'The Creator' },
-      { label: 'C', text: 'Membangun kepercayaan dan kedekatan dengan siapa pun yang kamu temui', trait: 'The Connector' },
-      { label: 'D', text: 'Memprediksi tren pasar sebelum hal itu terjadi', trait: 'The Builder' },
-    ],
-  },
+      {
+        label: 'A',
+        text: "Membedah struktur dasar dan mencari pola mendasar agar seluruh kerangka kerja menjadi masuk akal.",
+        trait: 'The Thinker'
+      },
+      {
+        label: 'B',
+        text: "Membayangkan berbagai kemungkinan bentuk hasil akhir lalu segera menyusun prototipe untuk melihat potensinya.",
+        trait: 'The Creator'
+      },
+      {
+        label: 'C',
+        text: "Mengumpulkan orang-orang yang terlibat untuk menyamakan persepsi dan membangun komitmen bersama sejak awal.",
+        trait: 'The Connector'
+      },
+      {
+        label: 'D',
+        text: "Menilai kondisi lingkungan sekitar untuk menentukan langkah strategis yang paling tepat dalam meraih hasil maksimal.",
+        trait: 'The Builder'
+      }
+    ]
+  }
 ];
 
 // ──────────────────────────────────────────────
@@ -746,4 +986,25 @@ export function getSkillGapData(
 export function getRecommendedCareers(dominantTrait: Trait | null): CareerProfile[] {
   if (!dominantTrait) return [];
   return CAREER_PROFILES.filter((c) => c.trait === dominantTrait);
+}
+
+export function getArchetypeReasoning(scores: Record<Trait, number>): string {
+  const sortedTraits = Object.entries(scores).sort(([, a], [, b]) => b - a) as [Trait, number][];
+  const [primaryTrait, primaryScore] = sortedTraits[0];
+  const [secondaryTrait, secondaryScore] = sortedTraits[1];
+
+  // Hybrid edge case: if the difference is very small (e.g. <= 1)
+  if (primaryScore - secondaryScore <= 1 && secondaryScore > 0) {
+    return `Skor kamu sangat seimbang antara ${TRAIT_META[primaryTrait].label} (${primaryScore}) dan ${TRAIT_META[secondaryTrait].label} (${secondaryScore}). Ini menunjukkan kamu adalah talenta "Hybrid" yang mampu memadukan pola pikir dominan dari keduanya secara fleksibel.`;
+  }
+
+  // Deterministic mapping for clear dominant traits
+  const mapping: Record<Trait, string> = {
+    'The Thinker': `Kamu paling dominan di The Thinker karena kecenderungan kamu menjawab dengan pendekatan analitis dan terstruktur. Kamu lebih suka mengurai masalah secara logis dan mengandalkan data dibanding asumsi. Skor kamu: Thinker (${scores['The Thinker']}), Creator (${scores['The Creator']}), Connector (${scores['The Connector']}), Builder (${scores['The Builder']}).`,
+    'The Creator': `Kamu paling dominan di The Creator karena kecenderungan kamu menjawab dengan ide-ide orisinal dan inovatif. Kamu lebih suka bereksperimen dan menemukan cara-cara tidak konvensional. Skor kamu: Thinker (${scores['The Thinker']}), Creator (${scores['The Creator']}), Connector (${scores['The Connector']}), Builder (${scores['The Builder']}).`,
+    'The Connector': `Kamu paling dominan di The Connector karena kecenderungan kamu menjawab dengan fokus pada empati dan komunikasi tim. Kamu unggul dalam menyatukan ide dan menjaga keselarasan visi bersama. Skor kamu: Thinker (${scores['The Thinker']}), Creator (${scores['The Creator']}), Connector (${scores['The Connector']}), Builder (${scores['The Builder']}).`,
+    'The Builder': `Kamu paling dominan di The Builder karena kecenderungan kamu menjawab dengan pendekatan aksi nyata dan eksekusi cepat. Kamu berorientasi pada penciptaan produk akhir dan efisiensi sistem. Skor kamu: Thinker (${scores['The Thinker']}), Creator (${scores['The Creator']}), Connector (${scores['The Connector']}), Builder (${scores['The Builder']}).`
+  };
+
+  return mapping[primaryTrait];
 }

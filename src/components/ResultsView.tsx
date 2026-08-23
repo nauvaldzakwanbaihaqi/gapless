@@ -12,7 +12,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from 'recharts';
-import { TRAITS, TRAIT_META, ASSESSMENT_QUESTIONS } from '@/data/gaplessData';
+import { getArchetypeReasoning, TRAITS, TRAIT_META, ASSESSMENT_QUESTIONS } from '@/data/gaplessData';
 import { useGaplessContext } from '@/contexts/CareerContext';
 
 export function ResultsView() {
@@ -45,6 +45,7 @@ export function ResultsView() {
 
   const meta = TRAIT_META[dominantTrait];
   const maxScore = ASSESSMENT_QUESTIONS.length;
+  const archetypeReasoning = getArchetypeReasoning(traitScores);
 
   return (
     <div className="min-h-screen bg-space px-4 sm:px-6 py-12">
@@ -72,9 +73,19 @@ export function ResultsView() {
             Kamu Adalah{' '}
             <span style={{ color: meta.color }}>{dominantTrait}</span>
           </h1>
-          <p className="text-lg text-gray-500 max-w-xl mx-auto leading-relaxed">
+          <p className="text-lg text-gray-500 max-w-xl mx-auto leading-relaxed mb-6">
             {meta.description}
           </p>
+          
+          <div className="max-w-2xl mx-auto bg-white/60 p-6 rounded-2xl border border-white/50 text-left shadow-sm">
+            <div className="flex items-start gap-3">
+              <Sparkles className="w-5 h-5 mt-1 shrink-0" style={{ color: meta.color }} />
+              <p className="text-sm md:text-base text-gray-700 leading-relaxed font-medium">
+                <span className="font-bold text-slate-900 block mb-1">Mengapa kamu mendapat hasil ini?</span>
+                {archetypeReasoning}
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* ── Two Column: Trait Breakdown + Radar ── */}
@@ -308,6 +319,25 @@ export function ResultsView() {
                 <p className="text-gray-600 leading-relaxed text-[15px] whitespace-pre-line">
                   {aiInsight.personality_summary}
                 </p>
+
+                {aiInsight.reasoning && (
+                  <div className="mt-4">
+                    <details className="group [&_summary::-webkit-details-marker]:hidden bg-blue-50/50 rounded-xl border border-blue-100/50">
+                      <summary className="flex items-center justify-between cursor-pointer p-4 text-sm font-semibold text-blue-900">
+                        <div className="flex items-center gap-2">
+                          <Sparkles size={16} className="text-blue-500" />
+                          Bagaimana AI menyimpulkan ini?
+                        </div>
+                        <span className="transition duration-300 group-open:-rotate-180 text-blue-500">
+                          <svg fill="none" height="24" shapeRendering="geometricPrecision" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" viewBox="0 0 24 24" width="24"><path d="M6 9l6 6 6-6"></path></svg>
+                        </span>
+                      </summary>
+                      <div className="text-gray-600 text-[14px] leading-relaxed px-4 pb-4 whitespace-pre-line border-t border-blue-100/50 pt-3 mt-1">
+                        {aiInsight.reasoning}
+                      </div>
+                    </details>
+                  </div>
+                )}
 
                 {/* Strengths */}
                 <div className="mt-8">

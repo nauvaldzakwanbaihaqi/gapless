@@ -51,6 +51,7 @@ export function SkillGapView() {
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [selectedOptionIdx, setSelectedOptionIdx] = useState<number | null>(null);
 
   useEffect(() => {
     if (step === 2) {
@@ -68,12 +69,19 @@ export function SkillGapView() {
   const questions = quizBank[quizKey] || [];
   const currentQuestion = questions[currentIndex];
 
-  const handleAnswer = (optionScore: number) => {
+  const handleSelectOption = (idx: number) => {
+    setSelectedOptionIdx(idx);
+  };
+
+  const handleConfirmNext = () => {
+    if (selectedOptionIdx === null || !currentQuestion) return;
+    const optionScore = currentQuestion.options[selectedOptionIdx].score;
     const newScore = score + optionScore;
     
     if (currentIndex < questions.length - 1) {
         setScore(newScore);
         setCurrentIndex(currentIndex + 1);
+        setSelectedOptionIdx(null); // Reset selection for next question
     } else {
         // Finish Quiz
         let finalLevel = 0;
@@ -202,20 +210,45 @@ export function SkillGapView() {
                               </h3>
 
                               <div className="space-y-3">
-                                  {currentQuestion.options.map((option, idx) => (
-                                      <button
-                                          key={idx}
-                                          onClick={() => handleAnswer(option.score)}
-                                          className="w-full text-left p-4 rounded-xl border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all group flex items-start gap-3"
-                                      >
-                                          <div className="w-7 h-7 rounded-full border border-gray-300 flex items-center justify-center text-xs font-bold text-gray-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 shrink-0 transition-all mt-0.5">
-                                              {option.label}
-                                          </div>
-                                          <span className="text-gray-600 group-hover:text-slate-900 transition-colors text-sm">
-                                              {option.text}
-                                          </span>
-                                      </button>
-                                  ))}
+                                  {currentQuestion.options.map((option, idx) => {
+                                      const isSelected = selectedOptionIdx === idx;
+                                      return (
+                                        <button
+                                            key={idx}
+                                            onClick={() => handleSelectOption(idx)}
+                                            className={`w-full text-left p-4 rounded-xl border transition-all group flex items-start gap-3 ${
+                                              isSelected
+                                                ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-200'
+                                                : 'border-gray-200 hover:border-blue-300 hover:bg-blue-50/50'
+                                            }`}
+                                        >
+                                            <div className={`w-7 h-7 rounded-full border flex items-center justify-center text-xs font-bold shrink-0 transition-all mt-0.5 ${
+                                              isSelected
+                                                ? 'bg-blue-600 text-white border-blue-600'
+                                                : 'border-gray-300 text-gray-400 group-hover:border-blue-400 group-hover:text-blue-500'
+                                            }`}>
+                                                {option.label}
+                                            </div>
+                                            <span className={`transition-colors text-sm ${
+                                              isSelected ? 'text-slate-900 font-medium' : 'text-gray-600 group-hover:text-slate-900'
+                                            }`}>
+                                                {option.text}
+                                            </span>
+                                        </button>
+                                      );
+                                  })}
+                              </div>
+
+                              {/* Tombol Selanjutnya */}
+                              <div className="mt-6 flex justify-end">
+                                <button
+                                  onClick={handleConfirmNext}
+                                  disabled={selectedOptionIdx === null}
+                                  className="btn-primary flex items-center gap-2 text-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                                >
+                                  {currentIndex === questions.length - 1 ? 'Lihat Hasil' : 'Selanjutnya'}
+                                  <ChevronRight size={16} />
+                                </button>
                               </div>
                           </motion.div>
                       </AnimatePresence>

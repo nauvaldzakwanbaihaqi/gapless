@@ -50,6 +50,7 @@ export type View = 'assessment' | 'results' | 'skills' | 'roadmap' | 'selection'
 
 export interface AiInsight {
   personality_summary: string;
+  reasoning: string;
   traits: string[];
   strengths: string[];
   ai_engine_used?: string;

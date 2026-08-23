@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { ChevronRight } from 'lucide-react';
 import { useGaplessContext } from '@/contexts/CareerContext';
 import { quizBank } from '@/data/quizBank';
 
@@ -37,6 +38,7 @@ export function CaseStudyQuizView() {
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [score, setScore] = useState(0);
+    const [selectedOptionIdx, setSelectedOptionIdx] = useState<number | null>(null);
 
     // If no questions are found for this role, we can just skip or show a placeholder.
     if (!questions || questions.length === 0) {
@@ -64,12 +66,19 @@ export function CaseStudyQuizView() {
 
     const currentQuestion = questions[currentIndex];
     
-    const handleAnswer = (optionScore: number) => {
+    const handleSelectOption = (idx: number) => {
+        setSelectedOptionIdx(idx);
+    };
+
+    const handleConfirmNext = () => {
+        if (selectedOptionIdx === null || !currentQuestion) return;
+        const optionScore = currentQuestion.options[selectedOptionIdx].score;
         const newScore = score + optionScore;
         
         if (currentIndex < questions.length - 1) {
             setScore(newScore);
             setCurrentIndex(currentIndex + 1);
+            setSelectedOptionIdx(null); // Reset selection
         } else {
             // Finish Quiz
             // Convert score to skill level (0-3)
@@ -132,20 +141,45 @@ export function CaseStudyQuizView() {
                         </h3>
 
                         <div className="space-y-4">
-                            {currentQuestion.options.map((option, idx) => (
+                            {currentQuestion.options.map((option, idx) => {
+                                const isSelected = selectedOptionIdx === idx;
+                                return (
                                 <button
                                     key={idx}
-                                    onClick={() => handleAnswer(option.score)}
-                                    className="w-full text-left p-4 rounded-xl border border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all group flex items-start gap-4"
+                                    onClick={() => handleSelectOption(idx)}
+                                    className={`w-full text-left p-4 rounded-xl border transition-all group flex items-start gap-4 ${
+                                        isSelected
+                                            ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-200'
+                                            : 'border-gray-200 hover:border-blue-500 hover:bg-blue-50'
+                                    }`}
                                 >
-                                    <div className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center text-sm font-bold text-gray-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600 shrink-0 transition-all">
+                                    <div className={`w-8 h-8 rounded-full border flex items-center justify-center text-sm font-bold shrink-0 transition-all ${
+                                        isSelected
+                                            ? 'bg-blue-600 text-white border-blue-600'
+                                            : 'border-gray-300 text-gray-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600'
+                                    }`}>
                                         {option.label}
                                     </div>
-                                    <span className="text-gray-600 group-hover:text-slate-900 mt-1 transition-colors">
+                                    <span className={`mt-1 transition-colors ${
+                                        isSelected ? 'text-slate-900 font-medium' : 'text-gray-600 group-hover:text-slate-900'
+                                    }`}>
                                         {option.text}
                                     </span>
                                 </button>
-                            ))}
+                                );
+                            })}
+                        </div>
+
+                        {/* Tombol Selanjutnya */}
+                        <div className="mt-8 flex justify-end">
+                            <button
+                                onClick={handleConfirmNext}
+                                disabled={selectedOptionIdx === null}
+                                className="btn-primary flex items-center gap-2 text-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                            >
+                                {currentIndex === questions.length - 1 ? 'Selesai' : 'Selanjutnya'}
+                                <ChevronRight size={16} />
+                            </button>
                         </div>
                     </motion.div>
                 </AnimatePresence>
