@@ -17,31 +17,30 @@ async function ask(prompt: string) {
     return data.candidates[0].content.parts[0].text.trim();
 }
 
-async function validateRole(role: string, awamPersona: string, expertPersona: string) {
+async function validateRole(role: string) {
     console.log(`\n=== VALIDASI ROLE: ${role} ===`);
     const q = quizBank[role][0];
     
-    const p1 = `Kamu adalah orang biasa yang TIDAK PUNYA pengetahuan teknis tentang ${role} sama sekali, tapi ingin terlihat peduli, bertanggung jawab, dan bijak secara sosial. 
-Diberikan soal ini:
+    const basePrompt = `Diberikan soal ini:
 Pertanyaan: ${q.question}
 A: ${q.options[0].text}
 B: ${q.options[1].text}
 C: ${q.options[2].text}
-Sebagai orang awam yang ingin terlihat "paling benar secara sosial", opsi mana yang akan kamu pilih? Jawab HANYA DENGAN HURUF (A, B, atau C).`;
-    const ans1 = await ask(p1);
-    console.log(`[${role}] Awam (Social Trap test) memilih: ${ans1}`);
+Opsi mana yang akan kamu pilih? Jawab HANYA DENGAN HURUF (A, B, atau C).`;
 
-    const p2 = `Kamu adalah senior expert di bidang ${role}. ${expertPersona}
-Diberikan soal ini:
-Pertanyaan: ${q.question}
-A: ${q.options[0].text}
-B: ${q.options[1].text}
-C: ${q.options[2].text}
-Sebagai expert sejati, solusi terbaik apa yang kamu pilih? Jawab HANYA DENGAN HURUF (A, B, atau C).`;
-    const ans2 = await ask(p2);
-    console.log(`[${role}] Expert test memilih: ${ans2}`);
+    const personas = [
+        { name: "Expert (Thinker)", desc: `Kamu adalah senior expert di bidang ${role}. Kamu memprioritaskan penyelesaian akar masalah, arsitektur jangka panjang, dan kualitas teknis di atas segalanya.` },
+        { name: "Pragmatic (Builder)", desc: `Kamu adalah eksekutor cepat di bidang ${role}. Kamu memprioritaskan penyelesaian tugas secepat mungkin, memenuhi target bisnis/tenggat waktu, dan tidak masalah dengan kompromi teknis asalkan jalan.` },
+        { name: "Social (Connector)", desc: `Kamu adalah komunikator handal di bidang ${role}. Kamu sangat menghindari konflik, memprioritaskan harmoni tim, menjaga hubungan baik dengan klien, dan selalu mendengarkan keluhan semua pihak sebelum bertindak.` },
+        { name: "Awam (Layman)", desc: `Kamu adalah orang awam yang TIDAK PUNYA pengetahuan teknis tentang ${role}. Kamu menjawab hanya mengandalkan insting umum dan memilih jawaban yang paling enak didengar secara moral dan sosial.` }
+    ];
+
+    for (const p of personas) {
+        const prompt = `${p.desc}\n${basePrompt}`;
+        const ans = await ask(prompt);
+        console.log(`[${role}] ${p.name} memilih: ${ans}`);
+    }
     
-    // Also print the original scores to verify
     console.log("Kunci Jawaban Sebenarnya:");
     q.options.forEach(opt => {
         console.log(`  ${opt.label}: Score ${opt.score}`);
@@ -49,23 +48,9 @@ Sebagai expert sejati, solusi terbaik apa yang kamu pilih? Jawab HANYA DENGAN HU
 }
 
 async function run() {
-    await validateRole(
-        'software-engineer', 
-        '', 
-        'Kamu ahli dalam backend, system design, dan scaling.'
-    );
-    
-    await validateRole(
-        'ui-ux-designer', 
-        '', 
-        'Kamu ahli dalam desain antarmuka, riset pengguna, dan konsistensi visual.'
-    );
-    
-    await validateRole(
-        'digital-marketing', 
-        '', 
-        'Kamu ahli dalam campaign, SEO, dan konversi.'
-    );
+    await validateRole('software-engineer');
+    await validateRole('ui-ux-designer');
+    await validateRole('digital-marketing');
 }
 
 run();

@@ -30,13 +30,16 @@ Opsi B (Score ${q.options[1].score}): ${q.options[1].text}
 Opsi C (Score ${q.options[2].score}): ${q.options[2].text}
 
 Tugasmu:
-1. Ubah pertanyaan menjadi SEBUAH SKENARIO DILEMATIS di bawah tekanan/ambiguitas.
-2. Buat ulang 3 opsi jawaban (Score 10, Score 5, Score 0) dengan aturan:
-   - **Opsi Score 10 (Jawaban Benar):** HARUS terdengar sangat teknis, taktis, atau pragmatis sesuai skill role tersebut. Hindari bahasa berbunga-bunga. Orang awam harus merasa opsi ini "terlalu kaku/teknis".
-   - **Opsi Score 0/5 (Jebakan Sosial):** HARUS terdengar sebagai jawaban yang PALING ETIS, KOOPERATIF, dan PROFESIONAL secara universal (contoh: "mengadakan rapat tim untuk menyamakan visi", "berkompromi untuk menjaga keharmonisan", "menunda rilis demi kualitas"). Orang awam akan 100% memilih opsi ini karena terkesan "paling benar secara moral", padahal dalam konteks teknis/bisnis nyata, itu membuang waktu atau tidak menyelesaikan masalah.
-   - **Opsi sisa:** Jebakan logika/teknis yang salah.
-   - Panjang, gaya bahasa, dan tone semua opsi HARUS seragam agar tidak ketahuan mana yang benar.
-   - Acak posisi opsi Score 10, Score 5, dan Score 0 agar jawaban yang benar tidak selalu di urutan pertama.
+1. Ubah pertanyaan menjadi SEBUAH SKENARIO DILEMATIS (GENUINE DILEMMA) dengan situasi dunia kerja nyata (trade-off) tanpa ada jawaban yang secara objektif paling benar atau salah.
+2. Buat ulang 3 opsi jawaban (Score 10, Score 5, Score 0) dengan prinsip HOTS (Higher Order Thinking Skills):
+   - **TIDAK ADA JAWABAN YANG OBJEKTIF BURUK/SALAH ATAU BENAR MUTLAK.**
+   - Setiap opsi harus SAMA-SAMA MASUK AKAL, VALID, dan DEFENSIBLE secara profesional.
+   - Perbedaan antar opsi BUKAN benar vs salah, tapi prioritas/trade-off.
+   - **Opsi Score 10 (The Expert):** Prioritas pada efisiensi jangka panjang, kualitas teknis/arsitektur, atau penyelesaian akar masalah secara struktural. 
+   - **Opsi Score 5 (The Builder/Pragmatic):** Prioritas pada kecepatan eksekusi, kompromi bisnis jangka pendek, hasil instan, atau menyelamatkan target/tenggat waktu.
+   - **Opsi Score 0 (The Connector/Social):** Prioritas pada menjaga hubungan baik, mendengarkan semua pihak (klien/tim), harmoni, dan penyelarasan visi bersama.
+   - DILARANG KERAS menggunakan reaksi emosional negatif (marah, panik, menyerah, menyalahkan). Semua opsi harus terlihat seolah-olah ditulis oleh profesional handal yang memiliki nilai/value berbeda.
+   - Panjang, gaya bahasa, dan tone semua opsi HARUS seragam. Acak posisi opsi Score 10, Score 5, dan Score 0 agar tidak tertebak posisinya.
 
 OUTPUT FORMAT JSON:
 {

@@ -14,316 +14,316 @@ export const quizBank: Record<string, QuizQuestion[]> = {
     "software-engineer": [
         {
             "id": "se-1",
-            "question": "Sistem payment gateway mengalami latensi ekstrem akibat lonjakan trafik 50x lipat saat event peluncuran produk. Database utama terkunci (deadlock) dan antrean message broker mencapai ambang batas kritis, mengancam kegagalan transaksi massal. CTO memberikan ultimatum: pulihkan layanan dalam 3 menit atau reputasi perusahaan hancur. Sebagai Lead Engineer, tindakan apa yang Anda ambil?",
+            "question": "Sistem payment gateway Anda mengalami lonjakan trafik 50x lipat yang menyebabkan database utama mengalami deadlock dan antrean message broker menumpuk. Anda dihadapkan pada pilihan sulit: memulihkan layanan dengan risiko integritas data, melakukan perbaikan arsitektur yang memakan waktu namun permanen, atau mengutamakan komunikasi transparan dengan stakeholder untuk mengelola ekspektasi publik. Sebagai Lead Engineer, strategi manakah yang Anda prioritaskan untuk menangani krisis ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Segera mengumpulkan seluruh anggota tim untuk melakukan sesi brainstorming darurat guna memastikan setiap keputusan diambil secara konsensus, sehingga beban tanggung jawab terbagi rata dan moral tim tetap terjaga di tengah tekanan tinggi.",
+                    "text": "Menginisiasi komunikasi krisis secara real-time kepada seluruh stakeholder dan tim internal untuk menyelaraskan ekspektasi, sambil menunda tindakan teknis drastis guna memastikan setiap keputusan diambil melalui konsensus tim agar tidak terjadi kesalahan fatal akibat tekanan yang tinggi.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan kill pada koneksi database yang idle, mengalihkan traffic ke read-replica dengan mode read-only untuk transaksi non-kritis, serta melakukan drop pada queue message broker yang tidak memiliki status 'in-progress' untuk memulihkan throughput sistem secara instan.",
-                    "score": 10
+                    "text": "Melakukan tindakan mitigasi darurat berupa pemutusan koneksi idle, pengalihan trafik ke read-replica, dan pembersihan antrean message broker untuk memulihkan ketersediaan layanan secara instan demi menyelamatkan target transaksi bisnis saat ini.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Menghentikan seluruh layanan sementara untuk melakukan restart pada seluruh cluster database dan memvalidasi ulang integritas data secara manual, demi menjamin tidak ada data transaksi yang korup sebelum sistem diaktifkan kembali.",
-                    "score": 5
+                    "text": "Menghentikan sementara layanan untuk melakukan isolasi pada root cause deadlock, menerapkan optimasi query secara permanen, dan melakukan refactoring pada mekanisme antrean untuk memastikan stabilitas sistem jangka panjang serta integritas data yang absolut, meskipun harus menghadapi downtime yang lebih lama.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "se-2",
-            "question": "Sistem pembayaran e-commerce sedang dalam fase deployment final, namun QA menemukan race condition pada modul saldo dompet digital yang menyebabkan inkonsistensi data saat transaksi dilakukan secara simultan. Stakeholder menuntut rilis tetap berjalan sesuai jadwal dalam 3 jam ke depan. Sebagai lead engineer, kamu memahami bahwa masalah ini disebabkan oleh absennya mekanisme locking pada level database atau implementasi atomic operation. Apa tindakan teknis yang paling krusial untuk diambil?",
+            "question": "Platform e-commerce Anda akan meluncurkan fitur dompet digital dalam 3 jam. QA menemukan race condition yang berisiko menyebabkan inkonsistensi saldo pada transaksi simultan. Di satu sisi, menunda rilis akan merusak kepercayaan investor dan membatalkan kampanye pemasaran besar-besaran yang sudah berjalan. Di sisi lain, membiarkan bug ini berpotensi menyebabkan kerugian finansial perusahaan dan hilangnya kepercayaan pengguna. Sebagai Lead Engineer, bagaimana Anda menyikapi tekanan ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan penundaan rilis kepada manajemen untuk melakukan sesi brainstorming dan evaluasi menyeluruh bersama tim agar seluruh anggota memahami akar masalah, menjaga moral tim tetap solid, dan memastikan tidak ada pihak yang merasa tertekan oleh tenggat waktu.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Mengimplementasikan optimistic locking pada level database dengan menambahkan versioning column atau menerapkan atomic update query (UPDATE wallet SET balance = balance - :amount WHERE id = :id AND balance >= :amount) untuk memastikan integritas data tetap terjaga saat terjadi concurrent write.",
+                    "text": "Mengusulkan penundaan rilis untuk melakukan refactoring mendalam guna mengimplementasikan mekanisme locking atau atomic operations yang solid, karena integritas data adalah fondasi utama kepercayaan pengguna yang tidak boleh dikompromikan demi target jangka pendek.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Mengadakan diskusi terbuka dengan seluruh pemangku kepentingan untuk menyelaraskan ekspektasi, mendengarkan kekhawatiran tim teknis maupun bisnis, serta membangun konsensus bersama mengenai langkah mitigasi yang paling dapat diterima oleh semua pihak.",
+                    "score": 0
+                },
+                {
                     "label": "C",
-                    "text": "Mengadakan pertemuan darurat dengan seluruh stakeholder untuk menjelaskan risiko teknis secara transparan, lalu mencari jalan tengah dengan membatasi fitur transaksi hanya untuk pengguna tertentu agar beban sistem berkurang dan keharmonisan hubungan kerja tetap terjaga.",
+                    "text": "Menerapkan hotfix sementara dengan membatasi jumlah transaksi per detik (rate limiting) dan menambahkan antrean (queueing) untuk menstabilkan sistem, sehingga rilis tetap berjalan sesuai jadwal sambil terus memantau data secara ketat di lingkungan produksi.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "se-3",
-            "question": "Platform e-commerce Anda mendadak mengalami lonjakan trafik 10x lipat saat flash sale. Service inventaris mulai mengalami latensi ekstrem yang memicu efek domino, menghabiskan thread pool pada service pembayaran dan mengancam crash total pada seluruh sistem. Di tengah kepanikan manajemen yang menuntut sistem tetap berjalan, Anda harus mengambil keputusan teknis dalam hitungan detik sebelum database terkunci sepenuhnya.",
+            "question": "Anda memimpin tim engineering di sebuah startup yang sedang melakukan ekspansi agresif. Produk utama Anda saat ini mengalami degradasi performa akibat akumulasi utang teknis (technical debt) yang signifikan. Di sisi lain, tim produk baru saja mendapatkan komitmen investasi besar dengan syarat peluncuran fitur unggulan dalam dua minggu ke depan. Jika Anda memaksakan perbaikan arsitektur, fitur akan tertunda dan pendanaan terancam batal. Jika Anda memaksakan peluncuran fitur, sistem berisiko mengalami downtime permanen yang akan merusak reputasi jangka panjang perusahaan. Bagaimana Anda mengambil keputusan strategis ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Segera mengaktifkan circuit breaker pada service inventaris untuk memutus komunikasi sinkron, lalu mengalihkan proses pemesanan ke antrean asinkron (message queue) guna menjaga availability service pembayaran agar tidak terjadi cascading failure.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Mengumpulkan seluruh tim teknis untuk melakukan rapat darurat guna mendiskusikan akar permasalahan secara transparan, memastikan setiap anggota tim merasa didengar, dan mencapai konsensus bersama agar keputusan yang diambil memiliki dukungan penuh dari seluruh departemen.",
+                    "text": "Menginisiasi sesi kolaborasi lintas departemen yang intensif untuk memetakan ekspektasi pemangku kepentingan, memastikan setiap anggota tim merasa memiliki andil dalam keputusan, serta membangun konsensus kolektif mengenai kompromi yang akan diambil agar seluruh organisasi tetap selaras dan termotivasi meski dalam tekanan tinggi.",
                     "score": 0
                 },
                 {
-                    "label": "C",
-                    "text": "Melakukan scale-up instan pada resource server dan meningkatkan nilai timeout pada konfigurasi koneksi antar-service secara drastis agar setiap permintaan yang tertunda memiliki waktu lebih lama untuk diproses oleh service inventaris yang sedang kewalahan.",
+                    "label": "B",
+                    "text": "Mengadopsi pendekatan pragmatis dengan melakukan refactoring minimalis pada modul kritis saja dan menerapkan strategi 'feature flagging' yang ketat, sehingga fitur tetap dapat dirilis tepat waktu untuk mengamankan pendanaan sambil tetap menjaga stabilitas sistem melalui mitigasi risiko yang terukur.",
                     "score": 5
+                },
+                {
+                    "label": "C",
+                    "text": "Mengambil keputusan untuk menunda peluncuran fitur guna melakukan restrukturisasi arsitektur secara fundamental, dengan menyusun argumen berbasis data mengenai risiko kegagalan sistem kepada manajemen, demi memastikan skalabilitas jangka panjang dan kesehatan teknis produk yang lebih berkelanjutan.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "se-4",
-            "question": "Dua jam sebelum jadwal rilis fitur utama yang sudah tertunda, kamu menemukan celah Broken Object Level Authorization (BOLA) pada API yang memungkinkan akses data sensitif pengguna lain hanya dengan mengubah ID pada parameter endpoint. Manajer proyek bersikeras rilis tetap berjalan karena tekanan investor, sementara tim keamanan menuntut penundaan total. Bagaimana kamu mengomunikasikan urgensi ini kepada tim teknis agar perbaikan segera diprioritaskan tanpa mengabaikan tekanan bisnis?",
+            "question": "Dua jam sebelum peluncuran fitur utama yang telah tertunda berkali-kali, kamu menemukan celah Broken Object Level Authorization (BOLA) pada API. Manajer proyek menekan agar rilis tetap berjalan demi memenuhi ekspektasi investor, sementara tim keamanan menuntut penundaan total untuk perbaikan menyeluruh. Sebagai pemimpin teknis, kamu harus memutuskan langkah strategis yang menyeimbangkan integritas sistem dengan kelangsungan bisnis.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan rapat koordinasi lintas departemen untuk mendiskusikan nilai etika perusahaan dan dampak reputasi jangka panjang, guna mencari jalan tengah yang dapat diterima oleh semua pemangku kepentingan.",
+                    "text": "Mengusulkan pertemuan darurat dengan seluruh pemangku kepentingan untuk memetakan dampak risiko terhadap kepercayaan pengguna dan reputasi perusahaan, guna mencapai konsensus kolektif mengenai langkah mitigasi yang paling dapat diterima oleh semua pihak.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menunda peluncuran fitur untuk melakukan audit keamanan menyeluruh dan dokumentasi ulang guna memastikan seluruh sistem memenuhi standar kepatuhan data yang berlaku demi menjaga kepercayaan pengguna.",
+                    "text": "Menerapkan hotfix segera berupa validasi kepemilikan objek pada layer controller untuk memitigasi celah tersebut tanpa mengubah arsitektur, sehingga rilis tetap berjalan sesuai jadwal dan komitmen bisnis tetap terjaga.",
                     "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Menginstruksikan tim untuk melakukan hotfix dengan menerapkan middleware validasi kepemilikan objek berbasis UUID pada layer controller dan melakukan load testing singkat untuk memastikan tidak ada regresi pada latensi API, agar rilis tetap berjalan dengan mitigasi risiko teknis yang terukur.",
+                    "text": "Menunda rilis secara resmi untuk melakukan refactoring pada layer otorisasi API guna memastikan implementasi kebijakan akses yang terpusat dan teruji, sebagai investasi jangka panjang demi stabilitas sistem dan keamanan data yang berkelanjutan.",
                     "score": 10
                 }
             ]
         },
         {
             "id": "se-5",
-            "question": "Dua jam sebelum peluncuran fitur utama, pengujian beban menunjukkan latensi kritis pada dashboard admin akibat masalah N+1 query pada modul artikel. Sebagai Lead Developer, Anda berada di bawah tekanan besar dari stakeholder untuk tetap rilis tepat waktu, sementara tim Anda mulai panik dan menyarankan untuk menunda peluncuran. Apa tindakan yang paling tepat untuk diambil?",
+            "question": "Dua jam sebelum peluncuran fitur utama, pengujian beban menunjukkan latensi kritis pada dashboard admin akibat masalah N+1 query pada modul artikel. Sebagai Lead Developer, Anda dihadapkan pada pilihan sulit: menunda peluncuran yang telah dijanjikan kepada stakeholder untuk melakukan perbaikan teknis yang mendalam, atau mengambil tindakan mitigasi cepat yang berisiko menyisakan utang teknis (technical debt) di masa depan. Bagaimana Anda menyikapi situasi ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh anggota tim untuk melakukan diskusi terbuka guna mengevaluasi dampak risiko secara kolektif dan menunda rilis demi memastikan kualitas kode yang sempurna serta menjaga moral tim tetap terjaga.",
+                    "text": "Menginisiasi komunikasi transparan dengan stakeholder mengenai risiko teknis yang ditemukan, lalu memfasilitasi diskusi kolaboratif untuk menyelaraskan ekspektasi antara kebutuhan bisnis dan kapasitas tim, agar keputusan peluncuran diambil berdasarkan konsensus bersama yang menjaga moral serta kepercayaan antar departemen.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan eager loading pada query ORM yang bermasalah serta mengaktifkan layer caching pada level aplikasi untuk mereduksi beban database secara instan tanpa mengubah arsitektur inti.",
+                    "text": "Melakukan refactoring sistematis pada modul artikel dengan mengimplementasikan pola repository dan optimasi query secara menyeluruh, meskipun hal ini mengharuskan penundaan peluncuran demi memastikan integritas arsitektur, skalabilitas jangka panjang, dan stabilitas sistem yang berkelanjutan.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Melakukan refactoring total pada seluruh modul artikel dengan beralih menggunakan raw SQL untuk membuang ketergantungan pada ORM agar performa database lebih optimal dan terukur di masa depan.",
+                    "text": "Menerapkan hotfix berupa caching pada level aplikasi dan eager loading terbatas untuk menekan latensi secara instan, sehingga target peluncuran tetap tercapai sesuai jadwal, dengan komitmen untuk melakukan pembersihan utang teknis tersebut pada sprint berikutnya.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "se-6",
-            "question": "Platform e-commerce Anda mengalami lonjakan trafik ekstrem yang menyebabkan latensi query pencarian produk melonjak hingga 10 detik, tepat dua jam sebelum kampanye promosi besar dimulai. Infrastruktur saat ini telah mencapai batas kapasitas CPU 99% dan manajemen menuntut pemulihan instan tanpa toleransi downtime. Sebagai lead engineer, langkah apa yang Anda ambil?",
+            "question": "Platform e-commerce Anda mengalami lonjakan trafik ekstrem tepat dua jam sebelum kampanye besar, menyebabkan latensi pencarian melonjak hingga 10 detik dengan CPU mencapai 99%. Anda dihadapkan pada pilihan sulit: melakukan optimasi teknis mendalam yang berisiko tinggi terhadap stabilitas sistem jika terjadi kesalahan konfigurasi, melakukan scale-up infrastruktur secara agresif yang menelan biaya operasional sangat besar, atau menghentikan sementara fitur pencarian untuk menjaga stabilitas layanan inti (checkout) demi menjaga kepercayaan pelanggan.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh anggota tim untuk melakukan sesi evaluasi mendalam dan diskusi terbuka guna memastikan setiap individu merasa didengar, serta membangun konsensus bersama agar seluruh tim memiliki keterlibatan emosional yang kuat dalam menghadapi krisis ini secara kolaboratif.",
+                    "text": "Melakukan load shedding pada fitur pencarian dan mengalihkan trafik ke halaman statis, serta segera mengumpulkan seluruh stakeholder untuk menyelaraskan ekspektasi mengenai penurunan performa fitur tertentu demi memastikan alur checkout tetap berjalan lancar dan menjaga harmoni antar departemen.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan migrasi instan seluruh basis data ke sistem penyimpanan berbasis cloud yang memiliki spesifikasi hardware lebih tinggi dan kapasitas lebih besar untuk menampung beban trafik yang tidak terprediksi tersebut secara langsung.",
+                    "text": "Melakukan scaling infrastruktur secara vertikal dengan menambah kapasitas server secara instan untuk menampung lonjakan beban, meskipun hal ini akan menyebabkan pembengkakan biaya operasional yang signifikan di luar anggaran bulanan.",
                     "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Menerapkan covering index pada kolom pencarian untuk eliminasi lookup data, mengaktifkan query caching pada layer aplikasi untuk memangkas eksekusi, serta melakukan load shedding pada service non-kritis guna membebaskan siklus CPU tanpa mengubah skema database.",
+                    "text": "Menerapkan covering index pada kolom pencarian untuk eliminasi lookup data dan mengaktifkan query caching pada layer aplikasi untuk memangkas eksekusi, guna menyelesaikan akar masalah performa secara struktural tanpa harus menambah biaya infrastruktur atau mengorbankan fitur.",
                     "score": 10
                 }
             ]
         },
         {
             "id": "se-7",
-            "question": "Sistem payment gateway mengalami deadlock pada database saat peak traffic akibat dua refactoring yang saling bertabrakan di shared service. Waktu tersisa sebelum sistem crash total adalah 4 jam. Sebagai lead, bagaimana Anda bertindak?",
+            "question": "Sistem payment gateway Anda mengalami deadlock saat peak traffic akibat konflik refactoring pada shared service. Anda memiliki waktu 4 jam sebelum sistem crash total. Di sisi lain, tim sedang mengalami kelelahan (burnout) tinggi dan dua pengembang kunci yang bertanggung jawab atas kode tersebut memiliki ego profesional yang kuat. Sebagai Lead, manakah pendekatan yang Anda ambil untuk menangani krisis ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh tim untuk melakukan sesi brainstorming dan voting demokratis agar setiap pengembang merasa dihargai kontribusinya, sehingga keputusan yang diambil mencerminkan konsensus kolektif demi menjaga moral tim di tengah tekanan.",
+                    "text": "Menginisiasi sesi kolaborasi terbuka untuk memfasilitasi dialog antara kedua pengembang agar mereka dapat menyelaraskan pemahaman teknis mereka. Fokus utama adalah memastikan setiap anggota tim merasa didengar dan memiliki rasa kepemilikan (ownership) terhadap solusi yang dihasilkan, sehingga harmoni tim tetap terjaga pasca-krisis.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan hard-revert ke state terakhir yang stabil, mengimplementasikan database-level pessimistic locking pada resource yang diperebutkan, serta melakukan refactoring cepat dengan memisahkan logic ke dalam isolated service worker untuk memutus dependensi langsung.",
+                    "text": "Segera melakukan hard-revert ke versi stabil terakhir untuk memulihkan layanan, kemudian menerapkan arsitektur database-level pessimistic locking dan memisahkan logika ke dalam isolated service worker. Strategi ini memprioritaskan stabilitas sistem jangka panjang dan penghapusan akar masalah teknis secara struktural, meskipun memerlukan usaha rekayasa yang intensif.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Meminta kedua pengembang untuk melakukan pair programming secara intensif guna menggabungkan kedua logika tersebut menjadi satu fungsi tunggal yang komprehensif, sehingga fitur dari kedua pihak tetap bisa berjalan tanpa ada yang dikorbankan.",
+                    "text": "Mengarahkan kedua pengembang untuk melakukan pair programming intensif guna menggabungkan logika kedua fitur tersebut ke dalam satu fungsi tunggal yang dapat segera dideploy. Pendekatan ini memprioritaskan pemenuhan target bisnis dan ketersediaan fitur bagi pengguna dalam waktu sesingkat mungkin, dengan mengesampingkan optimasi arsitektur untuk sementara waktu.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "se-8",
-            "question": "Website portal berita klien mengalami lonjakan trafik 500% yang tidak terprediksi tepat 24 jam sebelum peluncuran besar. Infrastruktur saat ini tidak mampu menangani beban tersebut, dan metrik Core Web Vitals (CWV) anjlok drastis. Sebagai Lead Developer, langkah taktis apa yang Anda ambil untuk memastikan sistem tetap live dengan performa optimal?",
+            "question": "Website portal berita klien mengalami lonjakan trafik 500% yang tidak terprediksi tepat 24 jam sebelum peluncuran besar. Sebagai Lead Developer, Anda dihadapkan pada dilema antara menjaga stabilitas sistem, memenuhi ekspektasi klien yang sangat ketat, atau menjaga integritas tim yang sudah kelelahan. Langkah strategis apa yang Anda ambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi rapat darurat dengan seluruh pemangku kepentingan untuk mendiskusikan penundaan peluncuran, guna memastikan setiap anggota tim merasa nyaman dan menjaga moral kolektif agar kualitas kerja tetap terjaga di tengah tekanan.",
+                    "text": "Menginisiasi diskusi terbuka dengan klien dan tim untuk mengevaluasi ulang ruang lingkup peluncuran, dengan mengusulkan peluncuran bertahap guna menjaga kesejahteraan tim dan memastikan keselarasan ekspektasi semua pihak agar kolaborasi jangka panjang tetap terjaga.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan strategi Static Site Generation (SSG) dengan Incremental Static Regeneration (ISR) serta mengonfigurasi layer CDN edge caching yang agresif untuk memindahkan beban komputasi dari server origin ke edge nodes, sembari melakukan optimasi payload aset statis.",
+                    "text": "Menerapkan arsitektur Static Site Generation (SSG) dengan konfigurasi CDN edge caching yang agresif untuk memindahkan beban komputasi dari server origin, guna memastikan skalabilitas sistem yang tangguh dan performa Core Web Vitals yang optimal dalam jangka panjang.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Mengaktifkan mode sinkronisasi data real-time pada database utama untuk setiap permintaan pengguna guna memastikan akurasi konten 100% dan menghindari risiko data basi yang mungkin dikeluhkan oleh tim redaksi saat peluncuran.",
+                    "text": "Melakukan optimasi cepat pada query database dan mengaktifkan load balancer tambahan untuk menangani lonjakan trafik secara instan, demi memastikan target peluncuran tetap tercapai sesuai jadwal tanpa harus melakukan perombakan arsitektur yang berisiko di menit terakhir.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "se-9",
-            "question": "Anda memimpin tim engineering dalam fase krusial peluncuran dashboard real-time. Tepat 4 jam sebelum deadline, sistem mengalami memory leak yang menyebabkan crash setelah penggunaan intensif. Klien menuntut stabilitas segera, sementara tim sudah kelelahan dan cemas. Apa tindakan prioritas Anda?",
+            "question": "Anda memimpin tim engineering dalam peluncuran dashboard real-time yang krusial. Empat jam sebelum deadline, ditemukan memory leak yang menyebabkan crash saat beban tinggi. Anda dihadapkan pada dilema: melakukan perbaikan teknis mendalam yang berisiko melampaui tenggat waktu, menerapkan solusi sementara (workaround) yang menjamin peluncuran tepat waktu namun meninggalkan utang teknis, atau mengomunikasikan risiko ini kepada klien untuk menegosiasikan ulang ekspektasi demi menjaga kesehatan tim dan kualitas jangka panjang. Apa langkah strategis Anda?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh anggota tim untuk melakukan evaluasi bersama dan menyamakan persepsi agar setiap individu merasa didukung dalam menghadapi tekanan deadline yang sangat ketat ini.",
+                    "text": "Menginisiasi sesi diskusi terbuka dengan klien dan tim untuk memaparkan realitas teknis yang ada, guna menyelaraskan ekspektasi ulang dan membangun konsensus kolektif mengenai prioritas fitur yang dapat diluncurkan hari ini tanpa mengorbankan kesejahteraan tim.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengisolasi heap dump pada environment staging untuk mengidentifikasi objek yang tidak ter-garbage collected, lalu menerapkan hotfix pada lifecycle hook komponen yang menyebabkan dangling references.",
-                    "score": 10
+                    "text": "Menerapkan mekanisme restart otomatis (auto-scaling/reboot) pada service yang terdampak sebagai solusi pragmatis untuk menjaga stabilitas dashboard agar tetap dapat diakses klien tepat waktu, sembari menjadwalkan perbaikan akar masalah secara menyeluruh setelah peluncuran.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Menginstruksikan tim untuk melakukan pembersihan menyeluruh pada seluruh aset statis dan melakukan kompresi ulang pada file gambar serta script agar beban muatan halaman menjadi jauh lebih ringan bagi browser klien.",
-                    "score": 5
+                    "text": "Mengalokasikan seluruh sumber daya untuk mengisolasi heap dump dan melakukan refactoring pada lifecycle hook yang bermasalah guna memastikan stabilitas sistem yang permanen, meskipun harus mengambil risiko keterlambatan peluncuran demi menjaga integritas arsitektur produk.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "se-10",
-            "question": "Sistem pemesanan tiket konser Anda akan dibuka dalam 60 menit, namun simulasi beban terakhir menunjukkan database utama mengalami deadlock kronis akibat lonjakan transaksi konkuren yang masif. Sebagai Lead Engineer, Anda harus segera mengambil tindakan teknis untuk memastikan sistem tetap tersedia saat penjualan dimulai.",
+            "question": "Sistem pemesanan tiket konser Anda akan dibuka dalam 60 menit, namun simulasi beban terakhir menunjukkan database utama mengalami deadlock kronis akibat lonjakan transaksi konkuren yang masif. Anda dihadapkan pada pilihan sulit: memaksakan sistem berjalan dengan risiko gangguan teknis, melakukan perubahan arsitektur yang berisiko tinggi namun solutif, atau menunda peluncuran yang akan berdampak pada reputasi bisnis dan ekspektasi pemangku kepentingan.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh anggota tim untuk melakukan sesi brainstorming darurat guna menyelaraskan visi dan memastikan setiap orang merasa dilibatkan dalam pengambilan keputusan demi menjaga moral serta kohesi tim di tengah tekanan.",
+                    "text": "Mengumpulkan seluruh anggota tim untuk melakukan sesi sinkronisasi cepat guna menyepakati strategi mitigasi risiko bersama, memastikan transparansi komunikasi kepada manajemen mengenai potensi kendala, serta membangun konsensus agar seluruh tim memiliki rasa kepemilikan dan tanggung jawab kolektif dalam menghadapi lonjakan trafik yang akan datang.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menunda waktu peluncuran tiket selama beberapa jam untuk melakukan audit kode secara menyeluruh dan memastikan setiap fitur berjalan dengan sempurna demi menjaga kepercayaan serta kenyamanan pengalaman pengguna.",
-                    "score": 5
+                    "text": "Menerapkan database sharding berbasis user-id untuk memecah lock contention, mengaktifkan read-replica untuk offloading query, serta mengimplementasikan optimistic locking pada level aplikasi sebagai solusi struktural yang fundamental untuk menjamin integritas data dan skalabilitas sistem dalam jangka panjang, meskipun membutuhkan ketelitian tinggi dalam waktu singkat.",
+                    "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Mengimplementasikan 'database sharding' berbasis user-id untuk memecah lock contention, mengaktifkan 'read-replica' untuk offloading query SELECT, serta menerapkan 'optimistic locking' pada level aplikasi untuk memitigasi race condition saat transaksi berlangsung.",
-                    "score": 10
+                    "text": "Melakukan bypass sementara pada validasi database yang tidak krusial dan menerapkan antrean (queueing) berbasis message broker untuk menahan laju transaksi masuk, demi memastikan sistem tetap dapat melayani pemesanan tepat waktu sesuai target bisnis, sembari menunda perbaikan arsitektur mendalam setelah periode puncak penjualan berakhir.",
+                    "score": 5
                 }
             ]
         },
         {
             "id": "se-11",
-            "question": "Aplikasi e-commerce Anda akan rilis dalam dua jam. Audit performa mendadak menunjukkan ukuran bundle JavaScript mencapai 3MB dengan TTI di atas 10 detik. Investor menuntut rilis tepat waktu, namun performa saat ini akan menyebabkan bounce rate yang sangat tinggi. Sebagai lead developer, tindakan apa yang Anda ambil?",
+            "question": "Aplikasi e-commerce Anda dijadwalkan rilis dalam dua jam. Audit performa mendadak menunjukkan ukuran bundle JavaScript mencapai 3MB dengan TTI di atas 10 detik. Investor menuntut rilis tepat waktu untuk mengejar momentum kampanye marketing, namun performa saat ini berisiko tinggi menyebabkan bounce rate yang masif. Sebagai lead developer, tindakan apa yang Anda ambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh anggota tim untuk melakukan evaluasi mendalam, mendiskusikan risiko teknis secara transparan, dan memutuskan penundaan rilis demi menjaga integritas produk serta moral tim agar tidak terjadi burnout.",
+                    "text": "Mengumpulkan seluruh pemangku kepentingan untuk memaparkan data performa secara transparan, menegosiasikan penundaan rilis selama 24 jam guna memastikan stabilitas sistem, serta membangun kesepakatan kolektif agar tim tidak mengalami kelelahan akibat tekanan rilis yang dipaksakan.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan code-splitting berbasis rute dan menerapkan dynamic imports pada komponen non-kritis untuk memangkas initial payload, serta mengonfigurasi tree-shaking pada bundler guna mengeliminasi dead code secara instan.",
+                    "text": "Mengimplementasikan strategi code-splitting berbasis rute secara agresif dan menerapkan dynamic imports pada komponen non-kritis untuk memangkas initial payload, sekaligus mengonfigurasi ulang tree-shaking pada bundler guna memastikan arsitektur aplikasi tetap optimal dan scalable untuk jangka panjang.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Melakukan kompresi ulang pada seluruh aset gambar dan menghapus komentar pada source code secara manual untuk mengurangi beban payload tanpa menyentuh struktur logika aplikasi yang sudah stabil.",
+                    "text": "Melakukan kompresi aset gambar secara masif ke format WebP, menghapus library pihak ketiga yang tidak esensial, dan menerapkan caching strategy pada level CDN untuk menekan TTI secara instan tanpa mengubah struktur logika aplikasi yang sudah stabil demi memenuhi tenggat waktu rilis.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "se-12",
-            "question": "Sistem inti perusahaan mengalami degradasi performa kritis akibat bottleneck pada modul otorisasi. Anda memiliki waktu 24 jam untuk memulihkan layanan sebelum terjadi kerugian finansial masif, namun struktur data 'Many-to-Many' yang ada sangat rapuh dan berisiko tinggi terhadap anomali data jika dilakukan migrasi skema secara penuh. Bagaimana langkah teknis yang Anda ambil?",
+            "question": "Sistem inti perusahaan mengalami degradasi performa kritis akibat bottleneck pada modul otorisasi. Anda memiliki waktu 24 jam untuk memulihkan layanan sebelum terjadi kerugian finansial masif. Struktur data 'Many-to-Many' yang ada sangat rapuh dan berisiko tinggi terhadap anomali data jika dilakukan migrasi skema secara penuh. Sebagai pemimpin teknis, Anda dihadapkan pada pilihan strategi pemulihan yang memiliki konsekuensi jangka panjang yang berbeda bagi stabilitas sistem dan operasional perusahaan.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Melakukan normalisasi database secara menyeluruh dengan menerapkan tabel junction, constraint foreign key yang ketat, serta indeks komposit untuk memastikan integritas referensial jangka panjang, meskipun proses ini berisiko melebihi batas waktu 24 jam.",
-                    "score": 5
-                },
-                {
-                    "label": "B",
-                    "text": "Mengumpulkan seluruh pemangku kepentingan untuk melakukan sesi brainstorming dan diskusi mendalam guna menyamakan visi, memastikan setiap anggota tim merasa dilibatkan, serta mencari konsensus bersama sebelum mengambil tindakan teknis yang krusial ini.",
+                    "text": "Menginisiasi pertemuan lintas departemen untuk memetakan dampak operasional dari setiap opsi teknis, memastikan seluruh pemangku kepentingan memahami risiko dan memberikan persetujuan kolektif, sehingga keputusan akhir memiliki legitimasi kuat serta menjaga harmoni kerja tim di tengah tekanan krisis.",
                     "score": 0
                 },
                 {
+                    "label": "B",
+                    "text": "Menerapkan caching layer pada level aplikasi menggunakan Redis untuk menyimpan mapping User-Role sebagai key-value pair, guna memotong latensi query database secara instan tanpa menyentuh skema relasional yang rapuh, sehingga stabilitas sistem pulih dengan cepat tanpa risiko migrasi data.",
+                    "score": 5
+                },
+                {
                     "label": "C",
-                    "text": "Mengimplementasikan caching layer pada level aplikasi menggunakan Redis untuk menyimpan mapping User-Role sebagai key-value pair guna memotong latensi query database secara instan tanpa menyentuh skema relasional yang rapuh di backend.",
+                    "text": "Melakukan normalisasi database secara menyeluruh dengan menerapkan tabel junction dan constraint foreign key yang ketat, meskipun proses ini berisiko tinggi melebihi batas waktu 24 jam, demi memastikan integritas referensial dan menghilangkan akar masalah bottleneck secara permanen.",
                     "score": 10
                 }
             ]
         },
         {
             "id": "se-13",
-            "question": "Sistem autentikasi Anda sedang mengalami serangan distributed brute force yang sangat canggih selama peak season. Latensi database melonjak hingga 95% dan sistem akan crash dalam hitungan menit. Di saat yang sama, tim manajemen mendesak Anda untuk tetap membuka akses bagi user VIP, sementara tim operasional meminta rapat darurat untuk membahas dampak reputasi perusahaan. Apa tindakan Anda?",
+            "question": "Sistem e-commerce utama Anda mengalami serangan distributed brute force yang sangat canggih tepat di puncak kampanye promosi tahunan. Database berada di ambang kegagalan total, sementara manajemen menuntut akses VIP tetap berjalan untuk menjaga loyalitas klien besar, dan tim operasional mendesak adanya komunikasi publik segera untuk menjaga kepercayaan pelanggan. Anda harus memilih strategi respons di tengah tekanan waktu yang sangat ketat.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh pemangku kepentingan untuk melakukan rapat koordinasi guna merumuskan strategi mitigasi yang inklusif dan transparan, memastikan setiap divisi merasa dilibatkan dalam pengambilan keputusan demi menjaga moral dan keselarasan visi perusahaan di tengah krisis.",
+                    "text": "Menginisiasi rapat koordinasi lintas divisi untuk menyelaraskan narasi komunikasi krisis dan memastikan setiap pemangku kepentingan memiliki pemahaman yang sama mengenai dampak teknis, sehingga keputusan yang diambil mencerminkan konsensus kolektif dan menjaga harmoni hubungan internal maupun eksternal perusahaan.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengaktifkan mekanisme circuit breaker pada API gateway, menerapkan rate limiting berbasis token bucket dengan prioritas pada session ID yang sudah terautentikasi, serta melakukan drop pada request yang tidak memiliki valid JWT signature untuk memitigasi beban database secara instan.",
+                    "text": "Menerapkan arsitektur pertahanan berlapis dengan mengaktifkan circuit breaker pada API gateway, menerapkan rate limiting berbasis prioritas pada sesi terautentikasi, serta melakukan drop pada trafik mencurigakan untuk menstabilkan database secara sistematis guna memastikan integritas jangka panjang sistem.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menghentikan seluruh akses masuk ke sistem dan mengalihkan trafik ke halaman maintenance statis untuk melindungi integritas data, sambil menunggu instruksi lebih lanjut dari manajemen terkait prosedur komunikasi krisis kepada pelanggan agar reputasi tetap terjaga.",
+                    "text": "Menghentikan sementara seluruh akses masuk ke sistem dan mengalihkannya ke halaman maintenance statis yang informatif, guna memitigasi risiko kerusakan data secara instan dan memberikan ruang bagi tim untuk memulihkan layanan secara bertahap demi memenuhi target operasional jangka pendek.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "se-14",
-            "question": "Aplikasi internal perusahaan akan diluncurkan dalam 24 jam. Manajer produk menuntut fitur 'One-Click Account Recovery' agar user tidak perlu menunggu proses verifikasi email, sementara tim keamanan menolak keras karena risiko eksfiltrasi data. Sebagai lead developer, bagaimana Anda memitigasi konflik ini di tengah tekanan deadline yang ketat?",
+            "question": "Aplikasi internal perusahaan akan diluncurkan dalam 24 jam. Manajer produk menuntut fitur 'One-Click Account Recovery' untuk menekan angka tiket dukungan, sementara tim keamanan menolak keras karena risiko eksfiltrasi data. Sebagai lead developer, Anda harus mengambil keputusan teknis yang krusial di tengah tekanan deadline ini.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan penundaan peluncuran aplikasi selama satu minggu untuk mengadakan sesi diskusi lintas departemen guna menyelaraskan visi antara kebutuhan user experience dan standar keamanan perusahaan demi menjaga keharmonisan tim.",
+                    "text": "Mengusulkan penundaan peluncuran selama 48 jam untuk memfasilitasi sesi mitigasi risiko kolaboratif, memastikan seluruh pemangku kepentingan mencapai konsensus teknis yang disepakati bersama demi menjaga integritas budaya kerja dan keselarasan visi jangka panjang antar departemen.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan mekanisme password reset berbasis token JWT dengan durasi TTL sangat singkat dan menerapkan sistem rate-limiting pada endpoint pemulihan untuk meminimalisir attack surface tanpa mengorbankan kecepatan akses user.",
+                    "text": "Mengimplementasikan sistem pemulihan akun dengan mekanisme verifikasi berbasis konteks (seperti verifikasi perangkat terpercaya dan log aktivitas) yang memperkuat arsitektur keamanan secara fundamental, meskipun memerlukan refactoring sistem autentikasi yang cukup kompleks dalam waktu singkat.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Melakukan kompromi dengan mengaktifkan fitur pemulihan instan namun membatasi aksesnya hanya untuk user dengan level akses rendah, sementara user dengan hak akses administratif tetap diwajibkan melalui prosedur verifikasi manual.",
+                    "text": "Mengaktifkan fitur pemulihan instan dengan batasan ketat pada durasi token dan implementasi rate-limiting yang agresif, sebagai solusi pragmatis untuk memenuhi target peluncuran tepat waktu tanpa mengabaikan kebutuhan keamanan dasar bagi pengguna.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "se-15",
-            "question": "Sebagai Lead Engineer, kamu menghadapi situasi di mana sistem pembayaran utama mengalami latensi ekstrem tepat 45 menit sebelum peluncuran fitur global. Tim SRE melaporkan adanya kebocoran memori pada service mesh yang tidak terdeteksi di staging, sementara CEO menuntut kepastian rilis tepat waktu tanpa penundaan sedikit pun. Apa langkah taktis yang paling tepat untuk diambil?",
+            "question": "Sebagai Lead Engineer, Anda mendapati kebocoran memori pada service mesh tepat 45 menit sebelum peluncuran fitur global yang sangat dinanti. CEO menuntut rilis tepat waktu karena ketergantungan pada kampanye pemasaran masif yang sudah berjalan, sementara tim SRE memperingatkan bahwa memaksakan rilis dengan kondisi saat ini berisiko menyebabkan kegagalan sistem total dalam hitungan jam setelah peluncuran. Sebagai pemimpin, bagaimana Anda menavigasi situasi ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh pemangku kepentingan untuk melakukan sesi brainstorming darurat guna menyelaraskan ekspektasi bisnis dan memutuskan penundaan rilis demi menjaga integritas data serta reputasi perusahaan di mata pengguna.",
+                    "text": "Menginisiasi komunikasi transparan dengan CEO dan pemangku kepentingan bisnis untuk memaparkan risiko teknis secara mendalam, sembari memfasilitasi ruang diskusi agar tim dapat mencapai konsensus kolektif mengenai strategi mitigasi yang paling dapat diterima oleh semua pihak demi menjaga kepercayaan dan harmoni organisasi.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan bypass pada sidecar proxy yang bermasalah untuk memutus jalur komunikasi service mesh, mengalihkan trafik secara manual ke load balancer cadangan dengan konfigurasi statis, serta menerapkan limitasi rate-limiting pada level ingress controller untuk menstabilkan throughput.",
-                    "score": 10
+                    "text": "Mengambil keputusan taktis untuk melakukan bypass pada sidecar proxy yang bermasalah dan mengalihkan trafik ke load balancer cadangan dengan konfigurasi statis, guna memastikan fitur tetap meluncur tepat waktu sambil menerima konsekuensi peningkatan beban kerja manual tim untuk pemantauan pasca-rilis.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Mengadakan rapat koordinasi lintas departemen untuk mengevaluasi dampak risiko teknis terhadap target KPI, serta mencari kompromi yang adil agar tim pengembang tidak merasa tertekan oleh tenggat waktu yang tidak realistis.",
-                    "score": 5
+                    "text": "Mengusulkan penundaan rilis secara terukur dengan memberikan argumen berbasis data mengenai potensi kerugian finansial akibat downtime, serta mengalihkan fokus tim untuk melakukan refactoring arsitektur komunikasi guna menyelesaikan akar masalah kebocoran memori secara permanen sebelum sistem diaktifkan kembali.",
+                    "score": 10
                 }
             ]
         }
@@ -331,95 +331,95 @@ export const quizBank: Record<string, QuizQuestion[]> = {
     "ui-ux-designer": [
         {
             "id": "uiux-1",
-            "question": "Anda adalah Lead Data Engineer di sebuah startup fintech. Saat proses batch processing data transaksi harian berjalan, sistem mengalami lonjakan latensi yang menyebabkan kegagalan sinkronisasi ke database utama, sementara tim operasional menuntut laporan status segera karena investor sedang menunggu data performa kuartalan. Infrastruktur cloud menunjukkan penggunaan CPU dan memori dalam batas normal, namun antrean message broker terus membengkak. Apa langkah teknis yang Anda ambil?",
+            "question": "Anda adalah Lead Data Engineer di sebuah startup fintech yang sedang mengalami lonjakan latensi pada sistem batch processing saat periode pelaporan kuartalan investor. Infrastruktur cloud berada dalam batas normal, namun antrean message broker membengkak, menyebabkan sinkronisasi data ke database utama terhambat. Tim operasional menuntut laporan status segera karena investor menunggu data performa, sementara di sisi lain, tim engineering mencurigai adanya masalah pada arsitektur query yang tidak efisien yang jika dibiarkan akan mengakibatkan akumulasi hutang teknis (technical debt) yang lebih besar di masa depan. Sebagai pemimpin, langkah apa yang Anda ambil untuk menyeimbangkan kebutuhan mendesak dan integritas sistem?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi rapat darurat dengan seluruh kepala departemen untuk menyelaraskan ekspektasi dan menyusun narasi komunikasi yang transparan kepada investor agar kepercayaan pemangku kepentingan tetap terjaga selama masa investigasi.",
+                    "text": "Menginisiasi komunikasi transparan kepada seluruh pemangku kepentingan mengenai kendala teknis yang sedang dihadapi, sembari memfasilitasi diskusi lintas departemen untuk menyelaraskan ekspektasi pelaporan dan memastikan seluruh tim tetap memiliki pemahaman yang sama mengenai prioritas bisnis selama masa investigasi berlangsung.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan profiling pada consumer group di message broker, memverifikasi status lock pada row database, serta menganalisis trace ID pada distributed tracing untuk mengidentifikasi adanya contention pada shared resource atau deadlock pada query transaksi yang berjalan.",
+                    "text": "Melakukan optimasi mendalam pada consumer group dan melakukan refactoring pada query yang menyebabkan contention, meskipun tindakan ini berisiko memperlambat penyelesaian laporan kuartalan dalam jangka pendek demi menjamin stabilitas arsitektur dan skalabilitas sistem di masa depan.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menghentikan sementara seluruh proses batch yang sedang berjalan dan melakukan rollback ke versi deployment sebelumnya untuk memastikan stabilitas sistem kembali normal sebelum melakukan audit menyeluruh terhadap kode program.",
+                    "text": "Menerapkan solusi sementara berupa peningkatan resource sementara (vertical scaling) dan melakukan bypass pada validasi data tertentu untuk mempercepat sinkronisasi, guna memastikan laporan investor dapat diselesaikan tepat waktu sesuai tenggat yang dijanjikan, sebelum melakukan perbaikan teknis permanen di sprint berikutnya.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "uiux-2",
-            "question": "Produk aplikasi kamu akan rilis dalam 48 jam. Tiba-tiba, tim frontend melaporkan bahwa implementasi grid kustom yang kamu rancang menyebabkan Cumulative Layout Shift (CLS) yang parah dan drop pada frame rate di perangkat mobile entry-level. Jika kamu melakukan rollback ke standar CSS Grid, estetika visual yang menjadi nilai jual utama produk akan berkurang drastis. Sebagai lead engineer, apa tindakan teknis yang kamu ambil?",
+            "question": "Produk aplikasi flagship kamu akan rilis dalam 48 jam. Tim frontend menemukan bahwa desain grid kustom yang menjadi daya tarik utama produk menyebabkan Cumulative Layout Shift (CLS) tinggi dan penurunan frame rate pada perangkat mobile entry-level. Sebagai Lead Engineer, kamu dihadapkan pada pilihan sulit antara mempertahankan integritas visual atau menjamin stabilitas performa teknis di bawah tekanan tenggat waktu yang sangat ketat.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi rapat darurat dengan seluruh stakeholder untuk mencari jalan tengah yang menjaga estetika desain sekaligus memenuhi standar performa, demi memastikan seluruh tim tetap selaras dan tidak ada pihak yang merasa dirugikan oleh perubahan mendadak ini.",
+                    "text": "Menginisiasi rapat koordinasi lintas departemen untuk mempresentasikan temuan teknis ini kepada product owner dan tim desain, guna mencapai konsensus kolektif mengenai kompromi visual yang dapat diterima oleh semua pihak sebelum rilis dilakukan.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan refactoring komponen ke sistem CSS Grid standar dan menerapkan contain-intrinsic-size pada container utama untuk mengunci dimensi layout, serta memangkas kompleksitas layer CSS untuk memitigasi paint cost, meskipun fidelitas visual menurun.",
+                    "text": "Melakukan refactoring arsitektur grid ke standar CSS native yang lebih performan dan menerapkan contain-intrinsic-size untuk mengunci dimensi layout, meskipun harus mengorbankan beberapa detail estetika yang sebelumnya menjadi nilai jual utama.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menginstruksikan tim untuk mempertahankan kode saat ini namun melakukan optimasi pada sisi server dan caching layer agar beban rendering di sisi klien berkurang, sehingga desain tetap presisi sesuai spesifikasi Figma tanpa harus mengubah struktur grid.",
+                    "text": "Mempertahankan implementasi grid kustom saat ini untuk menjaga fidelitas visual, namun memprioritaskan optimasi agresif pada aset gambar dan caching layer untuk meminimalisir beban rendering, guna memastikan produk tetap rilis tepat waktu sesuai spesifikasi desain.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "uiux-3",
-            "question": "Produk Anda mengalami penurunan retensi 15% MoM. Stakeholder menuntut fitur 'Social Feed' ala kompetitor dirilis dalam 14 hari untuk menahan churn. Namun, telemetry menunjukkan aplikasi sudah mencapai limit kognitif pengguna dan latensi tinggi. Penambahan fitur ini diprediksi meningkatkan payload sebesar 40%, yang secara teknis akan memperburuk stabilitas sistem dan UX yang sudah rapuh. Bagaimana langkah Anda?",
+            "question": "Produk SaaS Anda mengalami penurunan retensi 15% MoM. Stakeholder mendesak peluncuran fitur 'Social Feed' dalam 14 hari untuk menahan churn, namun data teknis menunjukkan aplikasi sudah mencapai limit kognitif pengguna dan latensi tinggi. Menambahkan fitur ini akan meningkatkan payload sebesar 40%, yang berisiko memperburuk stabilitas sistem dan UX yang sudah rapuh, namun di sisi lain, penundaan fitur dapat menyebabkan hilangnya kepercayaan investor dan potensi kehilangan pangsa pasar yang signifikan.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan rapat koordinasi lintas departemen untuk menyelaraskan visi produk, mendiskusikan dampak jangka panjang terhadap pengalaman pengguna, serta mencari kompromi yang menjaga keharmonisan tim demi keberlanjutan kualitas aplikasi.",
+                    "text": "Menginisiasi forum diskusi lintas fungsi untuk membedah urgensi bisnis dan batasan teknis secara transparan, guna mencapai konsensus kolektif mengenai peta jalan produk yang paling dapat diterima oleh seluruh pemangku kepentingan tanpa mengorbankan kohesi tim.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan fitur tersebut dengan arsitektur modular, menerapkan lazy-loading pada aset berat, serta mengaktifkan edge-caching untuk menekan latensi, sambil menjalankan A/B testing pada 5% user untuk memvalidasi korelasi fitur terhadap churn sebelum rilis skala penuh.",
-                    "score": 10
+                    "text": "Mengakomodasi permintaan fitur dengan pendekatan MVP yang sangat minimalis, mengorbankan beberapa elemen visual non-esensial untuk menjaga payload tetap stabil, guna memenuhi tenggat waktu peluncuran demi menjaga momentum bisnis dan kepercayaan investor.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Menolak permintaan fitur tersebut karena melanggar prinsip desain berpusat pada pengguna, lalu mengalihkan seluruh sumber daya tim untuk melakukan refactoring total pada alur navigasi guna memperbaiki masalah latensi yang ada saat ini.",
-                    "score": 5
+                    "text": "Menunda peluncuran fitur dan mengalokasikan sumber daya untuk melakukan optimasi arsitektur serta refactoring sistem guna mengatasi masalah latensi, dengan argumen bahwa stabilitas fondasi adalah prasyarat mutlak untuk keberhasilan fitur baru di masa depan.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "uiux-4",
-            "question": "Sebagai Lead Design System, kamu baru saja mempublikasikan update pada library 'Master Button'. Akibat perubahan struktur layer, ratusan instance di file produk mengalami 'override reset' yang merusak layout tepat dua jam sebelum deadline rilis fitur yang sangat krusial bagi bisnis. Tim engineering sudah menunggu aset untuk implementasi final. Bagaimana langkah strategis yang harus kamu ambil?",
+            "question": "Sebagai Lead Design System, kamu baru saja merilis pembaruan 'Master Button' yang secara tidak sengaja menyebabkan ratusan instance di file produk mengalami 'override reset', merusak layout tepat dua jam sebelum deadline rilis fitur krusial. Tim engineering telah menunggu aset final untuk implementasi. Kamu dihadapkan pada pilihan sulit antara integritas sistem, komitmen bisnis, atau stabilitas tim.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Segera mengumpulkan seluruh desainer dalam rapat koordinasi untuk menenangkan situasi, mendengarkan masukan mereka, serta mencari jalan tengah yang paling adil tengah yang paling adil bagi semua pihak agar moral tim tetap terjaga di tengah tekanan deadline.",
+                    "text": "Mengumpulkan seluruh desainer untuk sesi evaluasi kolektif guna meredam kepanikan dan menyelaraskan pemahaman bersama, sembari memfasilitasi diskusi terbuka agar setiap anggota tim merasa didengar dan tetap termotivasi meski harus melakukan perbaikan manual secara gotong royong hingga deadline tercapai.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan rollback ke versi library sebelumnya melalui Figma Version History, melakukan audit pada 'Component Properties' untuk memisahkan layer styling dari struktur, serta mewajibkan penggunaan 'Publishing Branch' dengan changelog yang terverifikasi sebelum update berikutnya diizinkan.",
-                    "score": 10
+                    "text": "Melakukan rollback instan ke versi library sebelumnya untuk memulihkan stabilitas aset bagi tim engineering agar rilis fitur tetap tepat waktu, kemudian menjadwalkan sesi perbaikan teknis mendalam setelah rilis untuk memastikan arsitektur komponen lebih tangguh di masa depan.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Menginstruksikan seluruh tim untuk menunda rilis fitur guna melakukan perbaikan manual pada setiap layar, demi memastikan kualitas desain tetap konsisten dan menjaga standar profesionalisme perusahaan di mata stakeholder.",
-                    "score": 5
+                    "text": "Segera melakukan rollback untuk mengamankan operasional, lalu menghentikan sementara alur kerja rilis guna melakukan audit menyeluruh pada 'Component Properties' dan menerapkan protokol 'Publishing Branch' yang ketat untuk mencegah terulangnya kegagalan struktural serupa di masa mendatang.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "uiux-5",
-            "question": "Anda adalah Lead Engineer untuk aplikasi perbankan mobile yang akan diluncurkan dalam 48 jam. Hasil audit keamanan terakhir menunjukkan celah kerentanan pada enkripsi data lokal yang dapat dieksploitasi jika perangkat pengguna di-root. Manajemen menuntut peluncuran tetap berjalan sesuai jadwal karena alasan komitmen investor, namun Anda tahu bahwa memperbaiki arsitektur enkripsi secara total akan memakan waktu setidaknya satu minggu.",
+            "question": "Anda adalah Lead Engineer untuk aplikasi perbankan mobile yang akan diluncurkan dalam 48 jam. Audit keamanan terakhir mengungkap celah enkripsi data lokal yang berisiko pada perangkat yang di-root. Manajemen bersikeras peluncuran tetap berjalan demi memenuhi komitmen investor, sementara memperbaiki arsitektur enkripsi secara total membutuhkan waktu satu minggu. Sebagai pemimpin teknis, Anda dihadapkan pada pilihan strategi untuk menyeimbangkan integritas sistem, target bisnis, dan ekspektasi pemangku kepentingan.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan penundaan peluncuran kepada manajemen dan mengadakan sesi diskusi terbuka dengan seluruh pemangku kepentingan untuk menyelaraskan ekspektasi serta memastikan integritas produk tetap menjadi prioritas utama demi menjaga kepercayaan jangka panjang pengguna.",
+                    "text": "Mengusulkan penundaan peluncuran kepada manajemen dengan menyajikan analisis risiko mendalam dan mengadakan sesi diskusi terbuka bersama pemangku kepentingan untuk menyelaraskan ekspektasi, guna memastikan integritas produk tetap menjadi prioritas utama demi menjaga kepercayaan jangka panjang pengguna.",
                     "score": 0
                 },
                 {
@@ -429,217 +429,217 @@ export const quizBank: Record<string, QuizQuestion[]> = {
                 },
                 {
                     "label": "C",
-                    "text": "Menambahkan peringatan (disclaimer) pada syarat dan ketentuan aplikasi yang menyatakan bahwa penggunaan aplikasi pada perangkat yang dimodifikasi adalah tanggung jawab pengguna, guna memindahkan risiko hukum dari perusahaan ke pihak pengguna.",
+                    "text": "Meluncurkan aplikasi sesuai jadwal dengan menambahkan lapisan mitigasi berupa peringatan (disclaimer) pada syarat dan ketentuan mengenai penggunaan perangkat yang dimodifikasi, serta menyusun rencana perbaikan arsitektur enkripsi sebagai prioritas utama dalam pembaruan (patch) versi berikutnya.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "uiux-6",
-            "question": "Anda sedang mengembangkan fitur krusial di bawah tekanan deadline investor yang menuntut mockup High-Fidelity dalam 24 jam. Sebagai desainer, Anda menyadari bahwa melompat langsung ke visual tanpa struktur yang tervalidasi akan menciptakan utang desain (design debt) yang masif di masa depan. Bagaimana Anda merespons situasi ini?",
+            "question": "Anda memimpin pengembangan fitur krusial yang harus dipresentasikan kepada investor dalam 24 jam. Di satu sisi, tim teknis membutuhkan waktu untuk refactoring kode agar sistem stabil dan scalable di masa depan. Di sisi lain, manajemen menuntut mockup High-Fidelity yang memukau secara visual untuk mengamankan pendanaan. Sebagai lead, Anda harus memilih pendekatan untuk menghadapi tekanan ini tanpa mengorbankan integritas profesional.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengadakan rapat koordinasi lintas departemen untuk menyelaraskan ekspektasi stakeholder dan menjelaskan pentingnya menjaga kualitas desain demi kepuasan pengguna jangka panjang, meskipun harus menunda jadwal rilis.",
+                    "text": "Menginisiasi sesi kolaborasi intensif dengan seluruh stakeholder untuk menyelaraskan ekspektasi antara kebutuhan teknis dan visi bisnis, memastikan bahwa setiap pihak merasa didengar dan memahami risiko yang ada sebelum mengambil keputusan final demi menjaga harmoni tim.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan atomic design system yang sudah ada dengan memanfaatkan library komponen modular dan auto-layout berbasis grid untuk memvalidasi alur informasi secara cepat, sehingga output tetap akurat secara teknis dan dapat diskalakan tanpa mengabaikan aspek visual.",
+                    "text": "Memprioritaskan arsitektur sistem yang modular dan pembersihan utang teknis (technical debt) sejak awal, dengan menyajikan mockup fungsional yang esensial namun stabil, guna memastikan fondasi produk kuat untuk pengembangan jangka panjang meskipun visual belum sepenuhnya dipoles.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Meminta waktu tambahan kepada stakeholder untuk melakukan riset pengguna secara mendalam dan sesi brainstorming tim agar setiap elemen visual yang dihasilkan benar-benar mencerminkan visi bersama dan menjaga keharmonisan kerja.",
+                    "text": "Memanfaatkan library komponen yang sudah ada untuk mempercepat pembuatan mockup High-Fidelity yang impresif bagi investor, dengan melakukan kompromi pada optimasi backend sementara waktu agar target tenggat waktu tercapai dan pendanaan tetap aman.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "uiux-7",
-            "question": "Anda memimpin tim produk di tengah sprint kritis, 24 jam sebelum peluncuran fitur utama. Data A/B testing menunjukkan tombol 'Beli' berwarna merah (di luar palet brand) meningkatkan CTR sebesar 15% dibandingkan warna biru brand. Tim Brand menolak keras perubahan tersebut karena dianggap merusak identitas visual perusahaan. Jika Anda tidak merilis fitur tepat waktu, target kuartal akan meleset, namun jika Anda melanggar brand guidelines, Anda akan menghadapi teguran disipliner dari manajemen senior.",
+            "question": "Anda memimpin tim produk di tengah sprint kritis, 24 jam sebelum peluncuran fitur utama. Data A/B testing menunjukkan tombol 'Beli' berwarna merah (di luar palet brand) meningkatkan CTR sebesar 15% dibandingkan warna biru brand. Tim Brand menolak keras perubahan tersebut karena dianggap merusak identitas visual perusahaan. Anda dihadapkan pada pilihan sulit: mengabaikan data performa demi menjaga konsistensi brand, atau memprioritaskan metrik konversi dengan risiko mengabaikan panduan visual yang telah ditetapkan. Bagaimana Anda mengambil keputusan di tengah tekanan tenggat waktu ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Melakukan komputasi ulang pada kontras rasio WCAG 2.1 dengan menerapkan saturasi warna biru pada spektrum 85-90% untuk meningkatkan visibilitas visual tanpa melanggar kode hex brand, lalu melakukan deployment hotfix berbasis data tersebut untuk mengoptimalkan konversi tanpa mengubah palet warna.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Mengadakan rapat darurat lintas departemen untuk memediasi konflik antara tim produk dan tim brand, mencari jalan tengah yang dapat mengakomodasi nilai estetika perusahaan sekaligus meningkatkan performa demi menjaga keharmonisan dan budaya kerja tim yang kolaboratif.",
+                    "text": "Mengadakan sesi diskusi cepat dengan perwakilan tim Brand dan tim Produk untuk menyelaraskan ekspektasi, lalu mengambil keputusan berbasis konsensus yang dapat diterima oleh kedua belah pihak guna menjaga keharmonisan budaya kerja dan komitmen kolaboratif jangka panjang.",
                     "score": 0
                 },
                 {
-                    "label": "C",
-                    "text": "Menunda rilis fitur selama 48 jam untuk melakukan pengujian tambahan guna menemukan warna komplementer yang disetujui oleh tim brand, memastikan bahwa keputusan yang diambil tidak hanya berorientasi pada angka, tetapi juga menjaga integritas reputasi jangka panjang perusahaan.",
+                    "label": "B",
+                    "text": "Melakukan deployment dengan warna merah sesuai data A/B testing untuk memastikan target kuartal tercapai, sembari menyusun laporan pasca-rilis yang mendokumentasikan dampak positif terhadap pendapatan sebagai dasar untuk negosiasi ulang pedoman brand di masa depan.",
                     "score": 5
+                },
+                {
+                    "label": "C",
+                    "text": "Mengintegrasikan elemen desain yang mengoptimalkan kontras visual dan psikologi warna dalam batasan palet brand yang diizinkan melalui penyesuaian saturasi atau tata letak, guna menyelesaikan akar masalah konversi tanpa mengorbankan integritas identitas visual perusahaan.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "uiux-8",
-            "question": "Sistem payment gateway pada aplikasi e-commerce Anda mengalami kegagalan transaksi sebesar 40% pasca-deployment fitur baru. Stakeholder menuntut pemulihan layanan dalam 12 jam, namun tim desain menolak melakukan rollback karena menganggap perubahan UI adalah prioritas branding yang krusial. Sebagai lead engineer, langkah apa yang Anda ambil?",
+            "question": "Sistem payment gateway pada aplikasi e-commerce Anda mengalami kegagalan transaksi sebesar 40% pasca-deployment fitur baru. Stakeholder menuntut pemulihan layanan dalam 12 jam. Tim desain bersikeras bahwa fitur UI baru adalah elemen krusial untuk kampanye branding yang sedang berjalan, sementara tim engineering menemukan bahwa kompleksitas integrasi UI baru membebani resource API yang sudah kritis. Sebagai lead engineer, bagaimana Anda menavigasi situasi ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi rapat koordinasi darurat dengan seluruh pemangku kepentingan untuk mendiskusikan kompromi desain yang dapat diterima semua pihak, guna menjaga moral tim dan memastikan setiap departemen merasa suaranya didengar dalam pengambilan keputusan.",
+                    "text": "Menginisiasi forum diskusi lintas departemen untuk memetakan ekspektasi stakeholder dan kebutuhan teknis secara mendalam, guna menyepakati solusi kompromi yang menjaga harmoni tim serta memastikan setiap pihak merasa dilibatkan dalam pengambilan keputusan strategis demi keberlanjutan kolaborasi jangka panjang.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan isolasi pada service payment melalui feature flag untuk menonaktifkan sementara modul UI baru, melakukan hotfix pada endpoint API yang terpengaruh, serta menerapkan rollback parsial pada aset CSS/JS yang menyebabkan konflik pada DOM mobile.",
+                    "text": "Melakukan isolasi pada service payment melalui implementasi feature flag untuk menonaktifkan modul UI baru secara selektif, melakukan refactoring pada endpoint API yang terpengaruh untuk memisahkan beban proses, serta merancang ulang arsitektur komunikasi data agar sistem lebih resilient terhadap perubahan UI di masa depan.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menyetujui permintaan tim desain untuk mempertahankan fitur baru sambil mencoba melakukan optimasi pada query database di sisi backend, dengan harapan bahwa peningkatan kecepatan server dapat menutupi latensi yang disebabkan oleh rendering UI yang berat.",
+                    "text": "Menerapkan hotfix pada sisi backend dengan mengoptimalkan query database dan melakukan caching pada layer API untuk menekan latensi, sehingga fitur UI baru tetap dapat dipertahankan sesuai permintaan tim desain tanpa harus mengorbankan target waktu pemulihan layanan yang diberikan stakeholder.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "uiux-9",
-            "question": "Aplikasi e-commerce Anda dijadwalkan meluncur dalam 72 jam, namun log server mendeteksi anomali latensi pada API gateway saat beban transaksi tinggi. Tim infrastruktur mengklaim ini adalah masalah limitasi pihak ketiga, sementara stakeholder menuntut jaminan stabilitas 99,9% tanpa menunda peluncuran. Anda memiliki akses penuh ke environment staging dan log data, namun tidak ada waktu untuk refactoring besar-besaran. Apa tindakan Anda?",
+            "question": "Aplikasi e-commerce Anda akan meluncur dalam 72 jam. Tim teknis menemukan bottleneck pada API gateway saat beban puncak yang berisiko menyebabkan kegagalan transaksi, namun pihak ketiga penyedia layanan API menegaskan bahwa limitasi tersebut bersifat permanen. Anda dihadapkan pada pilihan sulit: menunda peluncuran yang akan merusak kepercayaan investor dan target pemasaran, atau meluncurkan dengan risiko stabilitas yang belum terukur. Bagaimana Anda mengambil keputusan strategis ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi rapat koordinasi lintas departemen untuk menyusun strategi mitigasi risiko bersama, mendokumentasikan setiap kekhawatiran stakeholder, dan menyepakati penundaan rilis guna memastikan stabilitas sistem yang sempurna demi menjaga reputasi jangka panjang perusahaan.",
+                    "text": "Menginisiasi forum diskusi terbuka dengan seluruh pemangku kepentingan untuk memetakan dampak risiko secara transparan, membangun konsensus kolektif mengenai ekspektasi performa, serta menyusun rencana komunikasi krisis yang inklusif untuk menjaga moral tim dan kepercayaan stakeholder dalam menghadapi ketidakpastian peluncuran.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan implementasi circuit breaker pattern pada service checkout dan mengonfigurasi ulang load balancer untuk menerapkan rate limiting agresif pada endpoint non-esensial, guna memprioritaskan throughput transaksi utama di tengah keterbatasan resource.",
+                    "text": "Melakukan rekayasa ulang pada alur komunikasi API dengan menerapkan pola circuit breaker dan antrean asinkron untuk mengisolasi kegagalan, sehingga meskipun terdapat keterbatasan dari pihak ketiga, sistem tetap memiliki ketahanan struktural yang terukur dan tidak bergantung pada perbaikan dari pihak eksternal.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menjalankan skrip stress testing secara manual pada seluruh modul aplikasi untuk mengumpulkan data kuantitatif yang komprehensif, lalu mempresentasikan temuan tersebut kepada manajemen agar keputusan peluncuran dapat diambil secara demokratis oleh seluruh tim.",
+                    "text": "Mengimplementasikan mekanisme throttling pada fitur-fitur pendukung yang tidak krusial dan mengalokasikan seluruh kapasitas API gateway untuk proses checkout, guna memastikan core business tetap berjalan lancar sesuai tenggat waktu meskipun harus mengorbankan pengalaman pengguna pada fitur sekunder.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "uiux-10",
-            "question": "Anda adalah Lead Product Designer di sebuah startup fintech yang sedang mengalami penurunan konversi sebesar 40% pada funnel pendaftaran. CEO menuntut perbaikan instan dalam 24 jam sebelum audit investor besok pagi. Tim engineering menolak merombak backend karena risiko stabilitas sistem dan durasi implementasi yang mencapai dua minggu. Bagaimana Anda merespons situasi ini?",
+            "question": "Anda adalah Lead Product Designer di sebuah startup fintech yang sedang menghadapi penurunan konversi sebesar 40% pada funnel pendaftaran tepat 24 jam sebelum audit investor. Tim engineering menolak melakukan perubahan backend karena risiko stabilitas sistem, namun CEO menuntut perbaikan instan untuk menjaga valuasi. Anda harus memilih strategi untuk merespons tekanan ini dengan mempertimbangkan keberlangsungan produk dan hubungan stakeholder.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan rapat darurat lintas divisi untuk melakukan brainstorming komprehensif, mendokumentasikan setiap kendala teknis secara transparan, dan menyusun rencana mitigasi jangka panjang yang dapat disetujui oleh seluruh stakeholder demi menjaga integritas produk dan harmoni tim.",
+                    "text": "Mengusulkan pertemuan sinkronisasi untuk memetakan ekspektasi CEO dengan batasan teknis tim engineering, guna menyusun narasi audit yang jujur mengenai tantangan teknis saat ini sekaligus menunjukkan peta jalan perbaikan yang terukur untuk meyakinkan investor akan integritas operasional perusahaan.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan injeksi skrip client-side untuk melakukan A/B testing pada UI existing dengan menyederhanakan validasi input via regex lokal dan memangkas langkah form menjadi single-page view menggunakan state management sementara, tanpa menyentuh API backend.",
-                    "score": 10
+                    "text": "Melakukan optimasi pada sisi client-side dengan menyederhanakan alur UI dan validasi input secara lokal tanpa menyentuh API backend, guna memberikan peningkatan konversi yang cepat sebagai bukti progres nyata kepada investor tanpa mengorbankan stabilitas sistem inti.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Meminta penundaan audit kepada CEO dengan menyertakan laporan analisis data pengguna yang mendalam sebagai bukti bahwa perubahan terburu-buru tanpa riset UX yang valid justru akan meningkatkan risiko churn rate di masa depan.",
-                    "score": 5
+                    "text": "Menolak melakukan perubahan kosmetik yang berisiko menciptakan hutang teknis baru, dan memilih untuk menyajikan analisis data komprehensif kepada CEO mengenai akar masalah sistemik, sembari mengusulkan strategi perbaikan arsitektur jangka panjang yang lebih berkelanjutan meski harus menghadapi risiko audit yang menantang.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "uiux-11",
-            "question": "Aplikasi e-commerce Anda akan rilis ke publik dalam 24 jam. Saat melakukan final code review, Anda mendapati bahwa tim engineering menggunakan nilai spacing yang tidak konsisten (12px, 15px, 17px) pada komponen utama. Mengingat waktu yang sangat sempit dan risiko regresi jika dilakukan perubahan besar, langkah teknis apa yang harus Anda ambil sebagai Lead?",
+            "question": "Aplikasi e-commerce Anda akan meluncur dalam 24 jam. Saat final review, Anda menemukan inkonsistensi spacing (12px, 15px, 17px) pada komponen utama. Mengingat waktu yang sangat ketat, Anda dihadapkan pada dilema antara mengejar kesempurnaan teknis, menjaga stabilitas jadwal rilis, atau memastikan keselarasan tim. Langkah apa yang Anda ambil sebagai Lead?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh tim untuk melakukan diskusi terbuka guna menyamakan persepsi mengenai standar kualitas visual, sehingga setiap anggota tim merasa dihargai kontribusinya dan tidak ada yang merasa tertekan di menit terakhir.",
+                    "text": "Mengumpulkan seluruh tim untuk melakukan diskusi terbuka guna menyamakan persepsi mengenai standar kualitas visual, sehingga setiap anggota tim merasa dihargai kontribusinya dan memiliki pemahaman kolektif yang kuat untuk pengembangan fitur di masa depan.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Membiarkan inkonsistensi tersebut tetap ada untuk saat ini demi menjaga stabilitas build yang sudah lulus QA, lalu menjadwalkan sesi refactoring teknis pada sprint berikutnya agar hubungan kerja tetap kondusif dan tidak ada risiko bug baru.",
-                    "score": 5
+                    "text": "Menginstruksikan engineering untuk melakukan hotfix pada CSS variable/token dengan memetakan ulang nilai tersebut ke sistem spacing berbasis kelipatan 4 atau 8, serta menjalankan unit test terbatas untuk memastikan integritas layout tanpa mengubah struktur DOM secara drastis.",
+                    "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menginstruksikan engineering untuk melakukan hotfix pada CSS variable/token dengan memetakan ulang nilai tersebut ke sistem spacing berbasis kelipatan 4 atau 8, serta menjalankan unit test terbatas pada komponen terdampak untuk memastikan integritas layout tanpa mengubah struktur DOM.",
-                    "score": 10
+                    "text": "Membiarkan inkonsistensi tersebut tetap ada untuk saat ini demi menjaga stabilitas build yang sudah lulus QA, lalu segera menjadwalkan sesi refactoring teknis pada sprint berikutnya agar target rilis tercapai tanpa risiko bug baru di menit terakhir.",
+                    "score": 5
                 }
             ]
         },
         {
             "id": "uiux-12",
-            "question": "Sistem e-commerce Anda mengalami lonjakan 15% kegagalan pengiriman akibat kesalahan input alamat oleh pengguna. Manajemen menuntut penurunan angka ini dalam 48 jam sebelum peak season dimulai. Di sisi lain, tim engineering sedang dalam fase code-freeze untuk sprint refactoring backend yang kritis dan berisiko tinggi jika diinterupsi. Sebagai lead, langkah apa yang Anda ambil?",
+            "question": "Sistem e-commerce Anda menghadapi lonjakan 15% kegagalan pengiriman akibat kesalahan input alamat pengguna tepat 48 jam sebelum peak season dimulai. Di saat yang sama, tim engineering sedang berada di tengah fase code-freeze untuk refactoring backend yang krusial demi stabilitas jangka panjang sistem. Sebagai lead, Anda harus memilih strategi mitigasi yang memiliki konsekuensi berbeda terhadap operasional, teknis, dan dinamika tim.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi rapat darurat dengan seluruh stakeholder untuk menyelaraskan empati pengguna dan melakukan sesi brainstorming kolektif, guna memastikan setiap departemen merasa didengar dalam pengambilan keputusan demi menjaga harmoni tim.",
+                    "text": "Menginisiasi forum diskusi lintas departemen untuk memetakan dampak risiko secara kolektif, memastikan seluruh stakeholder memahami trade-off yang diambil, serta membangun konsensus bersama agar setiap divisi merasa memiliki tanggung jawab moral atas keputusan yang disepakati untuk menjaga stabilitas internal perusahaan.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menunda rilis fitur hingga seluruh tim mencapai konsensus bersama, guna memastikan solusi yang dihasilkan mencerminkan budaya perusahaan yang mengutamakan kualitas dan kepuasan pelanggan di atas segalanya.",
+                    "text": "Mengimplementasikan validasi regex sisi klien dan integrasi API pihak ketiga untuk verifikasi alamat secara real-time sebagai solusi taktis yang cepat, guna menekan angka kegagalan pengiriman secara instan tanpa mengganggu stabilitas codebase backend yang sedang dalam tahap refactoring.",
                     "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Menginjeksi validasi regex pada sisi klien untuk format alamat, serta mengimplementasikan modal konfirmasi berbasis state-machine yang memicu trigger 'address_review' sebelum payload dikirim ke API checkout, guna meminimalisir intervensi pada codebase backend yang sedang refactoring.",
+                    "text": "Melakukan interupsi terukur pada sprint refactoring untuk mengintegrasikan modul validasi alamat berbasis microservice yang terstandarisasi, meskipun berisiko menunda jadwal rilis fitur backend, demi memastikan integritas data yang permanen dan skalabilitas arsitektur di masa depan.",
                     "score": 10
                 }
             ]
         },
         {
             "id": "uiux-13",
-            "question": "Sisa waktu rilis fitur krusial tinggal dua jam lagi. Saat melakukan final QA pada prototipe Figma, stakeholder memberikan feedback kritis bahwa transisi antar layar terasa sangat berat, laggy, dan tidak intuitif bagi pengguna. Tim engineering sudah mulai melakukan deployment backend, sehingga Anda harus melakukan perbaikan teknis secara mandiri tanpa mengganggu alur kerja tim yang sedang berada dalam fase krusial. Langkah apa yang paling tepat untuk menangani masalah performa animasi tersebut?",
+            "question": "Dua jam sebelum peluncuran fitur krusial, stakeholder utama memberikan feedback mendadak bahwa transisi UI terasa berat dan kurang intuitif. Tim engineering sedang dalam proses deployment backend yang tidak bisa diinterupsi, sehingga Anda harus memutuskan strategi mitigasi mandiri. Anda dihadapkan pada pilihan antara mempertahankan integritas teknis, mengejar target rilis tepat waktu, atau mengakomodasi ekspektasi stakeholder demi menjaga keberlanjutan hubungan kerja.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh anggota tim desain dan stakeholder untuk mengadakan sesi diskusi mendalam guna menyamakan persepsi mengenai standar estetika transisi, sehingga keputusan yang diambil mencerminkan visi kolektif dan menjaga keharmonisan tim.",
+                    "text": "Menginisiasi pertemuan singkat dengan stakeholder untuk mendemonstrasikan batasan teknis yang ada dan mencari titik temu desain yang dapat diterima kedua belah pihak, guna memastikan bahwa keputusan akhir diambil berdasarkan konsensus bersama dan menjaga kepercayaan stakeholder terhadap integritas tim.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan audit struktur layer untuk memastikan konsistensi penamaan antar frame, menonaktifkan layer yang tidak terlihat (hidden) pada instance, serta mengoptimalkan properti 'Smart Animate' dengan membatasi durasi transisi maksimal 300ms menggunakan kurva 'Ease Out' untuk memangkas overhead rendering.",
+                    "text": "Melakukan optimasi teknis mendalam dengan menyederhanakan struktur layer, menghapus elemen redundant, dan menyesuaikan kurva animasi ke standar performa yang lebih ringan, meskipun berisiko melakukan perubahan desain yang belum sempat divalidasi ulang oleh stakeholder.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Mengajukan penundaan jadwal rilis selama dua hari kepada manajer proyek agar tim memiliki waktu yang cukup untuk melakukan brainstorming ulang mengenai alur navigasi, demi memastikan kualitas pengalaman pengguna yang optimal dan bebas dari risiko teknis.",
+                    "text": "Mengimplementasikan solusi 'quick-fix' dengan mengganti transisi kompleks menjadi transisi instan atau fade sederhana untuk memastikan fitur tetap rilis sesuai jadwal tanpa mengganggu alur backend, sembari menjadwalkan perbaikan desain yang lebih komprehensif pada iterasi berikutnya.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "uiux-14",
-            "question": "Aplikasi e-commerce Anda mengalami penurunan konversi 15% pasca-update UI. Di tengah tekanan target kuartalan, stakeholder mendesak penempatan banner iklan pihak ketiga di area 'white space' halaman checkout untuk mendongkrak revenue. Anda memahami bahwa intervensi ini akan memicu cognitive load yang signifikan pada tahap krusial user flow, namun menolak secara langsung akan dianggap menghambat target finansial perusahaan. Bagaimana langkah Anda?",
+            "question": "Aplikasi e-commerce Anda mengalami penurunan konversi 15% pasca-update UI. Di tengah tekanan target kuartalan yang ketat, manajemen mendesak penempatan banner iklan pihak ketiga di area 'white space' halaman checkout untuk menutup gap revenue. Anda dihadapkan pada dilema antara menjaga integritas pengalaman pengguna (UX) yang krusial bagi retensi jangka panjang, atau memenuhi urgensi finansial perusahaan yang menuntut hasil instan. Bagaimana Anda menyikapi instruksi ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi forum diskusi lintas departemen untuk menyelaraskan visi jangka panjang perusahaan, mencari solusi kompromistis yang menjaga keharmonisan tim, serta memastikan setiap pihak merasa didengarkan demi keberlangsungan budaya kerja yang positif.",
+                    "text": "Mengusulkan forum diskusi lintas departemen yang melibatkan tim produk, marketing, dan manajemen untuk memetakan dampak strategis secara kolektif, memastikan setiap pemangku kepentingan memahami risiko dan peluang, serta membangun konsensus bersama demi menjaga sinergi budaya kerja yang tetap kondusif.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan A/B testing dengan segmentasi trafik 50/50, menggunakan metrik konversi (CR) dan Average Order Value (AOV) sebagai variabel dependen, serta memonitor bounce rate melalui event tracking untuk membuktikan secara empiris dampak negatif penambahan elemen visual terhadap funnel checkout.",
-                    "score": 10
+                    "text": "Menyetujui implementasi banner iklan tersebut sebagai langkah taktis untuk memenuhi target kuartalan, sembari melakukan optimasi teknis pada aset iklan agar tidak menambah latensi dan memastikan integrasi visual tetap bersih untuk meminimalisir gangguan pada alur pembayaran.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Menyetujui permintaan tersebut sebagai bentuk dukungan profesional terhadap target finansial perusahaan, sembari melakukan optimasi pada loading time aset iklan agar tidak memperburuk latensi aplikasi yang sudah ada.",
-                    "score": 5
+                    "text": "Mengusulkan pendekatan berbasis data melalui A/B testing dengan segmentasi trafik untuk mengukur dampak nyata banner terhadap konversi dan AOV, serta memprioritaskan perbaikan akar masalah pada UI yang menyebabkan penurunan 15% sebelum menambah elemen baru yang berisiko meningkatkan cognitive load.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "uiux-15",
-            "question": "Aplikasi finansial Anda menghadapi krisis churn rate 15% pada tahap onboarding akibat friction autentikasi. Manajemen menuntut implementasi 'Biometric Login' segera, namun backend sedang dalam fase migrasi database yang sangat rentan terhadap latensi API. Jika sistem dipaksa menerima beban query tambahan, risiko downtime total sangat tinggi. Sebagai lead engineer, bagaimana Anda mengeksekusi integrasi ini di tengah tekanan deadline?",
+            "question": "Aplikasi finansial Anda mengalami churn rate 15% pada tahap onboarding akibat friction autentikasi. Manajemen menuntut implementasi 'Biometric Login' segera untuk menekan angka tersebut. Namun, tim backend sedang dalam fase migrasi database krusial yang sangat rentan terhadap latensi API. Menambahkan beban query baru saat ini berisiko menyebabkan downtime total, sementara menunda fitur akan mengabaikan urgensi bisnis yang mendesak. Sebagai lead engineer, bagaimana Anda mengambil keputusan strategis ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menunda perilisan fitur biometrik dan menginisiasi serangkaian rapat koordinasi lintas departemen untuk menyelaraskan ekspektasi stakeholder, guna memastikan perubahan alur user journey tidak mengganggu stabilitas operasional maupun harmoni tim.",
+                    "text": "Menginisiasi serangkaian lokakarya lintas departemen untuk memetakan risiko secara komprehensif, memastikan seluruh stakeholder memahami keterbatasan teknis saat ini, serta menyepakati jadwal perilisan bertahap yang selaras dengan kapasitas tim dan ekspektasi bisnis demi menjaga stabilitas operasional dan harmoni organisasi.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan mekanisme client-side caching untuk session token dan memicu biometrik melalui local authentication provider tanpa melakukan API call ke database utama, serta menerapkan circuit breaker pada endpoint autentikasi untuk memitigasi lonjakan latensi saat migrasi.",
+                    "text": "Mengimplementasikan mekanisme client-side caching untuk session token dan memicu biometrik melalui local authentication provider tanpa melakukan API call ke database utama, serta menerapkan pola circuit breaker pada endpoint autentikasi untuk memastikan sistem tetap resilien terhadap lonjakan latensi selama masa migrasi.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Mengintegrasikan prompt aktivasi biometrik tepat setelah handshake pertama selesai untuk memastikan adopsi pengguna maksimal, sembari membagi beban query database ke dalam beberapa batch kecil untuk menghindari bottleneck selama proses migrasi.",
+                    "text": "Melakukan integrasi fitur biometrik dengan strategi throttling pada endpoint API untuk membatasi jumlah request per detik, serta membagi beban query ke dalam batch kecil guna memastikan fitur tetap rilis tepat waktu sesuai target manajemen tanpa menghentikan proses migrasi database yang sedang berjalan.",
                     "score": 5
                 }
             ]
@@ -1920,210 +1920,210 @@ export const quizBank: Record<string, QuizQuestion[]> = {
     "digital-marketing": [
         {
             "id": "dm-1",
-            "question": "Anda adalah Performance Marketer yang sedang ditekan oleh klien karena kampanye Meta Ads baru saja mencapai CTR 4% namun konversi penjualan di website tetap 0%. Klien menuntut solusi instan sebelum anggaran habis sore ini. Langkah taktis apa yang Anda ambil?",
+            "question": "Anda adalah Performance Marketer yang menangani kampanye Meta Ads dengan CTR tinggi (4%) namun konversi penjualan di website tetap 0% menjelang akhir hari. Klien menuntut hasil instan sebelum anggaran habis. Anda dihadapkan pada dilema antara melakukan perbaikan teknis mendalam yang memakan waktu, melakukan optimasi cepat pada elemen visual untuk mendorong konversi segera, atau melakukan sinkronisasi ulang dengan tim terkait untuk memastikan ekspektasi klien selaras dengan realitas data. Langkah strategis apa yang Anda ambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Segera melakukan audit pada payload size landing page, mengeliminasi script pihak ketiga yang memblokir rendering, serta memvalidasi konsistensi intent antara headline iklan dengan value proposition di above-the-fold section.",
+                    "text": "Menghentikan sementara iklan untuk melakukan sesi sinkronisasi intensif dengan tim kreatif dan IT guna memastikan seluruh pemangku kepentingan memiliki pemahaman yang sama mengenai hambatan konversi, sehingga keputusan berikutnya diambil berdasarkan konsensus kolektif dan visi yang selaras.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menghentikan sementara iklan untuk mengadakan rapat koordinasi lintas departemen guna menyelaraskan visi tim kreatif dan tim IT agar tercipta sinergi pesan yang lebih harmonis bagi calon pelanggan.",
+                    "text": "Melakukan audit teknis mendalam pada payload size landing page dan mengeliminasi script pihak ketiga yang menghambat rendering, serta memvalidasi ulang konsistensi intent antara headline iklan dengan value proposition untuk memastikan fondasi konversi yang solid dan berkelanjutan.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Meningkatkan alokasi anggaran harian secara signifikan untuk memperluas jangkauan audiens, dengan asumsi bahwa peningkatan traffic yang lebih masif akan secara otomatis memperbaiki rasio konversi yang saat ini rendah.",
-                    "score": 0
+                    "text": "Melakukan perubahan taktis instan pada elemen visual dan copy di landing page untuk menciptakan urgensi (scarcity) serta menyederhanakan alur checkout guna memaksimalkan peluang konversi dari traffic yang sudah ada sebelum anggaran hari ini habis.",
+                    "score": 5
                 }
             ]
         },
         {
             "id": "dm-2",
-            "question": "Klien Anda adalah pemilik bisnis e-commerce yang sedang mengalami krisis arus kas dan menuntut lonjakan traffic organik dalam 48 jam untuk menyelamatkan operasional perusahaan. Anda menemukan dua landing page yang saling berkompetisi untuk keyword yang sama, menyebabkan kanibalisasi SEO yang membuat kedua halaman tersebut terlempar dari halaman pertama Google. Sebagai ahli, langkah krusial apa yang harus Anda ambil di tengah tekanan waktu yang ekstrem ini?",
+            "question": "Anda adalah konsultan SEO untuk sebuah startup e-commerce yang sedang dalam fase krusial sebelum putaran pendanaan. Data menunjukkan adanya kanibalisasi keyword antara dua landing page utama yang menyebabkan penurunan peringkat drastis. Di satu sisi, CEO menuntut pemulihan trafik instan dalam 48 jam untuk menunjukkan traksi kepada investor. Di sisi lain, tim konten merasa salah satu halaman tersebut adalah aset branding yang sangat berharga bagi loyalitas pelanggan, sementara tim teknis memperingatkan bahwa perubahan drastis pada struktur URL akan berisiko menyebabkan ketidakstabilan indeksasi jangka panjang. Sebagai pemimpin proyek, pendekatan mana yang akan Anda ambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Segera melakukan 301 redirect dari URL dengan performa lebih rendah ke URL utama, memperbarui internal link secara masif untuk mengarahkan link equity ke satu titik, serta menerapkan canonical tag yang tepat untuk menghentikan fluktuasi indeks.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Mengajak seluruh tim konten dan manajemen untuk melakukan sesi brainstorming mendalam guna menyusun strategi jangka panjang yang inklusif, memastikan kedua halaman tetap ada demi menjaga keberagaman konten dan kepuasan audiens.",
+                    "text": "Menginisiasi sesi kolaborasi lintas departemen untuk menyelaraskan ekspektasi antara CEO, tim konten, dan tim teknis, guna memastikan bahwa keputusan yang diambil nantinya mendapatkan dukungan penuh dari seluruh pemangku kepentingan dan menjaga harmoni visi perusahaan.",
                     "score": 0
                 },
                 {
+                    "label": "B",
+                    "text": "Menerapkan 301 redirect dari halaman dengan performa lebih rendah ke halaman utama serta melakukan konsolidasi internal link secara menyeluruh untuk memperkuat otoritas domain, meskipun langkah ini memerlukan waktu untuk pemulihan indeksasi dan mengabaikan nilai branding dari halaman yang dihapus.",
+                    "score": 10
+                },
+                {
                     "label": "C",
-                    "text": "Melakukan penambahan variasi keyword long-tail dan modifikasi meta description pada kedua halaman tersebut agar Google memiliki lebih banyak sinyal untuk membedakan relevansi konten tanpa harus mengorbankan salah satu halaman.",
+                    "text": "Melakukan optimasi cepat dengan memodifikasi meta-tag dan menambahkan variasi keyword long-tail pada kedua halaman agar Google dapat membedakan relevansi konten secara instan, demi memenuhi target trafik jangka pendek CEO tanpa harus menghapus aset konten yang ada.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "dm-3",
-            "question": "Klien utama Anda menuntut penjelasan mendesak karena ROAS kampanye Google Ads anjlok dari 4.0 ke 1.2 dalam 48 jam terakhir, sementara CEO menuntut laporan performa lengkap dalam satu jam. Di tengah kepanikan tim yang mulai menyalahkan algoritma, langkah audit teknis pertama apa yang Anda ambil?",
+            "question": "Klien utama Anda menuntut penjelasan mendesak karena ROAS kampanye Google Ads anjlok drastis dari 4.0 ke 1.2 dalam 48 jam terakhir, sementara CEO menuntut laporan performa lengkap dalam satu jam. Di satu sisi, Anda memiliki keterbatasan data yang belum terverifikasi sepenuhnya, namun di sisi lain, Anda harus memilih antara memberikan jawaban cepat untuk menenangkan pemangku kepentingan atau melakukan investigasi teknis mendalam yang mungkin memakan waktu namun memberikan solusi berbasis data yang akurat. Langkah strategis apa yang Anda ambil dalam situasi ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Segera mengumpulkan seluruh anggota tim untuk melakukan sesi brainstorming dan evaluasi kolektif guna menyelaraskan persepsi mengenai penurunan performa serta menjaga moral tim agar tetap fokus pada tujuan jangka panjang perusahaan di tengah tekanan.",
+                    "text": "Menginisiasi pertemuan sinkronisasi dengan tim internal untuk menyelaraskan narasi dan mengelola ekspektasi klien secara transparan, dengan fokus utama pada menjaga kepercayaan jangka panjang dan memastikan seluruh pihak memiliki pemahaman yang seragam mengenai situasi yang sedang dihadapi.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan segmentasi data pada 'Search Terms' untuk mengidentifikasi lonjakan impresi pada query non-konversi, mengevaluasi perubahan 'Search Impression Share' akibat kompetitor, dan memvalidasi anomali pada 'Conversion Tracking' melalui Tag Assistant.",
+                    "text": "Melakukan audit teknis mendalam pada struktur data, memvalidasi integritas tracking pixel, dan menganalisis anomali pada search terms secara komprehensif untuk memastikan bahwa solusi yang diberikan bersifat struktural dan mencegah terulangnya masalah serupa di masa depan, meskipun membutuhkan waktu lebih lama.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Segera menghentikan seluruh kampanye yang berjalan untuk mencegah kerugian lebih lanjut dan memprioritaskan penyusunan permohonan maaf resmi kepada klien agar hubungan profesional serta kepercayaan tetap terjaga dengan baik.",
+                    "text": "Menyusun laporan ringkas berbasis data yang tersedia saat ini dengan mengidentifikasi tren utama dan memberikan rekomendasi taktis jangka pendek untuk memitigasi kerugian segera, guna memenuhi tenggat waktu CEO dan memberikan kepastian kepada klien bahwa situasi sedang dalam kendali.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "dm-4",
-            "question": "Anda adalah Growth Lead di sebuah e-commerce yang sedang mengalami penurunan drastis pada metrik konversi checkout. Data menunjukkan 70% user melakukan 'Add to Cart' namun melakukan churn sebelum payment gateway. CFO menuntut pemulihan metrik dalam 48 jam dengan budget yang sangat terbatas. Langkah apa yang Anda ambil?",
+            "question": "Anda adalah Product Lead di sebuah startup fintech yang sedang bersiap untuk peluncuran fitur investasi baru. Di saat yang sama, tim engineering menemukan celah keamanan minor yang berpotensi memengaruhi data pengguna, namun memperbaikinya akan menunda peluncuran selama dua minggu dan berisiko kehilangan momentum pemasaran yang sudah dianggarkan besar-besaran. Di sisi lain, tim marketing dan stakeholder mendesak agar peluncuran tetap sesuai jadwal dengan janji akan menambal celah tersebut melalui update patch di minggu berikutnya. Bagaimana Anda mengambil keputusan strategis ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi sesi diskusi lintas divisi untuk membedah akar masalah secara holistik, membangun empati terhadap pengalaman pengguna, serta menyelaraskan visi tim agar setiap departemen merasa terlibat dalam solusi jangka panjang yang berkelanjutan.",
-                    "score": 0
+                    "text": "Mengedepankan mitigasi risiko jangka panjang dengan menunda peluncuran untuk melakukan perbaikan arsitektur keamanan secara menyeluruh, guna memastikan integritas sistem dan kepercayaan pengguna tetap terjaga sebagai fondasi utama pertumbuhan bisnis yang berkelanjutan.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan audit menyeluruh terhadap seluruh komponen UI/UX aplikasi selama satu minggu untuk memastikan konsistensi desain dan kenyamanan navigasi, guna meminimalisir potensi friksi yang mungkin dirasakan oleh pengguna saat proses checkout.",
-                    "score": 5
+                    "text": "Menginisiasi diskusi mendalam dengan seluruh kepala divisi untuk menyelaraskan ekspektasi, menimbang dampak reputasi, dan mencapai konsensus bersama yang menghargai kebutuhan tim pemasaran sekaligus kekhawatiran tim teknis agar keputusan yang diambil mencerminkan nilai kolektif perusahaan.",
+                    "score": 0
                 },
                 {
                     "label": "C",
-                    "text": "Menerapkan event-trigger pada API payment gateway untuk mendeteksi drop-off, mengaktifkan retargeting pixel pada segmen 'Add to Cart' dengan dynamic product ads, serta menyuntikkan skrip countdown timer berbasis urgensi pada checkout page untuk memicu konversi instan.",
-                    "score": 10
+                    "text": "Melanjutkan peluncuran sesuai jadwal dengan menerapkan protokol keamanan darurat sementara dan memprioritaskan rilis patch perbaikan segera setelah fitur meluncur, demi mengamankan momentum pasar dan memenuhi target akuisisi pengguna yang telah ditetapkan.",
+                    "score": 5
                 }
             ]
         },
         {
             "id": "dm-5",
-            "question": "Anda menghadapi tekanan deadline 48 jam untuk meningkatkan konversi email marketing. Tim kreatif bersikeras merombak total visual untuk estetika, sementara tim data menuntut validitas hasil yang ketat. Mengingat keterbatasan waktu dan audiens yang terbatas, bagaimana Anda mengeksekusi pengujian ini agar tetap valid secara statistik?",
+            "question": "Anda memimpin proyek optimasi konversi email marketing dengan deadline ketat 48 jam. Tim kreatif mengajukan perombakan visual total untuk meningkatkan engagement emosional, sementara tim data menuntut pengujian A/B yang ketat dengan variabel minimal untuk menjaga integritas statistik. Mengingat keterbatasan waktu dan audiens, Anda harus memilih strategi eksekusi yang paling tepat untuk menyeimbangkan kebutuhan akan inovasi visual, validitas data, dan urgensi target bisnis.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengadakan rapat koordinasi lintas divisi untuk menyelaraskan visi kreatif dan teknis, guna memastikan setiap perubahan desain dan konten mencerminkan nilai perusahaan secara harmonis sebelum pengiriman.",
+                    "text": "Menginisiasi sesi kolaborasi intensif untuk menyelaraskan ekspektasi kreatif dan standar data, memastikan bahwa keputusan akhir diambil berdasarkan konsensus tim guna menjaga moral serta kohesi visi perusahaan dalam jangka panjang.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan pengujian multivariat dengan mengubah subjek, isi email, dan gambar secara bersamaan untuk mempercepat proses riset dan mendapatkan insight komprehensif dalam satu siklus pengiriman.",
+                    "text": "Menerapkan pengujian multivariat yang mencakup perubahan visual dan elemen konten secara simultan untuk memaksimalkan potensi peningkatan konversi instan, dengan menerima risiko adanya noise data demi mencapai target jangka pendek.",
                     "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Mengisolasi satu variabel independen pada elemen dengan dampak CTR tertinggi, menerapkan pembagian audiens 50/50 dengan randomisasi berbasis hash, serta menetapkan confidence level 95% dengan power analysis untuk menentukan ukuran sampel minimum sebelum pengiriman.",
+                    "text": "Mengisolasi satu variabel kunci dengan dampak CTR tertinggi untuk diuji melalui randomisasi audiens yang ketat, serta melakukan kalkulasi power analysis untuk memastikan hasil yang valid secara statistik sebagai dasar pengambilan keputusan strategis yang berkelanjutan.",
                     "score": 10
                 }
             ]
         },
         {
             "id": "dm-6",
-            "question": "Anda adalah Lead Data Analyst yang baru saja memigrasikan atribusi klien ke model Data-Driven di GA4. Tiba-tiba, klien menelepon dengan nada marah karena metrik konversi di dashboard mereka anjlok 40% dibandingkan periode sebelumnya, padahal spend iklan tidak berubah. Klien menuntut jawaban instan dalam 10 menit sebelum mereka memutuskan untuk menghentikan kontrak kerja sama. Langkah apa yang Anda ambil?",
+            "question": "Anda adalah Lead Data Analyst yang baru saja memigrasikan atribusi klien ke model Data-Driven di GA4. Klien melaporkan penurunan metrik konversi sebesar 40% di dashboard dan menuntut penjelasan instan dalam 10 menit. Anda dihadapkan pada dilema antara integritas data, urgensi bisnis, dan stabilitas hubungan klien. Langkah apa yang Anda ambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Segera mengusulkan pertemuan darurat dengan seluruh pemangku kepentingan untuk menenangkan situasi, mendengarkan kekhawatiran klien, dan menyelaraskan ekspektasi agar hubungan profesional tetap terjaga di tengah transisi sistem yang kompleks.",
-                    "score": 5
+                    "text": "Menginisiasi pertemuan darurat dengan klien untuk memfasilitasi dialog terbuka, mendengarkan kekhawatiran mereka secara empatik, serta membangun kesepahaman bersama mengenai kompleksitas transisi sistem agar kepercayaan klien tetap terjaga di tengah ketidakpastian.",
+                    "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan komparasi data 'Model Comparison Tool' antara Last-Click dan Data-Driven, mengidentifikasi penurunan pada channel top-funnel yang kehilangan kredit atribusi, serta menyajikan laporan teknis mengenai perubahan bobot konversi berdasarkan path-dependent probability untuk memvalidasi akurasi data baru.",
+                    "text": "Melakukan komparasi mendalam menggunakan 'Model Comparison Tool' untuk memetakan pergeseran kredit atribusi pada channel top-funnel, lalu mempresentasikan analisis teknis mengenai validitas model baru untuk membuktikan akurasi jangka panjang di balik fluktuasi angka tersebut.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Mengembalikan konfigurasi atribusi ke model Last-Click secara sementara untuk memulihkan angka konversi di dashboard agar klien merasa tenang dan memberikan waktu tambahan bagi tim untuk melakukan audit mendalam tanpa tekanan panik.",
-                    "score": 0
+                    "text": "Mengembalikan konfigurasi ke model Last-Click secara sementara untuk memulihkan visibilitas angka konversi sesuai ekspektasi operasional klien, guna memberikan ruang napas bagi tim untuk melakukan audit teknis tanpa mengganggu alur kerja bisnis yang sedang berjalan.",
+                    "score": 5
                 }
             ]
         },
         {
             "id": "dm-7",
-            "question": "Anda memimpin proyek SEO untuk klien korporat yang sedang dalam masa krisis. Klien menuntut kenaikan Domain Authority (DA) sebesar 20 poin dalam 28 hari agar mereka memenuhi syarat administratif tender nasional. Jika gagal, agensi Anda akan kehilangan kontrak senilai miliaran rupiah. Di sisi lain, tim internal Anda menyarankan untuk menolak target tersebut karena risiko penalti Google sangat tinggi jika dilakukan secara agresif dalam waktu singkat. Bagaimana Anda mengambil keputusan di bawah tekanan ini?",
+            "question": "Anda memimpin proyek SEO untuk klien korporat besar yang sedang menghadapi krisis reputasi. Klien menuntut kenaikan drastis pada metrik Domain Authority (DA) dalam 28 hari agar memenuhi syarat administratif tender nasional yang krusial bagi keberlangsungan bisnis mereka. Tim internal Anda terbelah: sebagian menyarankan pendekatan agresif untuk mencapai target instan demi menyelamatkan kontrak, sementara sebagian lain memperingatkan risiko penalti jangka panjang dari algoritma Google yang dapat merusak aset digital klien secara permanen. Bagaimana Anda mengambil keputusan strategis ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengadakan pertemuan darurat dengan seluruh pemangku kepentingan untuk merumuskan strategi komunikasi yang transparan, menekankan pentingnya integritas brand, serta menyusun rencana mitigasi risiko jangka panjang agar hubungan kerja sama tetap terjaga tanpa mengorbankan etika profesional.",
+                    "text": "Menginisiasi diskusi kolaboratif dengan pihak klien dan tim teknis untuk melakukan kalibrasi ulang ekspektasi, menyajikan data mengenai risiko teknis, serta menawarkan solusi alternatif berupa penguatan otoritas konten organik yang lebih aman meskipun tidak menjamin kenaikan metrik instan, demi menjaga kepercayaan dan integritas kemitraan jangka panjang.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan eksekusi teknis berupa audit link profile untuk mengidentifikasi domain 'toxic', melakukan disavow file secara masif, serta mengalokasikan budget untuk akuisisi backlink melalui Digital PR pada media Tier-1 dan implementasi struktur internal linking berbasis topical authority untuk memanipulasi distribusi link equity secara agresif namun tetap dalam koridor algoritma.",
-                    "score": 10
+                    "text": "Mengambil langkah pragmatis dengan mengalokasikan sumber daya untuk kampanye Digital PR yang intensif dan akuisisi backlink berkualitas tinggi secara cepat, serta mengoptimalkan struktur internal linking untuk memaksimalkan distribusi equity yang ada, guna mengejar target metrik secepat mungkin tanpa harus melanggar pedoman webmaster secara terang-terangan.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Menginstruksikan tim untuk segera membeli paket backlink dari jaringan PBN (Private Blog Network) yang memiliki metrik DA tinggi dan trafik organik yang sudah teruji, guna memastikan kenaikan metrik secara instan sebelum tenggat waktu tender berakhir demi menyelamatkan kontrak agensi.",
-                    "score": 5
+                    "text": "Menolak melakukan optimasi agresif yang berisiko, dan sebagai gantinya, fokus pada perombakan arsitektur teknis situs secara fundamental untuk meningkatkan Topical Authority dan performa Core Web Vitals, sembari menyusun dokumentasi teknis yang kuat untuk meyakinkan klien bahwa stabilitas jangka panjang jauh lebih berharga daripada metrik vanity yang rentan terhadap volatilitas algoritma.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "dm-8",
-            "question": "Startup Anda berada di ambang kebangkrutan dengan sisa runway hanya dua bulan. Investor menuntut bukti efisiensi pemasaran yang konkret sebelum menyetujui pendanaan darurat, sementara tim pemasaran bersikeras bahwa lonjakan biaya iklan adalah satu-satunya cara menjaga visibilitas di tengah kompetisi yang agresif. Sebagai Growth Lead, tindakan apa yang Anda ambil untuk memvalidasi efektivitas pengeluaran tersebut di tengah tekanan waktu yang ekstrem?",
+            "question": "Startup Anda memiliki sisa runway dua bulan. Investor menuntut efisiensi pemasaran untuk pendanaan darurat, namun tim pemasaran berargumen bahwa memotong anggaran iklan akan menghancurkan akuisisi pengguna di tengah kompetisi agresif. Sebagai Growth Lead, Anda dihadapkan pada pilihan sulit antara menjaga stabilitas operasional, mempertahankan pangsa pasar, atau melakukan restrukturisasi teknis yang mendalam. Langkah strategis apa yang Anda ambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengadakan sesi brainstorming lintas departemen untuk membangun moral tim dan menyelaraskan visi strategis, guna memastikan setiap anggota merasa dilibatkan dalam proses pengambilan keputusan yang krusial bagi masa depan perusahaan.",
+                    "text": "Menginisiasi forum diskusi terbuka untuk menyelaraskan ekspektasi antara tim pemasaran dan investor, guna membangun konsensus kolektif yang menjaga moral tim tetap stabil di tengah ketidakpastian, sehingga setiap anggota merasa memiliki tanggung jawab bersama dalam melewati masa transisi ini.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan dekomposisi CAC berdasarkan cohort dan channel-specific attribution modeling, serta menghitung LTV:CAC ratio per segmen untuk mengidentifikasi kanal dengan marginal contribution negatif yang harus segera dihentikan.",
+                    "text": "Melakukan audit teknis mendalam dengan menerapkan model atribusi berbasis cohort dan analisis marginal contribution per channel untuk menghentikan pengeluaran pada kanal dengan LTV:CAC negatif, guna memastikan setiap rupiah yang dikeluarkan memiliki dampak struktural yang terukur bagi keberlanjutan jangka panjang perusahaan.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Melakukan penyesuaian harga jual produk secara merata di seluruh platform untuk menutupi defisit anggaran, guna menghindari beban kerja tambahan bagi tim pemasaran yang saat ini sedang mengalami kelelahan akibat target yang terlalu tinggi.",
+                    "text": "Mengalihkan fokus pada optimalisasi konversi organik dan retensi pengguna melalui kampanye taktis jangka pendek yang minim biaya, guna menjaga momentum pertumbuhan tetap positif di mata investor tanpa harus mengorbankan visibilitas merek secara drastis dalam jangka waktu dua bulan ke depan.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "dm-9",
-            "question": "Klien e-commerce Anda mengalami penurunan atribusi data Meta Pixel hingga 60% pasca update iOS 14.5, yang menyebabkan ROAS kampanye anjlok drastis. Stakeholder menuntut pemulihan data instan sebelum peak season dimulai minggu depan. Tim IT menolak perubahan infrastruktur besar-besaran karena risiko downtime, sementara Anda berada di bawah tekanan untuk segera mengoptimalkan performa iklan yang saat ini hanya mengandalkan data parsial.",
+            "question": "Anda adalah Lead Growth Strategist untuk sebuah e-commerce besar yang menghadapi penurunan akurasi atribusi data sebesar 60% pasca pembaruan privasi iOS. Di satu sisi, tim IT memprioritaskan stabilitas sistem dan menolak perubahan arsitektur mendadak sebelum peak season. Di sisi lain, manajemen menuntut pemulihan performa iklan secara instan untuk mencapai target revenue. Anda harus memilih pendekatan strategis yang memiliki konsekuensi berbeda terhadap stabilitas operasional, akurasi data, dan dinamika tim.",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi pertemuan lintas departemen untuk menyelaraskan ekspektasi stakeholder dengan realitas teknis, serta menyusun strategi konten organik yang lebih humanis guna menjaga loyalitas pelanggan tanpa harus memaksakan implementasi teknis yang berisiko di tengah peak season.",
+                    "text": "Menginisiasi forum sinkronisasi lintas departemen untuk memetakan risiko teknis dan menetapkan ekspektasi realistis kepada stakeholder, sembari mengalihkan fokus kampanye ke kanal-kanal yang tidak bergantung pada pihak ketiga untuk menjaga harmoni tim dan keberlanjutan bisnis jangka panjang.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengonfigurasi Meta Conversion API (CAPI) melalui server-side gateway untuk memintas batasan browser-side tracking, memastikan pengiriman event data langsung dari server ke server guna memitigasi dampak ITP tanpa menyentuh infrastruktur core yang dikelola tim IT.",
+                    "text": "Mengimplementasikan Meta Conversion API (CAPI) melalui server-side gateway sebagai solusi teknis yang mandiri; pendekatan ini memitigasi keterbatasan tracking tanpa mengganggu infrastruktur core tim IT, sehingga memberikan akurasi data yang lebih presisi untuk optimasi jangka panjang.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Melakukan penyesuaian manual pada parameter UTM di setiap link iklan dan memperpanjang durasi window atribusi di dashboard Meta Ads untuk mengompensasi hilangnya data dari pengguna perangkat iOS secara bertahap.",
+                    "text": "Melakukan optimasi pada parameter UTM dan memanfaatkan data historis untuk memodelkan atribusi secara manual guna memberikan hasil instan yang dibutuhkan manajemen, meskipun pendekatan ini bersifat sementara dan memerlukan pemeliharaan intensif selama periode peak season.",
                     "score": 5
                 }
             ]
         },
         {
             "id": "dm-10",
-            "question": "Anda memimpin kampanye peluncuran produk baru dengan anggaran terbatas. Direktur Pemasaran menuntut laporan konversi penjualan instan di akhir minggu pertama, padahal data analitik menunjukkan audiens masih berada di tahap pengenalan brand (top-funnel). Sebagai spesialis, langkah teknis apa yang Anda ambil untuk mengoptimalkan performa tanpa mengorbankan integritas data?",
+            "question": "Anda memimpin peluncuran produk baru dengan anggaran terbatas. Direktur Pemasaran menuntut laporan konversi penjualan instan di akhir minggu pertama, sementara data analitik menunjukkan audiens masih berada di tahap pengenalan brand (top-funnel). Mengingat tekanan target perusahaan dan integritas data yang Anda pegang, langkah strategis apa yang akan Anda ambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengadakan rapat koordinasi lintas departemen untuk menyelaraskan ekspektasi manajemen dengan realitas pasar, guna memastikan seluruh tim merasa didengar dan menjaga keharmonisan budaya kerja perusahaan.",
+                    "text": "Mengadakan sesi diskusi mendalam dengan Direktur Pemasaran untuk menyelaraskan ekspektasi manajemen dengan realitas perilaku konsumen saat ini, guna membangun pemahaman bersama dan memastikan seluruh tim bergerak dengan visi yang harmonis serta dukungan penuh dari pemangku kepentingan.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan pergeseran alokasi anggaran secara mendadak ke kanal konversi langsung meskipun data atribusi belum matang, demi memenuhi target penjualan bulanan dan menjaga hubungan profesional dengan pemangku kepentingan.",
+                    "text": "Melakukan realokasi anggaran secara taktis ke kanal konversi langsung untuk memenuhi target penjualan jangka pendek, dengan menerima risiko bahwa data atribusi mungkin belum matang, demi menjaga momentum bisnis dan memenuhi ekspektasi performa yang mendesak.",
                     "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Mempertahankan alokasi pada metrik top-funnel untuk mengakumulasi data user-intent, lalu mengimplementasikan model atribusi berbasis data untuk mengidentifikasi mikro-konversi yang relevan sebagai proxy performa sebelum melakukan retargeting berbasis perilaku.",
+                    "text": "Mempertahankan alokasi pada metrik top-funnel untuk mengakumulasi data user-intent yang akurat, kemudian mengimplementasikan model atribusi berbasis data untuk mengidentifikasi mikro-konversi sebagai proxy performa sebelum melakukan retargeting berbasis perilaku yang lebih presisi.",
                     "score": 10
                 }
             ]
