@@ -18,29 +18,29 @@ async function run() {
         let q = ASSESSMENT_QUESTIONS[i];
         console.log(`Processing Archetype Question ${i+1}/${ASSESSMENT_QUESTIONS.length}`);
         
-        const prompt = `Kamu adalah psikolog karier dan psychometrician. Diberikan soal tes minat bakat (archetype assessment).
+        const prompt = `Kamu adalah psikolog karier yang menggunakan kerangka asesmen RIASEC (Holland Code). Diberikan soal kuis minat karier (archetype assessment).
 Dimensi atau Topik: ${q.dimension}
-Opsi Thinker sebelumnya: ${q.options[0].text}
-Opsi Creator sebelumnya: ${q.options[1].text}
-Opsi Connector sebelumnya: ${q.options[2].text}
-Opsi Builder sebelumnya: ${q.options[3].text}
 
 Tugasmu:
-1. Buat pertanyaan/skenario BARU yang spesifik dan unik, BERDASARKAN topik "${q.dimension}". Jangan terpaku pada pertanyaan sebelumnya. Skenario harus sangat bervariasi.
-2. Gunakan bahasa Indonesia sehari-hari yang sangat mudah dipahami (casual tapi profesional). Hindari istilah teknis atau abstrak.
-3. Pertanyaan (skenario) harus dibuat sangat konkret, relatable di dunia kerja/kehidupan, dan maksimal 1-2 kalimat pendek.
-4. Buat ulang 4 opsi jawaban tersebut tanpa menggunakan kata kunci eksplisit (seperti logis, data, kreatif, desain, koding, atau sosial). Fokus pada deskripsi perilaku konkret yang implisit.
-5. HARUS ada SATU opsi "jebakan sosial" (terdengar paling socially desirable / bijak secara umum) namun tetap selaras dengan trait-nya.
-6. Panjang kalimat dari ke-4 opsi HARUS seragam dan pendek (maksimal 1-2 kalimat) agar tidak ada opsi yang terlihat menonjol formatnya.
+1. GANTI format pertanyaan skenario situasional menjadi format **Tes Minat (Interest Inventory) khas RIASEC**.
+2. Pertanyaannya harus berkisar tentang: "Aktivitas mana yang paling kamu minati?", "Apa yang paling ingin kamu pelajari?", "Lingkungan kerja seperti apa yang paling membuatmu nyaman?", atau "Masalah apa yang paling kamu suka untuk diselesaikan?".
+3. Buat ulang 4 opsi jawaban tersebut berdasarkan 4 profil Archetype yang dikawinkan dengan RIASEC:
+   - **Opsi Thinker (Investigative):** Aktivitas yang melibatkan riset mendalam, analisis data, berpikir kritis, memecahkan masalah teoritis, atau sains.
+   - **Opsi Creator (Artistic):** Aktivitas yang melibatkan kreativitas, desain visual, seni, ekspresi diri, inovasi, dan kebebasan tanpa aturan kaku.
+   - **Opsi Connector (Social/Enterprising):** Aktivitas yang melibatkan interaksi dengan orang lain, persuasi, mengajar, membantu, negosiasi, atau memimpin tim.
+   - **Opsi Builder (Realistic/Conventional):** Aktivitas yang melibatkan eksekusi praktis, struktur, bekerja dengan alat/sistem, keteraturan, keterprediksian, atau membangun sesuatu yang nyata.
+4. JANGAN gunakan skenario "apa yang kamu lakukan saat terjadi masalah X". Fokus murni pada **Preferensi, Hobi, Ketertarikan, dan Lingkungan Kerja Ideal**.
+5. Panjang kalimat dari ke-4 opsi HARUS seragam dan pendek (maksimal 1 kalimat). Gunakan bahasa Indonesia kasual tapi profesional.
+6. Hindari menyebutkan nama profesi secara gamblang (jangan bilang "Saya suka jadi desainer"). Gunakan aktivitasnya (misal: "Saya suka merancang tata letak visual").
 
 OUTPUT FORMAT JSON:
 {
-  "question": "Skenario baru...",
+  "question": "Pertanyaan preferensi/minat baru...",
   "options": [
-    "Opsi Thinker baru",
-    "Opsi Creator baru",
-    "Opsi Connector baru",
-    "Opsi Builder baru"
+    "Opsi minat Thinker",
+    "Opsi minat Creator",
+    "Opsi minat Connector",
+    "Opsi minat Builder"
   ]
 }
 OUTPUT HANYA JSON tanpa format backtick markdown.`;

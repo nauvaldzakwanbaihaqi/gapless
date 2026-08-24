@@ -62,405 +62,405 @@ export interface AssessmentQuestion {
 export const ASSESSMENT_QUESTIONS: AssessmentQuestion[] = [
   {
     id: 1,
-    question: "Saat menghadapi hambatan mendadak dalam sebuah proyek penting, apa tindakan pertama yang biasanya kamu lakukan?",
+    question: "Dalam menghadapi sebuah tantangan atau proyek baru, aktivitas manakah yang paling menarik untuk kamu kerjakan?",
     dimension: 'Pemecahan Masalah',
     options: [
       {
         label: 'A',
-        text: "Mempelajari akar masalahnya secara mendalam agar tidak ada celah yang terlewatkan.",
+        text: "Menganalisis data rumit untuk menemukan pola dan solusi logis yang akurat.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Mencari cara alternatif yang tidak terpikirkan oleh orang lain untuk menerobos hambatan.",
+        text: "Menciptakan konsep orisinal yang unik dengan pendekatan estetika yang baru.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mendiskusikan situasi tersebut bersama tim untuk mencari kesepakatan langkah terbaik.",
+        text: "Mengoordinasikan orang lain untuk mencapai tujuan bersama melalui diskusi aktif.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Segera melakukan tindakan nyata untuk memperbaiki bagian yang paling mendesak saat itu.",
+        text: "Menyusun langkah kerja yang terstruktur dan praktis untuk hasil yang nyata.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 2,
-    question: "Saat tim sedang mengalami kebuntuan dalam menyelesaikan sebuah proyek yang mendesak, apa tindakan yang paling sering kamu lakukan?",
+    question: "Dalam sebuah proyek tim, aktivitas manakah yang paling membuatmu merasa bersemangat dan antusias?",
     dimension: 'Dinamika Tim',
     options: [
       {
         label: 'A',
-        text: "Mempelajari kembali semua dokumen dan aturan yang ada untuk menemukan celah yang terlewat.",
+        text: "Menganalisis data rumit dan mencari solusi logis berdasarkan riset mendalam.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Mengusulkan pendekatan yang benar-benar berbeda dari kebiasaan tim selama ini.",
+        text: "Merancang konsep visual yang inovatif dan mengekspresikan ide secara kreatif.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengajak semua orang berkumpul untuk memastikan setiap anggota merasa didengar dan nyaman.",
+        text: "Membangun komunikasi yang harmonis serta memotivasi anggota tim untuk bekerja sama.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Membuat daftar tugas yang harus segera diselesaikan agar progres tetap berjalan cepat.",
+        text: "Menyusun alur kerja yang sistematis dan memastikan setiap tugas selesai tepat waktu.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 3,
-    question: "Kamu baru saja mendapatkan tugas baru yang belum pernah kamu kerjakan sebelumnya. Apa langkah pertama yang kamu lakukan?",
+    question: "Manakah dari aktivitas berikut yang paling membuatmu merasa bersemangat dan antusias saat melakukannya?",
     dimension: 'Gaya Belajar',
     options: [
       {
         label: 'A',
-        text: "Mencari tahu latar belakang dan aturan mainnya sampai benar-benar jelas.",
+        text: "Menganalisis data kompleks untuk menemukan pola atau jawaban logis di balik suatu fenomena.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Langsung mencoba berbagai cara berbeda untuk melihat mana yang paling oke.",
+        text: "Mengekspresikan ide orisinal melalui karya visual, tulisan, atau bentuk seni yang unik.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengobrol dengan orang lain untuk mendengar masukan dan pengalaman mereka.",
+        text: "Berinteraksi, berdiskusi, dan membantu orang lain untuk mencapai tujuan bersama yang bermakna.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Membuat daftar langkah praktis agar pekerjaan bisa segera diselesaikan.",
+        text: "Menyusun sistem kerja yang teratur, merakit peralatan, atau menyelesaikan tugas praktis secara efisien.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 4,
-    question: "Saat kamu diberikan sebuah proyek baru yang tenggat waktunya cukup ketat, hal apa yang paling pertama kamu lakukan?",
+    question: "Lingkungan kerja seperti apa yang paling membuatmu merasa bersemangat dan produktif?",
     dimension: 'Motivasi',
     options: [
       {
         label: 'A',
-        text: "Mempelajari semua bahan dan aturan yang ada agar tidak ada langkah yang salah.",
+        text: "Lingkungan yang fokus pada analisis data mendalam dan pemecahan masalah yang kompleks.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Mencoba pendekatan yang benar-benar baru agar hasilnya terasa lebih segar.",
+        text: "Lingkungan yang memberikan kebebasan penuh untuk bereksperimen dengan ide-ide kreatif.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Menghubungi rekan tim untuk berbagi ide dan menyamakan langkah bersama.",
+        text: "Lingkungan yang dinamis dengan banyak interaksi sosial dan kolaborasi bersama orang lain.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Membuat daftar langkah kerja yang praktis agar tugas cepat selesai tepat waktu.",
+        text: "Lingkungan yang teratur dengan prosedur yang jelas dan fokus pada penyelesaian tugas praktis.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 5,
-    question: "Saat ada rekan kerja yang tidak setuju dengan usulmu di tengah rapat, apa yang biasanya kamu lakukan?",
+    question: "Dalam menghadapi dinamika perbedaan pendapat di lingkungan kerja, aktivitas mana yang paling membuatmu merasa antusias?",
     dimension: 'Penyelesaian Konflik',
     options: [
       {
         label: 'A',
-        text: "Saya diam sejenak untuk meninjau kembali semua fakta sebelum memberikan tanggapan.",
+        text: "Menganalisis akar masalah secara logis dan mencari data pendukung untuk solusi yang paling objektif.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya segera menawarkan sudut pandang baru yang belum terpikirkan oleh orang lain.",
+        text: "Menciptakan cara baru yang unik dan tidak konvensional untuk menjembatani perbedaan perspektif.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya mendengarkan mereka dengan sabar agar suasana tetap tenang dan saling mendukung.",
+        text: "Berdiskusi langsung dengan orang-orang yang terlibat untuk membangun kesepakatan dan suasana yang harmonis.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya langsung fokus pada tujuan utama agar diskusi segera membuahkan hasil nyata.",
+        text: "Menyusun prosedur kerja yang teratur dan sistematis agar setiap orang tahu peran serta tanggung jawabnya.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 6,
-    question: "Saat ada proyek baru yang tenggat waktunya sangat ketat, apa hal pertama yang biasanya kamu lakukan?",
+    question: "Lingkungan kerja seperti apa yang paling membuatmu merasa bersemangat dan produktif?",
     dimension: 'Lingkungan Kerja',
     options: [
       {
         label: 'A',
-        text: "Menyusun daftar prioritas dan urutan langkah agar semuanya berjalan sistematis.",
+        text: "Lingkungan yang fokus pada analisis mendalam dan pemecahan masalah berbasis data.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Mencari cara baru yang lebih seru agar proses pengerjaannya tidak membosankan.",
+        text: "Lingkungan yang memberikan kebebasan penuh untuk bereksperimen dengan ide kreatif.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengajak rekan tim berdiskusi supaya kita bisa saling bantu dan kompak.",
+        text: "Lingkungan yang penuh interaksi sosial untuk berkolaborasi dan membantu orang lain.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Segera mengeksekusi tugas yang paling mudah agar progresnya langsung terlihat.",
+        text: "Lingkungan yang teratur dengan prosedur jelas untuk menyelesaikan tugas teknis.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 7,
-    question: "Saat kamu diberikan tugas proyek baru yang tenggat waktunya sangat ketat, apa langkah pertama yang kamu ambil?",
+    question: "Manakah dari aktivitas berikut yang paling membuat Anda merasa antusias dan bersemangat saat melakukannya?",
     dimension: 'Pengambilan Keputusan',
     options: [
       {
         label: 'A',
-        text: "Membuat daftar periksa detail agar tidak ada satu pun langkah yang terlewatkan.",
+        text: "Menganalisis data yang kompleks untuk menemukan pola atau jawaban logis di balik sebuah fenomena.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Mencari cara unik yang berbeda dari biasanya agar hasil akhirnya lebih menarik.",
+        text: "Menciptakan konsep orisinal yang unik melalui media visual, tulisan, atau bentuk seni lainnya.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengajak rekan tim mengobrol santai untuk menyamakan persepsi dan tujuan bersama.",
+        text: "Berinteraksi secara aktif untuk memotivasi, membimbing, atau meyakinkan orang lain mencapai tujuan bersama.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Langsung mengerjakan bagian utama supaya progresnya segera terlihat nyata.",
+        text: "Menyusun sistem kerja yang teratur, rapi, dan menggunakan alat fisik untuk menghasilkan produk nyata.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 8,
-    question: "Saat harus menjelaskan perubahan aturan baru di kantor kepada tim, apa yang biasanya kamu lakukan?",
+    question: "Dalam konteks komunikasi, aktivitas manakah yang paling membuatmu merasa bersemangat dan antusias?",
     dimension: 'Komunikasi',
     options: [
       {
         label: 'A',
-        text: "Menyiapkan rangkuman daftar poin-poin penting agar setiap detail aturan tersampaikan dengan akurat.",
+        text: "Menganalisis data dan menyusun argumen logis berdasarkan riset yang mendalam.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Membuat perumpamaan yang menarik supaya maksud dari aturan tersebut lebih mudah dibayangkan.",
+        text: "Mengekspresikan ide melalui gaya bahasa yang unik dan visual yang estetis.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengobrol santai dengan rekan satu per satu agar mereka merasa didengar dan tidak keberatan.",
+        text: "Membangun hubungan, berdiskusi, serta meyakinkan orang lain melalui percakapan.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Langsung memberikan arahan singkat tentang apa saja yang harus segera diubah mulai hari ini.",
+        text: "Mengatur alur informasi secara sistematis agar pesan tersampaikan dengan sangat rapi.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 9,
-    question: "Ada peluang proyek baru yang belum jelas hasilnya, apa yang biasanya kamu lakukan?",
+    question: "Dalam lingkungan kerja yang penuh ketidakpastian, aktivitas manakah yang paling membuatmu merasa nyaman dan bersemangat?",
     dimension: 'Toleransi Risiko',
     options: [
       {
         label: 'A',
-        text: "Memetakan segala kemungkinan hambatan yang mungkin muncul di kemudian hari.",
+        text: "Menganalisis data dan pola untuk memprediksi risiko secara logis.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Mengambil kesempatan tersebut untuk bereksperimen dengan cara yang berbeda.",
+        text: "Menciptakan solusi inovatif yang unik melalui eksperimen kreatif.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Memastikan semua pihak setuju dan merasa nyaman sebelum mulai bergerak.",
+        text: "Membangun kesepakatan dan dukungan dari orang lain untuk menghadapi perubahan.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Segera mengambil langkah awal agar bisa melihat hasilnya secepat mungkin.",
+        text: "Menjalankan prosedur standar yang teruji untuk menjaga stabilitas hasil.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 10,
-    question: "Saat proyek yang kamu kerjakan tiba-tiba gagal total di tengah jalan, apa hal pertama yang kamu lakukan?",
+    question: "Dalam menghadapi tantangan kerja yang sulit, aktivitas manakah yang paling membuatmu merasa bersemangat dan terlibat?",
     dimension: 'Resiliensi',
     options: [
       {
         label: 'A',
-        text: "Mengevaluasi setiap langkah yang sudah dilakukan untuk menemukan letak kesalahannya.",
+        text: "Menganalisis data secara mendalam untuk menemukan akar penyebab masalah yang kompleks.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Mencari sudut pandang lain agar bisa mencoba pendekatan yang benar-benar baru.",
+        text: "Menciptakan solusi baru yang unik dan belum pernah terpikirkan oleh orang lain sebelumnya.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengajak rekan kerja mengobrol untuk mencari dukungan dan solusi bersama-sama.",
+        text: "Mengajak rekan kerja berdiskusi untuk mencari kesepakatan dan dukungan bersama.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Segera beralih fokus mengerjakan bagian lain yang masih bisa diselamatkan hasilnya.",
+        text: "Menyusun langkah praktis yang terukur untuk memperbaiki sistem agar kembali berjalan lancar.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 11,
-    question: "Saat menghadapi proyek baru yang belum ada panduannya sama sekali, apa hal pertama yang kamu lakukan?",
+    question: "Lingkungan atau aktivitas seperti apa yang paling membuatmu merasa bersemangat dan produktif dalam bekerja?",
     dimension: 'Nilai',
     options: [
       {
         label: 'A',
-        text: "Mencari tahu akar masalah dan mengumpulkan semua fakta pendukung sebelum melangkah.",
+        text: "Menganalisis data rumit dan mencari solusi logis dari sebuah permasalahan teoretis.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Mencoba cara baru yang belum pernah dicoba orang lain untuk melihat hasilnya.",
+        text: "Mengekspresikan ide kreatif melalui karya visual atau konsep yang orisinal.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Menghubungi rekan yang berpengalaman agar kita bisa berdiskusi dan bekerja sama.",
+        text: "Berinteraksi dengan banyak orang untuk berkolaborasi, mengajar, atau memimpin diskusi.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Membuat langkah kerja yang sederhana agar tugas bisa segera diselesaikan dengan rapi.",
+        text: "Menyusun sistem kerja yang teratur dan menyelesaikan tugas praktis dengan alat fisik.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 12,
-    question: "Saat kamu diberikan tugas baru yang belum pernah kamu kerjakan sebelumnya, apa hal pertama yang biasanya kamu lakukan?",
+    question: "Aktivitas mana yang paling membuatmu merasa bersemangat dan antusias saat mengerjakannya?",
     dimension: 'Gaya Kerja',
     options: [
       {
         label: 'A',
-        text: "Mencari tahu latar belakang dan aturan mainnya sampai benar-benar jelas.",
+        text: "Menganalisis data rumit untuk menemukan pola atau jawaban logis.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Mencoba berbagai pendekatan berbeda untuk melihat mana yang paling seru.",
+        text: "Menciptakan konsep baru yang unik melalui ekspresi visual atau tulisan.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengajak rekan kerja berdiskusi agar kita bisa menyelesaikannya bersama.",
+        text: "Berinteraksi dan berkolaborasi untuk membantu orang lain mencapai tujuan.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Membuat daftar langkah praktis agar bisa segera mulai mengerjakan tugasnya.",
+        text: "Menyusun sistem kerja yang teratur dan membangun sesuatu secara fisik.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 13,
-    question: "Saat timmu diberikan tanggung jawab proyek baru yang cukup menantang, apa hal pertama yang biasanya kamu lakukan?",
+    question: "Dalam konteks kepemimpinan, aktivitas manakah yang paling membuatmu merasa antusias dan bersemangat?",
     dimension: 'Kepemimpinan',
     options: [
       {
         label: 'A',
-        text: "Membuat kerangka kerja yang detail agar setiap tahapan berjalan sesuai rencana.",
+        text: "Menganalisis data dan tren untuk merumuskan strategi berbasis fakta yang akurat.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Menggambarkan visi besar proyek tersebut agar semua orang merasa bersemangat.",
+        text: "Menciptakan visi baru yang inovatif dan unik untuk menginspirasi perubahan kreatif.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengumpulkan semua anggota tim untuk menyamakan pendapat dan saling mendengar.",
+        text: "Membangun hubungan yang kuat serta memotivasi orang lain untuk mencapai tujuan bersama.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Segera mengambil tindakan nyata untuk memulai langkah awal pengerjaan proyek.",
+        text: "Mengelola sistem kerja yang teratur dan memastikan setiap prosedur berjalan dengan efisien.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 14,
-    question: "Saat proyek yang kamu kerjakan mulai menunjukkan hasil, apa hal utama yang ingin kamu pastikan terjadi?",
+    question: "Dalam memberikan dampak positif bagi dunia, aktivitas manakah yang paling membuatmu merasa bersemangat?",
     dimension: 'Dampak',
     options: [
       {
         label: 'A',
-        text: "Semua bagian sudah terhubung dengan benar agar tidak ada celah yang terlewat.",
+        text: "Menganalisis data kompleks untuk merumuskan solusi berbasis bukti yang akurat.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Tampilan atau cara kerjanya memberikan kesan yang belum pernah ada sebelumnya.",
+        text: "Menciptakan karya inovatif yang mampu menginspirasi perasaan dan perspektif orang lain.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Semua anggota tim merasa dihargai dan memiliki pandangan yang sama tentang hasil ini.",
+        text: "Membangun hubungan bermakna untuk menggerakkan komunitas menuju perubahan bersama.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Target utama sudah tercapai dengan langkah yang paling efisien dan langsung sasaran.",
+        text: "Mengelola sistem operasional yang terstruktur untuk memastikan hasil kerja yang nyata.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 15,
-    question: "Saat kamu diberikan tanggung jawab baru yang belum pernah kamu kerjakan sebelumnya, apa hal pertama yang kamu lakukan?",
+    question: "Lingkungan kerja seperti apa yang paling membuatmu merasa bersemangat dan produktif?",
     dimension: 'Aspirasi',
     options: [
       {
         label: 'A',
-        text: "Mempelajari semua aturan dan latar belakangnya sampai benar-benar paham.",
+        text: "Lingkungan yang fokus pada riset mendalam dan analisis data untuk memecahkan masalah kompleks.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Mencoba berbagai cara unik untuk melihat mana yang paling menarik.",
+        text: "Lingkungan yang mendukung kebebasan berekspresi untuk menciptakan ide-ide baru yang unik.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengajak rekan kerja berdiskusi agar kita bisa saling membantu.",
+        text: "Lingkungan yang penuh interaksi sosial untuk berkolaborasi, mengajar, atau memimpin orang lain.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Memilih cara paling efisien supaya pekerjaan cepat selesai tepat waktu.",
+        text: "Lingkungan yang terstruktur dengan tugas praktis yang jelas untuk membangun sesuatu secara nyata.",
         trait: 'The Builder'
       }
     ]
