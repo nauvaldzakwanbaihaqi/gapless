@@ -410,7 +410,7 @@ export function ResultsView() {
                     whileHover={{ scale: 1.02, y: -3 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => selectCareer(career)}
-                    className="glass-card p-5 text-left group cursor-pointer"
+                    className="glass-card p-5 text-left group cursor-pointer flex flex-col h-full"
                     style={{
                       border: `1px solid ${i === 0 ? `${meta.color}30` : '#e5e7eb'}`,
                     }}
@@ -447,7 +447,7 @@ export function ResultsView() {
                         Pertumbuhan {career.growthOutlook}
                       </span>
                     </div>
-                    <div className="mt-5">
+                    <div className="mt-auto pt-2">
                       <div className="btn-primary flex items-center justify-center gap-2 text-sm w-full py-3 shadow-md group-hover:shadow-lg transition-all">
                         Analisis kesenjangan skill
                         <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
