@@ -62,405 +62,405 @@ export interface AssessmentQuestion {
 export const ASSESSMENT_QUESTIONS: AssessmentQuestion[] = [
   {
     id: 1,
-    question: "Saat dihadapkan pada sebuah proyek baru yang lingkupnya belum terpetakan dengan jelas, langkah awal apa yang paling sering Anda ambil?",
+    question: "Saat harus memulai tugas baru yang arahnya masih samar, apa yang biasanya kamu lakukan?",
     dimension: 'Pemecahan Masalah',
     options: [
       {
         label: 'A',
-        text: "Saya membedah setiap komponen informasi yang tersedia untuk memahami pola dasar sebelum melangkah lebih jauh.",
+        text: "Saya akan mengumpulkan semua info yang ada lalu mempelajarinya pelan-pelan.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya membayangkan kemungkinan bentuk akhir yang berbeda dari standar yang biasanya diterapkan selama ini.",
+        text: "Saya akan mencoba mencari cara baru yang belum pernah terpikirkan sebelumnya.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya menyelaraskan pemahaman dengan pihak lain agar seluruh elemen yang terlibat memiliki visi yang seragam.",
+        text: "Saya akan mengajak rekan lain berdiskusi agar kita punya tujuan yang sama.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya segera memulai eksekusi langkah pertama untuk melihat bagaimana situasi berkembang secara nyata di lapangan.",
+        text: "Saya akan langsung mencoba mengerjakan sesuatu agar bisa segera melihat hasilnya.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 2,
-    question: "Ketika dihadapkan pada sebuah inisiatif baru yang belum memiliki panduan atau struktur yang pasti, langkah apa yang paling cenderung Anda ambil?",
+    question: "Saat harus memulai tugas baru yang belum ada aturan mainnya, apa yang biasanya kamu lakukan?",
     dimension: 'Dinamika Tim',
     options: [
       {
         label: 'A',
-        text: "Saya membedah setiap elemen yang ada untuk memahami keterkaitan antar variabel sebelum menentukan langkah selanjutnya.",
+        text: "Mempelajari situasi secara mendalam agar tahu persis apa yang harus dilakukan.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya merumuskan berbagai kemungkinan pendekatan yang belum pernah dicoba sebelumnya untuk melihat potensi hasil yang unik.",
+        text: "Mencoba cara-cara baru yang berbeda dari kebiasaan orang lain selama ini.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya memastikan setiap anggota tim merasa dilibatkan dan memiliki pemahaman yang sama agar kolaborasi berjalan dengan harmonis.",
+        text: "Mengajak rekan kerja berdiskusi agar semua orang merasa nyaman dan sepakat.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya menetapkan target capaian yang jelas dan mengarahkan sumber daya yang tersedia untuk segera mewujudkan hasil nyata.",
+        text: "Langsung menentukan langkah kerja agar hasil nyata bisa segera terlihat.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 3,
-    question: "Ketika Anda dihadapkan pada sebuah proyek baru yang lingkupnya belum terdefinisi dengan jelas, langkah pertama apa yang paling cenderung Anda ambil?",
+    question: "Saat ada tugas baru yang instruksinya masih samar, apa yang biasanya kamu lakukan pertama kali?",
     dimension: 'Gaya Belajar',
     options: [
       {
         label: 'A',
-        text: "Saya mengumpulkan berbagai referensi serta menelaah prinsip dasar yang relevan untuk menyusun kerangka pemahaman yang komprehensif.",
+        text: "Mencari informasi sebanyak mungkin dan mempelajarinya pelan-pelan sampai paham.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya segera mencoba berbagai pendekatan secara langsung untuk melihat kemungkinan hasil yang muncul dari setiap tindakan tersebut.",
+        text: "Langsung mencoba berbagai cara berbeda untuk melihat mana yang paling menarik.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya menginisiasi percakapan dengan pihak lain untuk menyelaraskan perspektif dan mengumpulkan masukan sebelum menentukan arah langkah.",
+        text: "Mengobrol dengan orang lain untuk menyamakan pendapat sebelum mulai bergerak.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya memetakan target utama yang ingin dicapai agar dapat segera menyusun alur kerja yang paling efisien dan memberikan dampak nyata.",
+        text: "Menentukan hasil akhir yang diinginkan agar bisa langsung bekerja dengan cepat.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 4,
-    question: "Saat dihadapkan pada sebuah inisiatif baru yang tujuan akhirnya belum terdefinisi dengan jelas, langkah apa yang paling mencerminkan pendekatan Anda?",
+    question: "Ada tugas baru yang tujuannya masih samar, apa yang biasanya kamu lakukan pertama kali?",
     dimension: 'Motivasi',
     options: [
       {
         label: 'A',
-        text: "Saya memetakan seluruh variabel yang terlibat untuk memahami mekanisme mendasar sebelum menentukan arah tindakan.",
+        text: "Saya pelajari dulu detailnya sampai paham betul sebelum mulai melangkah.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya mengeksplorasi berbagai kemungkinan bentuk yang bisa dihasilkan untuk menemukan pendekatan yang paling unik.",
+        text: "Saya coba bayangkan berbagai ide seru yang bisa dicoba untuk tugas ini.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya mengumpulkan pihak-pihak terkait untuk menyelaraskan visi agar inisiatif ini memberikan dampak positif bagi banyak orang.",
+        text: "Saya ajak teman-teman ngobrol supaya kita bisa saling bantu dan kompak.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya segera menetapkan target capaian yang ambisius dan menyusun strategi eksekusi agar inisiatif ini segera membuahkan hasil nyata.",
+        text: "Saya langsung tentukan target dan langkah kerja agar tugas cepat selesai.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 5,
-    question: "Saat dihadapkan pada sebuah proyek baru yang instruksinya masih sangat minim dan belum terarah, tindakan apa yang paling menggambarkan caramu memulai?",
+    question: "Saat diminta mengerjakan tugas baru yang instruksinya masih sangat samar, apa hal pertama yang biasanya kamu lakukan?",
     dimension: 'Penyelesaian Konflik',
     options: [
       {
         label: 'A',
-        text: "Saya memetakan variabel yang ada dan menyusun kerangka kerja sistematis sebelum melangkah lebih jauh.",
+        text: "Saya akan duduk diam sejenak untuk membedah masalahnya agar langkah kerja saya nantinya lebih terarah.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya mengeksplorasi berbagai kemungkinan arah yang belum terpikirkan untuk menemukan potensi hasil yang unik.",
+        text: "Saya akan mencoba membayangkan berbagai cara unik untuk menyelesaikan tugas tersebut dengan hasil yang berbeda.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya menjalin komunikasi dengan pihak terkait untuk menyelaraskan ekspektasi dan membangun pemahaman bersama.",
+        text: "Saya akan mengajak rekan kerja mengobrol agar kita punya pandangan yang sama sebelum mulai bergerak.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya segera menetapkan target capaian yang konkret dan mengambil langkah eksekusi untuk memastikan progres berjalan.",
+        text: "Saya akan langsung menentukan target hasil akhir dan mulai mengerjakan bagian yang paling bisa segera diselesaikan.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 6,
-    question: "Saat dihadapkan pada sebuah proyek baru yang instruksinya masih sangat minim, tindakan apa yang paling cenderung Anda lakukan?",
+    question: "Saat diberikan tugas baru yang instruksinya masih sangat samar, apa hal pertama yang biasanya kamu lakukan?",
     dimension: 'Lingkungan Kerja',
     options: [
       {
         label: 'A',
-        text: "Saya menyendiri untuk memetakan alur kerja secara mendalam sebelum memulai langkah pertama.",
+        text: "Duduk tenang untuk menyusun langkah demi langkah agar semuanya terencana dengan matang.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya mencoba berbagai pendekatan eksperimental untuk melihat kemungkinan hasil yang muncul.",
+        text: "Mencoba berbagai cara berbeda untuk melihat mana yang paling menarik untuk dikembangkan.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya mendiskusikan berbagai perspektif dengan orang lain untuk menyamakan pemahaman bersama.",
+        text: "Mengobrol dengan rekan sekitar untuk menyamakan pandangan sebelum mulai melangkah.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya segera mengambil tindakan praktis untuk menguji efektivitas solusi di lapangan.",
+        text: "Langsung terjun mencoba mengerjakan sesuatu agar bisa segera melihat hasilnya.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 7,
-    question: "Saat dihadapkan pada sebuah proyek baru yang lingkup pekerjaannya belum terdefinisi dengan jelas, langkah apa yang paling sering kamu ambil?",
+    question: "Saat harus mengerjakan tugas yang instruksinya masih samar, apa yang biasanya kamu lakukan?",
     dimension: 'Pengambilan Keputusan',
     options: [
       {
         label: 'A',
-        text: "Mengumpulkan berbagai referensi dan memetakan pola informasi untuk menyusun kerangka kerja yang sistematis.",
+        text: "Mencari tahu detailnya terlebih dahulu agar bisa menyusun rencana langkah demi langkah.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Membayangkan berbagai kemungkinan hasil akhir dan mengeksplorasi cara-cara baru untuk memberikan sentuhan unik pada prosesnya.",
+        text: "Mencoba berbagai cara yang belum pernah dicoba orang lain agar hasilnya terasa beda.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mendiskusikan tantangan tersebut dengan rekan kerja atau pihak terkait untuk menyelaraskan ekspektasi dan mendapatkan perspektif tambahan.",
+        text: "Mengobrol dengan orang lain untuk menyamakan pandangan sebelum mulai melangkah.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Mengambil inisiatif untuk segera memulai tindakan nyata agar dapat melihat hasil langsung dan menyesuaikan strategi di tengah jalan.",
+        text: "Langsung mengerjakan bagian yang paling jelas agar bisa segera melihat hasilnya.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 8,
-    question: "Saat kamu diminta untuk memaparkan sebuah konsep yang memiliki banyak lapisan kepada rekan kerja, langkah apa yang paling sering kamu ambil?",
+    question: "Saat harus menjelaskan rencana kerja yang cukup rumit kepada tim, apa yang biasanya kamu lakukan?",
     dimension: 'Komunikasi',
     options: [
       {
         label: 'A',
-        text: "Menyusun dokumen komprehensif yang memuat seluruh latar belakang serta bukti pendukung agar setiap detail dapat dipelajari secara mandiri.",
+        text: "Menyiapkan catatan lengkap berisi semua detail agar mereka bisa membacanya kapan saja.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Menggambarkan alur konsep tersebut melalui ilustrasi atau analogi agar audiens dapat menangkap esensi pesan dengan lebih berkesan.",
+        text: "Membuat gambar atau perumpamaan menarik supaya mereka lebih mudah membayangkan idenya.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengajak pihak terkait untuk berdiskusi langsung agar setiap poin dapat diselaraskan melalui pertukaran gagasan yang interaktif.",
+        text: "Mengajak mereka mengobrol santai agar semua orang merasa dilibatkan dalam rencana tersebut.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Menyampaikan poin-poin utama secara lugas dan terstruktur agar audiens dapat segera memahami langkah konkret yang perlu dilakukan.",
+        text: "Menjelaskan poin-poin pentingnya saja supaya tim tahu apa yang harus segera dikerjakan.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 9,
-    question: "Saat dihadapkan pada sebuah inisiatif baru yang arahnya belum terpetakan dengan jelas, langkah apa yang paling menggambarkan tindakan Anda?",
+    question: "Saat harus memulai tugas baru yang instruksinya masih samar, apa yang biasanya kamu lakukan?",
     dimension: 'Toleransi Risiko',
     options: [
       {
         label: 'A',
-        text: "Saya memetakan variabel yang ada dan menyusun skenario hasil akhir sebelum melangkah lebih jauh.",
+        text: "Saya duduk diam untuk memikirkan urutan langkah paling efektif agar tidak ada yang terlewat.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya mencoba berbagai pendekatan yang tidak lazim untuk melihat kemungkinan hasil yang belum pernah dicoba sebelumnya.",
+        text: "Saya mencoba cara-cara unik yang belum pernah terpikirkan orang lain untuk melihat hasilnya.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya mendiskusikan rencana tersebut dengan pihak-pihak terkait untuk memastikan keselarasan dan dukungan sebelum memulai.",
+        text: "Saya mengajak rekan kerja mengobrol supaya kita punya pemahaman yang sama sebelum mulai.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya segera mengambil inisiatif untuk mengeksekusi langkah awal agar progres dapat langsung terlihat dan terasa dampaknya.",
+        text: "Saya langsung terjun mengerjakan bagian yang bisa segera diselesaikan agar ada hasilnya.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 10,
-    question: "Saat dihadapkan pada sebuah inisiatif baru yang tujuan akhirnya masih belum terdefinisi dengan jelas, tindakan apa yang akan Anda ambil?",
+    question: "Saat diminta mengerjakan tugas baru yang arahnya masih samar, apa yang biasanya kamu lakukan?",
     dimension: 'Resiliensi',
     options: [
       {
         label: 'A',
-        text: "Saya memetakan variabel yang ada dan menyusun kerangka kerja sistematis untuk meminimalisir ketidakpastian.",
+        text: "Saya akan mencatat semua detail yang ada dan membuat rencana langkah demi langkah agar semuanya teratur.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya mengeksplorasi berbagai kemungkinan pendekatan yang belum pernah dicoba untuk menemukan perspektif yang unik.",
+        text: "Saya lebih suka mencoba berbagai cara baru yang belum terpikirkan orang lain untuk melihat hasilnya.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya mengumpulkan semua pihak terkait untuk menyelaraskan ekspektasi dan membangun komitmen bersama sejak awal.",
+        text: "Saya akan mengajak rekan kerja mengobrol supaya kita punya tujuan yang sama dan saling mendukung.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya segera memulai eksekusi pada bagian yang paling konkret agar progres nyata dapat segera terlihat.",
+        text: "Saya langsung terjun mengerjakan bagian yang bisa diselesaikan sekarang agar pekerjaan segera berjalan.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 11,
-    question: "Saat dihadapkan pada sebuah proyek dengan instruksi yang sangat minim dan ambiguitas tinggi, langkah apa yang paling utama Anda lakukan?",
+    question: "Saat diminta mengerjakan tugas baru yang instruksinya masih sangat samar, apa yang biasanya kamu lakukan pertama kali?",
     dimension: 'Nilai',
     options: [
       {
         label: 'A',
-        text: "Saya memetakan seluruh variabel yang terlibat untuk memastikan setiap langkah didasarkan pada pemahaman yang paling mendalam.",
+        text: "Saya akan mencari tahu akar masalahnya dan mempelajari semua detailnya sampai benar-benar paham.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya mengeksplorasi berbagai kemungkinan pendekatan yang belum pernah dicoba sebelumnya untuk menghasilkan sesuatu yang unik.",
+        text: "Saya akan mencoba cara-cara baru yang belum pernah terpikirkan sebelumnya agar hasilnya berbeda.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya mengumpulkan masukan dari berbagai pihak terkait guna menyelaraskan ekspektasi dan memperkuat kolaborasi tim.",
+        text: "Saya akan mengajak rekan kerja berdiskusi supaya kita punya pandangan yang sama dan saling mendukung.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya segera menetapkan target capaian yang terukur dan menyusun rencana eksekusi agar proyek dapat berjalan dengan efisien.",
+        text: "Saya akan langsung membuat daftar langkah kerja yang praktis agar tugas bisa segera diselesaikan.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 12,
-    question: "Saat dihadapkan pada sebuah proyek baru yang lingkupnya masih sangat samar, langkah pertama yang paling alami bagi Anda adalah:",
+    question: "Saat diminta mengerjakan tugas yang instruksinya masih sangat membingungkan, apa yang biasanya kamu lakukan pertama kali?",
     dimension: 'Gaya Kerja',
     options: [
       {
         label: 'A',
-        text: "Membedah setiap detail informasi yang tersedia untuk memahami pola dasar dan struktur masalahnya.",
+        text: "Mencari tahu akar masalahnya dengan meneliti semua informasi yang ada sampai benar-benar paham.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Membayangkan berbagai kemungkinan bentuk hasil akhir dan mulai menyusun kerangka kasar untuk diuji.",
+        text: "Membayangkan berbagai ide seru yang bisa dicoba dan langsung membuat coretan kasar untuk dicoba.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengumpulkan masukan dari berbagai pihak terkait untuk menyelaraskan perspektif dan kebutuhan semua orang.",
+        text: "Mengobrol dengan orang-orang di sekitar untuk memastikan semua orang punya pemahaman yang sama.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Menentukan target capaian yang ingin diraih serta menyusun langkah praktis untuk segera mengeksekusi rencana.",
+        text: "Menentukan target yang ingin dicapai dan langsung mulai mengerjakan langkah pertama agar cepat selesai.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 13,
-    question: "Ketika Anda diberi tanggung jawab untuk memimpin sebuah inisiatif baru yang belum memiliki panduan operasional, tindakan apa yang paling sering Anda ambil?",
+    question: "Saat harus memulai tugas baru yang belum ada aturan mainnya, apa yang biasanya kamu lakukan?",
     dimension: 'Kepemimpinan',
     options: [
       {
         label: 'A',
-        text: "Saya menyusun kerangka kerja yang sistematis berdasarkan analisis mendalam agar setiap langkah memiliki landasan yang teruji.",
+        text: "Saya memetakan setiap langkah dan risiko secara detail agar hasilnya nanti minim kesalahan.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya merumuskan gambaran besar tentang hasil akhir yang ingin dicapai untuk memberikan arah yang menggugah semangat tim.",
+        text: "Saya membayangkan bentuk akhir dari tugas tersebut lalu mengajak semua orang mengejarnya.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya memfasilitasi diskusi terbuka untuk menyelaraskan kekuatan setiap anggota tim agar mereka dapat berkontribusi secara optimal.",
+        text: "Saya mengumpulkan semua orang untuk berbagi ide agar kita bisa bekerja sama dengan nyaman.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya langsung terjun ke lapangan untuk melakukan eksekusi awal sebagai standar acuan bagi seluruh anggota tim dalam bekerja.",
+        text: "Saya langsung mulai mengerjakan bagian pertama sebagai contoh nyata untuk diikuti yang lain.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 14,
-    question: "Ketika dihadapkan pada sebuah proyek baru yang tujuannya belum terdefinisi dengan jelas, langkah apa yang paling mencerminkan cara Anda bekerja?",
+    question: "Saat harus mengerjakan tugas yang arahnya masih belum jelas, apa yang biasanya kamu lakukan pertama kali?",
     dimension: 'Dampak',
     options: [
       {
         label: 'A',
-        text: "Saya menyusun kerangka prinsip dasar dan memetakan variabel yang ada agar setiap langkah memiliki landasan yang dapat dipertanggungjawabkan.",
+        text: "Saya akan mencari tahu akar masalahnya dan merapikan informasinya agar semua langkah ke depan lebih terarah.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Saya mengeksplorasi berbagai kemungkinan perspektif untuk menemukan pendekatan unik yang belum pernah terpikirkan oleh orang lain sebelumnya.",
+        text: "Saya akan mencoba mencari cara baru yang berbeda dari biasanya supaya hasilnya lebih menarik dan segar.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Saya mengumpulkan masukan dari berbagai pihak yang terlibat untuk memastikan setiap orang merasa dilibatkan dalam proses pengambilan keputusan.",
+        text: "Saya akan mengajak rekan kerja mengobrol untuk menyamakan pendapat agar semua orang merasa nyaman dengan rencana kita.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Saya segera menetapkan target capaian yang konkret dan menyusun alur kerja yang efisien untuk memastikan hasil akhir segera terwujud.",
+        text: "Saya akan langsung membuat jadwal kerja yang praktis supaya hasilnya bisa segera terlihat dalam waktu dekat.",
         trait: 'The Builder'
       }
     ]
   },
   {
     id: 15,
-    question: "Saat dihadapkan pada sebuah inisiatif baru yang tujuan akhirnya masih belum terdefinisi dengan jelas, langkah apa yang paling alami Anda ambil?",
+    question: "Saat ada tugas baru yang arahnya masih samar, apa hal pertama yang biasanya kamu lakukan?",
     dimension: 'Aspirasi',
     options: [
       {
         label: 'A',
-        text: "Membedah struktur dasar dan mencari pola mendasar agar seluruh kerangka kerja menjadi masuk akal.",
+        text: "Mencari tahu akar masalahnya supaya semua bagian bisa tersusun dengan rapi.",
         trait: 'The Thinker'
       },
       {
         label: 'B',
-        text: "Membayangkan berbagai kemungkinan bentuk hasil akhir lalu segera menyusun prototipe untuk melihat potensinya.",
+        text: "Mencoba berbagai ide liar di kepala lalu langsung membuat contoh kasarnya.",
         trait: 'The Creator'
       },
       {
         label: 'C',
-        text: "Mengumpulkan orang-orang yang terlibat untuk menyamakan persepsi dan membangun komitmen bersama sejak awal.",
+        text: "Mengajak rekan kerja mengobrol agar kita semua punya tujuan yang sama.",
         trait: 'The Connector'
       },
       {
         label: 'D',
-        text: "Menilai kondisi lingkungan sekitar untuk menentukan langkah strategis yang paling tepat dalam meraih hasil maksimal.",
+        text: "Melihat situasi yang ada untuk menentukan cara paling efektif mencapai target.",
         trait: 'The Builder'
       }
     ]

@@ -2,6 +2,8 @@
 
 :root {
   --font-inter: "Inter", sans-serif;
+  --color-primary: #3b82f6;
+  --color-primary-hover: #2563eb;
 }
 
 * {
@@ -71,9 +73,9 @@ body {
   background-clip: text;
 }
 
-/* Primary gradient button — blue palette */
+/* Primary solid button — blue palette */
 .btn-primary {
-  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 50%, #22d3ee 100%);
+  background: var(--color-primary, #3b82f6);
   border: none;
   color: white;
   font-weight: 600;
@@ -81,11 +83,12 @@ body {
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.45);
+  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.45);
+  background: var(--color-primary-hover, #2563eb);
 }
 .btn-primary:active {
   transform: translateY(0px);

@@ -26,10 +26,11 @@ Opsi Connector: ${q.options[2].text}
 Opsi Builder: ${q.options[3].text}
 
 Tugasmu:
-1. Pertanyaan (skenario) buat agar netral tapi menguji kecenderungan cara kerja seseorang. (Misal: "Ketika menghadapi project baru yang belum jelas arahnya...")
-2. Buat ulang 4 opsi jawaban tersebut tanpa menggunakan kata kunci eksplisit (seperti logis, data, kreatif, desain, koding, atau sosial). Fokus pada "deskripsi perilaku konkret yang implisit". Format subjek + aksi + konteks.
-3. HARUS ada SATU opsi "jebakan sosial" (terdengar paling socially desirable / bijak secara umum) namun tetap selaras dengan trait-nya. 
-4. Panjang kalimat dan tone dari ke-4 opsi HARUS seragam agar tidak ada opsi yang terlihat menonjol formatnya.
+1. Gunakan bahasa Indonesia sehari-hari yang sangat mudah dipahami (casual tapi profesional). Hindari istilah teknis atau abstrak.
+2. Pertanyaan (skenario) harus dibuat sangat konkret, relatable, dan maksimal 1-2 kalimat pendek. (Misal: "Ketika menghadapi project baru yang belum jelas arahnya...")
+3. Buat ulang 4 opsi jawaban tersebut tanpa menggunakan kata kunci eksplisit (seperti logis, data, kreatif, desain, koding, atau sosial). Fokus pada deskripsi perilaku konkret yang implisit.
+4. HARUS ada SATU opsi "jebakan sosial" (terdengar paling socially desirable / bijak secara umum) namun tetap selaras dengan trait-nya.
+5. Panjang kalimat dari ke-4 opsi HARUS seragam dan pendek (maksimal 1-2 kalimat) agar tidak ada opsi yang terlihat menonjol formatnya.
 
 OUTPUT FORMAT JSON:
 {

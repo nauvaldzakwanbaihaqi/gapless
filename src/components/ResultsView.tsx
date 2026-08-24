@@ -447,9 +447,11 @@ export function ResultsView() {
                         Pertumbuhan {career.growthOutlook}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 text-xs text-gray-400 group-hover:text-blue-600 transition-colors">
-                      Analisis kesenjangan skill
-                      <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform" />
+                    <div className="mt-5">
+                      <div className="btn-primary flex items-center justify-center gap-2 text-sm w-full py-3 shadow-md group-hover:shadow-lg transition-all">
+                        Analisis kesenjangan skill
+                        <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                      </div>
                     </div>
                   </motion.button>
                 );
