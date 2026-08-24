@@ -8,11 +8,7 @@ const API_KEY = process.env.GEMINI_API_KEY;
 async function processRoles() {
     const { quizBank } = await import('../src/data/quizBank');
     
-    const rolesToProcess = [
-        'software-engineer',
-        'ui-ux-designer',
-        'digital-marketing'
-    ];
+    const rolesToProcess = ['business-development'];
     
     for (const role of rolesToProcess) {
         console.log(`Processing role: ${role}`);

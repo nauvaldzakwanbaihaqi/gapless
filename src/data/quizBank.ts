@@ -2132,211 +2132,211 @@ export const quizBank: Record<string, QuizQuestion[]> = {
     "business-development": [
         {
             "id": "bd-1",
-            "question": "Kamu mengirim ratusan email Cold Outreach ke B2B Client, tetapi open rate (rasio buka email) di bawah 5%. Kesalahan utamanya biasanya pada?",
+            "question": "Anda memimpin tim pemasaran B2B yang sedang mengejar target akuisisi klien agresif. Kampanye cold outreach Anda saat ini memiliki open rate di bawah 5%. Anda dihadapkan pada dilema strategis: apakah akan menghentikan sementara kampanye untuk melakukan pembersihan database dan riset mendalam terhadap persona audiens, atau tetap melanjutkan dengan melakukan penyesuaian gaya bahasa yang lebih persuasif pada subjek email agar target kuartal tetap tercapai. Langkah manakah yang akan Anda ambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Isi email kurang panjang.",
+                    "text": "Mengedepankan harmoni tim dengan mendiskusikan keresahan anggota tim mengenai rendahnya respon klien, lalu bersama-sama menyusun narasi email yang lebih personal dan empatik agar hubungan dengan calon klien tetap terjaga meski dalam skala kecil.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Subjek email (Subject Line) terlihat seperti spam, terlalu salesy, atau database tidak disaring.",
-                    "score": 10
+                    "text": "Melakukan optimasi cepat pada subjek email dengan teknik A/B testing yang lebih agresif dan menarik perhatian untuk memastikan target volume pengiriman tetap terpenuhi demi menjaga momentum bisnis jangka pendek.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Kurangnya lampiran PDF.",
-                    "score": 0
+                    "text": "Menghentikan sementara pengiriman untuk melakukan audit teknis pada kualitas database dan segmentasi audiens guna memastikan pesan yang disampaikan relevan secara struktural, meskipun hal ini akan menggeser jadwal pencapaian target kuartal.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "bd-2",
-            "question": "Dalam Enterprise Sales Cycle, calon klien setuju menggunakan softwaremu, namun mentok di departemen Legal dan IT Security. Apa langkah mitigasinya?",
+            "question": "Anda sedang memimpin negosiasi Enterprise Sales untuk solusi SaaS strategis. Klien sangat antusias, namun departemen Legal dan IT Security mereka mengajukan persyaratan kepatuhan (compliance) yang sangat ketat dan memakan waktu berbulan-bulan untuk ditinjau. Di sisi lain, tim internal Anda memiliki target kuartalan yang agresif, dan klien juga membutuhkan solusi ini segera untuk mendukung peluncuran produk mereka. Bagaimana Anda menyikapi hambatan ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Memaksa klien menandatangani secara sepihak.",
+                    "text": "Mengedepankan pendekatan kolaboratif dengan memfasilitasi serangkaian workshop intensif antara tim teknis Anda dan tim IT Security klien untuk menyelaraskan ekspektasi, membangun kepercayaan, dan memastikan kedua belah pihak merasa didengar dalam proses pengambilan keputusan.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melibatkan tim Legal & IT internalmu sejak awal untuk menyiapkan SLA dan jaminan keamanan (ISO/Compliance) secara proaktif.",
-                    "score": 10
+                    "text": "Mengusulkan implementasi solusi dalam fase terbatas (Minimum Viable Product) yang memenuhi standar keamanan dasar agar klien bisa segera beroperasi, sambil tetap melanjutkan proses audit kepatuhan penuh secara paralel untuk memenuhi target jangka panjang.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Membatalkan kesepakatan.",
-                    "score": 0
+                    "text": "Melakukan restrukturisasi arsitektur sistem dan dokumentasi kepatuhan secara menyeluruh sejak awal untuk memenuhi standar keamanan tertinggi, meskipun hal ini menunda peluncuran, guna memastikan skalabilitas jangka panjang dan meminimalisir risiko operasional di masa depan.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "bd-3",
-            "question": "Saat melakukan kualifikasi prospek (Leads), framework 'BANT' sangat populer. Kepanjangannya adalah?",
+            "question": "Anda adalah seorang Sales Lead yang sedang menangani klien korporat besar dengan potensi kontrak jangka panjang. Di tengah proses kualifikasi menggunakan framework BANT (Budget, Authority, Need, Timeline), Anda menemukan bahwa klien memiliki kebutuhan mendesak (Need) dan otoritas (Authority) yang kuat, namun anggaran (Budget) mereka belum disetujui secara resmi dan jadwal implementasi (Timeline) sangat ketat. Mengingat tekanan target kuartalan yang tinggi, strategi manakah yang akan Anda ambil dalam mengelola prospek ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Budget, Authority, Need, Timeline.",
-                    "score": 10
+                    "text": "Mengedepankan harmoni dan kepercayaan dengan melakukan sesi diskusi mendalam untuk menyelaraskan visi jangka panjang antara tim teknis kita dan pemangku kepentingan klien, guna memastikan bahwa keputusan anggaran nantinya didasarkan pada kemitraan yang solid dan saling menguntungkan.",
+                    "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Brand, Acquisition, Nurture, Target.",
-                    "score": 0
+                    "text": "Memfokuskan sumber daya pada pengembangan arsitektur solusi yang paling efisien dan skalabel untuk memastikan bahwa ketika anggaran disetujui, sistem yang dibangun memiliki integritas teknis tinggi dan mampu meminimalisir utang teknis di masa depan, meskipun proses kualifikasi memakan waktu lebih lama.",
+                    "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Base, Amount, Negotation, Trust.",
-                    "score": 0
+                    "text": "Melakukan kompromi dengan menawarkan solusi MVP (Minimum Viable Product) yang dapat diimplementasikan dengan cepat sesuai jadwal klien, guna mengamankan kontrak lebih awal dan memenuhi target kinerja kuartal ini sambil tetap menjaga komunikasi terkait penyesuaian anggaran di tahap berikutnya.",
+                    "score": 5
                 }
             ]
         },
         {
             "id": "bd-4",
-            "question": "Klien membandingkan harga jasamu dengan kompetitor yang jauh lebih murah dan meminta diskon 50%. Sikap negosiasi Business Development yang kuat?",
+            "question": "Anda adalah Lead Consultant yang sedang menangani klien korporat besar. Klien menuntut diskon 50% dengan alasan anggaran terbatas, namun mereka juga meminta standar kualitas premium yang sama. Jika Anda menolak, mereka akan beralih ke kompetitor yang lebih murah namun memiliki reputasi kualitas yang meragukan. Bagaimana Anda merespons situasi ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Langsung setuju demi closing target bulanan.",
+                    "text": "Mengusulkan pertemuan tatap muka untuk memahami kendala internal klien secara mendalam, menyelaraskan ekspektasi kedua belah pihak, dan mencari jalan tengah yang menjaga hubungan kemitraan jangka panjang agar tetap harmonis dan saling mendukung.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengalihkan percakapan dari 'Harga' ke 'Value/ROI', menjelaskan mengapa produkmu lebih premium (tidak perang harga).",
-                    "score": 10
+                    "text": "Menyetujui permintaan diskon dengan syarat melakukan 'scope reduction' yang signifikan, yaitu memangkas fitur atau layanan non-esensial agar margin keuntungan tetap terjaga dan proyek tetap berjalan sesuai tenggat waktu yang ketat.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Marah kepada klien.",
-                    "score": 0
+                    "text": "Menolak diskon dengan memberikan edukasi berbasis data mengenai Total Cost of Ownership (TCO) dan risiko kegagalan teknis jika menggunakan vendor murah, serta menawarkan opsi pembayaran bertahap untuk menjaga integritas kualitas dan standar arsitektur solusi Anda.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "bd-5",
-            "question": "Manajemen Data di CRM (Customer Relationship Management) seperti HubSpot/Salesforce berantakan karena tim sales malas input data log telepon. Dampak terburuknya?",
+            "question": "Anda adalah Sales Operations Manager yang menghadapi dilema: Tim Sales menolak menginput log telepon ke CRM karena dianggap menghambat kecepatan closing di akhir kuartal. Di sisi lain, manajemen membutuhkan data tersebut untuk akurasi pipeline dan evaluasi strategi tahun depan. Bagaimana Anda menyikapi situasi ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Kehilangan visibilitas Pipeline, forecast penjualan menjadi buta, dan follow-up sering tumpang tindih.",
-                    "score": 10
+                    "text": "Mengadakan sesi diskusi empat mata dengan setiap anggota tim untuk memahami hambatan teknis mereka, lalu memfasilitasi dialog antara tim sales dan manajemen guna mencari titik temu yang tidak membebani salah satu pihak demi menjaga moral tim.",
+                    "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "UI CRM menjadi lambat.",
-                    "score": 0
+                    "text": "Mengimplementasikan sistem otomasi integrasi telepon ke CRM (CTI) serta melakukan restrukturisasi alur kerja input data agar proses administratif menjadi otomatis dan tidak lagi membebani produktivitas tim sales di lapangan.",
+                    "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Tidak ada dampak yang berarti.",
-                    "score": 0
+                    "text": "Memberikan dispensasi sementara bagi tim sales untuk tidak menginput log telepon hingga target kuartal tercapai, dengan komitmen bahwa mereka akan melakukan pembersihan data secara massal setelah periode sibuk berakhir.",
+                    "score": 5
                 }
             ]
         },
         {
             "id": "bd-6",
-            "question": "Untuk ekspansi pasar baru, perusahaanmu butuh strategi B2B Partnership (Channel Partner). Apa kriteria partner yang ideal?",
+            "question": "Perusahaan Anda berencana melakukan ekspansi pasar ke segmen enterprise. Anda dihadapkan pada dua calon mitra strategis: Mitra A adalah pemain besar dengan basis klien luas namun memiliki sistem legacy yang kaku dan lambat dalam integrasi teknis. Mitra B adalah startup lincah dengan teknologi mutakhir yang sangat kompatibel dengan produk Anda, namun memiliki jangkauan pasar yang masih sangat terbatas dan belum teruji stabilitas operasionalnya. Bagaimana Anda menentukan strategi kemitraan ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Perusahaan kompetitor langsung.",
-                    "score": 0
+                    "text": "Memilih Mitra B karena fokus pada kecepatan penetrasi pasar dan momentum eksekusi yang krusial untuk mengamankan posisi di pasar baru sebelum kompetitor lain masuk, dengan rencana melakukan iterasi produk secara cepat berdasarkan feedback lapangan.",
+                    "score": 5
                 },
                 {
                     "label": "B",
-                    "text": "Perusahaan yang memiliki target audiens sama namun menjual produk komplementer (saling melengkapi).",
-                    "score": 10
+                    "text": "Memilih Mitra A untuk membangun fondasi kemitraan yang inklusif dan kolaboratif, memprioritaskan penyelarasan visi jangka panjang serta menjaga harmoni hubungan antar-stakeholder agar ekosistem bisnis yang terbentuk memiliki dukungan sosial dan kepercayaan yang kuat dari kedua belah pihak.",
+                    "score": 0
                 },
                 {
                     "label": "C",
-                    "text": "Perusahaan yang sedang bangkrut agar mudah diakuisisi.",
-                    "score": 0
+                    "text": "Memilih Mitra A namun dengan persyaratan re-engineering sistem integrasi yang ketat, memprioritaskan stabilitas arsitektur dan skalabilitas jangka panjang meskipun membutuhkan waktu implementasi lebih lama, guna memastikan kualitas layanan tetap terjaga saat volume transaksi meningkat.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "bd-7",
-            "question": "Calon klien menolak (Objection) dengan alasan: 'Kami sudah memakai vendor lama bertahun-tahun'. Teknik handling objection yang tepat?",
+            "question": "Anda adalah konsultan teknis yang sedang memenangkan proyek besar. Klien bersikeras tetap menggunakan vendor lama yang sudah bekerja sama selama 10 tahun, meskipun Anda mendeteksi bahwa arsitektur sistem vendor tersebut sudah usang dan berisiko tinggi terhadap skalabilitas di masa depan. Klien sangat puas dengan stabilitas hubungan mereka dengan vendor tersebut. Bagaimana Anda menyikapi situasi ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menjelek-jelekkan vendor lama tersebut.",
+                    "text": "Mengusulkan pendekatan kolaboratif di mana Anda bertindak sebagai mitra strategis yang menjembatani kebutuhan teknis klien dengan vendor lama, fokus pada penyelarasan visi jangka panjang dan menjaga harmoni hubungan kerja yang sudah terjalin selama satu dekade.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menggali kepuasan mereka (Empathize & Explore) tanpa memaksa pindah, lalu menawarkan audit gratis untuk celah yang mungkin ada.",
-                    "score": 10
+                    "text": "Menawarkan solusi transisi bertahap yang memungkinkan klien tetap mempertahankan vendor lama untuk operasional harian, sementara Anda membangun modul baru yang lebih efisien untuk menangani beban kerja masa depan, guna memastikan target bisnis tetap tercapai tanpa mengganggu stabilitas saat ini.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Menutup telepon segera.",
-                    "score": 0
+                    "text": "Menyajikan laporan audit teknis yang mendalam mengenai risiko teknis dan utang teknis (technical debt) yang tersembunyi, serta mengusulkan perombakan arsitektur secara struktural untuk menjamin keberlangsungan sistem dan efisiensi biaya jangka panjang bagi perusahaan.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "bd-8",
-            "question": "Perbedaan utama Sales Executive dan Business Development (BD) di perusahaan startup teknologi?",
+            "question": "Startup teknologi Anda sedang berada di titik krusial. Tim Sales Executive mendesak untuk segera melakukan ekspansi pasar ke segmen baru guna mencapai target kuartal yang agresif, sementara tim Business Development (BD) menyarankan untuk menunda ekspansi tersebut demi mematangkan kemitraan strategis jangka panjang yang akan mengunci ekosistem pasar secara lebih permanen. Sebagai pemimpin, pendekatan mana yang Anda ambil untuk menyeimbangkan kebutuhan perusahaan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "BD membagikan brosur di jalan.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Sales fokus transaksi/closing harian; BD fokus mencari peluang/saluran baru, kemitraan strategis, dan strategi pasar jangka panjang.",
+                    "text": "Mengutamakan inisiatif BD untuk membangun fondasi kemitraan strategis yang kuat, meskipun harus mengorbankan pencapaian target kuartal saat ini demi keberlanjutan arsitektur bisnis dan dominasi pasar yang lebih kokoh di masa depan.",
                     "score": 10
                 },
                 {
-                    "label": "C",
-                    "text": "Sales gajinya lebih besar.",
+                    "label": "B",
+                    "text": "Memprioritaskan sinkronisasi antara tim Sales dan BD dengan memfasilitasi diskusi mendalam untuk menyelaraskan ekspektasi, memastikan setiap pihak merasa didengar, dan mencari jalan tengah yang menjaga harmoni serta komitmen kolektif seluruh tim.",
                     "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Mendukung percepatan ekspansi pasar yang diusulkan tim Sales untuk mengamankan arus kas dan momentum pertumbuhan jangka pendek, dengan keyakinan bahwa pencapaian target saat ini adalah modal utama untuk mendanai strategi pengembangan di masa depan.",
+                    "score": 5
                 }
             ]
         },
         {
             "id": "bd-9",
-            "question": "Kamu menghubungi calon klien via LinkedIn (Social Selling). Kesalahan fatal di pesan pertama (InMail)?",
+            "question": "Anda adalah seorang Business Development Manager yang sedang mencoba menembus akun klien strategis berskala besar melalui LinkedIn. Anda memiliki waktu terbatas dan harus memilih strategi pendekatan pertama (InMail) yang paling efektif untuk membuka peluang kerja sama. Strategi mana yang akan Anda ambil dalam menghadapi ketidakpastian respons dari calon klien tersebut?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Langsung jualan keras (Hard-selling pitch) dan melampirkan proposal panjang di pesan pembuka.",
-                    "score": 10
+                    "text": "Mengirimkan pesan singkat yang memuji pencapaian terbaru klien dan menanyakan kesediaan mereka untuk berdiskusi santai guna menyelaraskan visi, dengan tujuan membangun rapport dan kepercayaan jangka panjang sebelum membahas detail teknis.",
+                    "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menghubungkan konteks dengan postingan terakhir klien.",
-                    "score": 0
+                    "text": "Mengirimkan pesan yang berisi ringkasan solusi teknis yang telah terbukti menyelesaikan masalah serupa di industri mereka, disertai proposal singkat agar klien segera mendapatkan gambaran nilai konkret dan mempercepat pengambilan keputusan.",
+                    "score": 5
                 },
                 {
                     "label": "C",
-                    "text": "Bertanya tentang tantangan industri saat ini.",
-                    "score": 0
+                    "text": "Mengirimkan pesan yang berfokus pada audit mendalam terhadap tantangan struktural yang kemungkinan besar sedang dihadapi perusahaan klien saat ini, dengan menawarkan kerangka kerja strategis untuk perbaikan sistem jangka panjang tanpa langsung menawarkan produk.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "bd-10",
-            "question": "Seorang prospek berada di stage 'Nurturing' di dalam pipeline selama 6 bulan tanpa keputusan. Apa yang biasanya BD lakukan?",
+            "question": "Anda menangani prospek strategis yang telah berada di tahap 'Nurturing' selama enam bulan tanpa kemajuan signifikan. Di sisi lain, tim manajemen menuntut pencapaian target kuartal yang agresif, sementara prospek tersebut secara personal sangat menghargai hubungan baik yang telah terbangun namun belum memiliki urgensi internal untuk melakukan eksekusi. Sebagai Business Development, langkah strategis apa yang Anda ambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menelepon setiap hari untuk memaksa closing.",
+                    "text": "Menginisiasi sesi diskusi mendalam untuk memetakan kembali tantangan internal klien secara kolaboratif, guna memastikan solusi yang ditawarkan benar-benar selaras dengan visi jangka panjang mereka, meskipun hal ini berisiko memperpanjang siklus penjualan lebih jauh.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Memberikan konten edukasi (Case Study/Webinar) secara berkala (Drip Campaign) sampai trigger pembelian muncul.",
+                    "text": "Melakukan restrukturisasi pada alur komunikasi dengan mengintegrasikan sistem drip campaign berbasis data perilaku, guna mengidentifikasi titik krusial yang dapat memicu keputusan pembelian melalui pendekatan yang lebih terukur dan efisien secara operasional.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menghapus nomornya dari kontak.",
-                    "score": 0
+                    "text": "Menawarkan insentif khusus atau paket solusi yang disederhanakan dengan batasan waktu tertentu untuk memberikan urgensi bagi klien agar segera melakukan konversi, demi mengamankan target pencapaian tim di akhir kuartal ini.",
+                    "score": 5
                 }
             ]
         }
