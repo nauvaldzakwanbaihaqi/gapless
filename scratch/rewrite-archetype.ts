@@ -19,19 +19,19 @@ async function run() {
         console.log(`Processing Archetype Question ${i+1}/${ASSESSMENT_QUESTIONS.length}`);
         
         const prompt = `Kamu adalah psikolog karier dan psychometrician. Diberikan soal tes minat bakat (archetype assessment).
-Pertanyaan lama: ${q.question}
-Opsi Thinker: ${q.options[0].text}
-Opsi Creator: ${q.options[1].text}
-Opsi Connector: ${q.options[2].text}
-Opsi Builder: ${q.options[3].text}
+Dimensi atau Topik: ${q.dimension}
+Opsi Thinker sebelumnya: ${q.options[0].text}
+Opsi Creator sebelumnya: ${q.options[1].text}
+Opsi Connector sebelumnya: ${q.options[2].text}
+Opsi Builder sebelumnya: ${q.options[3].text}
 
 Tugasmu:
-1. PENTING: Skenario/pertanyaan BARU wajib menggunakan INTI TOPIK/PERMASALAHAN dari PERTANYAAN LAMA. Jangan membuat pertanyaan yang melenceng dari topik aslinya.
+1. Buat pertanyaan/skenario BARU yang spesifik dan unik, BERDASARKAN topik "${q.dimension}". Jangan terpaku pada pertanyaan sebelumnya. Skenario harus sangat bervariasi.
 2. Gunakan bahasa Indonesia sehari-hari yang sangat mudah dipahami (casual tapi profesional). Hindari istilah teknis atau abstrak.
-3. Pertanyaan (skenario) harus dibuat sangat konkret, relatable, dan maksimal 1-2 kalimat pendek. (Contoh gaya bahasa saja: "Ketika menghadapi project baru yang belum jelas arahnya..." -> JANGAN GUNAKAN TOPIK INI KECUALI PERTANYAAN LAMA MEMANG TENTANG INI).
-3. Buat ulang 4 opsi jawaban tersebut tanpa menggunakan kata kunci eksplisit (seperti logis, data, kreatif, desain, koding, atau sosial). Fokus pada deskripsi perilaku konkret yang implisit.
-4. HARUS ada SATU opsi "jebakan sosial" (terdengar paling socially desirable / bijak secara umum) namun tetap selaras dengan trait-nya.
-5. Panjang kalimat dari ke-4 opsi HARUS seragam dan pendek (maksimal 1-2 kalimat) agar tidak ada opsi yang terlihat menonjol formatnya.
+3. Pertanyaan (skenario) harus dibuat sangat konkret, relatable di dunia kerja/kehidupan, dan maksimal 1-2 kalimat pendek.
+4. Buat ulang 4 opsi jawaban tersebut tanpa menggunakan kata kunci eksplisit (seperti logis, data, kreatif, desain, koding, atau sosial). Fokus pada deskripsi perilaku konkret yang implisit.
+5. HARUS ada SATU opsi "jebakan sosial" (terdengar paling socially desirable / bijak secara umum) namun tetap selaras dengan trait-nya.
+6. Panjang kalimat dari ke-4 opsi HARUS seragam dan pendek (maksimal 1-2 kalimat) agar tidak ada opsi yang terlihat menonjol formatnya.
 
 OUTPUT FORMAT JSON:
 {

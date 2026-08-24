@@ -330,7 +330,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
   const fetchGapInsight = useCallback(async () => {
     if (!selectedCareer || !skillGapData.length) return;
 
-    const currentGapStr = JSON.stringify(skillGapData.map(g => ({n: g.name, u: g.userLevel, r: g.required})));
+    const currentGapStr = JSON.stringify(skillGapData.map(g => ({n: g.name, u: g.current, r: g.required})));
 
     if (
       gapInsight || 
