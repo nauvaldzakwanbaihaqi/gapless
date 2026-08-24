@@ -26,8 +26,9 @@ Opsi Connector: ${q.options[2].text}
 Opsi Builder: ${q.options[3].text}
 
 Tugasmu:
-1. Gunakan bahasa Indonesia sehari-hari yang sangat mudah dipahami (casual tapi profesional). Hindari istilah teknis atau abstrak.
-2. Pertanyaan (skenario) harus dibuat sangat konkret, relatable, dan maksimal 1-2 kalimat pendek. (Misal: "Ketika menghadapi project baru yang belum jelas arahnya...")
+1. PENTING: Skenario/pertanyaan BARU wajib menggunakan INTI TOPIK/PERMASALAHAN dari PERTANYAAN LAMA. Jangan membuat pertanyaan yang melenceng dari topik aslinya.
+2. Gunakan bahasa Indonesia sehari-hari yang sangat mudah dipahami (casual tapi profesional). Hindari istilah teknis atau abstrak.
+3. Pertanyaan (skenario) harus dibuat sangat konkret, relatable, dan maksimal 1-2 kalimat pendek. (Contoh gaya bahasa saja: "Ketika menghadapi project baru yang belum jelas arahnya..." -> JANGAN GUNAKAN TOPIK INI KECUALI PERTANYAAN LAMA MEMANG TENTANG INI).
 3. Buat ulang 4 opsi jawaban tersebut tanpa menggunakan kata kunci eksplisit (seperti logis, data, kreatif, desain, koding, atau sosial). Fokus pada deskripsi perilaku konkret yang implisit.
 4. HARUS ada SATU opsi "jebakan sosial" (terdengar paling socially desirable / bijak secara umum) namun tetap selaras dengan trait-nya.
 5. Panjang kalimat dari ke-4 opsi HARUS seragam dan pendek (maksimal 1-2 kalimat) agar tidak ada opsi yang terlihat menonjol formatnya.

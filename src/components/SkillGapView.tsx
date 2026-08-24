@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Layers, ChevronRight, ChevronLeft, Home } from 'lucide-react';
+import { Layers, ChevronRight, ChevronLeft, Home, CheckCircle2, AlertTriangle, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import {
   RadarChart,
@@ -44,6 +44,9 @@ export function SkillGapView() {
     allSkillsRated,
     setView,
     dominantTrait,
+    gapInsight,
+    isLoadingGapAi,
+    fetchGapInsight,
   } = useGaplessContext();
 
   const [step, setStep] = useState(1);
@@ -59,6 +62,12 @@ export function SkillGapView() {
       return () => clearTimeout(t);
     }
   }, [step]);
+
+  useEffect(() => {
+    if (step === 2 && !gapInsight && !isLoadingGapAi) {
+      fetchGapInsight();
+    }
+  }, [step, gapInsight, isLoadingGapAi, fetchGapInsight]);
 
   if (!selectedCareer) return null;
 
@@ -359,6 +368,61 @@ export function SkillGapView() {
                       Isi solid = Level kamu saat ini
                     </div>
                   </div>
+                </div>
+
+                {/* AI Gap Insight */}
+                <div className="mt-6 w-full">
+                  {isLoadingGapAi ? (
+                    <div className="glass-card p-6 flex flex-col items-center justify-center animate-pulse gap-3">
+                      <Sparkles size={24} className="text-gray-400 animate-spin-slow" />
+                      <p className="text-sm text-gray-500 font-medium">AI sedang menganalisis kesenjangan skill-mu...</p>
+                    </div>
+                  ) : gapInsight ? (
+                    <div className="glass-card p-6">
+                      <div className="flex items-center gap-2 mb-4">
+                        <Sparkles size={20} style={{ color: traitMeta.color }} />
+                        <h3 className="font-bold text-slate-900">Analisis Kesenjangan (AI)</h3>
+                      </div>
+                      
+                      <div className="text-xs text-gray-500 mb-6 pb-4 border-b border-gray-100 flex items-start gap-2">
+                         <div className="mt-0.5">ℹ️</div>
+                         <div>{gapInsight.basis_penilaian}</div>
+                      </div>
+
+                      <div className="grid sm:grid-cols-2 gap-6 mb-6">
+                        <div>
+                          <div className="flex items-center gap-2 mb-3 text-emerald-600">
+                            <CheckCircle2 size={18} />
+                            <h4 className="font-semibold text-sm">Kesesuaian (Sudah Baik)</h4>
+                          </div>
+                          <ul className="space-y-2">
+                            {gapInsight.kesesuaian.map((item, i) => (
+                              <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
+                                <span className="text-emerald-500 mt-1">•</span> {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 mb-3 text-amber-600">
+                            <AlertTriangle size={18} />
+                            <h4 className="font-semibold text-sm">Perlu Ditingkatkan (Gap)</h4>
+                          </div>
+                          <ul className="space-y-2">
+                            {gapInsight.kekurangan.map((item, i) => (
+                              <li key={i} className="text-sm text-gray-600 flex items-start gap-2">
+                                <span className="text-amber-500 mt-1">•</span> {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-sm font-medium text-slate-700 italic text-center">
+                        "{gapInsight.catatan_singkat}"
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
 
                 {/* Navigation Step 2 */}

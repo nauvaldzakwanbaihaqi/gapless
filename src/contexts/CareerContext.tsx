@@ -56,6 +56,14 @@ export interface AiInsight {
   ai_engine_used?: string;
 }
 
+export interface GapInsight {
+  basis_penilaian: string;
+  kesesuaian: string[];
+  kekurangan: string[];
+  catatan_singkat: string;
+  ai_engine_used?: string;
+}
+
 // ──────────────────────────────────────────────
 // Skill-gap enrichment types
 // ──────────────────────────────────────────────
@@ -99,6 +107,12 @@ export interface GaplessContextValue {
   isLoadingAi: boolean;
   aiError: string | null;
   fetchAiInsight: () => Promise<void>;
+
+  // ── Gap Insight ──
+  gapInsight: GapInsight | null;
+  isLoadingGapAi: boolean;
+  gapAiError: string | null;
+  fetchGapInsight: () => Promise<void>;
 
   // ── Career selection (Assessment flow) ──
   selectedCareer: CareerProfile | null;
@@ -168,9 +182,16 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
   const [isLoadingAi, setIsLoadingAi] = useState(false);
   const [aiError, setAiError] = useState<string | null>(null);
 
+  // ── Gap Insight ──
+  const [gapInsight, setGapInsight] = useState<GapInsight | null>(null);
+  const [isLoadingGapAi, setIsLoadingGapAi] = useState(false);
+  const [gapAiError, setGapAiError] = useState<string | null>(null);
+
   // ── Locks for Anti-Spam ──
   const fetchLock = useRef(false);
+  const fetchGapLock = useRef(false);
   const lastFetchedAnswers = useRef<string>('');
+  const lastFetchedGap = useRef<string>('');
 
   // ── Derived: trait scores ──
   const traitScores = useMemo(() => computeTraitScores(answers), [answers]);
@@ -306,6 +327,57 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
     }
   }, [answers, traitScores, dominantTrait, aiInsight]); 
 
+  const fetchGapInsight = useCallback(async () => {
+    if (!selectedCareer || !skillGapData.length) return;
+
+    const currentGapStr = JSON.stringify(skillGapData.map(g => ({n: g.name, u: g.userLevel, r: g.required})));
+
+    if (
+      gapInsight || 
+      fetchGapLock.current || 
+      lastFetchedGap.current === currentGapStr
+    ) {
+      return;
+    }
+
+    fetchGapLock.current = true;
+    lastFetchedGap.current = currentGapStr;
+    
+    setIsLoadingGapAi(true);
+    setGapAiError(null);
+
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 60_000);
+
+      const res = await fetch('/api/analyze-gap?ai=gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          skillGapData,
+          roleName: selectedCareer.title,
+        }),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeout);
+
+      if (!res.ok) throw new Error('Analisis Gap gagal');
+
+      const data: GapInsight = await res.json();
+      setGapInsight(data);
+    } catch (err) {
+      if (err instanceof DOMException && err.name === 'AbortError') {
+        setGapAiError('Analisis Gap habis waktu');
+      } else {
+        setGapAiError(err instanceof Error ? err.message : 'Error tidak diketahui');
+      }
+    } finally {
+      setIsLoadingGapAi(false);
+      fetchGapLock.current = false;
+    }
+  }, [skillGapData, selectedCareer, gapInsight]);
+
   const reset = useCallback(() => {
     setCurrentView('assessment');
     setAnswers({});
@@ -315,8 +387,13 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
     setAiInsight(null);
     setIsLoadingAi(false);
     setAiError(null);
+    setGapInsight(null);
+    setIsLoadingGapAi(false);
+    setGapAiError(null);
     lastFetchedAnswers.current = '';
+    lastFetchedGap.current = '';
     fetchLock.current = false;
+    fetchGapLock.current = false;
   }, []);
 
   // ── Context value ──
@@ -338,6 +415,10 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
       isLoadingAi,
       aiError,
       fetchAiInsight,
+      gapInsight,
+      isLoadingGapAi,
+      gapAiError,
+      fetchGapInsight,
       selectedCareer,
       selectCareer,
       selectedRole,
@@ -364,6 +445,10 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
       isLoadingAi,
       aiError,
       fetchAiInsight,
+      gapInsight,
+      isLoadingGapAi,
+      gapAiError,
+      fetchGapInsight,
       selectedCareer,
       selectCareer,
       selectedRole,
