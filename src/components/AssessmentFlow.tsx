@@ -158,8 +158,18 @@ export function AssessmentFlow() {
           <div className="progress-fill" style={{ width: `${progress}%` }} />
         </div>
 
-
-
+        {/* Dimension Badge */}
+        <div className="mb-4">
+          <span
+            className="text-[11px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider"
+            style={{
+              background: 'rgba(37,99,235,0.08)',
+              color: '#3b82f6',
+            }}
+          >
+            {question.dimension}
+          </span>
+        </div>
         {/* Question */}
         <AnimatePresence mode="wait">
           <motion.div
