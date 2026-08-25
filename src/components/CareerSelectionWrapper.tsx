@@ -30,7 +30,7 @@ export function CareerSelectionWrapper({ roles }: WrapperProps) {
             {/* Ambient Background Glows */}
             <div className="pointer-events-none fixed inset-0 overflow-hidden">
                 <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full blur-3xl opacity-50" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.1), transparent 70%)' }} />
-                <div className="absolute top-1/3 -right-40 w-[500px] h-[500px] rounded-full blur-3xl opacity-50" style={{ background: 'radial-gradient(circle, rgba(34,211,238,0.1), transparent 70%)' }} />
+                <div className="absolute top-1/3 -right-40 w-125 h-125 rounded-full blur-3xl opacity-50" style={{ background: 'radial-gradient(circle, rgba(34,211,238,0.1), transparent 70%)' }} />
             </div>
 
             <div className="relative z-10 max-w-6xl mx-auto">

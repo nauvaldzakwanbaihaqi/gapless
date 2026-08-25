@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion } from 'motion/react';
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Tooltip, Radar, Legend } from 'recharts';
 import { Sparkles, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Home } from 'lucide-react';
 import { GapInsight } from '@/contexts/CareerContext';
