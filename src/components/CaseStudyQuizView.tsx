@@ -49,7 +49,7 @@ export function CaseStudyQuizView() {
 
     const [step, setStep] = useState(1);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [score, setScore] = useState(0);
+    const [questionScores, setQuestionScores] = useState<number[]>([]);
     const [selectedOptionIdx, setSelectedOptionIdx] = useState<number | null>(null);
     const [chartReady, setChartReady] = useState(false);
 
@@ -99,28 +99,39 @@ export function CaseStudyQuizView() {
     const handleConfirmNext = () => {
         if (selectedOptionIdx === null || !currentQuestion) return;
         const optionScore = currentQuestion.options[selectedOptionIdx].score;
-        const newScore = score + optionScore;
+        const newScores = [...questionScores, optionScore];
         
         if (currentIndex < questions.length - 1) {
-            setScore(newScore);
+            setQuestionScores(newScores);
             setCurrentIndex(currentIndex + 1);
-            setSelectedOptionIdx(null); // Reset selection
+            setSelectedOptionIdx(null);
         } else {
-            // Finish Quiz
-            // Convert score to skill level (0-3)
-            // Total possible is usually 70 (7 questions * 10 max score)
-            let finalLevel = 0;
-            if (newScore > 50) {
-                finalLevel = 3; // Lanjutan
-            } else if (newScore > 30) {
-                finalLevel = 2; // Menengah
-            } else if (newScore > 0) {
-                finalLevel = 1; // Dasar
-            }
-            
-            // Assign this skill level to all skills in the selected career
             if (selectedCareer) {
-                selectedCareer.skills.forEach(skill => {
+                const totalSkills = selectedCareer.skills.length;
+                const totalQs = questions.length;
+                
+                selectedCareer.skills.forEach((skill, skillIdx) => {
+                    let skillPoints = 0;
+                    let maxSkillPoints = 0;
+                    
+                    for (let qIdx = 0; qIdx < totalQs; qIdx++) {
+                         if (qIdx % totalSkills === skillIdx) {
+                             skillPoints += newScores[qIdx];
+                             maxSkillPoints += 10; // assuming each Q is max 10
+                         }
+                    }
+                    
+                    const pct = maxSkillPoints > 0 ? skillPoints / maxSkillPoints : 0;
+                    
+                    let finalLevel = 1;
+                    if (pct >= 0.8) {
+                        finalLevel = 3; // Lanjutan
+                    } else if (pct >= 0.4) {
+                        finalLevel = 2; // Menengah
+                    } else {
+                        finalLevel = 1; // Dasar
+                    }
+                    
                     setSkillRating(skill.name, finalLevel);
                 });
             }
