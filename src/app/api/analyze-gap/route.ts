@@ -12,7 +12,7 @@ const google = createGoogleGenerativeAI({ apiKey: process.env.GEMINI_API_KEY || 
 
 // 2. Definisi Skema Zod
 const GapInsightSchema = z.object({
-  basis_penilaian: z.string().describe("Sumber data atau dasar evaluasi skill ini. Harus persis atau setara dengan kalimat: 'Berdasarkan riset kebutuhan skill industri terkini untuk role ini'"),
+  basis_penilaian: z.string().describe("Sumber data atau dasar evaluasi skill ini. Harus persis atau setara dengan kalimat: 'Berdasarkan profil role yang kamu pilih'"),
   kesesuaian: z.array(z.string()).describe("Daftar 2-4 poin ringkas skill yang sudah match atau melebihi ekspektasi"),
   kekurangan: z.array(z.string()).describe("Daftar 2-4 poin ringkas skill yang masih kurang dan menjadi area pengembangan"),
   catatan_singkat: z.string().describe("Satu kalimat motivasi/catatan ringkas yang personal berdasarkan hasil gap"),
@@ -43,7 +43,7 @@ export async function POST(request: Request) {
 
     const systemPrompt = `You are an expert career counselor. Analyze the user's skill levels against the required skills for the role of "${roleName}".
 IMPORTANT: Write all content in Indonesian (Bahasa Indonesia).
-The data is based on current industry standards (riset kebutuhan skill industri terkini).
+The data is based on the selected role profile (profil role yang kamu pilih).
 Create a balanced and highly personalized skill gap reasoning based exactly on the provided gap summary.
 If a user is lacking in some skills, explicitly connect that to the idea that these can be developed through a structured learning roadmap.`;
 

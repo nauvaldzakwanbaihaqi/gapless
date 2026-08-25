@@ -111,7 +111,7 @@ export function CareerSelectionWrapper({ roles }: WrapperProps) {
                                 </div>
                                 <h3 className="relative text-xl font-bold text-slate-900 mb-4 leading-tight group-hover:text-blue-700 transition-colors">{role.roleName}</h3>
                                 <div className="relative inline-flex items-center text-sm font-bold text-blue-600 bg-blue-50 px-4 py-2 rounded-full group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                                    MULAI MODUL <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
+                                    MULAI ASSESMEN <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
                                 </div>
                             </button>
                         );

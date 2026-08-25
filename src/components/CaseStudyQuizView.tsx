@@ -1,16 +1,27 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight, Layers } from 'lucide-react';
 import { useGaplessContext } from '@/contexts/CareerContext';
 import { quizBank } from '@/data/quizBank';
+import { AnalysisResultBlock } from './AnalysisResultBlock';
+import { TRAIT_META } from '@/data/gaplessData';
 
 // Simple slugify to match DB roleName to quizBank keys (e.g. 'Software Engineer' -> 'software-engineer')
 const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
 export function CaseStudyQuizView() {
-    const { selectedRole, selectedCareer, setSkillRating, setView } = useGaplessContext();
+    const { 
+        selectedRole, 
+        selectedCareer, 
+        setSkillRating, 
+        setView,
+        skillGapData,
+        fetchGapInsight,
+        isLoadingGapAi,
+        gapInsight
+    } = useGaplessContext();
     
     // Map DB role slugs to quizBank keys if they don't match exactly
     const ROLE_ALIASES: Record<string, string> = {
@@ -36,9 +47,24 @@ export function CaseStudyQuizView() {
     
     let questions = quizBank[roleSlug] || [];
 
+    const [step, setStep] = useState(1);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [score, setScore] = useState(0);
     const [selectedOptionIdx, setSelectedOptionIdx] = useState<number | null>(null);
+    const [chartReady, setChartReady] = useState(false);
+
+    useEffect(() => {
+      if (step === 2) {
+        const t = setTimeout(() => setChartReady(true), 300);
+        return () => clearTimeout(t);
+      }
+    }, [step]);
+
+    useEffect(() => {
+      if (step === 2 && !gapInsight && !isLoadingGapAi) {
+        fetchGapInsight();
+      }
+    }, [step, gapInsight, isLoadingGapAi, fetchGapInsight]);
 
     // If no questions are found for this role, we can just skip or show a placeholder.
     if (!questions || questions.length === 0) {
@@ -99,89 +125,151 @@ export function CaseStudyQuizView() {
                 });
             }
             
-            // Proceed to Roadmap
-            setView('roadmap');
+            setStep(2);
         }
     };
 
+    const radarData = skillGapData.map((s) => ({
+      name: s.name.split(' ').slice(0, 2).join(' '),
+      required: s.required,
+      current: s.current,
+    }));
+
+    const traitMeta = selectedCareer ? TRAIT_META[selectedCareer.trait] : { color: '#3b82f6' };
     const progress = ((currentIndex) / questions.length) * 100;
 
     return (
         <div className="min-h-screen bg-space flex flex-col items-center justify-center px-4 sm:px-6 py-12">
-            <div className="w-full max-w-2xl">
-                {/* Header */}
-                <div className="text-center mb-8">
-                    <h2 className="text-3xl font-bold text-slate-900 mb-2">Case Study: {selectedRole?.roleName}</h2>
-                    <p className="text-gray-500">Pertanyaan {currentIndex + 1} dari {questions.length}</p>
-                </div>
-
-                {/* Progress bar */}
-                <div className="w-full bg-gray-200 h-2 rounded-full mb-10 overflow-hidden">
-                    <motion.div 
-                        className="h-full rounded-full"
-                        style={{ background: 'linear-gradient(90deg, #1d4ed8, #3b82f6, #22d3ee)' }}
-                        initial={{ width: 0 }}
-                        animate={{ width: `${progress}%` }}
-                        transition={{ duration: 0.3 }}
-                    />
-                </div>
-
-                {/* Question Card */}
+            <div className="w-full max-w-4xl mx-auto flex flex-col items-center">
+                
                 <AnimatePresence mode="wait">
+                  {step === 1 && (
                     <motion.div
-                        key={currentIndex}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        transition={{ duration: 0.2 }}
-                        className="glass-card p-6 sm:p-8"
+                      key="quiz"
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -30 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-full max-w-2xl"
                     >
-                        <h3 className="text-xl sm:text-2xl font-semibold text-slate-900 mb-8 leading-relaxed">
-                            {currentQuestion.question}
-                        </h3>
-
-                        <div className="space-y-4">
-                            {currentQuestion.options.map((option, idx) => {
-                                const isSelected = selectedOptionIdx === idx;
-                                return (
-                                <button
-                                    key={idx}
-                                    onClick={() => handleSelectOption(idx)}
-                                    className={`w-full text-left p-4 rounded-xl border transition-all group flex items-start gap-4 ${
-                                        isSelected
-                                            ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-200'
-                                            : 'border-gray-200 hover:border-blue-500 hover:bg-blue-50'
-                                    }`}
-                                >
-                                    <div className={`w-8 h-8 rounded-full border flex items-center justify-center text-sm font-bold shrink-0 transition-all ${
-                                        isSelected
-                                            ? 'bg-blue-600 text-white border-blue-600'
-                                            : 'border-gray-300 text-gray-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600'
-                                    }`}>
-                                        {option.label}
-                                    </div>
-                                    <span className={`mt-1 transition-colors ${
-                                        isSelected ? 'text-slate-900 font-medium' : 'text-gray-600 group-hover:text-slate-900'
-                                    }`}>
-                                        {option.text}
-                                    </span>
-                                </button>
-                                );
-                            })}
+                        <div className="text-center mb-8">
+                            <h2 className="text-3xl font-bold text-slate-900 mb-2">Case Study: {selectedRole?.roleName}</h2>
+                            <p className="text-gray-500">Pertanyaan {currentIndex + 1} dari {questions.length}</p>
                         </div>
 
-                        {/* Tombol Selanjutnya */}
-                        <div className="mt-8 flex justify-end">
-                            <button
-                                onClick={handleConfirmNext}
-                                disabled={selectedOptionIdx === null}
-                                className="btn-primary flex items-center gap-2 text-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                        <div className="w-full bg-gray-200 h-2 rounded-full mb-10 overflow-hidden">
+                            <motion.div 
+                                className="h-full rounded-full"
+                                style={{ background: 'linear-gradient(90deg, #1d4ed8, #3b82f6, #22d3ee)' }}
+                                initial={{ width: 0 }}
+                                animate={{ width: `${progress}%` }}
+                                transition={{ duration: 0.3 }}
+                            />
+                        </div>
+
+                        <AnimatePresence mode="wait">
+                            <motion.div
+                                key={currentIndex}
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                transition={{ duration: 0.2 }}
+                                className="glass-card p-6 sm:p-8"
                             >
-                                {currentIndex === questions.length - 1 ? 'Selesai' : 'Selanjutnya'}
-                                <ChevronRight size={16} />
-                            </button>
-                        </div>
+                                <h3 className="text-xl sm:text-2xl font-semibold text-slate-900 mb-8 leading-relaxed">
+                                    {currentQuestion.question}
+                                </h3>
+
+                                <div className="space-y-4">
+                                    {currentQuestion.options.map((option, idx) => {
+                                        const isSelected = selectedOptionIdx === idx;
+                                        return (
+                                        <button
+                                            key={idx}
+                                            onClick={() => handleSelectOption(idx)}
+                                            className={`w-full text-left p-4 rounded-xl border transition-all group flex items-start gap-4 ${
+                                                isSelected
+                                                    ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-200'
+                                                    : 'border-gray-200 hover:border-blue-500 hover:bg-blue-50'
+                                            }`}
+                                        >
+                                            <div className={`w-8 h-8 rounded-full border flex items-center justify-center text-sm font-bold shrink-0 transition-all ${
+                                                isSelected
+                                                    ? 'bg-blue-600 text-white border-blue-600'
+                                                    : 'border-gray-300 text-gray-400 group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600'
+                                            }`}>
+                                                {option.label}
+                                            </div>
+                                            <span className={`mt-1 transition-colors ${
+                                                isSelected ? 'text-slate-900 font-medium' : 'text-gray-600 group-hover:text-slate-900'
+                                            }`}>
+                                                {option.text}
+                                            </span>
+                                        </button>
+                                        );
+                                    })}
+                                </div>
+
+                                <div className="mt-8 flex justify-end">
+                                    <button
+                                        onClick={handleConfirmNext}
+                                        disabled={selectedOptionIdx === null}
+                                        className="btn-primary flex items-center gap-2 text-sm disabled:opacity-40 disabled:cursor-not-allowed transition-all"
+                                    >
+                                        {currentIndex === questions.length - 1 ? 'Lihat Hasil' : 'Selanjutnya'}
+                                        <ChevronRight size={16} />
+                                    </button>
+                                </div>
+                            </motion.div>
+                        </AnimatePresence>
                     </motion.div>
+                  )}
+
+                  {step === 2 && (
+                    <motion.div
+                      key="results"
+                      initial={{ opacity: 0, x: 30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 30 }}
+                      transition={{ duration: 0.3 }}
+                      className="w-full"
+                    >
+                        <div className="text-center mb-10">
+                          <div
+                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
+                            style={{
+                              background: `${traitMeta.color}10`,
+                              border: `1px solid ${traitMeta.color}25`,
+                            }}
+                          >
+                            <Layers size={14} style={{ color: traitMeta.color }} />
+                            <span className="text-xs font-semibold" style={{ color: traitMeta.color }}>
+                              Analisis Kesenjangan Skill
+                            </span>
+                          </div>
+                          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
+                            {selectedCareer?.icon} {selectedCareer?.title}
+                          </h1>
+                          <p className="text-gray-500 text-base max-w-lg mx-auto">
+                            Hasil analisis kemampuanmu saat ini dibandingkan dengan kebutuhan industri.
+                          </p>
+                        </div>
+                        <AnalysisResultBlock
+                            radarData={radarData}
+                            traitMetaColor={traitMeta.color}
+                            chartReady={chartReady}
+                            isLoadingGapAi={isLoadingGapAi}
+                            gapInsight={gapInsight}
+                            onNext={() => setView('roadmap')}
+                            onRetry={() => {
+                                setStep(1);
+                                setCurrentIndex(0);
+                                setScore(0);
+                            }}
+                            showBackHome={false}
+                        />
+                    </motion.div>
+                  )}
                 </AnimatePresence>
             </div>
         </div>
