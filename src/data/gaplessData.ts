@@ -62,407 +62,167 @@ export interface AssessmentQuestion {
 export const ASSESSMENT_QUESTIONS: AssessmentQuestion[] = [
   {
     id: 1,
-    question: "Dalam menghadapi sebuah tantangan atau proyek baru, aktivitas manakah yang paling menarik untuk kamu kerjakan?",
-    dimension: 'Pemecahan Masalah',
+    question: "Kalau kamu dikasih waktu luang 3 jam tanpa tugas kuliah, kamu paling kemungkinan bakal...",
+    dimension: "Interest",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data rumit untuk menemukan pola dan solusi logis yang akurat.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Menciptakan konsep orisinal yang unik dengan pendekatan estetika yang baru.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Mengoordinasikan orang lain untuk mencapai tujuan bersama melalui diskusi aktif.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Menyusun langkah kerja yang terstruktur dan praktis untuk hasil yang nyata.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Baca artikel/riset tentang topik yang lagi kamu penasarin", trait: "The Thinker" },
+      { label: "B", text: "Nongkrong, chat, atau ngobrol sama temen soal ide-ide baru", trait: "The Connector" },
+      { label: "C", text: "Ngulik desain, bikin konten, atau coba tools kreatif baru", trait: "The Creator" },
+      { label: "D", text: "Beresin planner, rapiin file, atau ngerjain checklist yang tertunda", trait: "The Builder" }
     ]
   },
   {
     id: 2,
-    question: "Dalam sebuah proyek tim, aktivitas manakah yang paling membuatmu merasa bersemangat dan antusias?",
-    dimension: 'Dinamika Tim',
+    question: "Dalam kerja kelompok, kamu biasanya paling nyaman ambil peran sebagai...",
+    dimension: "Social Role Preference",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data rumit dan mencari solusi logis berdasarkan riset mendalam.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Merancang konsep visual yang inovatif dan mengekspresikan ide secara kreatif.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Membangun komunikasi yang harmonis serta memotivasi anggota tim untuk bekerja sama.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Menyusun alur kerja yang sistematis dan memastikan setiap tugas selesai tepat waktu.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Orang yang jadi penghubung, presentasi, atau negosiasi ke pihak luar", trait: "The Connector" },
+      { label: "B", text: "Orang yang mikirin ide \"out of the box\" atau visual project", trait: "The Creator" },
+      { label: "C", text: "Orang yang riset data/referensi buat mendukung keputusan tim", trait: "The Thinker" },
+      { label: "D", text: "Orang yang bikin timeline, bagi tugas, dan mastiin semua on-track", trait: "The Builder" }
     ]
   },
   {
     id: 3,
-    question: "Manakah dari aktivitas berikut yang paling membuatmu merasa bersemangat dan antusias saat melakukannya?",
-    dimension: 'Gaya Belajar',
+    question: "Lingkungan kerja \"dream job\" kamu itu yang kayak gimana?",
+    dimension: "Environment Preference",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data kompleks untuk menemukan pola atau jawaban logis di balik suatu fenomena.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Mengekspresikan ide orisinal melalui karya visual, tulisan, atau bentuk seni yang unik.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Berinteraksi, berdiskusi, dan membantu orang lain untuk mencapai tujuan bersama yang bermakna.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Menyusun sistem kerja yang teratur, merakit peralatan, atau menyelesaikan tugas praktis secara efisien.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Terstruktur, ada SOP jelas, target terukur", trait: "The Builder" },
+      { label: "B", text: "Dinamis, banyak interaksi sama orang tiap hari", trait: "The Connector" },
+      { label: "C", text: "Fleksibel, banyak ruang eksplorasi, gak monoton", trait: "The Creator" },
+      { label: "D", text: "Tenang, fokus deep-work, banyak waktu buat mikir", trait: "The Thinker" }
     ]
   },
   {
     id: 4,
-    question: "Lingkungan kerja seperti apa yang paling membuatmu merasa bersemangat dan produktif?",
-    dimension: 'Motivasi',
+    question: "Pas ngerjain tugas kuliah, kamu paling puas kalau hasilnya...",
+    dimension: "Task Satisfaction Style",
     options: [
-      {
-        label: 'A',
-        text: "Lingkungan yang fokus pada analisis data mendalam dan pemecahan masalah yang kompleks.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Lingkungan yang memberikan kebebasan penuh untuk bereksperimen dengan ide-ide kreatif.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Lingkungan yang dinamis dengan banyak interaksi sosial dan kolaborasi bersama orang lain.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Lingkungan yang teratur dengan prosedur yang jelas dan fokus pada penyelesaian tugas praktis.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Bisa dipresentasiin dan bikin orang lain paham/terinspirasi", trait: "The Connector" },
+      { label: "B", text: "Analisisnya dalam dan datanya solid", trait: "The Thinker" },
+      { label: "C", text: "Rapi, sistematis, dan sesuai rubrik", trait: "The Builder" },
+      { label: "D", text: "Unik dan beda dari yang lain", trait: "The Creator" }
     ]
   },
   {
     id: 5,
-    question: "Dalam menghadapi dinamika perbedaan pendapat di lingkungan kerja, aktivitas mana yang paling membuatmu merasa antusias?",
-    dimension: 'Penyelesaian Konflik',
+    question: "Kalau harus milih salah satu skill buat diasah minggu ini, kamu bakal pilih...",
+    dimension: "Skill Orientation",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis akar masalah secara logis dan mencari data pendukung untuk solusi yang paling objektif.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Menciptakan cara baru yang unik dan tidak konvensional untuk menjembatani perbedaan perspektif.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Berdiskusi langsung dengan orang-orang yang terlibat untuk membangun kesepakatan dan suasana yang harmonis.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Menyusun prosedur kerja yang teratur dan sistematis agar setiap orang tahu peran serta tanggung jawabnya.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Data analysis/riset (SQL, riset pasar, problem solving)", trait: "The Thinker" },
+      { label: "B", text: "Project management/tools teknis (Excel, Notion, automation)", trait: "The Builder" },
+      { label: "C", text: "Public speaking/networking (pitching, komunikasi, leadership)", trait: "The Connector" },
+      { label: "D", text: "Design/content creation (Canva, video editing, copywriting)", trait: "The Creator" }
     ]
   },
   {
     id: 6,
-    question: "Lingkungan kerja seperti apa yang paling membuatmu merasa bersemangat dan produktif?",
-    dimension: 'Lingkungan Kerja',
+    question: "Kalau kamu ngerasa salah jurusan atau ragu sama jalur karier sekarang, reaksi pertama kamu biasanya...",
+    dimension: "Concern",
     options: [
-      {
-        label: 'A',
-        text: "Lingkungan yang fokus pada analisis mendalam dan pemecahan masalah berbasis data.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Lingkungan yang memberikan kebebasan penuh untuk bereksperimen dengan ide kreatif.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Lingkungan yang penuh interaksi sosial untuk berkolaborasi dan membantu orang lain.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Lingkungan yang teratur dengan prosedur jelas untuk menyelesaikan tugas teknis.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Cerita ke orang lain, cari mentor atau teman buat diskusi", trait: "The Connector" },
+      { label: "B", text: "Riset dalam-dalam dulu, baca-baca, bandingin opsi, dan cari data", trait: "The Thinker" },
+      { label: "C", text: "Bikin rencana konkret step-by-step buat pindah jalur", trait: "The Builder" },
+      { label: "D", text: "Coba eksplorasi hal baru di luar jurusan, siapa tau nemu passion lain", trait: "The Creator" }
     ]
   },
   {
     id: 7,
-    question: "Manakah dari aktivitas berikut yang paling membuat Anda merasa antusias dan bersemangat saat melakukannya?",
-    dimension: 'Pengambilan Keputusan',
+    question: "Pas ada info lowongan magang yang deadline-nya besok, kamu...",
+    dimension: "Control",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data yang kompleks untuk menemukan pola atau jawaban logis di balik sebuah fenomena.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Menciptakan konsep orisinal yang unik melalui media visual, tulisan, atau bentuk seni lainnya.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Berinteraksi secara aktif untuk memotivasi, membimbing, atau meyakinkan orang lain mencapai tujuan bersama.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Menyusun sistem kerja yang teratur, rapi, dan menggunakan alat fisik untuk menghasilkan produk nyata.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Cek checklist requirement satu-satu biar gak ada yang kelewat", trait: "The Builder" },
+      { label: "B", text: "Tanya-tanya kontak atau senior yang mungkin kenal orang dalam", trait: "The Connector" },
+      { label: "C", text: "Langsung improvisasi portofolio/CV kreatif seadanya", trait: "The Creator" },
+      { label: "D", text: "Cari tau dulu detail perusahaannya sebelum apply", trait: "The Thinker" }
     ]
   },
   {
     id: 8,
-    question: "Dalam konteks komunikasi, aktivitas manakah yang paling membuatmu merasa bersemangat dan antusias?",
-    dimension: 'Komunikasi',
+    question: "Menurut kamu, cara paling efektif belajar skill baru itu...",
+    dimension: "Curiosity",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data dan menyusun argumen logis berdasarkan riset yang mendalam.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Mengekspresikan ide melalui gaya bahasa yang unik dan visual yang estetis.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Membangun hubungan, berdiskusi, serta meyakinkan orang lain melalui percakapan.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Mengatur alur informasi secara sistematis agar pesan tersampaikan dengan sangat rapi.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Pahami dulu konsep dasarnya secara mendalam sebelum praktik", trait: "The Thinker" },
+      { label: "B", text: "Belajar bareng orang lain / cari mentor yang udah berpengalaman", trait: "The Connector" },
+      { label: "C", text: "Langsung praktik & experimen, belajar dari trial-error", trait: "The Creator" },
+      { label: "D", text: "Ikutin kursus/modul terstruktur step-by-step", trait: "The Builder" }
     ]
   },
   {
     id: 9,
-    question: "Dalam lingkungan kerja yang penuh ketidakpastian, aktivitas manakah yang paling membuatmu merasa nyaman dan bersemangat?",
-    dimension: 'Toleransi Risiko',
+    question: "Kalau rencana karier kamu tiba-tiba berubah drastis (misal: perusahaan impian gak buka lowongan), kamu...",
+    dimension: "Control",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data dan pola untuk memprediksi risiko secara logis.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Menciptakan solusi inovatif yang unik melalui eksperimen kreatif.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Membangun kesepakatan dan dukungan dari orang lain untuk menghadapi perubahan.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Menjalankan prosedur standar yang teruji untuk menjaga stabilitas hasil.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Segera susun ulang rencana B dengan target & timeline baru", trait: "The Builder" },
+      { label: "B", text: "Anggap ini kesempatan buat eksplorasi arah yang lebih otentik buat kamu", trait: "The Creator" },
+      { label: "C", text: "Reach out ke network buat cari opsi/insight lain", trait: "The Connector" },
+      { label: "D", text: "Analisis dulu kenapa itu terjadi dan apa pelajarannya", trait: "The Thinker" }
     ]
   },
   {
     id: 10,
-    question: "Dalam menghadapi tantangan kerja yang sulit, aktivitas manakah yang paling membuatmu merasa bersemangat dan terlibat?",
-    dimension: 'Resiliensi',
+    question: "Rasa \"cemas soal masa depan karier\" biasanya paling mereda kalau kamu...",
+    dimension: "Confidence",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data secara mendalam untuk menemukan akar penyebab masalah yang kompleks.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Menciptakan solusi baru yang unik dan belum pernah terpikirkan oleh orang lain sebelumnya.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Mengajak rekan kerja berdiskusi untuk mencari kesepakatan dan dukungan bersama.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Menyusun langkah praktis yang terukur untuk memperbaiki sistem agar kembali berjalan lancar.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Ngobrol sama orang yang dipercaya buat dapet perspektif", trait: "The Connector" },
+      { label: "B", text: "Nyalurin ke hal kreatif (nulis, bikin moodboard masa depan, dll)", trait: "The Creator" },
+      { label: "C", text: "Nyari lebih banyak informasi/data biar gak \"buta arah\"", trait: "The Thinker" },
+      { label: "D", text: "Bikin action plan konkret biar ada rasa \"in control\"", trait: "The Builder" }
     ]
   },
   {
     id: 11,
-    question: "Lingkungan atau aktivitas seperti apa yang paling membuatmu merasa bersemangat dan produktif dalam bekerja?",
-    dimension: 'Nilai',
+    question: "Kalau ditanya \"kerja itu buat apa sih sebenarnya?\", jawaban paling jujur kamu...",
+    dimension: "Meaning of Work",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data rumit dan mencari solusi logis dari sebuah permasalahan teoretis.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Mengekspresikan ide kreatif melalui karya visual atau konsep yang orisinal.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Berinteraksi dengan banyak orang untuk berkolaborasi, mengajar, atau memimpin diskusi.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Menyusun sistem kerja yang teratur dan menyelesaikan tugas praktis dengan alat fisik.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Buat terus belajar dan memecahkan masalah yang menantang", trait: "The Thinker" },
+      { label: "B", text: "Buat stabilitas, pencapaian yang jelas, dan rasa aman", trait: "The Builder" },
+      { label: "C", text: "Buat bisa berdampak dan terhubung sama orang lain", trait: "The Connector" },
+      { label: "D", text: "Buat bisa berekspresi dan ninggalin jejak karya", trait: "The Creator" }
     ]
   },
   {
     id: 12,
-    question: "Aktivitas mana yang paling membuatmu merasa bersemangat dan antusias saat mengerjakannya?",
-    dimension: 'Gaya Kerja',
+    question: "Kamu bakal ngerasa paling \"berarti\" di tempat kerja kalau...",
+    dimension: "Self-Concept at Work",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data rumit untuk menemukan pola atau jawaban logis.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Menciptakan konsep baru yang unik melalui ekspresi visual atau tulisan.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Berinteraksi dan berkolaborasi untuk membantu orang lain mencapai tujuan.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Menyusun sistem kerja yang teratur dan membangun sesuatu secara fisik.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Kamu bisa bantu/mengembangkan orang lain di sekitar kamu", trait: "The Connector" },
+      { label: "B", text: "Ide/karya kamu dipakai dan diapresiasi", trait: "The Creator" },
+      { label: "C", text: "Kamu berhasil nemuin insight/solusi yang orang lain gak lihat", trait: "The Thinker" },
+      { label: "D", text: "Sistem yang kamu bangun berjalan lancar dan efisien", trait: "The Builder" }
     ]
   },
   {
     id: 13,
-    question: "Dalam konteks kepemimpinan, aktivitas manakah yang paling membuatmu merasa antusias dan bersemangat?",
-    dimension: 'Kepemimpinan',
+    question: "Warisan (legacy) yang pengen kamu tinggalkan lewat karier kamu adalah...",
+    dimension: "Legacy Narrative",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data dan tren untuk merumuskan strategi berbasis fakta yang akurat.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Menciptakan visi baru yang inovatif dan unik untuk menginspirasi perubahan kreatif.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Membangun hubungan yang kuat serta memotivasi orang lain untuk mencapai tujuan bersama.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Mengelola sistem kerja yang teratur dan memastikan setiap prosedur berjalan dengan efisien.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Sistem/proses yang bikin sesuatu jadi lebih baik dan tahan lama", trait: "The Builder" },
+      { label: "B", text: "Komunitas/relasi yang bertumbuh karena kehadiran kamu", trait: "The Connector" },
+      { label: "C", text: "Karya atau ide orisinal yang diingat orang", trait: "The Creator" },
+      { label: "D", text: "Kontribusi pengetahuan atau solusi atas masalah besar", trait: "The Thinker" }
     ]
   },
   {
     id: 14,
-    question: "Dalam memberikan dampak positif bagi dunia, aktivitas manakah yang paling membuatmu merasa bersemangat?",
-    dimension: 'Dampak',
+    question: "Di antara ini, yang paling bikin kamu \"males kerja\" adalah lingkungan yang...",
+    dimension: "Values Misfit",
     options: [
-      {
-        label: 'A',
-        text: "Menganalisis data kompleks untuk merumuskan solusi berbasis bukti yang akurat.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Menciptakan karya inovatif yang mampu menginspirasi perasaan dan perspektif orang lain.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Membangun hubungan bermakna untuk menggerakkan komunitas menuju perubahan bersama.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Mengelola sistem operasional yang terstruktur untuk memastikan hasil kerja yang nyata.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Semua serba buru-buru tanpa waktu buat mikir mendalam", trait: "The Thinker" },
+      { label: "B", text: "Kaku, gak ada ruang buat coba hal baru", trait: "The Creator" },
+      { label: "C", text: "Individualis, minim interaksi atau kolaborasi", trait: "The Connector" },
+      { label: "D", text: "Berantakan, gak jelas arah dan prosesnya", trait: "The Builder" }
     ]
   },
   {
     id: 15,
-    question: "Lingkungan kerja seperti apa yang paling membuatmu merasa bersemangat dan produktif?",
-    dimension: 'Aspirasi',
+    question: "Kalau kamu bayangin diri kamu 10 tahun lagi sukses, gambaran yang paling relate...",
+    dimension: "Future Career",
     options: [
-      {
-        label: 'A',
-        text: "Lingkungan yang fokus pada riset mendalam dan analisis data untuk memecahkan masalah kompleks.",
-        trait: 'The Thinker'
-      },
-      {
-        label: 'B',
-        text: "Lingkungan yang mendukung kebebasan berekspresi untuk menciptakan ide-ide baru yang unik.",
-        trait: 'The Creator'
-      },
-      {
-        label: 'C',
-        text: "Lingkungan yang penuh interaksi sosial untuk berkolaborasi, mengajar, atau memimpin orang lain.",
-        trait: 'The Connector'
-      },
-      {
-        label: 'D',
-        text: "Lingkungan yang terstruktur dengan tugas praktis yang jelas untuk membangun sesuatu secara nyata.",
-        trait: 'The Builder'
-      }
+      { label: "A", text: "Punya jaringan luas dan berperan besar mengembangkan orang lain", trait: "The Connector" },
+      { label: "B", text: "Jadi expert/rujukan di bidang yang kamu dalami", trait: "The Thinker" },
+      { label: "C", text: "Dikenal karena karya/kreativitas kamu yang khas", trait: "The Creator" },
+      { label: "D", text: "Punya posisi/pencapaian yang solid dan terukur jelas", trait: "The Builder" }
     ]
   }
 ];

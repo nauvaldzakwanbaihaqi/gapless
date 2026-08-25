@@ -275,7 +275,7 @@ export function CaseStudyQuizView() {
                             onRetry={() => {
                                 setStep(1);
                                 setCurrentIndex(0);
-                                setScore(0);
+                                setQuestionScores([]);
                             }}
                             showBackHome={false}
                         />
