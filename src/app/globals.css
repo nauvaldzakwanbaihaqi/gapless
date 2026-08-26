@@ -4,6 +4,22 @@
   --font-inter: "Inter", sans-serif;
   --color-primary: #3b82f6;
   --color-primary-hover: #2563eb;
+  
+  /* Landing Page Redesign Tokens */
+  --color-bg-gradient-start: #F0FCFF;
+  --color-bg-gradient-mid: #F2FCFF;
+  --color-bg-gradient-end: #BDF2FF;
+
+  --color-footer-gradient-1: #0010BE;
+  --color-footer-gradient-2: #0244E3;
+  --color-footer-gradient-3: #0676FB;
+  --color-footer-gradient-4: #08A6FD;
+  --color-footer-gradient-5: #0ABEFE;
+  --color-footer-gradient-6: #0ACAFE;
+  --color-footer-gradient-7: #0BD6FF;
+
+  --color-feature-highlight-bg: #006BFF;
+  --color-riasec-badge: #0015F6;
 }
 
 * {
@@ -33,7 +49,7 @@ body {
 
 /* Light background with subtle blue accents */
 .bg-space {
-  background: linear-gradient(135deg, rgba(219, 234, 254, 0.6) 0%, #f8fafc 40%, #ffffff 60%, rgba(207, 250, 254, 0.4) 100%);
+  background: linear-gradient(135deg, var(--color-bg-gradient-start) 0%, var(--color-bg-gradient-mid) 49%, var(--color-bg-gradient-end) 100%);
   min-height: 100vh;
 }
 

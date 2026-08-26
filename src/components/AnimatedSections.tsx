@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { Sparkles, Target, Zap, Users } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 
@@ -56,8 +57,53 @@ export function FooterSection() {
   const ref = useScrollReveal<HTMLElement>();
 
   return (
-    <footer ref={ref} className="reveal border-t border-gray-200 py-8 text-center text-gray-400 text-sm">
-      <p>Gapless · Ditenagai oleh AI · Dibuat untuk menemukan karier impianmu</p>
-    </footer>
+    <section className="w-full mt-20">
+      <footer 
+        ref={ref} 
+        className="reveal rounded-t-[2.5rem] md:rounded-t-[3rem] pt-24 pb-10 px-6 md:px-16 lg:px-24 relative flex flex-col shadow-2xl"
+        style={{
+          background: `linear-gradient(135deg, 
+            #0010BE 0%, 
+            #0010BE 26%, 
+            #0244E3 38%, 
+            #0676FB 49%, 
+            #08A6FD 62%, 
+            #0ABEFE 88%, 
+            #0ACAFE 94%, 
+            #0BD6FF 100%)`
+        }}
+      >
+        {/* max-w dilebarin jadi 3xl biar teks yang gede gak terlalu numpuk */}
+        <div className="max-w-3xl mx-auto text-center relative z-10 flex-grow flex flex-col items-center justify-center">
+          
+          {/* Judul Utama - Naik ke 4xl (Mobile), 5xl (Tablet), 6xl (Desktop) */}
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 reveal-child leading-tight">
+            Bangun Perjalanan Kariermu<br className="hidden md:block" /> Bersama Gapless
+          </h2>
+          
+          {/* Teks Deskripsi - Naik ke text-base (Mobile), text-lg (Tablet), text-xl (Desktop) */}
+          <p className="text-blue-50/90 mb-12 text-base md:text-lg lg:text-xl leading-relaxed reveal-child">
+            Gapless membantu kamu memahami potensi dan kemampuanmu untuk menemukan arah karier yang lebih jelas dan sesuai dengan kebutuhan industri.
+          </p>
+          
+          <div className="reveal-child">
+            {/* Tombol Diperbesar - Tambah text-lg dan padding px-10 py-4 */}
+            <Link 
+              href="/assessment" 
+              className="inline-flex items-center gap-2 bg-white text-blue-600 font-bold text-lg px-10 py-4 rounded-full hover:bg-slate-50 hover:scale-105 transition-all duration-300 shadow-md"
+            >
+              Ikuti Tes <span>&rarr;</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* Copyright - Naik ke text-sm (Mobile) dan text-base (Desktop) */}
+        <div className="mt-20 md:mt-28 w-full flex justify-center md:justify-end reveal-child">
+          <p className="text-blue-200/80 text-sm md:text-base font-medium">
+            © 2026 - Gapless. All rights reserved
+          </p>
+        </div>
+      </footer>
+    </section>
   );
 }

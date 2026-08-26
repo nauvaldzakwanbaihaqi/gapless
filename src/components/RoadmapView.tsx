@@ -131,8 +131,8 @@ export function RoadmapView() {
                         background: isLocked ? '#f8fafc' : (isCompleted
                           ? color
                           : isPartial
-                          ? `${color}20`
-                          : '#f1f5f9'),
+                            ? `${color}20`
+                            : '#f1f5f9'),
                         border: `2px solid ${isLocked ? '#cbd5e1' : color}`,
                         boxShadow: isCompleted && !isLocked ? `0 0 20px ${color}30` : 'none',
                       }}
@@ -156,16 +156,16 @@ export function RoadmapView() {
                   >
                     {isLocked && (
                       <div className="absolute inset-0 bg-white/70 backdrop-blur-[3px] z-20 flex flex-col items-center justify-center p-6 text-center">
-                         <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3">
-                           <Lock className="w-5 h-5 text-slate-500" />
-                         </div>
-                         <h4 className="font-bold text-slate-900 text-lg mb-2">Fase Terkunci</h4>
-                         <p className="text-sm text-gray-600 mb-5 max-w-sm">
-                           Upgrade ke paket Student Pro untuk membuka fase roadmap tingkat lanjut dan maksimalkan potensimu.
-                         </p>
-                         <Link href="/pricing" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
-                           Upgrade Sekarang
-                         </Link>
+                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-3">
+                          <Lock className="w-5 h-5 text-slate-500" />
+                        </div>
+                        <h4 className="font-bold text-slate-900 text-lg mb-2">Fase Terkunci</h4>
+                        <p className="text-sm text-gray-600 mb-5 max-w-sm">
+                          Upgrade ke paket Student Pro untuk membuka fase roadmap tingkat lanjut dan maksimalkan potensimu.
+                        </p>
+                        <Link href="/pricing" className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                          Upgrade Sekarang
+                        </Link>
                       </div>
                     )}
 
@@ -236,17 +236,16 @@ export function RoadmapView() {
                                   toggleModule(moduleKey);
                                 }
                               }}
-                              className={`flex items-center gap-3 py-2.5 px-3 rounded-xl transition-all cursor-pointer select-none ${
-                                isExpanded
+                              className={`flex items-center gap-3 py-2.5 px-3 rounded-xl transition-all cursor-pointer select-none ${isExpanded
                                   ? 'ring-1 shadow-sm'
                                   : 'hover:bg-gray-50'
-                              }`}
+                                }`}
                               style={{
                                 background: isModuleCompleted
                                   ? `${color}08`
                                   : isExpanded
-                                  ? '#f8fafc'
-                                  : 'transparent',
+                                    ? '#f8fafc'
+                                    : 'transparent',
                                 ...(isExpanded
                                   ? { ringColor: `${color}30`, borderColor: `${color}20` }
                                   : {}),
@@ -286,9 +285,8 @@ export function RoadmapView() {
                               )}
                               <ChevronDown
                                 size={14}
-                                className={`shrink-0 text-gray-400 transition-transform duration-200 ${
-                                  isExpanded ? 'rotate-180' : ''
-                                }`}
+                                className={`shrink-0 text-gray-400 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''
+                                  }`}
                               />
                             </motion.div>
 
