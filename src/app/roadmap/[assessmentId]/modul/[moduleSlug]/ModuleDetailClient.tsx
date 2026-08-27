@@ -7,6 +7,7 @@ import { ChevronRight, ArrowLeft, Target, Play, Book, Lock, Unlock, CheckCircle2
 import type { CareerProfile, CurriculumPhase, ModuleDetail } from '@/data/gaplessData';
 import { LoginModal } from '@/components/LoginModal';
 import { useGaplessContext } from '@/contexts/CareerContext';
+import { useAuthGuard } from '@/hooks/useAuthGuard';
 
 interface Props {
   assessmentId?: string;
@@ -29,9 +30,11 @@ export default function ModuleDetailClient({
 }: Props) {
   const router = useRouter();
   const context = useGaplessContext();
+  const { checkIsAuthenticated } = useAuthGuard();
   const [isCompleted, setIsCompleted] = useState(initialCompleted);
   const [isLoading, setIsLoading] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const handleBack = () => {
     if (!assessmentId) {
@@ -44,12 +47,17 @@ export default function ModuleDetailClient({
   const handleMarkAsComplete = async () => {
     if (isCompleted) return; // do nothing if already complete
     
-    if (!assessmentId) {
+    setIsLoading(true);
+    
+    // Verifikasi Auth via Hook terpusat yang mengecek ke DB (mencegah ghost user)
+    const isAuthenticated = await checkIsAuthenticated();
+    
+    if (!assessmentId || !isAuthenticated) {
+      setIsLoading(false);
       setShowLoginModal(true);
       return;
     }
     
-    setIsLoading(true);
     try {
       const res = await fetch('/api/roadmap/complete-module', {
         method: 'POST',
@@ -58,8 +66,12 @@ export default function ModuleDetailClient({
       });
       if (res.ok) {
         setIsCompleted(true);
-        // Bisa navigasi balik ke roadmap atau tetap di halaman ini
-        router.push(`/roadmap`);
+        setToastMessage("Tersimpan ✓");
+        
+        // Sembunyikan toast setelah 2 detik
+        setTimeout(() => setToastMessage(null), 2000);
+        
+        // Refresh context roadmap supaya state di background terupdate
         router.refresh();
       } else {
         alert('Gagal menandai modul selesai.');
@@ -231,9 +243,16 @@ export default function ModuleDetailClient({
           <button 
             onClick={handleMarkAsComplete}
             disabled={isLoading}
-            className="flex-1 flex items-center justify-center gap-2 px-8 py-3 rounded-full bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className="flex-1 flex items-center justify-center gap-2 px-8 py-3 rounded-full bg-blue-600 text-white font-bold hover:bg-blue-700 transition-colors disabled:opacity-50 relative"
           >
             {isLoading ? "Memproses..." : "Tandai Selesai"}
+            
+            {/* Toast Visual Feedback */}
+            {toastMessage && (
+              <span className="absolute -top-12 left-1/2 -translate-x-1/2 bg-slate-800 text-white text-sm px-4 py-2 rounded-lg shadow-lg whitespace-nowrap animate-in fade-in slide-in-from-bottom-4">
+                {toastMessage}
+              </span>
+            )}
           </button>
         )}
       </div>

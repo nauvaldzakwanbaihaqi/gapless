@@ -77,6 +77,7 @@ export function GuestModuleDetailView() {
     <div className="flex-1 w-full flex flex-col">
       <div className="max-w-4xl mx-auto w-full px-4 sm:px-6 pt-12">
         <ModuleDetailClient
+          assessmentId={context.currentAssessmentId || undefined}
           moduleSlug={selectedModuleSlug}
           profile={selectedCareer}
           phaseData={phaseData}

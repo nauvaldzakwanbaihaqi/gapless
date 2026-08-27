@@ -133,7 +133,7 @@ export function AssessmentFlow() {
                 exit={{ scale: 0.95 }}
                 className="bg-card w-full max-w-md rounded-2xl border border-white/10 p-6 shadow-2xl relative overflow-hidden"
               >
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-400" />
+                <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-blue-500 to-cyan-400" />
                 <h2 className="text-xl font-bold text-white mb-3">Konfirmasi Retake</h2>
                 <p className="text-gray-300 text-sm mb-6 leading-relaxed">
                   Kamu akan mengambil tes ini lagi. Hasil analisis kamu akan diperbarui. Kalau rekomendasi kariernya beda dari sebelumnya, progress roadmap lama kamu tetap tersimpan tapi untuk sementara tidak ditampilkan. Lanjutkan?
