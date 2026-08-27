@@ -288,39 +288,36 @@ export default function HomePage() {
               role: 'Product Manager',
               company: 'Tokopedia',
               img: '/images/mentor/mentor 1.png',
-              customClass: 'scale-[1.25] translate-y-[-1px]' // Ukuran normal
+              customClass: '' // Aman, gak perlu diubah
             },
             {
               name: 'Gisellia Agnes',
               role: 'HR Business Partner',
               company: 'Gojek',
               img: '/images/mentor/mentor 2.png',
-              customClass: 'scale-[1.35] translate-y-[]' // Ukuran normal
+              customClass: '' // Aman, gak perlu diubah
             },
             {
               name: 'Fadel Alfarisi',
               role: 'Data Analyst',
               company: 'Traveloka',
               img: '/images/mentor/mentor 3.png',
-              // Tambahin translate-y-[...] buat narik badannya ke bawah
-              customClass: 'scale-[1.80] origin-bottom translate-y-[8px] translate-x-[11px]'
+              // Trik nge-zoom manual. Silakan ubah angka 1.15 (115%) sesuai kebutuhan
+              customClass: 'scale-[1.50] translate-y-[-5px]'
             },
           ].map((person, i) => (
             <div
               key={i}
-              className="bg-white rounded-4xl px-5 py-8 md:px-7 md:py-10 flex items-center gap-5 md:gap-7 shadow-sm hover:shadow-md transition-shadow duration-300 border border-slate-100"
+              className="bg-white rounded-4xl px-5 py-6 md:px-7 md:py-2 flex items-center gap-5 md:gap-7 shadow-sm hover:shadow-md transition-shadow duration-300 border border-slate-100"
             >
               {/* KOTAK FOTO */}
-              <div className="relative w-27.5 h-37.5 md:w-33.75 md:h-46.25 shrink-0 flex items-end justify-center">
+              <div className="relative w-[135px] h-[185px] md:w-[165px] md:h-[225px] shrink-0 flex items-center justify-center">
 
-                {/* Background Biru */}
-                <div className="absolute bottom-0 left-0 w-full h-[75%] bg-blue-600 rounded-[1.25rem] md:rounded-[2rem] shadow-inner translate-x-[10px]"></div>
-
-                {/* FOTO: customClass diselipin di sini buat nge-target Fadel doang */}
+                {/* FOTO: customClass dipanggil di sini */}
                 <img
                   src={person.img}
                   alt={person.name}
-                  className={`relative z-10 w-[115%] max-h-[115%] object-contain object-bottom drop-shadow-xl transition-transform ${person.customClass}`}
+                  className={`w-full h-full object-contain drop-shadow-lg transition-transform duration-300 ${person.customClass}`}
                 />
               </div>
 
