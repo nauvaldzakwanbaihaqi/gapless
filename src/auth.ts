@@ -24,4 +24,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             return session;
         },
     },
+    session: {
+        strategy: "database", // Gunakan database strategy (karena Drizzle Adapter)
+        maxAge: 24 * 60 * 60, // 24 jam dalam detik
+    },
 })
