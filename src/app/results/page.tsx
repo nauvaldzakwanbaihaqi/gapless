@@ -2,9 +2,9 @@ import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { db } from '@/db';
 import { assessmentResults } from '@/db/schema';
-import { desc, eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 import Link from 'next/link';
-import { BrainCircuit, Briefcase, Calendar, ChevronRight } from 'lucide-react';
+import { BrainCircuit, Briefcase, Calendar, ChevronRight, Map } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 
 export default async function ResultsPage() {
@@ -17,78 +17,114 @@ export default async function ResultsPage() {
   const results = await db
     .select()
     .from(assessmentResults)
-    .where(eq(assessmentResults.userId, session.user.id))
-    .orderBy(desc(assessmentResults.createdAt));
+    .where(
+      and(
+        eq(assessmentResults.userId, session.user.id),
+        eq(assessmentResults.isActive, true)
+      )
+    );
+
+  const belumTahu = results.find(r => r.quizType === 'belum_tahu_minat');
+  const sudahTahu = results.find(r => r.quizType === 'sudah_tahu_minat');
+
+  const ResultCard = ({ title, description, result, quizType, Icon }: { title: string, description: string, result: typeof results[0] | undefined, quizType: string, Icon: any }) => {
+    if (!result) {
+      return (
+        <div className="bg-white rounded-3xl p-8 sm:p-12 text-center shadow-sm border border-slate-100 flex flex-col items-center">
+          <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mb-6">
+            <Icon className="w-10 h-10 text-slate-400" />
+          </div>
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">{title}</h2>
+          <p className="text-slate-600 max-w-md mx-auto mb-8">
+            {description}
+          </p>
+          <Link
+            href={`/assessment?quizType=${quizType}`}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-bold transition-all shadow-md hover:shadow-lg"
+          >
+            Mulai Tes
+          </Link>
+        </div>
+      );
+    }
+
+    const date = new Date(result.createdAt).toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+
+    return (
+      <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-400" />
+        
+        <div className="flex flex-col sm:flex-row gap-6 sm:items-center justify-between mb-4">
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 mb-1">{title}</h2>
+            <div className="flex items-center gap-2 text-sm text-slate-500">
+              <Calendar className="w-4 h-4" />
+              <span>Diambil pada {date}</span>
+            </div>
+          </div>
+          <div className="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center shrink-0">
+            <Icon className="w-6 h-6 text-blue-600" />
+          </div>
+        </div>
+
+        <div className="space-y-4 mb-6">
+          <div className="bg-slate-50 p-4 rounded-xl border border-slate-100">
+            <div className="text-sm text-slate-500 mb-1">Archetype Dominan</div>
+            <div className="font-bold text-lg text-slate-900">{result.dominantTrait}</div>
+          </div>
+          
+          <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100/50">
+            <div className="text-sm text-blue-600/80 mb-1">Karier Terpilih</div>
+            {result.selectedCareer ? (
+              <div className="flex items-center gap-2 font-bold text-blue-900">
+                <Briefcase className="w-4 h-4" />
+                <span>{result.selectedCareer}</span>
+              </div>
+            ) : (
+              <div className="text-sm text-slate-400 italic">Belum memilih karier spesifik</div>
+            )}
+          </div>
+        </div>
+
+        <div className="flex justify-end">
+          <Link href="/assessment" className="flex items-center gap-1 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+            Lihat Detail <ChevronRight className="w-5 h-5" />
+          </Link>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
       <Navbar />
 
       <main className="flex-1 container mx-auto px-4 py-12 max-w-4xl">
-        <div className="mb-10">
+        <div className="mb-10 text-center sm:text-left">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Riwayat Asesmen</h1>
-          <p className="text-slate-600">Lacak perkembangan dan eksplorasi kariermu dari waktu ke waktu.</p>
+          <p className="text-slate-600">Lihat hasil analisis profil karirmu dari kedua jalur yang tersedia.</p>
         </div>
 
-        {results.length === 0 ? (
-          <div className="bg-white rounded-3xl p-12 text-center shadow-sm border border-slate-100 flex flex-col items-center">
-            <div className="w-20 h-20 bg-blue-50 rounded-full flex items-center justify-center mb-6">
-              <BrainCircuit className="w-10 h-10 text-blue-600" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-3">Belum Ada Riwayat</h2>
-            <p className="text-slate-600 max-w-md mx-auto mb-8">
-              Kamu belum pernah mengambil asesmen karier. Ayo mulai eksplorasi potensimu sekarang!
-            </p>
-            <Link
-              href="/assessment"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-bold transition-all shadow-md hover:shadow-lg"
-            >
-              Mulai Asesmen
-            </Link>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {results.map((result) => {
-              const date = new Date(result.createdAt).toLocaleDateString('id-ID', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              });
-
-              return (
-                <div key={result.id} className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md transition-shadow flex flex-col sm:flex-row gap-6 sm:items-center justify-between">
-                  <div className="space-y-3 flex-1">
-                    <div className="flex items-center gap-2 text-sm text-slate-500">
-                      <Calendar className="w-4 h-4" />
-                      <span>{date}</span>
-                    </div>
-                    
-                    <div>
-                      <h3 className="text-xl font-bold text-slate-900 mb-1">
-                        Archetype: {result.dominantTrait}
-                      </h3>
-                      {result.selectedCareer ? (
-                        <div className="flex items-center gap-2 text-blue-600 font-medium bg-blue-50 w-fit px-3 py-1 rounded-full text-sm">
-                          <Briefcase className="w-4 h-4" />
-                          <span>Karier: {result.selectedCareer}</span>
-                        </div>
-                      ) : (
-                        <div className="text-sm text-slate-400 italic">Belum memilih karier spesifik</div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="shrink-0 flex items-center">
-                    {/* Placeholder for Detail view. For now, it just looks nice */}
-                    <button className="flex items-center gap-1 text-slate-600 font-semibold hover:text-blue-600 transition-colors">
-                      Lihat Detail <ChevronRight className="w-5 h-5" />
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ResultCard 
+            title="Hasil Eksplorasi (Belum Tahu Minat)" 
+            description="Kamu belum tahu ingin jadi apa? Tes ini menganalisis kepribadian kerjamu untuk menemukan opsi karir terbaik."
+            quizType="belum_tahu_minat"
+            result={belumTahu}
+            Icon={BrainCircuit}
+          />
+          <ResultCard 
+            title="Hasil Validasi (Sudah Tahu Minat)" 
+            description="Sudah punya incaran karir? Tes ini memvalidasi kecocokan potensimu dengan karir yang kamu tuju."
+            quizType="sudah_tahu_minat"
+            result={sudahTahu}
+            Icon={Map}
+          />
+        </div>
       </main>
     </div>
   );

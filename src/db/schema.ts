@@ -6,8 +6,10 @@ import {
   timestamp,
   primaryKey,
   jsonb,
+  boolean,
+  uniqueIndex,
 } from "drizzle-orm/pg-core";
-import { relations } from "drizzle-orm";
+import { relations, eq } from "drizzle-orm";
 import type { AdapterAccount } from "@auth/core/adapters";
 
 // ──────────────────────────────────────────────
@@ -116,33 +118,43 @@ export const jobRoles = pgTable("job_roles", {
 // ASSESSMENT & ROADMAP PROGRESS
 // ──────────────────────────────────────────────
 
+import { sql } from "drizzle-orm";
+
 export const assessmentResults = pgTable("assessment_results", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   userId: text("user_id").references(() => users.id, { onDelete: "cascade" }), // Nullable for guest
+  quizType: text("quiz_type").default("belum_tahu_minat").notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  careerSlug: text("career_slug"),
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   rawAnswers: jsonb("raw_answers").notNull(), // Record<number, number>
   traitScores: jsonb("trait_scores").notNull(), // Record<Trait, number>
   dominantTrait: text("dominant_trait").notNull(),
   selectedCareer: text("selected_career"), // Optional initially until user picks one
   skillRatings: jsonb("skill_ratings"), // Record<string, number>
-});
+}, (t) => ({
+  activeQuizUnique: uniqueIndex("active_quiz_unique")
+    .on(t.userId, t.quizType)
+    .where(sql`${t.isActive} = true`),
+}));
 
 export const roadmapProgress = pgTable("roadmap_progress", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
-  assessmentResultId: text("assessment_result_id")
-    .notNull()
-    .references(() => assessmentResults.id, { onDelete: "cascade" }),
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
+  careerSlug: text("career_slug").notNull(),
   moduleStatuses: jsonb("module_statuses").notNull().default({}), // For future manual tracking
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }).defaultNow().notNull(),
-});
+}, (t) => ({
+  userCareerUnique: uniqueIndex("user_career_unique")
+    .on(t.userId, t.careerSlug),
+}));
 
 export const assessmentResultsRelations = relations(
   assessmentResults,
@@ -157,10 +169,6 @@ export const assessmentResultsRelations = relations(
 export const roadmapProgressRelations = relations(
   roadmapProgress,
   ({ one }) => ({
-    assessmentResult: one(assessmentResults, {
-      fields: [roadmapProgress.assessmentResultId],
-      references: [assessmentResults.id],
-    }),
     user: one(users, {
       fields: [roadmapProgress.userId],
       references: [users.id],

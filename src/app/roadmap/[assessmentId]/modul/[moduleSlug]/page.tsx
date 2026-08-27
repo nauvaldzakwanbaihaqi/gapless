@@ -56,7 +56,10 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
 
   // 2. Ambil roadmap progress
   const progressRecord = await db.query.roadmapProgress.findFirst({
-    where: eq(roadmapProgress.assessmentResultId, assessmentId)
+    where: and(
+      eq(roadmapProgress.careerSlug, result.careerSlug as string),
+      eq(roadmapProgress.userId, session.user.id)
+    )
   });
   
   const moduleStatuses = (progressRecord?.moduleStatuses as Record<string, boolean>) || {};

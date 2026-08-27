@@ -21,6 +21,8 @@ export function AssessmentFlow() {
     useGaplessContext();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [started, setStarted] = useState(false);
+  const [showRetakeModal, setShowRetakeModal] = useState(false);
+  const [isCheckingActive, setIsCheckingActive] = useState(false);
 
   const question = ASSESSMENT_QUESTIONS[currentIdx];
   const total = ASSESSMENT_QUESTIONS.length;
@@ -90,13 +92,73 @@ export function AssessmentFlow() {
             100% client-side &middot; Tidak ada data yang keluar dari browsermu &middot; ~3 menit
           </p>
           <button
-            onClick={() => setStarted(true)}
-            className="btn-primary flex items-center gap-2 mx-auto text-base"
+            onClick={async () => {
+              setIsCheckingActive(true);
+              try {
+                // Determine quizType logic here if we have multiple paths in the future
+                // Currently defaults to 'belum_tahu_minat'
+                const res = await fetch('/api/assessment/has-active?quizType=belum_tahu_minat');
+                const data = await res.json();
+                if (data.hasActive) {
+                  setShowRetakeModal(true);
+                } else {
+                  setStarted(true);
+                }
+              } catch (e) {
+                setStarted(true); // Fallback to start if API fails
+              } finally {
+                setIsCheckingActive(false);
+              }
+            }}
+            disabled={isCheckingActive}
+            className="btn-primary flex items-center gap-2 mx-auto text-base disabled:opacity-70"
           >
             <Brain size={18} />
-            Mulai Assesmen
+            {isCheckingActive ? 'Memuat...' : 'Mulai Assesmen'}
           </button>
         </motion.div>
+
+        {/* Retake Modal */}
+        <AnimatePresence>
+          {showRetakeModal && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            >
+              <motion.div
+                initial={{ scale: 0.95 }}
+                animate={{ scale: 1 }}
+                exit={{ scale: 0.95 }}
+                className="bg-card w-full max-w-md rounded-2xl border border-white/10 p-6 shadow-2xl relative overflow-hidden"
+              >
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-500 to-cyan-400" />
+                <h2 className="text-xl font-bold text-white mb-3">Konfirmasi Retake</h2>
+                <p className="text-gray-300 text-sm mb-6 leading-relaxed">
+                  Kamu akan mengambil tes ini lagi. Hasil analisis kamu akan diperbarui. Kalau rekomendasi kariernya beda dari sebelumnya, progress roadmap lama kamu tetap tersimpan tapi untuk sementara tidak ditampilkan. Lanjutkan?
+                </p>
+                <div className="flex gap-3 justify-end">
+                  <button
+                    onClick={() => setShowRetakeModal(false)}
+                    className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    onClick={() => {
+                      setShowRetakeModal(false);
+                      setStarted(true);
+                    }}
+                    className="px-4 py-2 rounded-lg text-sm font-medium bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors border border-blue-500/30"
+                  >
+                    Ya, Lanjutkan
+                  </button>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     );
   }

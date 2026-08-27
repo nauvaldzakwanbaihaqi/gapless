@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db';
-import { roadmapProgress } from '@/db/schema';
+import { roadmapProgress, assessmentResults } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { auth } from '@/auth';
 
@@ -16,10 +16,19 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing assessmentId or moduleSlug' }, { status: 400 });
     }
 
-    // Ambil data progress yang ada sekarang
+    // Ambil assessmentResult untuk mengetahui careerSlug
+    const assessmentResult = await db.query.assessmentResults.findFirst({
+      where: eq(assessmentResults.id, assessmentId)
+    });
+
+    if (!assessmentResult || !assessmentResult.careerSlug) {
+      return NextResponse.json({ error: 'Assessment result not found or has no career' }, { status: 404 });
+    }
+
+    // Ambil data progress yang ada sekarang berdasarkan careerSlug
     const existingProgress = await db.query.roadmapProgress.findFirst({
       where: and(
-        eq(roadmapProgress.assessmentResultId, assessmentId),
+        eq(roadmapProgress.careerSlug, assessmentResult.careerSlug),
         eq(roadmapProgress.userId, session.user.id)
       )
     });

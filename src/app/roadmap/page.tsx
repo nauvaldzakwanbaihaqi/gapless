@@ -15,20 +15,29 @@ export default async function RoadmapPage() {
     redirect('/api/auth/signin?callbackUrl=/roadmap');
   }
 
-  // Fetch all roadmaps (assessment results where selectedCareer is not null)
+  // Fetch active roadmaps (max 2)
   const history = await db
     .select({
       id: assessmentResults.id,
       createdAt: assessmentResults.createdAt,
       selectedCareer: assessmentResults.selectedCareer,
       skillRatings: assessmentResults.skillRatings,
+      quizType: assessmentResults.quizType,
+      careerSlug: assessmentResults.careerSlug,
       moduleStatuses: roadmapProgress.moduleStatuses,
     })
     .from(assessmentResults)
-    .leftJoin(roadmapProgress, eq(assessmentResults.id, roadmapProgress.assessmentResultId))
+    .leftJoin(
+      roadmapProgress, 
+      and(
+        eq(roadmapProgress.userId, session.user.id),
+        eq(roadmapProgress.careerSlug, assessmentResults.careerSlug)
+      )
+    )
     .where(
       and(
         eq(assessmentResults.userId, session.user.id),
+        eq(assessmentResults.isActive, true),
         isNotNull(assessmentResults.selectedCareer)
       )
     )

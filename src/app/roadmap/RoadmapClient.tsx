@@ -12,6 +12,8 @@ type AssessmentResult = {
   createdAt: Date | null;
   selectedCareer: string | null;
   skillRatings: unknown;
+  quizType: string;
+  careerSlug: string | null;
   moduleStatuses?: unknown;
 };
 
@@ -85,25 +87,29 @@ export default function RoadmapClient({ history }: { history: AssessmentResult[]
       <Navbar />
 
       <main className="flex-1">
-        {/* Switcher Header */}
+        {/* Switcher Header - Tabs */}
         {history.length > 1 && (
           <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 pb-4">
-            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row gap-4 items-center justify-between relative z-10">
-              <div>
+            <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col items-center justify-between relative z-10 gap-4">
+              <div className="text-center">
                 <h2 className="font-bold text-slate-800">Riwayat Roadmap Kamu</h2>
-                <p className="text-sm text-slate-500">Pilih dari hasil asesmen sebelumnya</p>
+                <p className="text-sm text-slate-500">Pilih dari hasil asesmen aktif</p>
               </div>
-              <select
-                value={selectedId}
-                onChange={(e) => setSelectedId(e.target.value)}
-                className="w-full sm:w-auto bg-slate-50 border border-slate-200 text-slate-700 font-semibold rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {history.map(item => (
-                  <option key={item.id} value={item.id}>
-                    {item.selectedCareer} - {new Date(item.createdAt || new Date()).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
-                  </option>
+              <div className="flex bg-slate-100 p-1 rounded-xl w-full sm:w-auto">
+                {history.map((h) => (
+                  <button
+                    key={h.id}
+                    onClick={() => setSelectedId(h.id)}
+                    className={`flex-1 sm:flex-none px-6 py-2.5 text-sm font-semibold rounded-lg transition-all ${
+                      selectedId === h.id
+                        ? 'bg-white text-blue-600 shadow-sm'
+                        : 'text-slate-600 hover:text-slate-900 hover:bg-slate-200/50'
+                    }`}
+                  >
+                    {h.quizType === 'belum_tahu_minat' ? 'Jalur Eksplorasi' : 'Jalur Terarah'}: {h.selectedCareer}
+                  </button>
                 ))}
-              </select>
+              </div>
             </div>
           </div>
         )}

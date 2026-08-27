@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { db } from '@/db';
 import { assessmentResults, roadmapProgress } from '@/db/schema';
-import { eq } from 'drizzle-orm';
-import { computeTraitScores, getDominantTrait } from '@/data/gaplessData';
+import { eq, and } from 'drizzle-orm';
+import { computeTraitScores, getDominantTrait, CAREER_PROFILES } from '@/data/gaplessData';
 
 export async function POST(req: Request) {
   try {
@@ -11,9 +11,11 @@ export async function POST(req: Request) {
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+    const userId = session.user.id;
 
     const body = await req.json();
     const { assessmentId, rawAnswers, selectedCareer, skillRatings } = body;
+    const quizType = body.quizType || 'belum_tahu_minat';
 
     if (!rawAnswers) {
       return NextResponse.json({ error: 'Missing required data' }, { status: 400 });
@@ -27,6 +29,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Failed to compute dominant trait' }, { status: 400 });
     }
 
+    let careerSlug: string | null = null;
+    if (selectedCareer) {
+      const profile = CAREER_PROFILES.find((p) => p.title === selectedCareer);
+      if (profile) careerSlug = profile.id;
+    }
+
     let newResult;
 
     if (assessmentId) {
@@ -36,41 +44,51 @@ export async function POST(req: Request) {
         traitScores: serverTraitScores,
         dominantTrait: serverDominantTrait,
         selectedCareer: selectedCareer || null,
+        careerSlug: careerSlug,
         skillRatings: skillRatings || null,
       }).where(eq(assessmentResults.id, assessmentId)).returning();
       newResult = updated;
-      
-      if (selectedCareer) {
-        // Ensure roadmapProgress exists for this update
-        const existingProgress = await db.query.roadmapProgress.findFirst({
-          where: eq(roadmapProgress.assessmentResultId, newResult.id)
-        });
-        if (!existingProgress) {
-          await db.insert(roadmapProgress).values({
-            assessmentResultId: newResult.id,
-            userId: session.user.id,
-            moduleStatuses: {},
-          });
-        }
-      }
     } else {
-      // Create new
+      // Create new (Retake / First Time)
+      // Soft-delete the previous active result for this quizType
+      await db.update(assessmentResults)
+        .set({ isActive: false })
+        .where(
+          and(
+            eq(assessmentResults.userId, userId),
+            eq(assessmentResults.quizType, quizType),
+            eq(assessmentResults.isActive, true)
+          )
+        );
+
+      // Insert the new one
       const [inserted] = await db.insert(assessmentResults).values({
-        userId: session.user.id,
+        userId: userId,
+        quizType: quizType,
+        isActive: true,
         rawAnswers,
         traitScores: serverTraitScores,
         dominantTrait: serverDominantTrait,
         selectedCareer: selectedCareer || null,
+        careerSlug: careerSlug,
         skillRatings: skillRatings || null,
       }).returning();
       newResult = inserted;
-      
-      // Generate a roadmap progress entry if a career is selected
-      if (selectedCareer) {
+    }
+
+    if (newResult && careerSlug) {
+      // Ensure roadmapProgress exists for this (userId, careerSlug)
+      const existingProgress = await db.query.roadmapProgress.findFirst({
+        where: and(
+          eq(roadmapProgress.userId, userId),
+          eq(roadmapProgress.careerSlug, careerSlug)
+        )
+      });
+      if (!existingProgress) {
         await db.insert(roadmapProgress).values({
-          assessmentResultId: newResult.id,
-          userId: session.user.id,
-          moduleStatuses: {}, // Empty initially
+          userId: userId,
+          careerSlug: careerSlug,
+          moduleStatuses: {},
         });
       }
     }
