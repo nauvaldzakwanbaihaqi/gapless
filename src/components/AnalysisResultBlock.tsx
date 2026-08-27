@@ -30,8 +30,10 @@ export function AnalysisResultBlock({
   showBackHome = false
 }: AnalysisResultBlockProps) {
   return (
-    <div className="w-full">
-      <div className="glass-card p-6 sm:p-8 flex flex-col items-center">
+    <div className="w-full flex flex-col">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full mb-8">
+        {/* Kolom Kiri: Radar Chart */}
+        <div className="glass-card p-6 sm:p-8 flex flex-col items-center h-full">
         <h2 className="text-xl font-bold text-slate-900 mb-2 self-start">Radar Perbandingan</h2>
         <p className="text-xs text-gray-500 mb-6 self-start">
           Diperlukan (garis putus) vs. Level Kamu Saat Ini (isi)
@@ -106,17 +108,18 @@ export function AnalysisResultBlock({
             Isi solid = Level kamu saat ini
           </div>
         </div>
-      </div>
+        </div>
+        {/* Akhir Kolom Kiri */}
 
-      {/* AI Gap Insight */}
-      <div className="mt-6 w-full">
-        {isLoadingGapAi ? (
-          <div className="glass-card p-6 flex flex-col items-center justify-center animate-pulse gap-3">
-            <Sparkles size={24} className="text-gray-400 animate-spin-slow" />
-            <p className="text-sm text-gray-500 font-medium">AI sedang menganalisis kesenjangan skill-mu...</p>
-          </div>
-        ) : gapInsight ? (
-          <div className="glass-card p-6">
+        {/* Kolom Kanan: AI Gap Insight */}
+        <div className="h-full flex flex-col">
+          {isLoadingGapAi ? (
+            <div className="glass-card p-6 flex flex-col items-center justify-center animate-pulse gap-3 h-full min-h-[300px]">
+              <Sparkles size={24} className="text-gray-400 animate-spin-slow" />
+              <p className="text-sm text-gray-500 font-medium">AI sedang menganalisis kesenjangan skill-mu...</p>
+            </div>
+          ) : gapInsight ? (
+            <div className="glass-card p-6 h-full flex flex-col">
             <div className="flex items-center gap-2 mb-4">
               <Sparkles size={20} style={{ color: traitMetaColor }} />
               <h3 className="font-bold text-slate-900">Analisis Kesenjangan (AI)</h3>
@@ -159,15 +162,21 @@ export function AnalysisResultBlock({
             <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-sm font-medium text-slate-700 italic text-center">
               "{gapInsight.catatan_singkat}"
             </div>
-          </div>
-        ) : null}
+            </div>
+          ) : (
+            <div className="glass-card p-6 flex items-center justify-center h-full text-gray-400 text-sm italic">
+              Belum ada data analisis.
+            </div>
+          )}
+        </div>
+        {/* Akhir Kolom Kanan */}
       </div>
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3 }}
-        className="flex items-center justify-between mt-8"
+        className="flex items-center justify-between"
       >
         <div className="flex items-center gap-2 sm:gap-4">
           {showBackHome && (

@@ -91,7 +91,7 @@ export default async function ResultsPage() {
         </div>
 
         <div className="flex justify-end">
-          <Link href="/assessment" className="flex items-center gap-1 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
+          <Link href={`/results/${result.id}`} className="flex items-center gap-1 text-blue-600 font-semibold hover:text-blue-700 transition-colors">
             Lihat Detail <ChevronRight className="w-5 h-5" />
           </Link>
         </div>
