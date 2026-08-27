@@ -5,6 +5,7 @@ import { AssessmentFlow } from '@/components/AssessmentFlow';
 import { ResultsView } from '@/components/ResultsView';
 import { SkillGapView } from '@/components/SkillGapView';
 import { RoadmapView } from '@/components/RoadmapView';
+import { GuestModuleDetailView } from '@/components/GuestModuleDetailView';
 import { useGaplessContext } from '@/contexts/CareerContext';
 
 
@@ -46,6 +47,7 @@ export function GaplessApp({ initialRoles }: GaplessAppProps) {
         {currentView === 'skills' && <SkillGapView />}
         {currentView === 'case-study' && <CaseStudyQuizView />}
         {currentView === 'roadmap' && <RoadmapView />}
+        {currentView === 'module-detail' && <GuestModuleDetailView />}
       </motion.div>
     </AnimatePresence>
   );

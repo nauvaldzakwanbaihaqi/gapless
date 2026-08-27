@@ -66,10 +66,14 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
 
   const handleModuleClick = (mod: string, isLockedSeq: boolean) => {
     if (isLockedSeq) return;
+    
+    const slug = slugify(mod);
+    
     if (overrideData?.id) {
-      router.push(`/roadmap/${overrideData.id}/modul/${slugify(mod)}`);
+      router.push(`/roadmap/${overrideData.id}/modul/${slug}`);
     } else {
-      alert('Silakan login dan simpan hasil tes terlebih dahulu untuk melihat detail modul.');
+      context.setSelectedModuleSlug(slug);
+      context.setView('module-detail');
     }
   };
 

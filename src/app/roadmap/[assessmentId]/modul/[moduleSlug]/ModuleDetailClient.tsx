@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ChevronRight, ArrowLeft, Target, Play, Book, Lock, Unlock, CheckCircle2 } from 'lucide-react';
 import type { CareerProfile, CurriculumPhase, ModuleDetail } from '@/data/gaplessData';
+import { LoginModal } from '@/components/LoginModal';
+import { useGaplessContext } from '@/contexts/CareerContext';
 
 interface Props {
-  assessmentId: string;
+  assessmentId?: string;
   moduleSlug: string;
   profile: CareerProfile;
   phaseData: CurriculumPhase;
@@ -26,11 +28,26 @@ export default function ModuleDetailClient({
   isCompleted: initialCompleted,
 }: Props) {
   const router = useRouter();
+  const context = useGaplessContext();
   const [isCompleted, setIsCompleted] = useState(initialCompleted);
   const [isLoading, setIsLoading] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+
+  const handleBack = () => {
+    if (!assessmentId) {
+      context.setView('roadmap');
+    } else {
+      router.push('/roadmap');
+    }
+  };
 
   const handleMarkAsComplete = async () => {
     if (isCompleted) return; // do nothing if already complete
+    
+    if (!assessmentId) {
+      setShowLoginModal(true);
+      return;
+    }
     
     setIsLoading(true);
     try {
@@ -68,14 +85,14 @@ export default function ModuleDetailClient({
   return (
     <div className="flex flex-col gap-8 pb-20">
       {/* Breadcrumb */}
-      <div className="flex items-center text-sm text-slate-500 gap-1.5 font-medium">
-        <Link href="/roadmap" className="hover:text-blue-600 hover:underline transition-colors">
+      <div className="flex items-center text-sm text-slate-500 gap-1.5 font-medium mb-4 flex-wrap">
+        <button onClick={handleBack} className="hover:text-blue-600 hover:underline transition-colors">
           Roadmap {profile.title}
-        </Link>
+        </button>
         <ChevronRight size={14} className="opacity-50" />
-        <Link href="/roadmap" className="hover:text-blue-600 hover:underline transition-colors">
+        <button onClick={handleBack} className="hover:text-blue-600 hover:underline transition-colors">
           Fase {phaseIndex + 1}: {phaseData.title}
-        </Link>
+        </button>
         <ChevronRight size={14} className="opacity-50" />
         <span className="text-slate-800 underline decoration-slate-300 underline-offset-4">
           {detailData.title}
@@ -220,6 +237,11 @@ export default function ModuleDetailClient({
           </button>
         )}
       </div>
+      
+      <LoginModal 
+        isOpen={showLoginModal} 
+        onClose={() => setShowLoginModal(false)} 
+      />
     </div>
   );
 }

@@ -44,7 +44,7 @@ export type JobRole = {
 // View navigation
 // ──────────────────────────────────────────────
 
-export type View = 'assessment' | 'results' | 'skills' | 'roadmap' | 'selection' | 'case-study';
+export type GaplessView = 'assessment' | 'results' | 'skills' | 'roadmap' | 'case-study' | 'module-detail' | 'selection';
 
 // ──────────────────────────────────────────────
 // AI Insight types
@@ -88,9 +88,9 @@ export interface RoadmapNode extends CurriculumPhase {
 
 export interface GaplessContextValue {
   // ── Navigation ──
-  currentView: View;
-  setCurrentView: Dispatch<SetStateAction<View>>;
-  setView: (v: View) => void;
+  currentView: GaplessView;
+  setCurrentView: Dispatch<SetStateAction<GaplessView>>;
+  setView: (v: GaplessView) => void;
 
   // ── Assessment ──
   answers: Record<number, number>;
@@ -127,7 +127,9 @@ export interface GaplessContextValue {
   // ── Skill self-ratings ──
   skillRatings: Record<string, number>;
   setSkillRating: (skillName: string, level: number) => void;
-  resetProgress: () => void;
+  selectedModuleSlug: string | null;
+  setSelectedModuleSlug: (slug: string | null) => void;
+  resetProgress: () => Promise<void>;
   skillGapData: SkillGapEntry[];
   allSkillsRated: boolean;
 
@@ -166,7 +168,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
   const isPro = userTier === 'Student Pro' || userTier === 'Pro';
 
   // ── Navigation ──
-  const [currentView, setCurrentView] = useState<View>('selection');
+  const [currentView, setCurrentView] = useState<GaplessView>('assessment');
 
   // ── Assessment answers ──
   const [answers, setAnswers] = useState<Record<number, number>>({});
@@ -178,6 +180,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
 
   // ── Role selection (Database flow) ──
   const [selectedRole, setSelectedRole] = useState<JobRole | null>(null);
+  const [selectedModuleSlug, setSelectedModuleSlug] = useState<string | null>(null);
 
   // ── Skill self-ratings ──
   const [skillRatings, setSkillRatingsState] = useState<Record<string, number>>(
@@ -281,7 +284,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
 
   // ── Actions ──
 
-  const setView = useCallback((v: View) => {
+  const setView = useCallback((v: GaplessView) => {
     setCurrentView(v);
   }, []);
 
@@ -418,10 +421,8 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
     fetchGapLock.current = false;
   }, []);
 
-  const resetProgress = useCallback(() => {
+  const resetProgress = useCallback(async () => {
     setSkillRatingsState({});
-    // LocalStorage will be overwritten by the auto-sync effect 
-    // because skillRatings changed (via saveResultToServerOrLocal dependency)
   }, []);
 
   // ── Persistence & Auto-Sync ──
@@ -504,6 +505,8 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
       setSelectedRole,
       skillRatings,
       setSkillRating,
+      selectedModuleSlug,
+      setSelectedModuleSlug,
       resetProgress,
       skillGapData,
       allSkillsRated,
@@ -512,11 +515,6 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
     }),
     [
       currentView,
-      setView,
-      answers,
-      setAnswer,
-      completedQuestions,
-      isAssessmentComplete,
       traitScores,
       dominantTrait,
       traitRadarData,
