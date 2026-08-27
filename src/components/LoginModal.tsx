@@ -46,7 +46,7 @@ export function LoginModal({
 
               <div className="space-y-3">
                 <button
-                  onClick={() => signIn("google", { callbackUrl: "/" })}
+                  onClick={() => signIn("google", { callbackUrl: window.location.pathname })}
                   className="w-full bg-slate-900 hover:bg-slate-800 text-white px-6 py-3.5 rounded-2xl font-semibold transition-all flex items-center justify-center gap-3 shadow-md"
                 >
                   <svg className="w-5 h-5 bg-white rounded-full p-0.5" viewBox="0 0 24 24" fill="currentColor">

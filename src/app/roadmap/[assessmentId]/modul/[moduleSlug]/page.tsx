@@ -7,21 +7,28 @@ import { CAREER_PROFILES, MODULE_DETAILS } from '@/data/gaplessData';
 import { Navbar } from '@/components/Navbar';
 import ModuleDetailClient from './ModuleDetailClient';
 
-export default async function ModuleDetailPage({ params }: { params: { assessmentId: string, moduleSlug: string } }) {
+export default async function ModuleDetailPage({ params }: { params: Promise<{ assessmentId: string, moduleSlug: string }> }) {
   const session = await auth();
   if (!session?.user) {
     redirect('/');
   }
 
-  const { assessmentId, moduleSlug } = params;
+  const { assessmentId, moduleSlug } = await params;
 
   // 1. Ambil assessment result dari DB
-  const result = await db.query.assessmentResults.findFirst({
-    where: and(
-      eq(assessmentResults.id, assessmentId),
-      eq(assessmentResults.userId, session.user.id)
-    )
+  const rawResult = await db.query.assessmentResults.findFirst({
+    where: eq(assessmentResults.id, assessmentId)
   });
+  
+  console.log('[DIAGNOSTIC] ModuleDetailPage URL assessmentId:', assessmentId);
+  console.log('[DIAGNOSTIC] Current Session User ID:', session.user.id);
+  console.log('[DIAGNOSTIC] DB Result for this assessmentId:', rawResult ? {
+    id: rawResult.id,
+    userId: rawResult.userId,
+    selectedCareer: rawResult.selectedCareer
+  } : 'NOT FOUND');
+
+  const result = rawResult?.userId === session.user.id ? rawResult : null;
 
   if (!result) {
     return (

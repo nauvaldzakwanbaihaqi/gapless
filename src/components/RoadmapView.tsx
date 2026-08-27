@@ -68,9 +68,10 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
     if (isLockedSeq) return;
     
     const slug = slugify(mod);
+    const assessmentId = overrideData?.id || context.currentAssessmentId;
     
-    if (overrideData?.id) {
-      router.push(`/roadmap/${overrideData.id}/modul/${slug}`);
+    if (assessmentId) {
+      router.push(`/roadmap/${assessmentId}/modul/${slug}`);
     } else {
       context.setSelectedModuleSlug(slug);
       context.setView('module-detail');
@@ -227,7 +228,8 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
                           >
                             {(() => {
                               const slug = slugify(mod);
-                              const href = overrideData?.id ? `/roadmap/${overrideData.id}/modul/${slug}` : undefined;
+                              const assessmentId = overrideData?.id || context.currentAssessmentId;
+                              const href = assessmentId ? `/roadmap/${assessmentId}/modul/${slug}` : undefined;
                               
                               const inner = (
                                 <div className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${

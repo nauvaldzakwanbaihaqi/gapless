@@ -39,6 +39,20 @@ export async function POST(req: Request) {
         skillRatings: skillRatings || null,
       }).where(eq(assessmentResults.id, assessmentId)).returning();
       newResult = updated;
+      
+      if (selectedCareer) {
+        // Ensure roadmapProgress exists for this update
+        const existingProgress = await db.query.roadmapProgress.findFirst({
+          where: eq(roadmapProgress.assessmentResultId, newResult.id)
+        });
+        if (!existingProgress) {
+          await db.insert(roadmapProgress).values({
+            assessmentResultId: newResult.id,
+            userId: session.user.id,
+            moduleStatuses: {},
+          });
+        }
+      }
     } else {
       // Create new
       const [inserted] = await db.insert(assessmentResults).values({
