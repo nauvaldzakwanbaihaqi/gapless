@@ -9,7 +9,6 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
   const pathname = usePathname();
 
   const links = [
-    { href: "/assessment", label: "Assessment" },
     { href: "/roadmap", label: "Learning Roadmap" },
     { href: "/results", label: "Hasil Saya" },
     { href: "/profil", label: "Profil" },
