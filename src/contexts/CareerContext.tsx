@@ -127,6 +127,7 @@ export interface GaplessContextValue {
   // ── Skill self-ratings ──
   skillRatings: Record<string, number>;
   setSkillRating: (skillName: string, level: number) => void;
+  resetProgress: () => void;
   skillGapData: SkillGapEntry[];
   allSkillsRated: boolean;
 
@@ -417,6 +418,12 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
     fetchGapLock.current = false;
   }, []);
 
+  const resetProgress = useCallback(() => {
+    setSkillRatingsState({});
+    // LocalStorage will be overwritten by the auto-sync effect 
+    // because skillRatings changed (via saveResultToServerOrLocal dependency)
+  }, []);
+
   // ── Persistence & Auto-Sync ──
 
   const saveResultToServerOrLocal = useCallback(async () => {
@@ -497,6 +504,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
       setSelectedRole,
       skillRatings,
       setSkillRating,
+      resetProgress,
       skillGapData,
       allSkillsRated,
       roadmapWithProgress,

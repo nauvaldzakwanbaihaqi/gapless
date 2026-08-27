@@ -65,6 +65,7 @@ export default function RoadmapClient({ history }: { history: AssessmentResult[]
     });
 
     return {
+      id: selectedHistory.id,
       selectedCareer: profile,
       roadmapWithProgress,
     };

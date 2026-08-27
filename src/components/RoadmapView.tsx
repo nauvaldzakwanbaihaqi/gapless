@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Map, CheckCircle2, Circle, ChevronLeft, ChevronDown, RotateCcw, Lock } from 'lucide-react';
+import { Map, CheckCircle2, Circle, ChevronLeft, ChevronDown, RotateCcw, Lock, Home } from 'lucide-react';
 import { TRAIT_META } from '@/data/gaplessData';
 import { useGaplessContext } from '@/contexts/CareerContext';
 import { useSession } from 'next-auth/react';
@@ -15,6 +15,7 @@ const PHASE_ICONS = ['🌱', '🌿', '🌳', '🏔️'];
 
 export interface RoadmapViewProps {
   overrideData?: {
+    id?: string;
     selectedCareer: CareerProfile | null;
     roadmapWithProgress: RoadmapNode[];
   };
@@ -24,10 +25,40 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
   const context = useGaplessContext();
   const selectedCareer = overrideData?.selectedCareer || context.selectedCareer;
   const roadmapWithProgress = overrideData?.roadmapWithProgress || context.roadmapWithProgress;
-  const reset = context.reset;
-  const setView = context.setView;
+  const resetProgress = context.resetProgress;
   const { data: session } = useSession();
   const [expandedModule, setExpandedModule] = useState<string | null>(null);
+  const [isResetting, setIsResetting] = useState(false);
+
+  const handleReset = async () => {
+    if (!window.confirm('Progress roadmap ini akan direset ke 0%. Hasil analisis dan riwayat tes kamu tidak akan terhapus. Lanjutkan?')) {
+      return;
+    }
+
+    if (overrideData?.id) {
+      setIsResetting(true);
+      try {
+        const res = await fetch('/api/roadmap/reset', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ assessmentId: overrideData.id })
+        });
+        if (res.ok) {
+          // Refresh page so server component refetches
+          window.location.reload();
+        } else {
+          alert('Gagal mereset progress.');
+        }
+      } catch (err) {
+        alert('Terjadi kesalahan jaringan.');
+      } finally {
+        setIsResetting(false);
+      }
+    } else {
+      // Fallback for SPA flow guest / logged in user right after assessment
+      resetProgress();
+    }
+  };
 
   const toggleModule = (key: string) => {
     setExpandedModule((prev) => (prev === key ? null : key));
@@ -288,22 +319,19 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
           transition={{ delay: 1 }}
           className="flex flex-col sm:flex-row items-center justify-between gap-4 mt-12 pb-8"
         >
-          <button
-            onClick={() => setView('skills')}
+          <Link
+            href="/"
             className="flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition-colors w-full sm:w-auto justify-center shadow-sm relative z-30"
           >
-            <ChevronLeft size={18} /> Kembali ke Skill
-          </button>
+            <Home size={18} /> Home
+          </Link>
           
           <button
-            onClick={() => {
-              if(window.confirm('Apakah kamu yakin ingin memulai ulang? Semua progres asesmen akan dihapus.')) {
-                reset();
-              }
-            }}
-            className="flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition-colors w-full sm:w-auto justify-center shadow-sm relative z-30"
+            onClick={handleReset}
+            disabled={isResetting}
+            className="flex items-center gap-2 px-6 py-3 rounded-full bg-white border border-slate-200 text-slate-700 font-bold hover:bg-slate-50 transition-colors w-full sm:w-auto justify-center shadow-sm relative z-30 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <RotateCcw size={18} /> Mulai Ulang
+            <RotateCcw size={18} className={isResetting ? "animate-spin" : ""} /> {isResetting ? "Mereset..." : "Reset Progress"}
           </button>
         </motion.div>
       </div>
