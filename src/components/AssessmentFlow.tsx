@@ -17,7 +17,7 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 export function AssessmentFlow() {
-  const { answers, setAnswer, isAssessmentComplete, setView } =
+  const { answers, setAnswer, isAssessmentComplete, setView, quizType } =
     useGaplessContext();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [started, setStarted] = useState(false);
@@ -95,9 +95,8 @@ export function AssessmentFlow() {
             onClick={async () => {
               setIsCheckingActive(true);
               try {
-                // Determine quizType logic here if we have multiple paths in the future
-                // Currently defaults to 'belum_tahu_minat'
-                const res = await fetch('/api/assessment/has-active?quizType=belum_tahu_minat');
+                // Use quizType from context
+                const res = await fetch(`/api/assessment/has-active?quizType=${quizType}`);
                 const data = await res.json();
                 if (data.hasActive) {
                   setShowRetakeModal(true);

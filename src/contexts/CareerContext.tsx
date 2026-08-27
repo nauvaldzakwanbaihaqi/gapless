@@ -130,6 +130,8 @@ export interface GaplessContextValue {
   selectedModuleSlug: string | null;
   setSelectedModuleSlug: (slug: string | null) => void;
   currentAssessmentId: string | null;
+  quizType: string;
+  setQuizType: (type: string) => void;
   resetProgress: () => Promise<void>;
   skillGapData: SkillGapEntry[];
   allSkillsRated: boolean;
@@ -174,6 +176,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
   // ── Assessment answers ──
   const [answers, setAnswersState] = useState<Record<number, number>>({});
   const [currentAssessmentId, setCurrentAssessmentId] = useState<string | null>(null);
+  const [quizType, setQuizType] = useState<string>('belum_tahu_minat');
 
   const setAnswers = useCallback((newAnswers: Record<number, number> | ((prev: Record<number, number>) => Record<number, number>)) => {
     setAnswersState(newAnswers);
@@ -447,6 +450,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
       dominantTrait,
       selectedCareer: selectedCareer?.title || null,
       skillRatings: Object.keys(skillRatings).length > 0 ? skillRatings : null,
+      quizType,
     };
 
     if (session?.user) {
@@ -468,7 +472,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
     } else {
       localStorage.setItem('gapless_pending_result', JSON.stringify(payload));
     }
-  }, [answers, traitScores, dominantTrait, selectedCareer, skillRatings, session, currentAssessmentId]);
+  }, [answers, traitScores, dominantTrait, selectedCareer, skillRatings, session, currentAssessmentId, quizType]);
 
   useEffect(() => {
     if (currentView === 'results' || currentView === 'roadmap') {
@@ -525,6 +529,8 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
       currentAssessmentId,
       selectedModuleSlug,
       setSelectedModuleSlug,
+      quizType,
+      setQuizType,
       resetProgress,
       skillGapData,
       allSkillsRated,
