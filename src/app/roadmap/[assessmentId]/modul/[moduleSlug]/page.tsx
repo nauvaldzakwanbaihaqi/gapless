@@ -60,7 +60,13 @@ export default async function ModuleDetailPage({ params }: { params: { assessmen
   }
 
   if (targetPhaseIndex === -1) {
-    redirect('/roadmap'); // Modul tidak ditemukan
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-6">
+        <h2 className="text-2xl font-bold text-slate-800 mb-2">Modul Tidak Ditemukan</h2>
+        <p className="text-slate-500 mb-6">Kami tidak dapat menemukan modul "{moduleSlug}" di roadmap ini.</p>
+        <a href="/roadmap" className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700">Kembali ke Roadmap</a>
+      </div>
+    );
   }
 
   const phaseData = profile.roadmap[targetPhaseIndex];

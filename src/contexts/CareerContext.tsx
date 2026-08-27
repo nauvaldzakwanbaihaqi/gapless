@@ -129,6 +129,7 @@ export interface GaplessContextValue {
   setSkillRating: (skillName: string, level: number) => void;
   selectedModuleSlug: string | null;
   setSelectedModuleSlug: (slug: string | null) => void;
+  currentAssessmentId: string | null;
   resetProgress: () => Promise<void>;
   skillGapData: SkillGapEntry[];
   allSkillsRated: boolean;
@@ -171,7 +172,16 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
   const [currentView, setCurrentView] = useState<GaplessView>('assessment');
 
   // ── Assessment answers ──
-  const [answers, setAnswers] = useState<Record<number, number>>({});
+  const [answers, setAnswersState] = useState<Record<number, number>>({});
+  const [currentAssessmentId, setCurrentAssessmentId] = useState<string | null>(null);
+
+  const setAnswers = useCallback((newAnswers: Record<number, number> | ((prev: Record<number, number>) => Record<number, number>)) => {
+    setAnswersState(newAnswers);
+    // If resetting answers, also reset current assessment ID so it creates a new row
+    if (Object.keys(newAnswers).length === 0) {
+      setCurrentAssessmentId(null);
+    }
+  }, []);
 
   // ── Career selection (Assessment flow) ──
   const [selectedCareer, setSelectedCareer] = useState<CareerProfile | null>(
@@ -431,6 +441,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
     if (!dominantTrait) return;
     
     const payload = {
+      assessmentId: currentAssessmentId,
       rawAnswers: answers,
       traitScores,
       dominantTrait,
@@ -440,18 +451,24 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
 
     if (session?.user) {
       try {
-        await fetch('/api/assessment/sync', {
+        const res = await fetch('/api/assessment/sync', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.result?.id && !currentAssessmentId) {
+            setCurrentAssessmentId(data.result.id);
+          }
+        }
       } catch (err) {
         console.error('Failed to sync result', err);
       }
     } else {
       localStorage.setItem('gapless_pending_result', JSON.stringify(payload));
     }
-  }, [answers, traitScores, dominantTrait, selectedCareer, skillRatings, session]);
+  }, [answers, traitScores, dominantTrait, selectedCareer, skillRatings, session, currentAssessmentId]);
 
   useEffect(() => {
     if (currentView === 'results' || currentView === 'roadmap') {
@@ -505,6 +522,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
       setSelectedRole,
       skillRatings,
       setSkillRating,
+      currentAssessmentId,
       selectedModuleSlug,
       setSelectedModuleSlug,
       resetProgress,

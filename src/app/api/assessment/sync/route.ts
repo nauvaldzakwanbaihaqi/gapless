@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { rawAnswers, selectedCareer, skillRatings } = body;
+    const { assessmentId, rawAnswers, selectedCareer, skillRatings } = body;
 
     if (!rawAnswers) {
       return NextResponse.json({ error: 'Missing required data' }, { status: 400 });
@@ -27,23 +27,38 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Failed to compute dominant trait' }, { status: 400 });
     }
 
-    // Save assessment result
-    const [newResult] = await db.insert(assessmentResults).values({
-      userId: session.user.id,
-      rawAnswers,
-      traitScores: serverTraitScores,
-      dominantTrait: serverDominantTrait,
-      selectedCareer: selectedCareer || null,
-      skillRatings: skillRatings || null,
-    }).returning();
+    let newResult;
 
-    // Generate a roadmap progress entry if a career is selected
-    if (selectedCareer) {
-      await db.insert(roadmapProgress).values({
-        assessmentResultId: newResult.id,
+    if (assessmentId) {
+      // Update existing
+      const [updated] = await db.update(assessmentResults).set({
+        rawAnswers,
+        traitScores: serverTraitScores,
+        dominantTrait: serverDominantTrait,
+        selectedCareer: selectedCareer || null,
+        skillRatings: skillRatings || null,
+      }).where(eq(assessmentResults.id, assessmentId)).returning();
+      newResult = updated;
+    } else {
+      // Create new
+      const [inserted] = await db.insert(assessmentResults).values({
         userId: session.user.id,
-        moduleStatuses: {}, // Empty initially
-      });
+        rawAnswers,
+        traitScores: serverTraitScores,
+        dominantTrait: serverDominantTrait,
+        selectedCareer: selectedCareer || null,
+        skillRatings: skillRatings || null,
+      }).returning();
+      newResult = inserted;
+      
+      // Generate a roadmap progress entry if a career is selected
+      if (selectedCareer) {
+        await db.insert(roadmapProgress).values({
+          assessmentResultId: newResult.id,
+          userId: session.user.id,
+          moduleStatuses: {}, // Empty initially
+        });
+      }
     }
 
     return NextResponse.json({ success: true, result: newResult });
