@@ -311,7 +311,7 @@ export default function HomePage() {
               className="bg-white rounded-4xl px-5 py-6 md:px-7 md:py-2 flex items-center gap-5 md:gap-7 shadow-sm hover:shadow-md transition-shadow duration-300 border border-slate-100"
             >
               {/* KOTAK FOTO */}
-              <div className="relative w-[135px] h-[185px] md:w-[165px] md:h-[225px] shrink-0 flex items-center justify-center">
+              <div className="relative w-33.75 h-46.25 md:w-41.25 md:h-56.25 shrink-0 flex items-center justify-center">
 
                 {/* FOTO: customClass dipanggil di sini */}
                 <img

@@ -4,6 +4,7 @@ import {
   createContext,
   useContext,
   useState,
+  useEffect,
   useCallback,
   useMemo,
   useRef,
@@ -11,6 +12,7 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
+import { useSession } from 'next-auth/react';
 
 import {
   type Trait,
@@ -158,6 +160,10 @@ export function useGaplessContext() {
 // ──────────────────────────────────────────────
 
 export function GaplessProvider({ children }: { children: ReactNode }) {
+  const { data: session } = useSession();
+  const userTier = (session?.user as any)?.tier || 'Free';
+  const isPro = userTier === 'Student Pro' || userTier === 'Pro';
+
   // ── Navigation ──
   const [currentView, setCurrentView] = useState<View>('selection');
 
@@ -238,7 +244,22 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
   const roadmapWithProgress = useMemo<RoadmapNode[]>(() => {
     if (!selectedCareer) return [];
 
-    return selectedCareer.roadmap.map((phase) => {
+    return selectedCareer.roadmap.map((phase, phaseIdx) => {
+      const isLockedPhase = !isPro && phaseIdx >= 2;
+      
+      if (isLockedPhase) {
+        // Redact premium content completely before sending to components
+        return {
+          ...phase,
+          title: 'Lanjutan',
+          subtitle: 'Materi lanjutan untuk memaksimalkan potensimu.',
+          description: 'Pelajari materi lebih dalam dengan praktik industri nyata.',
+          modules: phase.modules.map((_, i) => `Materi Premium ${i + 1}`),
+          completedModules: [],
+          progress: 0,
+        };
+      }
+
       const completedModules = phase.modules.filter((_module, idx) => {
         const skill = selectedCareer.skills[idx % selectedCareer.skills.length];
         if (!skill) return false;
@@ -255,7 +276,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
             : 0,
       };
     });
-  }, [selectedCareer, skillRatings]);
+  }, [selectedCareer, skillRatings, isPro]);
 
   // ── Actions ──
 
@@ -395,6 +416,57 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
     fetchLock.current = false;
     fetchGapLock.current = false;
   }, []);
+
+  // ── Persistence & Auto-Sync ──
+
+  const saveResultToServerOrLocal = useCallback(async () => {
+    if (!dominantTrait) return;
+    
+    const payload = {
+      rawAnswers: answers,
+      traitScores,
+      dominantTrait,
+      selectedCareer: selectedCareer?.title || null,
+      skillRatings: Object.keys(skillRatings).length > 0 ? skillRatings : null,
+    };
+
+    if (session?.user) {
+      try {
+        await fetch('/api/assessment/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } catch (err) {
+        console.error('Failed to sync result', err);
+      }
+    } else {
+      localStorage.setItem('gapless_pending_result', JSON.stringify(payload));
+    }
+  }, [answers, traitScores, dominantTrait, selectedCareer, skillRatings, session]);
+
+  useEffect(() => {
+    if (currentView === 'results' || currentView === 'roadmap') {
+      saveResultToServerOrLocal();
+    }
+  }, [currentView, saveResultToServerOrLocal]);
+
+  useEffect(() => {
+    if (session?.user) {
+      const pending = localStorage.getItem('gapless_pending_result');
+      if (pending) {
+        fetch('/api/assessment/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: pending
+        }).then(res => {
+          if (res.ok) {
+            localStorage.removeItem('gapless_pending_result');
+          }
+        }).catch(err => console.error(err));
+      }
+    }
+  }, [session]);
 
   // ── Context value ──
 
