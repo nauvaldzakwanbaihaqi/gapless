@@ -92,16 +92,6 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
 
   return (
     <div className="min-h-screen bg-space">
-      {/* Logo Strip (Minimal Navbar) */}
-      <div className="w-full px-6 py-4 max-w-7xl mx-auto flex items-center justify-start">
-        <Link
-          href="/"
-          className="flex items-center gap-2 transition-transform hover:scale-105 animate-slide-from-left"
-        >
-          <img src="/Asset 1.png" alt="Gapless Explorer Logo" className="h-10 w-auto" />
-          <span className="font-bold text-slate-900 text-2xl">Gapless</span>
-        </Link>
-      </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-4 pb-12">
         {/* Header */}
