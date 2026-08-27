@@ -48,13 +48,11 @@ export function GuestModuleDetailView() {
 
   // Get Detail Data
   const detailData = MODULE_DETAILS[selectedModuleSlug] || {
-    id: selectedModuleSlug,
+    slug: selectedModuleSlug,
     title: moduleName,
-    description: `Materi komprehensif mengenai ${moduleName}. Modul ini dirancang untuk membekali Anda dengan pengetahuan fundamental dan praktis yang relevan dengan standar industri saat ini.`,
-    targetAudience: "Semua level",
-    estimatedTime: "2-4 Jam",
-    prerequisites: ["Pemahaman dasar bidang ini"],
-    topics: [
+    duration: "Estimasi 2-4 Jam",
+    target: `Menguasai konsep dasar ${moduleName} untuk kebutuhan industri.`,
+    breakdown: [
       {
         title: `Konsep Dasar ${moduleName}`,
         description: `Pengenalan menyeluruh tentang apa itu ${moduleName} dan mengapa hal ini penting.`
@@ -70,7 +68,7 @@ export function GuestModuleDetailView() {
         type: "Artikel",
         url: "#",
         isFree: true,
-        source: "Gapless Curation"
+        provider: "Gapless Curation"
       }
     ]
   };
