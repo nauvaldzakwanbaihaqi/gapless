@@ -115,8 +115,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
     if (skill) {
       const skillRatings = (result.skillRatings as Record<string, number>) || {};
       const userLevel = skillRatings[skill.name] ?? 0;
-      const requiredLevel = targetPhaseIndex + 1;
-      if (userLevel >= requiredLevel) {
+      if (userLevel >= skill.required) {
         isCompleted = true;
       }
     }
