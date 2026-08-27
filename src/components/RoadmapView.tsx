@@ -224,56 +224,80 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.6 + phaseIdx * 0.1 + modIdx * 0.04 }}
-                            role="button"
-                            tabIndex={isLockedSeq ? -1 : 0}
-                            onClick={() => handleModuleClick(mod, isLockedSeq)}
-                            className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${
-                              isModuleCompleted
-                                ? 'bg-blue-50/60 border-blue-100'
-                                : isAvailable
-                                ? 'bg-white border-slate-200 shadow-sm hover:border-blue-300 cursor-pointer'
-                                : 'bg-slate-50 border-slate-100 cursor-not-allowed'
-                            }`}
                           >
-                            <div className="flex items-center gap-4">
-                              <div className="shrink-0 flex items-center justify-center">
-                                {isModuleCompleted ? (
-                                  <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
-                                    <CheckCircle2 className="w-4 h-4 text-white" />
-                                  </div>
-                                ) : isAvailable ? (
-                                  <div className="w-5 h-5 rounded-full border-2 border-slate-300 ml-0.5" />
-                                ) : (
-                                  <Lock className="w-5 h-5 text-slate-400" />
-                                )}
-                              </div>
-                              <span
-                                className={`font-semibold text-sm md:text-base ${
-                                  isLockedSeq ? 'text-slate-400' : 'text-slate-800'
-                                }`}
-                              >
-                                {mod}
-                              </span>
-                            </div>
-
-                            <div className="flex items-center gap-3">
-                              {isModuleCompleted && (
-                                <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-blue-600 text-white text-[11px] font-bold tracking-wide">
-                                  Terpenuhi
-                                </span>
-                              )}
-                              {isLockedSeq && !isPremiumLocked && (
-                                <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[11px] font-bold tracking-wide">
-                                  Selesaikan Modul Sebelumnya
-                                </span>
-                              )}
+                            {(() => {
+                              const slug = slugify(mod);
+                              const href = overrideData?.id ? `/roadmap/${overrideData.id}/modul/${slug}` : undefined;
                               
-                              <ChevronDown 
-                                className={`w-5 h-5 shrink-0 transition-transform duration-200 ${
-                                  isLockedSeq ? 'text-slate-300' : 'text-slate-500'
-                                } -rotate-90`} 
-                              />
-                            </div>
+                              const inner = (
+                                <div className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${
+                                  isModuleCompleted
+                                    ? 'bg-blue-50/60 border-blue-100'
+                                    : isAvailable
+                                    ? 'bg-white border-slate-200 shadow-sm hover:border-blue-300 cursor-pointer'
+                                    : 'bg-slate-50 border-slate-100 cursor-not-allowed'
+                                }`}>
+                                  <div className="flex items-center gap-4">
+                                    <div className="shrink-0 flex items-center justify-center">
+                                      {isModuleCompleted ? (
+                                        <div className="w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center">
+                                          <CheckCircle2 className="w-4 h-4 text-white" />
+                                        </div>
+                                      ) : isAvailable ? (
+                                        <div className="w-5 h-5 rounded-full border-2 border-slate-300 ml-0.5" />
+                                      ) : (
+                                        <Lock className="w-5 h-5 text-slate-400" />
+                                      )}
+                                    </div>
+                                    <span
+                                      className={`font-semibold text-sm md:text-base ${
+                                        isLockedSeq ? 'text-slate-400' : 'text-slate-800'
+                                      }`}
+                                    >
+                                      {mod}
+                                    </span>
+                                  </div>
+
+                                  <div className="flex items-center gap-3">
+                                    {isModuleCompleted && (
+                                      <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-blue-600 text-white text-[11px] font-bold tracking-wide">
+                                        Terpenuhi
+                                      </span>
+                                    )}
+                                    {isLockedSeq && !isPremiumLocked && (
+                                      <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[11px] font-bold tracking-wide">
+                                        Selesaikan Modul Sebelumnya
+                                      </span>
+                                    )}
+                                    
+                                    <ChevronDown 
+                                      className={`w-5 h-5 shrink-0 transition-transform duration-200 ${
+                                        isLockedSeq ? 'text-slate-300' : 'text-slate-500'
+                                      } -rotate-90`} 
+                                    />
+                                  </div>
+                                </div>
+                              );
+
+                              if (href && !isLockedSeq) {
+                                return (
+                                  <Link href={href} className="block w-full">
+                                    {inner}
+                                  </Link>
+                                );
+                              }
+
+                              return (
+                                <div
+                                  role={!isLockedSeq ? "button" : undefined}
+                                  tabIndex={!isLockedSeq ? 0 : -1}
+                                  onClick={() => !isLockedSeq && handleModuleClick(mod, isLockedSeq)}
+                                  className="block w-full"
+                                >
+                                  {inner}
+                                </div>
+                              );
+                            })()}
                           </motion.div>
                         </div>
                       );

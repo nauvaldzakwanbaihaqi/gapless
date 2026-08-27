@@ -23,8 +23,28 @@ export default async function ModuleDetailPage({ params }: { params: { assessmen
     )
   });
 
-  if (!result || !result.selectedCareer) {
-    redirect('/roadmap');
+  if (!result) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2">Akses Ditolak</h2>
+          <p className="text-slate-500 mb-4">Hasil asesmen ini tidak ditemukan atau bukan milik Anda.</p>
+          <a href="/roadmap" className="text-blue-600 hover:underline">Kembali ke Roadmap</a>
+        </div>
+      </div>
+    );
+  }
+
+  if (!result.selectedCareer) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2">Roadmap Belum Dipilih</h2>
+          <p className="text-slate-500 mb-4">Anda belum memilih fokus karir untuk asesmen ini.</p>
+          <a href="/roadmap" className="text-blue-600 hover:underline">Kembali ke Roadmap</a>
+        </div>
+      </div>
+    );
   }
 
   // 2. Ambil roadmap progress
@@ -37,7 +57,15 @@ export default async function ModuleDetailPage({ params }: { params: { assessmen
   // 3. Cocokkan profil karir
   const profile = CAREER_PROFILES.find((c) => c.title === result.selectedCareer);
   if (!profile) {
-    redirect('/roadmap');
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2">Profil Karir Tidak Valid</h2>
+          <p className="text-slate-500 mb-4">Profil karir "{result.selectedCareer}" tidak ditemukan dalam sistem.</p>
+          <a href="/roadmap" className="text-blue-600 hover:underline">Kembali ke Roadmap</a>
+        </div>
+      </div>
+    );
   }
 
   // 4. Cari fase mana yang memiliki modul ini, dan apakah modul ini valid
