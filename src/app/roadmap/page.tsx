@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { auth } from '@/auth';
 import { db } from '@/db';
-import { assessmentResults } from '@/db/schema';
+import { assessmentResults, roadmapProgress } from '@/db/schema';
 import { desc, eq, isNotNull, and } from 'drizzle-orm';
 import Link from 'next/link';
 import { Map } from 'lucide-react';
@@ -22,8 +22,10 @@ export default async function RoadmapPage() {
       createdAt: assessmentResults.createdAt,
       selectedCareer: assessmentResults.selectedCareer,
       skillRatings: assessmentResults.skillRatings,
+      moduleStatuses: roadmapProgress.moduleStatuses,
     })
     .from(assessmentResults)
+    .leftJoin(roadmapProgress, eq(assessmentResults.id, roadmapProgress.assessmentResultId))
     .where(
       and(
         eq(assessmentResults.userId, session.user.id),

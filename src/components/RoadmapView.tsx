@@ -21,13 +21,15 @@ export interface RoadmapViewProps {
   };
 }
 
+import { useRouter } from 'next/navigation';
+
 export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
   const context = useGaplessContext();
   const selectedCareer = overrideData?.selectedCareer || context.selectedCareer;
   const roadmapWithProgress = overrideData?.roadmapWithProgress || context.roadmapWithProgress;
   const resetProgress = context.resetProgress;
   const { data: session } = useSession();
-  const [expandedModule, setExpandedModule] = useState<string | null>(null);
+  const router = useRouter();
   const [isResetting, setIsResetting] = useState(false);
 
   const handleReset = async () => {
@@ -60,8 +62,15 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
     }
   };
 
-  const toggleModule = (key: string) => {
-    setExpandedModule((prev) => (prev === key ? null : key));
+  const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
+  const handleModuleClick = (mod: string, isLockedSeq: boolean) => {
+    if (isLockedSeq) return;
+    if (overrideData?.id) {
+      router.push(`/roadmap/${overrideData.id}/modul/${slugify(mod)}`);
+    } else {
+      alert('Silakan login dan simpan hasil tes terlebih dahulu untuk melihat detail modul.');
+    }
   };
 
   if (!selectedCareer) return null;
@@ -214,8 +223,6 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
                       isPreviousCompleted = isModuleCompleted;
                       
                       const isPremiumLocked = isLocked;
-                      const moduleKey = `${phaseIdx}-${modIdx}`;
-                      const isExpanded = expandedModule === moduleKey;
 
                       return (
                         <div key={mod}>
@@ -225,14 +232,7 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
                             transition={{ delay: 0.6 + phaseIdx * 0.1 + modIdx * 0.04 }}
                             role="button"
                             tabIndex={isLockedSeq ? -1 : 0}
-                            aria-expanded={isExpanded}
-                            onClick={() => { if (!isLockedSeq) toggleModule(moduleKey); }}
-                            onKeyDown={(e) => {
-                              if (!isLockedSeq && (e.key === 'Enter' || e.key === ' ')) {
-                                e.preventDefault();
-                                toggleModule(moduleKey);
-                              }
-                            }}
+                            onClick={() => handleModuleClick(mod, isLockedSeq)}
                             className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${
                               isModuleCompleted
                                 ? 'bg-blue-50/60 border-blue-100'
@@ -277,31 +277,10 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
                               <ChevronDown 
                                 className={`w-5 h-5 shrink-0 transition-transform duration-200 ${
                                   isLockedSeq ? 'text-slate-300' : 'text-slate-500'
-                                } ${isExpanded ? 'rotate-180' : (isModuleCompleted || isAvailable ? '-rotate-90' : '')}`} 
+                                } -rotate-90`} 
                               />
                             </div>
                           </motion.div>
-
-                          {/* Expanded Detail */}
-                          <AnimatePresence>
-                            {isExpanded && !isLockedSeq && (
-                              <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: 'auto', opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2 }}
-                                className="overflow-hidden"
-                              >
-                                <div className="ml-[3.25rem] mt-2 mb-3 p-4 rounded-xl text-sm space-y-2 bg-slate-50 border border-slate-100">
-                                  <p className="text-slate-600 leading-relaxed">
-                                    {isModuleCompleted
-                                      ? '✅ Kamu sudah memiliki skill ini berdasarkan profilmu. Modul ini bisa di-skip atau dipelajari untuk review tambahan.'
-                                      : '📘 Modul ini perlu dipelajari secara berurutan untuk menutup gap skill-mu dengan standar industri.'}
-                                  </p>
-                                </div>
-                              </motion.div>
-                            )}
-                          </AnimatePresence>
                         </div>
                       );
                     })}

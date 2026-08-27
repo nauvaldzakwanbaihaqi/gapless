@@ -9,9 +9,10 @@ import { Navbar } from '@/components/Navbar';
 
 type AssessmentResult = {
   id: string;
-  createdAt: Date;
+  createdAt: Date | null;
   selectedCareer: string | null;
-  skillRatings: any;
+  skillRatings: unknown;
+  moduleStatuses?: unknown;
 };
 
 export default function RoadmapClient({ history }: { history: AssessmentResult[] }) {
@@ -50,10 +51,18 @@ export default function RoadmapClient({ history }: { history: AssessmentResult[]
         };
       }
 
+      const moduleStatuses: Record<string, boolean> = (selectedHistory.moduleStatuses as Record<string, boolean>) || {};
+      
+      const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
       const completedModules = phase.modules.filter((_module: any, idx: number) => {
+        const moduleSlug = slugify(_module);
+        if (moduleStatuses[moduleSlug]) return true;
+
         const skill = profile.skills[idx % profile.skills.length];
         if (!skill) return false;
-        const userLevel = skillRatings[skill.name] ?? 0;
+        const ratings = (skillRatings as Record<string, number>) || {};
+        const userLevel = ratings[skill.name] ?? 0;
         return userLevel >= skill.required;
       });
 
@@ -91,7 +100,7 @@ export default function RoadmapClient({ history }: { history: AssessmentResult[]
               >
                 {history.map(item => (
                   <option key={item.id} value={item.id}>
-                    {item.selectedCareer} - {new Date(item.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                    {item.selectedCareer} - {new Date(item.createdAt || new Date()).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}
                   </option>
                 ))}
               </select>

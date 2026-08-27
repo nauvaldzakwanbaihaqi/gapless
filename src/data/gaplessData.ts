@@ -256,6 +256,70 @@ export interface CurriculumPhase {
   modules: string[];
   duration: string;
 }
+export interface LearningResource {
+  title: string;
+  provider: string;
+  type: 'Course' | 'Artikel' | 'Video' | 'Buku';
+  isFree: boolean;
+  price?: string;
+  url: string;
+}
+
+export interface ModuleDetail {
+  slug: string;
+  title: string;
+  duration: string;
+  target: string;
+  breakdown: { title: string; description: string }[];
+  resources: LearningResource[];
+}
+
+export const MODULE_DETAILS: Record<string, ModuleDetail> = {
+  'proses-design-thinking': {
+    slug: 'proses-design-thinking',
+    title: 'Proses Design Thinking',
+    duration: 'Estimasi 4–5 jam',
+    target: 'Mampu memetakan satu studi kasus produk memakai kelima tahap design thinking secara mandiri.',
+    breakdown: [
+      { title: 'Emphatize', description: 'Riset dan memahami kebutuhan pengguna' },
+      { title: 'Define', description: 'Merumuskan masalah inti dari hasil riset' },
+      { title: 'Ideate', description: 'Brainstorming solusi inovatif untuk masalah' },
+      { title: 'Prototype', description: 'Membangun purwarupa/mockup interaktif awal' },
+      { title: 'Test', description: 'Menguji purwarupa ke pengguna untuk feedback' }
+    ],
+    resources: [
+      {
+        title: 'Design Thinking Fundamentals',
+        provider: 'Coursera.org',
+        type: 'Course',
+        isFree: true,
+        url: '#'
+      },
+      {
+        title: 'Panduan & Tahap Design Thinking',
+        provider: 'nngroup.com',
+        type: 'Artikel',
+        isFree: true,
+        url: '#'
+      },
+      {
+        title: 'Studi Kasus: Redesain Aplikasi',
+        provider: 'youtube.com',
+        type: 'Video',
+        isFree: true,
+        url: '#'
+      },
+      {
+        title: 'Design Thinking Masterclass',
+        provider: 'skillshare.com',
+        type: 'Course',
+        isFree: false,
+        price: 'Rp 149.000',
+        url: '#'
+      }
+    ]
+  }
+};
 
 export const CAREER_PROFILES: CareerProfile[] = [
   // ── Karier Analitis ──
