@@ -23,6 +23,16 @@ export async function POST(req: Request) {
 
     let finalDominantTrait = body.dominantTrait;
 
+    let careerSlug: string | null = null;
+    let actualTrait = finalDominantTrait;
+    if (selectedCareer) {
+      const profile = CAREER_PROFILES.find((p) => p.title === selectedCareer);
+      if (profile) {
+        careerSlug = profile.id;
+        actualTrait = profile.trait;
+      }
+    }
+
     if (quizType === 'belum_tahu_minat') {
       // Recompute trait scores on server to ensure validity and security
       const serverTraitScores = computeTraitScores(rawAnswers);
@@ -33,16 +43,10 @@ export async function POST(req: Request) {
       }
       finalDominantTrait = serverDominantTrait;
     } else {
-      // For sudah_tahu_minat, use the trait from the client or fallback to 'The Thinker'
+      // For sudah_tahu_minat, use the trait from the career profile or fallback
       if (!finalDominantTrait) {
-        finalDominantTrait = 'The Thinker';
+        finalDominantTrait = actualTrait || 'The Thinker';
       }
-    }
-
-    let careerSlug: string | null = null;
-    if (selectedCareer) {
-      const profile = CAREER_PROFILES.find((p) => p.title === selectedCareer);
-      if (profile) careerSlug = profile.id;
     }
 
     let newResult;

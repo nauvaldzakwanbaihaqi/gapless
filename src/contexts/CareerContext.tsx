@@ -447,7 +447,8 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
   // ── Persistence & Auto-Sync ──
 
   const saveResultToServerOrLocal = useCallback(async (): Promise<string | undefined> => {
-    if (!dominantTrait) return undefined;
+    if (quizType === 'belum_tahu_minat' && !dominantTrait) return undefined;
+    if (quizType === 'sudah_tahu_minat' && !selectedCareer) return undefined;
     
     const payload = {
       assessmentId: currentAssessmentId,
