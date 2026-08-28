@@ -12,7 +12,7 @@ interface AnalysisResultBlockProps {
   chartReady: boolean;
   isLoadingGapAi: boolean;
   gapInsight: GapInsight | null;
-  onNext: () => void;
+  onNext?: () => void;
   onRetry?: () => void;
   nextLabel?: string;
   showBackHome?: boolean;
@@ -190,13 +190,15 @@ export function AnalysisResultBlock({
             </button>
           )}
         </div>
-        <button
-          onClick={onNext}
-          className="btn-primary flex items-center gap-2 text-sm"
-        >
-          {nextLabel}
-          <ChevronRight size={16} />
-        </button>
+        {onNext && (
+          <button
+            onClick={onNext}
+            className="btn-primary flex items-center gap-2 text-sm"
+          >
+            {nextLabel}
+            <ChevronRight size={16} />
+          </button>
+        )}
       </motion.div>
     </div>
   );

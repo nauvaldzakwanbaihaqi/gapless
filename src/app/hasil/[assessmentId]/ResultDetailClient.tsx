@@ -89,7 +89,7 @@ export function ResultDetailClient({ resultId, selectedCareer, skillRatings, dom
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
-      <div className="mb-10 text-center sm:text-left">
+      <div className="mb-10 text-center">
         <div
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
           style={{
@@ -104,7 +104,7 @@ export function ResultDetailClient({ resultId, selectedCareer, skillRatings, dom
         <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
           {careerProfile.icon} {careerProfile.title}
         </h1>
-        <p className="text-gray-500 text-base max-w-lg">
+        <p className="text-gray-500 text-base max-w-lg mx-auto">
           Rekap hasil analisis kesenjangan (gap) antara profilmu saat ini dengan yang dibutuhkan.
         </p>
       </div>
@@ -115,7 +115,6 @@ export function ResultDetailClient({ resultId, selectedCareer, skillRatings, dom
         chartReady={chartReady}
         isLoadingGapAi={isLoadingGapAi}
         gapInsight={gapInsight}
-        onNext={() => router.push('/roadmap')}
         showBackHome={true}
       />
     </div>
