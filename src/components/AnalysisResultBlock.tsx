@@ -114,7 +114,7 @@ export function AnalysisResultBlock({
         {/* Kolom Kanan: AI Gap Insight */}
         <div className="h-full flex flex-col">
           {isLoadingGapAi ? (
-            <div className="glass-card p-6 flex flex-col items-center justify-center animate-pulse gap-3 h-full min-h-[300px]">
+            <div className="glass-card p-6 flex flex-col items-center justify-center animate-pulse gap-3 h-full min-h-75">
               <Sparkles size={24} className="text-gray-400 animate-spin-slow" />
               <p className="text-sm text-gray-500 font-medium">AI sedang menganalisis kesenjangan skill-mu...</p>
             </div>
