@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 import { useGaplessContext } from '@/contexts/CareerContext';
 import { JobRole } from '@/types'; // Import dari file baru
 import { CAREER_PROFILES } from '@/data/gaplessData';
@@ -22,8 +23,13 @@ function getRoleVisuals(roleName: string) {
 }
 
 export function CareerSelectionWrapper({ roles }: WrapperProps) {
-    const { setSelectedRole, selectCareer, setCurrentView } = useGaplessContext();
+    const { setSelectedRole, selectCareer, setCurrentView, reset } = useGaplessContext();
     const router = useRouter();
+
+    useEffect(() => {
+        // Reset state so that previous career selections don't leak into this new selection flow
+        reset();
+    }, [reset]);
 
     return (
         <div className="relative min-h-screen bg-space px-6 py-16 z-10 overflow-hidden">

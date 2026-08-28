@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronRight, Layers } from 'lucide-react';
+import { ChevronRight, Layers, Loader2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useGaplessContext } from '@/contexts/CareerContext';
 import { quizBank } from '@/data/quizBank';
 import { AnalysisResultBlock } from './AnalysisResultBlock';
@@ -20,8 +21,11 @@ export function CaseStudyQuizView() {
         skillGapData,
         fetchGapInsight,
         isLoadingGapAi,
-        gapInsight
+        gapInsight,
+        syncResultNow
     } = useGaplessContext();
+    const router = useRouter();
+    const [isSyncing, setIsSyncing] = useState(false);
     
     // Map DB role slugs to quizBank keys if they don't match exactly
     const ROLE_ALIASES: Record<string, string> = {
@@ -55,16 +59,20 @@ export function CaseStudyQuizView() {
 
     useEffect(() => {
       if (step === 2) {
-        const t = setTimeout(() => setChartReady(true), 300);
-        return () => clearTimeout(t);
+        const syncAndRedirect = async () => {
+          setIsSyncing(true);
+          const assessmentId = await syncResultNow();
+          if (assessmentId) {
+            router.push(`/hasil/${assessmentId}`);
+          } else {
+            setIsSyncing(false);
+            // Fallback just in case
+            setView('roadmap');
+          }
+        };
+        syncAndRedirect();
       }
-    }, [step]);
-
-    useEffect(() => {
-      if (step === 2 && !gapInsight && !isLoadingGapAi) {
-        fetchGapInsight();
-      }
-    }, [step, gapInsight, isLoadingGapAi, fetchGapInsight]);
+    }, [step, syncResultNow, router, setView]);
 
     // If no questions are found for this role, we can just skip or show a placeholder.
     if (!questions || questions.length === 0) {
@@ -238,47 +246,18 @@ export function CaseStudyQuizView() {
 
                   {step === 2 && (
                     <motion.div
-                      key="results"
-                      initial={{ opacity: 0, x: 30 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: 30 }}
-                      transition={{ duration: 0.3 }}
-                      className="w-full"
+                      key="saving"
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      className="w-full flex flex-col items-center justify-center py-24 text-center"
                     >
-                        <div className="text-center mb-10">
-                          <div
-                            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
-                            style={{
-                              background: `${traitMeta.color}10`,
-                              border: `1px solid ${traitMeta.color}25`,
-                            }}
-                          >
-                            <Layers size={14} style={{ color: traitMeta.color }} />
-                            <span className="text-xs font-semibold" style={{ color: traitMeta.color }}>
-                              Analisis Kesenjangan Skill
-                            </span>
-                          </div>
-                          <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
-                            {selectedCareer?.icon} {selectedCareer?.title}
-                          </h1>
-                          <p className="text-gray-500 text-base max-w-lg mx-auto">
-                            Hasil analisis kemampuanmu saat ini dibandingkan dengan kebutuhan industri.
-                          </p>
+                        <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg border border-slate-100 mb-6">
+                            <Loader2 className="w-10 h-10 text-blue-600 animate-spin" />
                         </div>
-                        <AnalysisResultBlock
-                            radarData={radarData}
-                            traitMetaColor={traitMeta.color}
-                            chartReady={chartReady}
-                            isLoadingGapAi={isLoadingGapAi}
-                            gapInsight={gapInsight}
-                            onNext={() => setView('roadmap')}
-                            onRetry={() => {
-                                setStep(1);
-                                setCurrentIndex(0);
-                                setQuestionScores([]);
-                            }}
-                            showBackHome={false}
-                        />
+                        <h2 className="text-2xl font-bold text-slate-900 mb-3">Menyimpan Hasilmu...</h2>
+                        <p className="text-gray-500 max-w-sm mx-auto">
+                            Mohon tunggu sebentar, kami sedang menyiapkan laporan analisis gap skill kamu.
+                        </p>
                     </motion.div>
                   )}
                 </AnimatePresence>

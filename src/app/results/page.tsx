@@ -39,7 +39,7 @@ export default async function ResultsPage() {
             {description}
           </p>
           <Link
-            href={`/assessment?quizType=${quizType}`}
+            href={quizType === 'sudah_tahu_minat' ? '/career-test' : `/assessment?quizType=${quizType}`}
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-bold transition-all shadow-md hover:shadow-lg"
           >
             Mulai Tes
