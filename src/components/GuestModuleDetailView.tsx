@@ -47,31 +47,7 @@ export function GuestModuleDetailView() {
   }
 
   // Get Detail Data
-  const detailData = MODULE_DETAILS[selectedModuleSlug] || {
-    slug: selectedModuleSlug,
-    title: moduleName,
-    duration: "Estimasi 2-4 Jam",
-    target: `Menguasai konsep dasar ${moduleName} untuk kebutuhan industri.`,
-    breakdown: [
-      {
-        title: `Konsep Dasar ${moduleName}`,
-        description: `Pengenalan menyeluruh tentang apa itu ${moduleName} dan mengapa hal ini penting.`
-      },
-      {
-        title: "Penerapan Praktis",
-        description: "Bagaimana mengaplikasikan konsep-konsep tersebut dalam skenario dunia nyata."
-      }
-    ],
-    resources: [
-      {
-        title: `Panduan Esensial: ${moduleName}`,
-        type: "Artikel",
-        url: "#",
-        isFree: true,
-        provider: "Gapless Curation"
-      }
-    ]
-  };
+  const detailData = MODULE_DETAILS[selectedModuleSlug] || null;
 
   return (
     <div className="flex-1 w-full flex flex-col">
@@ -83,6 +59,7 @@ export function GuestModuleDetailView() {
           phaseData={phaseData}
           phaseIndex={phaseIndex}
           detailData={detailData}
+          moduleTitle={moduleName}
           isCompleted={isCompleted}
         />
       </div>

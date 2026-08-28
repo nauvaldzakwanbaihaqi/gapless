@@ -1,9 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, ArrowLeft, Target, Play, Book, Lock, Unlock, CheckCircle2 } from 'lucide-react';
+import { ChevronRight, ArrowLeft, Target, Play, Book, Lock, Unlock, CheckCircle2, Sparkles } from 'lucide-react';
 import type { CareerProfile, CurriculumPhase, ModuleDetail } from '@/data/gaplessData';
 import { LoginModal } from '@/components/LoginModal';
 import { useGaplessContext } from '@/contexts/CareerContext';
@@ -15,7 +15,8 @@ interface Props {
   profile: CareerProfile;
   phaseData: CurriculumPhase;
   phaseIndex: number;
-  detailData: ModuleDetail;
+  detailData: ModuleDetail | null;
+  moduleTitle: string;
   isCompleted: boolean;
 }
 
@@ -25,7 +26,8 @@ export default function ModuleDetailClient({
   profile,
   phaseData,
   phaseIndex,
-  detailData,
+  detailData: initialDetailData,
+  moduleTitle,
   isCompleted: initialCompleted,
 }: Props) {
   const router = useRouter();
@@ -35,6 +37,57 @@ export default function ModuleDetailClient({
   const [isLoading, setIsLoading] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  const [detailData, setDetailData] = useState<ModuleDetail | null>(initialDetailData);
+  const [isGenerating, setIsGenerating] = useState(!initialDetailData);
+
+  useEffect(() => {
+    if (!initialDetailData && !detailData) {
+      const fetchInsight = async () => {
+        setIsGenerating(true);
+        try {
+          const res = await fetch('/api/module-insight', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ moduleName: moduleTitle, roleName: profile.title })
+          });
+          
+          if (res.ok) {
+            const fetched = await res.json();
+            setDetailData({
+              slug: moduleSlug,
+              title: moduleTitle,
+              ...fetched
+            });
+          } else {
+            // Fallback if API fails
+            setDetailData({
+              slug: moduleSlug,
+              title: moduleTitle,
+              duration: 'Estimasi 1-2 Jam',
+              target: 'Menguasai konsep dasar.',
+              breakdown: [{ title: 'Dasar', description: 'Pengenalan' }],
+              resources: [
+                {
+                  title: `Cari "${moduleTitle}" di YouTube`,
+                  type: 'Video',
+                  url: `https://www.youtube.com/results?search_query=${encodeURIComponent(moduleTitle)}`,
+                  isFree: true,
+                  provider: 'YouTube'
+                }
+              ]
+            });
+          }
+        } catch (e) {
+          console.error(e);
+        } finally {
+          setIsGenerating(false);
+        }
+      };
+      
+      fetchInsight();
+    }
+  }, [initialDetailData, detailData, moduleTitle, moduleSlug, profile.title]);
 
   const handleBack = () => {
     if (!assessmentId) {
@@ -93,6 +146,18 @@ export default function ModuleDetailClient({
       Belum Selesai
     </span>
   );
+
+  if (isGenerating || !detailData) {
+    return (
+      <div className="flex flex-col gap-8 pb-20 items-center justify-center min-h-[60vh]">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <Sparkles className="w-12 h-12 text-blue-500 animate-pulse" />
+          <h2 className="text-2xl font-bold text-slate-800">AI Sedang Meracik Kurikulum...</h2>
+          <p className="text-slate-500 max-w-md">Gemini sedang mencari silabus dan link sumber belajar terbaik untuk modul "{moduleTitle}".</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-8 pb-20">

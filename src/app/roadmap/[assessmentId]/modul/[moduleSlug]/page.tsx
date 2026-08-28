@@ -125,33 +125,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
   }
 
   // 6. Ambil data kurasi manual untuk konten modul (jika ada, kalau tidak pakai fallback template)
-  const detailData = MODULE_DETAILS[moduleSlug] || {
-    slug: moduleSlug,
-    title: moduleTitle,
-    duration: 'Estimasi 1–2 jam',
-    target: `Menguasai konsep dasar ${moduleTitle} untuk kebutuhan industri.`,
-    breakdown: [
-      { title: 'Konsep Dasar', description: `Pengenalan tentang ${moduleTitle}` },
-      { title: 'Studi Kasus', description: 'Penerapan di dunia nyata' },
-      { title: 'Praktik', description: 'Latihan mandiri' },
-    ],
-    resources: [
-      {
-        title: `Cari "${moduleTitle}" di Coursera`,
-        provider: 'Coursera',
-        type: 'Course',
-        isFree: true,
-        url: '#'
-      },
-      {
-        title: `Cari "${moduleTitle}" di YouTube`,
-        provider: 'YouTube',
-        type: 'Video',
-        isFree: true,
-        url: '#'
-      }
-    ]
-  };
+  const detailData = MODULE_DETAILS[moduleSlug] || null;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#F3FAFF]">
@@ -164,6 +138,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
           phaseData={phaseData}
           phaseIndex={targetPhaseIndex}
           detailData={detailData}
+          moduleTitle={moduleTitle}
           isCompleted={isCompleted}
         />
       </main>
