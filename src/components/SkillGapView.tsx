@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Layers, ChevronRight, ChevronLeft, Home, CheckCircle2, AlertTriangle, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 import { SKILL_LABELS, TRAIT_META } from '@/data/gaplessData';
+import { useRouter } from 'next/navigation';
 import { useGaplessContext } from '@/contexts/CareerContext';
 import { quizBank } from '@/data/quizBank';
 import { AnalysisResultBlock } from './AnalysisResultBlock';
@@ -38,7 +39,11 @@ export function SkillGapView() {
     gapInsight,
     isLoadingGapAi,
     fetchGapInsight,
+    syncResultNow,
   } = useGaplessContext();
+
+  const [isSyncing, setIsSyncing] = useState(false);
+  const router = useRouter();
 
   const [step, setStep] = useState(1);
   const [chartReady, setChartReady] = useState(false);
@@ -59,6 +64,21 @@ export function SkillGapView() {
       fetchGapInsight();
     }
   }, [step, gapInsight, isLoadingGapAi, fetchGapInsight]);
+
+  useEffect(() => {
+    if (step === 2) {
+      const syncAndRedirect = async () => {
+        setIsSyncing(true);
+        const assessmentId = await syncResultNow();
+        if (assessmentId) {
+          router.push(`/hasil/${assessmentId}`);
+        } else {
+          setIsSyncing(false);
+        }
+      };
+      syncAndRedirect();
+    }
+  }, [step, syncResultNow, router]);
 
   if (!selectedCareer) return null;
 
@@ -297,20 +317,11 @@ export function SkillGapView() {
                 transition={{ duration: 0.3 }}
                 className="w-full"
               >
-                <AnalysisResultBlock
-                  radarData={radarData}
-                  traitMetaColor={traitMeta.color}
-                  chartReady={chartReady}
-                  isLoadingGapAi={isLoadingGapAi}
-                  gapInsight={gapInsight}
-                  onNext={handleCreateRoadmap}
-                  onRetry={() => {
-                    setStep(1);
-                    setCurrentIndex(0);
-                    setQuestionScores([]);
-                  }}
-                  showBackHome={true}
-                />
+                <div className="glass-card p-12 flex flex-col items-center justify-center animate-pulse gap-4 text-center">
+                  <div className="w-16 h-16 rounded-full border-4 border-slate-200 border-t-blue-600 animate-spin mb-4" />
+                  <h3 className="text-xl font-bold text-slate-800">Menyimpan Hasil Asesmen...</h3>
+                  <p className="text-sm text-slate-500">Mohon tunggu sebentar, kami sedang menyiapkan halaman detail hasilmu.</p>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>

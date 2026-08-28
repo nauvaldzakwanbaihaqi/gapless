@@ -135,6 +135,7 @@ export interface GaplessContextValue {
   resetProgress: () => Promise<void>;
   skillGapData: SkillGapEntry[];
   allSkillsRated: boolean;
+  syncResultNow: () => Promise<string | undefined>;
 
   // ── Roadmap ──
   roadmapWithProgress: RoadmapNode[];
@@ -440,8 +441,8 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
 
   // ── Persistence & Auto-Sync ──
 
-  const saveResultToServerOrLocal = useCallback(async () => {
-    if (!dominantTrait) return;
+  const saveResultToServerOrLocal = useCallback(async (): Promise<string | undefined> => {
+    if (!dominantTrait) return undefined;
     
     const payload = {
       assessmentId: currentAssessmentId,
@@ -465,6 +466,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
           if (data.result?.id && !currentAssessmentId) {
             setCurrentAssessmentId(data.result.id);
           }
+          return data.result?.id || currentAssessmentId;
         }
       } catch (err) {
         console.error('Failed to sync result', err);
@@ -472,6 +474,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
     } else {
       localStorage.setItem('gapless_pending_result', JSON.stringify(payload));
     }
+    return currentAssessmentId || undefined;
   }, [answers, traitScores, dominantTrait, selectedCareer, skillRatings, session, currentAssessmentId, quizType]);
 
   useEffect(() => {
@@ -536,6 +539,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
       allSkillsRated,
       roadmapWithProgress,
       reset,
+      syncResultNow: saveResultToServerOrLocal,
     }),
     [
       currentView,
