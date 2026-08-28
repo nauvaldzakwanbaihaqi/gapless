@@ -221,7 +221,12 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
   const traitScores = useMemo(() => computeTraitScores(answers), [answers]);
 
   // ── Derived: dominant trait ──
-  const dominantTrait = useMemo(() => getDominantTrait(traitScores), [traitScores]);
+  const dominantTrait = useMemo(() => {
+    if (quizType === 'sudah_tahu_minat' && selectedCareer) {
+      return selectedCareer.trait;
+    }
+    return getDominantTrait(traitScores);
+  }, [traitScores, quizType, selectedCareer]);
 
   // ── Derived: radar chart data ──
   const traitRadarData = useMemo(() => getTraitRadarData(traitScores), [traitScores]);

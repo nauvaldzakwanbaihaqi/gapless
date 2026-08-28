@@ -21,12 +21,22 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Missing required data' }, { status: 400 });
     }
 
-    // Recompute trait scores on server to ensure validity and security
-    const serverTraitScores = computeTraitScores(rawAnswers);
-    const serverDominantTrait = getDominantTrait(serverTraitScores);
+    let finalDominantTrait = body.dominantTrait;
 
-    if (!serverDominantTrait) {
-      return NextResponse.json({ error: 'Failed to compute dominant trait' }, { status: 400 });
+    if (quizType === 'belum_tahu_minat') {
+      // Recompute trait scores on server to ensure validity and security
+      const serverTraitScores = computeTraitScores(rawAnswers);
+      const serverDominantTrait = getDominantTrait(serverTraitScores);
+
+      if (!serverDominantTrait) {
+        return NextResponse.json({ error: 'Failed to compute dominant trait' }, { status: 400 });
+      }
+      finalDominantTrait = serverDominantTrait;
+    } else {
+      // For sudah_tahu_minat, use the trait from the client or fallback to 'The Thinker'
+      if (!finalDominantTrait) {
+        finalDominantTrait = 'The Thinker';
+      }
     }
 
     let careerSlug: string | null = null;
@@ -41,8 +51,8 @@ export async function POST(req: Request) {
       // Update existing
       const [updated] = await db.update(assessmentResults).set({
         rawAnswers,
-        traitScores: serverTraitScores,
-        dominantTrait: serverDominantTrait,
+        traitScores: quizType === 'belum_tahu_minat' ? computeTraitScores(rawAnswers) : { 'The Thinker': 0, 'The Creator': 0, 'The Connector': 0, 'The Builder': 0 },
+        dominantTrait: finalDominantTrait,
         selectedCareer: selectedCareer || null,
         careerSlug: careerSlug,
         skillRatings: skillRatings || null,
@@ -67,8 +77,8 @@ export async function POST(req: Request) {
         quizType: quizType,
         isActive: true,
         rawAnswers,
-        traitScores: serverTraitScores,
-        dominantTrait: serverDominantTrait,
+        traitScores: quizType === 'belum_tahu_minat' ? computeTraitScores(rawAnswers) : { 'The Thinker': 0, 'The Creator': 0, 'The Connector': 0, 'The Builder': 0 },
+        dominantTrait: finalDominantTrait,
         selectedCareer: selectedCareer || null,
         careerSlug: careerSlug,
         skillRatings: skillRatings || null,

@@ -6,16 +6,17 @@ import { eq, and } from 'drizzle-orm';
 import { ResultDetailClient } from './ResultDetailClient';
 import { Navbar } from '@/components/Navbar';
 
-export default async function ResultDetailPage({ params }: { params: { assessmentId: string } }) {
+export default async function ResultDetailPage({ params }: { params: Promise<{ assessmentId: string }> }) {
+  const { assessmentId } = await params;
   const session = await auth();
 
   if (!session?.user?.id) {
-    redirect(`/api/auth/signin?callbackUrl=/hasil/${params.assessmentId}`);
+    redirect(`/api/auth/signin?callbackUrl=/hasil/${assessmentId}`);
   }
 
   const result = await db.query.assessmentResults.findFirst({
     where: and(
-      eq(assessmentResults.id, params.assessmentId)
+      eq(assessmentResults.id, assessmentId)
     )
   });
 
