@@ -2,7 +2,7 @@
 
 import { motion } from 'motion/react';
 import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Tooltip, Radar, Legend } from 'recharts';
-import { Sparkles, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Home } from 'lucide-react';
+import { Sparkles, CheckCircle2, AlertTriangle, ChevronRight, ChevronLeft, Home, Map } from 'lucide-react';
 import { GapInsight } from '@/contexts/CareerContext';
 import Link from 'next/link';
 
@@ -16,6 +16,7 @@ interface AnalysisResultBlockProps {
   onRetry?: () => void;
   nextLabel?: string;
   showBackHome?: boolean;
+  roadmapHref?: string;
 }
 
 export function AnalysisResultBlock({
@@ -27,7 +28,8 @@ export function AnalysisResultBlock({
   onNext,
   onRetry,
   nextLabel = 'Buat Roadmap',
-  showBackHome = false
+  showBackHome = false,
+  roadmapHref,
 }: AnalysisResultBlockProps) {
   return (
     <div className="w-full flex flex-col">
@@ -182,6 +184,11 @@ export function AnalysisResultBlock({
           {showBackHome && (
             <Link href="/" className="btn-ghost flex items-center gap-1 text-sm text-gray-500 hover:text-gray-900">
               <Home size={16} /> Home
+            </Link>
+          )}
+          {roadmapHref && (
+            <Link href={roadmapHref} className="btn-ghost flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 font-semibold border border-blue-200 bg-blue-50/50 hover:bg-blue-50 rounded-full px-4 py-2">
+              <Map size={16} /> Lihat Roadmap
             </Link>
           )}
           {onRetry && (

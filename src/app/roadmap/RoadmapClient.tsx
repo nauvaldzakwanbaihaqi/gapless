@@ -6,6 +6,7 @@ import { RoadmapView } from '@/components/RoadmapView';
 import type { RoadmapNode } from '@/contexts/CareerContext';
 import { useSession } from 'next-auth/react';
 import { Navbar } from '@/components/Navbar';
+import Link from 'next/link';
 
 type AssessmentResult = {
   id: string;
@@ -17,13 +18,18 @@ type AssessmentResult = {
   moduleStatuses?: unknown;
 };
 
-export default function RoadmapClient({ history }: { history: AssessmentResult[] }) {
+export default function RoadmapClient({ history, initialAssessmentId }: { history: AssessmentResult[], initialAssessmentId?: string }) {
   const { data: session } = useSession();
   const userTier = (session?.user as any)?.tier || 'Free';
   const isPro = userTier === 'Student Pro' || userTier === 'Pro';
 
-  // Default to the most recent roadmap
-  const [selectedId, setSelectedId] = useState<string>(history[0]?.id);
+  // Default to initialAssessmentId if valid, else most recent
+  const [selectedId, setSelectedId] = useState<string>(() => {
+    if (initialAssessmentId && history.find(h => h.id === initialAssessmentId)) {
+      return initialAssessmentId;
+    }
+    return history[0]?.id;
+  });
 
   const selectedHistory = useMemo(() => {
     return history.find(h => h.id === selectedId) || history[0];
@@ -110,6 +116,27 @@ export default function RoadmapClient({ history }: { history: AssessmentResult[]
                   </button>
                 ))}
               </div>
+            </div>
+          </div>
+        )}
+
+        {history.length === 1 && (
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 pt-8 pb-4">
+            <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 relative z-10 shadow-sm">
+              <div>
+                <h3 className="font-bold text-blue-900 text-sm">Eksplorasi Jalur Lain</h3>
+                <p className="text-xs text-blue-700 mt-1">
+                  {history[0].quizType === 'belum_tahu_minat' 
+                    ? 'Punya target karier spesifik di benakmu? Coba ambil jalur "Sudah Tahu Minat".'
+                    : 'Masih ragu dengan pilihanmu? Temukan rekomendasi AI lewat jalur "Belum Tahu Minat".'}
+                </p>
+              </div>
+              <Link 
+                href={history[0].quizType === 'belum_tahu_minat' ? '/career-test' : '/assessment'}
+                className="bg-white text-blue-600 hover:bg-blue-50 border border-blue-200 px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-colors"
+              >
+                Coba Sekarang
+              </Link>
             </div>
           </div>
         )}

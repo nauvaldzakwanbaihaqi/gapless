@@ -4,11 +4,18 @@ import { db } from '@/db';
 import { assessmentResults, roadmapProgress } from '@/db/schema';
 import { desc, eq, isNotNull, and } from 'drizzle-orm';
 import Link from 'next/link';
-import { Map } from 'lucide-react';
+import { Map, Compass, Target } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import RoadmapClient from './RoadmapClient';
 
-export default async function RoadmapPage() {
+interface RoadmapPageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+export default async function RoadmapPage({ searchParams }: RoadmapPageProps) {
+  const params = await searchParams;
+  const assessmentId = typeof params.assessmentId === 'string' ? params.assessmentId : undefined;
+
   const session = await auth();
 
   if (!session?.user?.id) {
@@ -56,17 +63,33 @@ export default async function RoadmapPage() {
             <p className="text-slate-600 mb-8">
               Kamu belum memiliki Learning Roadmap. Selesaikan asesmen karier dan pilih tujuanmu untuk membuka roadmap yang dipersonalisasi.
             </p>
-            <Link
-              href="/assessment"
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-bold transition-all shadow-md hover:shadow-lg"
-            >
-              Mulai Asesmen
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-4 w-full">
+              <Link
+                href="/assessment"
+                className="flex-1 flex flex-col items-center justify-center p-4 bg-white border-2 border-slate-100 hover:border-blue-500 rounded-2xl hover:bg-blue-50/50 transition-all group"
+              >
+                <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <Compass size={24} />
+                </div>
+                <h3 className="font-bold text-slate-800 mb-1 text-sm sm:text-base">Belum Tahu Minat</h3>
+                <span className="text-xs text-slate-500 text-center">Rekomendasi dari awal</span>
+              </Link>
+              <Link
+                href="/career-test"
+                className="flex-1 flex flex-col items-center justify-center p-4 bg-white border-2 border-slate-100 hover:border-indigo-500 rounded-2xl hover:bg-indigo-50/50 transition-all group"
+              >
+                <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                  <Target size={24} />
+                </div>
+                <h3 className="font-bold text-slate-800 mb-1 text-sm sm:text-base">Sudah Tahu Minat</h3>
+                <span className="text-xs text-slate-500 text-center">Pilih target spesifik</span>
+              </Link>
+            </div>
           </div>
         </main>
       </div>
     );
   }
 
-  return <RoadmapClient history={history} />;
+  return <RoadmapClient history={history} initialAssessmentId={assessmentId} />;
 }

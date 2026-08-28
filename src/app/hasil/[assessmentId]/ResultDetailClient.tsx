@@ -116,6 +116,7 @@ export function ResultDetailClient({ resultId, selectedCareer, skillRatings, dom
         isLoadingGapAi={isLoadingGapAi}
         gapInsight={gapInsight}
         showBackHome={true}
+        roadmapHref={`/roadmap?assessmentId=${resultId}`}
       />
     </div>
   );
