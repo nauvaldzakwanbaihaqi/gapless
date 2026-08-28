@@ -1,6 +1,6 @@
 'use client';
 
-import { useSession, signOut } from 'next-auth/react';
+import { useSession, signOut, getSession } from 'next-auth/react';
 import { useCallback, useState } from 'react';
 
 export function useAuthGuard() {
@@ -8,8 +8,14 @@ export function useAuthGuard() {
   const [isVerifying, setIsVerifying] = useState(false);
 
   const checkIsAuthenticated = useCallback(async (): Promise<boolean> => {
+    let activeSession = session;
+    if (status === 'loading') {
+      // If currently loading, wait for the actual session to resolve
+      activeSession = await getSession();
+    }
+
     // If not authenticated in client state, return false immediately
-    if (status !== 'authenticated' || !session?.user?.id) {
+    if (!activeSession?.user?.id) {
       return false;
     }
 
