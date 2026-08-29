@@ -50,9 +50,11 @@ export default async function ResultDetailPage({ params }: { params: Promise<{ a
       <main className="flex-1">
         <ResultDetailClient 
             resultId={result.id} 
+            quizType={result.quizType as string}
             selectedCareer={result.selectedCareer as string} 
             skillRatings={result.skillRatings as Record<string, number>} 
             dominantTrait={result.dominantTrait as string} 
+            traitScores={result.traitScores as Record<string, number>}
         />
       </main>
     </div>

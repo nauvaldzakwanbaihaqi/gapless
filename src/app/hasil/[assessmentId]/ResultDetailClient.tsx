@@ -4,6 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { CAREER_PROFILES, getSkillGapData, TRAIT_META, Trait } from '@/data/gaplessData';
 import { AnalysisResultBlock } from '@/components/AnalysisResultBlock';
+import { ArchetypeReasoningBlock } from '@/components/ArchetypeReasoningBlock';
 import { GapInsight } from '@/contexts/CareerContext';
 
 interface Props {
@@ -11,9 +12,11 @@ interface Props {
   selectedCareer: string;
   skillRatings: Record<string, number>;
   dominantTrait: string;
+  quizType: string;
+  traitScores: Record<string, number>;
 }
 
-export function ResultDetailClient({ resultId, selectedCareer, skillRatings, dominantTrait }: Props) {
+export function ResultDetailClient({ resultId, selectedCareer, skillRatings, dominantTrait, quizType, traitScores }: Props) {
   const router = useRouter();
   
   const [gapInsight, setGapInsight] = useState<GapInsight | null>(null);
@@ -108,6 +111,22 @@ export function ResultDetailClient({ resultId, selectedCareer, skillRatings, dom
           Rekap hasil analisis kesenjangan (gap) antara profilmu saat ini dengan yang dibutuhkan.
         </p>
       </div>
+
+      {quizType === 'belum_tahu_minat' && dominantTrait && traitScores && (
+        <>
+          <ArchetypeReasoningBlock 
+            dominantTrait={dominantTrait} 
+            traitScores={traitScores} 
+            hideTitle={true}
+          />
+          
+          <div className="flex items-center justify-center my-16 opacity-50">
+            <div className="h-px w-24 bg-slate-300"></div>
+            <div className="mx-4 text-slate-400 text-sm font-semibold tracking-widest uppercase">Analisis Skill-Gap</div>
+            <div className="h-px w-24 bg-slate-300"></div>
+          </div>
+        </>
+      )}
 
       <AnalysisResultBlock
         radarData={radarData}
