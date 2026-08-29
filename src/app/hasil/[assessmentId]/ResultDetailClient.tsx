@@ -92,28 +92,22 @@ export function ResultDetailClient({ resultId, selectedCareer, skillRatings, dom
 
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
-      <div className="mb-10 text-center">
-        <div
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4"
-          style={{
-            background: `${traitMetaColor}10`,
-            border: `1px solid ${traitMetaColor}25`,
-          }}
-        >
-          <span className="text-xs font-semibold" style={{ color: traitMetaColor }}>
-            Detail Analisis: {dominantTrait}
-          </span>
-        </div>
-        <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">
-          {careerProfile.icon} {careerProfile.title}
-        </h1>
-        <p className="text-gray-500 text-base max-w-lg mx-auto">
-          Rekap hasil analisis kesenjangan (gap) antara profilmu saat ini dengan yang dibutuhkan.
-        </p>
-      </div>
-
       {quizType === 'belum_tahu_minat' && dominantTrait && traitScores && (
         <>
+          <div className="text-center mb-8">
+            <div
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+              style={{
+                background: `${traitMetaColor}10`,
+                border: `1px solid ${traitMetaColor}25`,
+              }}
+            >
+              <span className="text-xs font-semibold" style={{ color: traitMetaColor }}>
+                Detail Kepribadian: {dominantTrait}
+              </span>
+            </div>
+          </div>
+
           <ArchetypeReasoningBlock 
             dominantTrait={dominantTrait} 
             traitScores={traitScores} 
@@ -127,6 +121,15 @@ export function ResultDetailClient({ resultId, selectedCareer, skillRatings, dom
           </div>
         </>
       )}
+
+      <div className="mb-10 text-center">
+        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+          {careerProfile.icon} {careerProfile.title}
+        </h2>
+        <p className="text-gray-500 text-base max-w-lg mx-auto">
+          Rekap hasil analisis kesenjangan (gap) antara profilmu saat ini dengan yang dibutuhkan.
+        </p>
+      </div>
 
       <AnalysisResultBlock
         radarData={radarData}
