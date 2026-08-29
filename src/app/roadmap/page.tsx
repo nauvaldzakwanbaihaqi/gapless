@@ -4,7 +4,8 @@ import { db } from '@/db';
 import { assessmentResults, roadmapProgress } from '@/db/schema';
 import { desc, eq, isNotNull, and } from 'drizzle-orm';
 import Link from 'next/link';
-import { Map, Compass, Target } from 'lucide-react';
+import { Compass, Target, Map, Plus } from 'lucide-react';
+import { RouteSelectionCards } from '@/components/RouteSelectionCards';
 import { Navbar } from '@/components/Navbar';
 import RoadmapClient from './RoadmapClient';
 
@@ -63,28 +64,7 @@ export default async function RoadmapPage({ searchParams }: RoadmapPageProps) {
             <p className="text-slate-600 mb-8">
               Kamu belum memiliki Learning Roadmap. Selesaikan asesmen karier dan pilih tujuanmu untuk membuka roadmap yang dipersonalisasi.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 w-full">
-              <Link
-                href="/assessment"
-                className="flex-1 flex flex-col items-center justify-center p-4 bg-white border-2 border-slate-100 hover:border-blue-500 rounded-2xl hover:bg-blue-50/50 transition-all group"
-              >
-                <div className="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                  <Compass size={24} />
-                </div>
-                <h3 className="font-bold text-slate-800 mb-1 text-sm sm:text-base">Belum Tahu Minat</h3>
-                <span className="text-xs text-slate-500 text-center">Rekomendasi dari awal</span>
-              </Link>
-              <Link
-                href="/career-test"
-                className="flex-1 flex flex-col items-center justify-center p-4 bg-white border-2 border-slate-100 hover:border-indigo-500 rounded-2xl hover:bg-indigo-50/50 transition-all group"
-              >
-                <div className="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                  <Target size={24} />
-                </div>
-                <h3 className="font-bold text-slate-800 mb-1 text-sm sm:text-base">Sudah Tahu Minat</h3>
-                <span className="text-xs text-slate-500 text-center">Pilih target spesifik</span>
-              </Link>
-            </div>
+            <RouteSelectionCards />
           </div>
         </main>
       </div>

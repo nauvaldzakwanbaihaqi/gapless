@@ -2,8 +2,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
 import { Sparkles, Target, Zap, Users } from 'lucide-react';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { RouteSelectionModal } from './RouteSelectionModal';
 
 const archetypes = [
   { image: '/The Creator.png', name: 'The Creator', desc: 'Kamu yang membangun visual, narasi, dan estetika.', color: 'from-violet-500 to-pink-500', roles: ['UI/UX Designer', 'Content Creator', 'Product Designer'], icon: Sparkles },
@@ -55,6 +57,7 @@ export function ArchetypesSection() {
  */
 export function FooterSection() {
   const ref = useScrollReveal<HTMLElement>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <section className="w-full mt-20">
@@ -88,12 +91,12 @@ export function FooterSection() {
           
           <div className="reveal-child">
             {/* Tombol Diperbesar - Tambah text-lg dan padding px-10 py-4 */}
-            <Link 
-              href="/assessment" 
+            <button 
+              onClick={() => setIsModalOpen(true)}
               className="inline-flex items-center gap-2 bg-white text-blue-600 font-bold text-lg px-10 py-4 rounded-full hover:bg-slate-50 hover:scale-105 transition-all duration-300 shadow-md"
             >
               Ikuti Tes <span>&rarr;</span>
-            </Link>
+            </button>
           </div>
         </div>
 
@@ -104,6 +107,11 @@ export function FooterSection() {
           </p>
         </div>
       </footer>
+      
+      <RouteSelectionModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </section>
   );
 }

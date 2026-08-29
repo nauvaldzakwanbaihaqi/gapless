@@ -1,4 +1,3 @@
-import { Sparkles } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 import { AssessmentNav } from '@/components/AssessmentNav';
 import { FooterSection } from '@/components/AnimatedSections';
@@ -156,7 +155,7 @@ export default function HomePage() {
               </div>
 
               {/* Radar Chart Area - Ditambahkan my-auto dan max-w diperbesar */}
-              <div className="relative w-full max-w-[280px] md:max-w-[340px] mx-auto aspect-square flex items-center justify-center my-auto py-8">
+              <div className="relative w-full max-w-70 md:max-w-85 mx-auto aspect-square flex items-center justify-center my-auto py-8">
                 <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
                   {/* Radar grid (Hexagon) */}
                   <polygon points="50,5 95,27.5 95,72.5 50,95 5,72.5 5,27.5" fill="none" stroke="#e2e8f0" strokeWidth="1" />
@@ -223,7 +222,7 @@ export default function HomePage() {
           </div>
 
           {/* Garis Pemisah Vertikal 1 (Hidden di Mobile) */}
-          <div className="hidden lg:block w-[2px] h-14 bg-blue-600"></div>
+          <div className="hidden lg:block w-0.5 h-14 bg-blue-600"></div>
 
           {/* 2. Bagian Tengah (Logo Partnership) */}
           <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 shrink-0">
