@@ -15,7 +15,7 @@ async function processRoles() {
         const questionsArray = quizBank[role];
         
         for (let i = 0; i < questionsArray.length; i++) {
-            let q = questionsArray[i];
+            const q = questionsArray[i];
             console.log(`  Question ${i+1}/${questionsArray.length}`);
             
             const prompt = `Kamu adalah psikolog karier dan technical expert.

@@ -22,16 +22,14 @@ export type JobRole = {
 
 // 2. Buat interface untuk Props-nya
 interface GaplessAppProps {
-  initialRoles?: JobRole[];
 }
 
 import { CaseStudyQuizView } from '@/components/CaseStudyQuizView';
 
-export function GaplessApp({ initialRoles }: GaplessAppProps) {
+export function GaplessApp({}: GaplessAppProps) {
   const { currentView } = useGaplessContext();
 
-  // Uncomment baris di bawah ini kalau lu mau cek datanya beneran udah masuk ke Client
-  console.log("Data Roles dari DB Neon berhasil ditarik:", initialRoles);
+
 
   return (
     <AnimatePresence mode="wait">

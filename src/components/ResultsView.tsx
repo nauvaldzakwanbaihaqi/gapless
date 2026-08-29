@@ -1,18 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { TrendingUp, Star, ArrowRight, Sparkles, AlertCircle, Zap } from 'lucide-react';
-import {
-  RadarChart,
-  PolarGrid,
-  PolarAngleAxis,
-  PolarRadiusAxis,
-  Radar,
-  ResponsiveContainer,
-  Tooltip,
-} from 'recharts';
-import { TRAITS, TRAIT_META, ASSESSMENT_QUESTIONS } from '@/data/gaplessData';
+import { TrendingUp, ArrowRight, Sparkles, AlertCircle, Zap } from 'lucide-react';
+import { TRAIT_META } from '@/data/gaplessData';
 import { useGaplessContext } from '@/contexts/CareerContext';
 import { ArchetypeReasoningBlock } from './ArchetypeReasoningBlock';
 
@@ -20,7 +11,6 @@ export function ResultsView() {
   const {
     traitScores,
     dominantTrait,
-    traitRadarData,
     recommendedCareers,
     selectCareer,
     reset,
@@ -30,13 +20,6 @@ export function ResultsView() {
     fetchAiInsight,
   } = useGaplessContext();
 
-  const [chartReady, setChartReady] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setChartReady(true), 300);
-    return () => clearTimeout(t);
-  }, []);
-
   // Trigger AI analysis on mount
   useEffect(() => {
     fetchAiInsight();
@@ -44,8 +27,8 @@ export function ResultsView() {
 
   if (!dominantTrait) return null;
 
-  const meta = TRAIT_META[dominantTrait];
-  const maxScore = ASSESSMENT_QUESTIONS.length;
+  const meta = TRAIT_META[dominantTrait as keyof typeof TRAIT_META];
+
   return (
     <div className="min-h-screen bg-space px-4 sm:px-6 py-12">
       <div className="max-w-5xl mx-auto">

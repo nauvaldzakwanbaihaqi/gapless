@@ -12,10 +12,10 @@ if (!API_KEY) {
 }
 
 async function run() {
-    let rewrittenQuestions = [];
+    const rewrittenQuestions = [];
     
     for (let i = 0; i < ASSESSMENT_QUESTIONS.length; i++) {
-        let q = ASSESSMENT_QUESTIONS[i];
+        const q = ASSESSMENT_QUESTIONS[i];
         console.log(`Processing Archetype Question ${i+1}/${ASSESSMENT_QUESTIONS.length}`);
         
         const prompt = `Kamu adalah psikolog karier yang menggunakan kerangka asesmen RIASEC (Holland Code). Diberikan soal kuis minat karier (archetype assessment).
@@ -60,7 +60,7 @@ OUTPUT HANYA JSON tanpa format backtick markdown.`;
                 const text = data.candidates[0].content.parts[0].text;
                 const parsed = JSON.parse(text);
                 
-                let newQ = JSON.parse(JSON.stringify(q));
+                const newQ = JSON.parse(JSON.stringify(q));
                 if (parsed.question && Array.isArray(parsed.options) && parsed.options.length === 4) {
                     newQ.question = parsed.question;
                     newQ.options[0].text = parsed.options[0]; // Thinker

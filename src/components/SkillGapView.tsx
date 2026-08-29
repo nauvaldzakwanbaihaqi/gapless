@@ -2,14 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Layers, ChevronRight, ChevronLeft, Home, CheckCircle2, AlertTriangle, Sparkles } from 'lucide-react';
+import { Layers, ChevronRight, ChevronLeft, Home } from 'lucide-react';
 import Link from 'next/link';
-import { SKILL_LABELS, TRAIT_META } from '@/data/gaplessData';
+import { TRAIT_META } from '@/data/gaplessData';
 import { useRouter } from 'next/navigation';
 import { useGaplessContext } from '@/contexts/CareerContext';
 import { quizBank } from '@/data/quizBank';
-import { AnalysisResultBlock } from './AnalysisResultBlock';
-
 const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
 const getQuizKey = (title: string) => {
@@ -30,50 +28,25 @@ const getQuizKey = (title: string) => {
 export function SkillGapView() {
   const {
     selectedCareer,
-    skillRatings,
     setSkillRating,
-    skillGapData,
-    allSkillsRated,
     setView,
     dominantTrait,
-    gapInsight,
-    isLoadingGapAi,
-    fetchGapInsight,
     syncResultNow,
   } = useGaplessContext();
 
-  const [isSyncing, setIsSyncing] = useState(false);
   const router = useRouter();
 
   const [step, setStep] = useState(1);
-  const [chartReady, setChartReady] = useState(false);
-  
   const [currentIndex, setCurrentIndex] = useState(0);
   const [questionScores, setQuestionScores] = useState<number[]>([]);
   const [selectedOptionIdx, setSelectedOptionIdx] = useState<number | null>(null);
 
   useEffect(() => {
     if (step === 2) {
-      const t = setTimeout(() => setChartReady(true), 300);
-      return () => clearTimeout(t);
-    }
-  }, [step]);
-
-  useEffect(() => {
-    if (step === 2 && !gapInsight && !isLoadingGapAi) {
-      fetchGapInsight();
-    }
-  }, [step, gapInsight, isLoadingGapAi, fetchGapInsight]);
-
-  useEffect(() => {
-    if (step === 2) {
       const syncAndRedirect = async () => {
-        setIsSyncing(true);
         const assessmentId = await syncResultNow();
         if (assessmentId) {
           router.push(`/hasil/${assessmentId}`);
-        } else {
-          setIsSyncing(false);
         }
       };
       syncAndRedirect();
@@ -136,15 +109,6 @@ export function SkillGapView() {
     }
   };
 
-  // Build radar data: required vs current for each skill
-  const radarData = skillGapData.map((s) => ({
-    name: s.name.split(' ').slice(0, 2).join(' '), // short labels
-    required: s.required,
-    current: s.current,
-  }));
-
-  const handleCreateRoadmap = () => setView('roadmap');
-  
   const handleBackToResults = () => {
     if (!dominantTrait) {
       window.location.href = '/career-test';

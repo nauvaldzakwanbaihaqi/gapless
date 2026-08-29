@@ -20,13 +20,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
     where: eq(assessmentResults.id, assessmentId)
   });
   
-  console.log('[DIAGNOSTIC] ModuleDetailPage URL assessmentId:', assessmentId);
-  console.log('[DIAGNOSTIC] Current Session User ID:', session.user.id);
-  console.log('[DIAGNOSTIC] DB Result for this assessmentId:', rawResult ? {
-    id: rawResult.id,
-    userId: rawResult.userId,
-    selectedCareer: rawResult.selectedCareer
-  } : 'NOT FOUND');
+
 
   const result = rawResult?.userId === session.user.id ? rawResult : null;
 

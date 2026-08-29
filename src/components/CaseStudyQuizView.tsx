@@ -49,7 +49,7 @@ export function CaseStudyQuizView() {
         roleSlug = ROLE_ALIASES[roleSlug];
     }
     
-    let questions = quizBank[roleSlug] || [];
+    const questions = quizBank[roleSlug] || [];
 
     const [step, setStep] = useState(1);
     const [currentIndex, setCurrentIndex] = useState(0);
