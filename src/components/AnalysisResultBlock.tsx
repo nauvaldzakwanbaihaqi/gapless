@@ -7,7 +7,7 @@ import { GapInsight } from '@/contexts/CareerContext';
 import Link from 'next/link';
 
 interface AnalysisResultBlockProps {
-  radarData: any[];
+  radarData: Record<string, unknown>[];
   traitMetaColor: string;
   chartReady: boolean;
   isLoadingGapAi: boolean;
@@ -162,7 +162,7 @@ export function AnalysisResultBlock({
               </div>
 
               <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-sm font-medium text-slate-700 italic text-center">
-                "{gapInsight.catatan_singkat}"
+                &quot;{gapInsight.catatan_singkat}&quot;
               </div>
             </div>
           ) : (

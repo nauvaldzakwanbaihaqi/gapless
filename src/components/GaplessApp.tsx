@@ -21,12 +21,10 @@ export type JobRole = {
 };
 
 // 2. Buat interface untuk Props-nya
-interface GaplessAppProps {
-}
 
 import { CaseStudyQuizView } from '@/components/CaseStudyQuizView';
 
-export function GaplessApp({}: GaplessAppProps) {
+export function GaplessApp() {
   const { currentView } = useGaplessContext();
 
 

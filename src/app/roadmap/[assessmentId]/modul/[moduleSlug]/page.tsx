@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from 'next/navigation';
 import { db } from '@/db';
 import { assessmentResults, roadmapProgress } from '@/db/schema';
@@ -30,7 +31,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Akses Ditolak</h2>
           <p className="text-slate-500 mb-4">Hasil asesmen ini tidak ditemukan atau bukan milik Anda.</p>
-          <a href="/roadmap" className="text-blue-600 hover:underline">Kembali ke Roadmap</a>
+          <Link href="/roadmap" className="text-blue-600 hover:underline">Kembali ke Roadmap</Link>
         </div>
       </div>
     );
@@ -42,7 +43,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Roadmap Belum Dipilih</h2>
           <p className="text-slate-500 mb-4">Anda belum memilih fokus karir untuk asesmen ini.</p>
-          <a href="/roadmap" className="text-blue-600 hover:underline">Kembali ke Roadmap</a>
+          <Link href="/roadmap" className="text-blue-600 hover:underline">Kembali ke Roadmap</Link>
         </div>
       </div>
     );
@@ -65,8 +66,8 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
           <h2 className="text-2xl font-bold mb-2">Profil Karir Tidak Valid</h2>
-          <p className="text-slate-500 mb-4">Profil karir "{result.selectedCareer}" tidak ditemukan dalam sistem.</p>
-          <a href="/roadmap" className="text-blue-600 hover:underline">Kembali ke Roadmap</a>
+          <p className="text-slate-500 mb-4">Profil karir &quot;{result.selectedCareer}&quot; tidak ditemukan dalam sistem.</p>
+          <Link href="/roadmap" className="text-blue-600 hover:underline">Kembali ke Roadmap</Link>
         </div>
       </div>
     );
@@ -95,8 +96,8 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-6">
         <h2 className="text-2xl font-bold text-slate-800 mb-2">Modul Tidak Ditemukan</h2>
-        <p className="text-slate-500 mb-6">Kami tidak dapat menemukan modul "{moduleSlug}" di roadmap ini.</p>
-        <a href="/roadmap" className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700">Kembali ke Roadmap</a>
+        <p className="text-slate-500 mb-6">Kami tidak dapat menemukan modul &quot;{moduleSlug}&quot; di roadmap ini.</p>
+        <Link href="/roadmap" className="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700">Kembali ke Roadmap</Link>
       </div>
     );
   }

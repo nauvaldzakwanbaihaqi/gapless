@@ -7,27 +7,7 @@ import Link from 'next/link';
 import { BrainCircuit, Briefcase, Calendar, ChevronRight, Map } from 'lucide-react';
 import { Navbar } from '@/components/Navbar';
 
-export default async function ResultsPage() {
-  const session = await auth();
-
-  if (!session?.user?.id) {
-    redirect('/api/auth/signin?callbackUrl=/results');
-  }
-
-  const results = await db
-    .select()
-    .from(assessmentResults)
-    .where(
-      and(
-        eq(assessmentResults.userId, session.user.id),
-        eq(assessmentResults.isActive, true)
-      )
-    );
-
-  const belumTahu = results.find(r => r.quizType === 'belum_tahu_minat');
-  const sudahTahu = results.find(r => r.quizType === 'sudah_tahu_minat');
-
-  const ResultCard = ({ title, description, result, quizType, Icon }: { title: string, description: string, result: typeof results[0] | undefined, quizType: string, Icon: any }) => {
+  const ResultCard = ({ title, description, result, quizType, Icon }: { title: string, description: string, result: { traitScores?: unknown; dominantTrait: string; selectedCareer: string | null; id: string; createdAt: Date | string | null } | undefined, quizType: string, Icon: React.ElementType }) => {
     if (!result) {
       return (
         <div className="bg-white rounded-3xl p-8 sm:p-12 text-center shadow-sm border border-slate-100 flex flex-col items-center">
@@ -48,7 +28,7 @@ export default async function ResultsPage() {
       );
     }
 
-    const date = new Date(result.createdAt).toLocaleDateString('id-ID', {
+    const date = new Date(result.createdAt || Date.now()).toLocaleDateString('id-ID', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
@@ -98,6 +78,28 @@ export default async function ResultsPage() {
       </div>
     );
   };
+
+export default async function ResultsPage() {
+  const session = await auth();
+
+  if (!session?.user?.id) {
+    redirect('/api/auth/signin?callbackUrl=/results');
+  }
+
+  const results = await db
+    .select()
+    .from(assessmentResults)
+    .where(
+      and(
+        eq(assessmentResults.userId, session.user.id),
+        eq(assessmentResults.isActive, true)
+      )
+    );
+
+  const belumTahu = results.find(r => r.quizType === 'belum_tahu_minat');
+  const sudahTahu = results.find(r => r.quizType === 'sudah_tahu_minat');
+
+
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">

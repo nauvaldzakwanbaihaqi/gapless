@@ -85,10 +85,10 @@ Berikan hasil analisis sepenuhnya menggunakan Bahasa Indonesia yang profesional,
       traits: object.traits,
       strengths: object.strengths,
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('AI Analysis Error Detail:', error); 
     return NextResponse.json(
-      { error: 'Gagal menghasilkan analisis AI', details: error.message, stack: error.stack },
+      { error: 'Gagal menghasilkan analisis AI', details: 'Internal Server Error' },
       { status: 500 }
     );
   }

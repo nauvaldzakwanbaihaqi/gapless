@@ -112,7 +112,7 @@ export default function HomePage() {
                   </svg>
                 </div>
                 <p className="text-slate-800 font-medium text-sm md:text-base leading-snug">
-                  Bukan cuma tahu "kamu cocok jadi apa", kamu juga tahu apa yang perlu kamu kuasai untuk sampai ke sana.
+                  Bukan cuma tahu &quot;kamu cocok jadi apa&quot;, kamu juga tahu apa yang perlu kamu kuasai untuk sampai ke sana.
                 </p>
               </div>
 

@@ -15,7 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }),
     ],
     callbacks: {
-        // Kita pakai ': any' biar TypeScript nggak protes soal custom parameter (tier & id)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         async session({ session, user }: any) {
             if (session.user && user) {
                 session.user.id = user.id;

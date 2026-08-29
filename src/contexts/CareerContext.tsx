@@ -12,7 +12,7 @@ import {
   Dispatch,
   SetStateAction,
 } from 'react';
-import { useSession } from 'next-auth/react';
+import { useAuthGuard } from '@/hooks/useAuthGuard';
 
 import {
   type Trait,
@@ -167,8 +167,8 @@ export function useGaplessContext() {
 // ──────────────────────────────────────────────
 
 export function GaplessProvider({ children }: { children: ReactNode }) {
-  const { data: session } = useSession();
-  const userTier = (session?.user as any)?.tier || 'Free';
+  const { session } = useAuthGuard();
+  const userTier = (session?.user as { tier?: string })?.tier || 'Free';
   const isPro = userTier === 'Student Pro' || userTier === 'Pro';
 
   // ── Navigation ──
@@ -309,7 +309,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
 
   const setAnswer = useCallback((questionId: number, optionIndex: number) => {
     setAnswers((prev) => ({ ...prev, [questionId]: optionIndex }));
-  }, []);
+  }, [setAnswers]);
 
   const selectCareer = useCallback((career: CareerProfile) => {
     setSelectedCareer(career);
@@ -438,7 +438,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
     lastFetchedGap.current = '';
     fetchLock.current = false;
     fetchGapLock.current = false;
-  }, []);
+  }, [setAnswers]);
 
   const resetProgress = useCallback(async () => {
     setSkillRatingsState({});
@@ -485,6 +485,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (currentView === 'results' || currentView === 'roadmap') {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       saveResultToServerOrLocal();
     }
   }, [currentView, saveResultToServerOrLocal]);
@@ -571,6 +572,16 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
       allSkillsRated,
       roadmapWithProgress,
       reset,
+      answers,
+      completedQuestions,
+      currentAssessmentId,
+      isAssessmentComplete,
+      quizType,
+      resetProgress,
+      saveResultToServerOrLocal,
+      selectedModuleSlug,
+      setAnswer,
+      setView,
     ]
   );
 

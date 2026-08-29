@@ -2,16 +2,13 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Map, CheckCircle2, Circle, ChevronLeft, ChevronDown, RotateCcw, Lock, Home } from 'lucide-react';
-import { TRAIT_META } from '@/data/gaplessData';
+import { CheckCircle2, ChevronDown, RotateCcw, Lock, Home } from 'lucide-react';
 import { useGaplessContext } from '@/contexts/CareerContext';
-import { useSession } from 'next-auth/react';
+import { useAuthGuard } from '@/hooks/useAuthGuard';
 import Link from 'next/link';
 import type { CareerProfile } from '@/data/gaplessData';
 import type { RoadmapNode } from '@/contexts/CareerContext';
 
-const PHASE_COLORS = ['#3b82f6', '#8b5cf6', '#f59e0b', '#10b981'];
-const PHASE_ICONS = ['🌱', '🌿', '🌳', '🏔️'];
 
 export interface RoadmapViewProps {
   overrideData?: {
@@ -28,38 +25,37 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
   const selectedCareer = overrideData?.selectedCareer || context.selectedCareer;
   const roadmapWithProgress = overrideData?.roadmapWithProgress || context.roadmapWithProgress;
   const resetProgress = context.resetProgress;
-  const { data: session } = useSession();
+  const { session, status } = useAuthGuard();
   const router = useRouter();
   const [isResetting, setIsResetting] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<(() => void) | null>(null);
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
   const handleReset = async () => {
-    if (!window.confirm('Progress roadmap ini akan direset ke 0%. Hasil analisis dan riwayat tes kamu tidak akan terhapus. Lanjutkan?')) {
-      return;
-    }
-
-    if (overrideData?.id) {
-      setIsResetting(true);
-      try {
-        const res = await fetch('/api/roadmap/reset', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ assessmentId: overrideData.id })
-        });
-        if (res.ok) {
-          // Refresh page so server component refetches
-          window.location.reload();
-        } else {
-          alert('Gagal mereset progress.');
+    setConfirmAction(() => async () => {
+      setConfirmAction(null);
+      if (overrideData?.id) {
+        setIsResetting(true);
+        try {
+          const res = await fetch('/api/roadmap/reset', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ assessmentId: overrideData.id })
+          });
+          if (res.ok) {
+            window.location.reload();
+          } else {
+            setAlertMessage('Gagal mereset progress.');
+          }
+        } catch {
+          setAlertMessage('Terjadi kesalahan jaringan.');
+        } finally {
+          setIsResetting(false);
         }
-      } catch (err) {
-        alert('Terjadi kesalahan jaringan.');
-      } finally {
-        setIsResetting(false);
+      } else {
+        resetProgress();
       }
-    } else {
-      // Fallback for SPA flow guest / logged in user right after assessment
-      resetProgress();
-    }
+    });
   };
 
   const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
@@ -78,12 +74,18 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
     }
   };
 
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-space flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
+
   if (!selectedCareer) return null;
 
-  const userTier = (session?.user as any)?.tier || 'Free';
+  const userTier = (session?.user as { tier?: string })?.tier || 'Free';
   const isPro = userTier === 'Student Pro' || userTier === 'Pro';
-
-  const traitMeta = TRAIT_META[selectedCareer.trait];
 
   const totalModules = roadmapWithProgress.reduce(
     (sum, p) => sum + p.modules.length,
@@ -334,6 +336,75 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
           </button>
         </motion.div>
       </div>
+
+      {/* MODAL RESET CONFIRMATION */}
+      <AnimatePresence>
+        {confirmAction && (
+          <motion.div
+            className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-slate-900 border border-slate-700 p-6 rounded-2xl max-w-sm w-full shadow-2xl"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+            >
+              <h3 className="text-xl font-bold text-white mb-2">Reset Progress?</h3>
+              <p className="text-gray-400 mb-6 text-sm">
+                Progress roadmap ini akan direset ke 0%. Hasil analisis dan riwayat tes kamu tidak akan terhapus. Lanjutkan?
+              </p>
+              <div className="flex gap-3 justify-end">
+                <button
+                  onClick={() => setConfirmAction(null)}
+                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-sm font-medium transition-colors"
+                >
+                  Batal
+                </button>
+                <button
+                  onClick={confirmAction}
+                  className="px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded-xl text-sm font-medium transition-colors"
+                >
+                  Ya, Reset
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ALERT MODAL */}
+      <AnimatePresence>
+        {alertMessage && (
+          <motion.div
+            className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.div
+              className="bg-slate-900 border border-slate-700 p-6 rounded-2xl max-w-sm w-full shadow-2xl text-center"
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+            >
+              <div className="w-12 h-12 bg-red-500/10 text-red-500 flex items-center justify-center rounded-full mx-auto mb-4">
+                <CheckCircle2 size={24} />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">Pemberitahuan</h3>
+              <p className="text-gray-400 mb-6 text-sm">{alertMessage}</p>
+              <button
+                onClick={() => setAlertMessage(null)}
+                className="w-full py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-xl text-sm font-medium transition-colors"
+              >
+                Tutup
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

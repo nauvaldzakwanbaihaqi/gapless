@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react';
 import { CAREER_PROFILES as CAREERS } from '@/data/gaplessData';
 import { RoadmapView } from '@/components/RoadmapView';
 import type { RoadmapNode } from '@/contexts/CareerContext';
-import { useSession } from 'next-auth/react';
+import { useAuthGuard } from '@/hooks/useAuthGuard';
 import { Navbar } from '@/components/Navbar';
 import Link from 'next/link';
 
@@ -19,8 +19,8 @@ type AssessmentResult = {
 };
 
 export default function RoadmapClient({ history, initialAssessmentId }: { history: AssessmentResult[], initialAssessmentId?: string }) {
-  const { data: session } = useSession();
-  const userTier = (session?.user as any)?.tier || 'Free';
+  const { session, status } = useAuthGuard();
+  const userTier = (session?.user as { tier?: string })?.tier || 'Free';
   const isPro = userTier === 'Student Pro' || userTier === 'Pro';
 
   // Default to initialAssessmentId if valid, else most recent
@@ -39,7 +39,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
     if (!selectedHistory || !selectedHistory.selectedCareer) return undefined;
 
     // Find the static career profile
-    const profile = CAREERS.find((c: any) => c.title === selectedHistory.selectedCareer);
+    const profile = CAREERS.find((c: { title: string }) => c.title === selectedHistory.selectedCareer);
     if (!profile) return undefined;
 
     const skillRatings = selectedHistory.skillRatings || {};
@@ -53,7 +53,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
           title: 'Lanjutan',
           subtitle: 'Materi lanjutan untuk memaksimalkan potensimu.',
           description: 'Pelajari materi lebih dalam dengan praktik industri nyata.',
-          modules: phase.modules.map((_: any, i: number) => `Materi Premium ${i + 1}`),
+          modules: phase.modules.map((_: unknown, i: number) => `Materi Premium ${i + 1}`),
           completedModules: [],
           progress: 0,
         };
@@ -63,7 +63,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
       
       const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
-      const completedModules = phase.modules.filter((_module: any, idx: number) => {
+      const completedModules = phase.modules.filter((_module: string, idx: number) => {
         const moduleSlug = slugify(_module);
         if (moduleStatuses[moduleSlug]) return true;
 
@@ -87,6 +87,14 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
       roadmapWithProgress,
     };
   }, [selectedHistory, isPro]);
+
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-space flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col bg-space">

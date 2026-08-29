@@ -75,10 +75,10 @@ Berikan analisis terstruktur menggunakan Bahasa Indonesia yang profesional dan m
       ai_engine_used: selectedAI,
       ...object
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Gap AI Analysis Error Detail:', error); 
     return NextResponse.json(
-      { error: 'Gagal menghasilkan analisis AI untuk skill gap', details: error.message, stack: error.stack },
+      { error: 'Gagal menghasilkan analisis AI untuk skill gap', details: 'Internal Server Error' },
       { status: 500 }
     );
   }

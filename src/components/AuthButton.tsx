@@ -1,9 +1,16 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut } from "next-auth/react";
+import { useAuthGuard } from "@/hooks/useAuthGuard";
 
 export default function AuthButton() {
-    const { data: session } = useSession();
+    const { session, status } = useAuthGuard();
+
+    if (status === "loading") {
+        return (
+            <div className="bg-gray-200 animate-pulse h-10 w-[160px] rounded-full"></div>
+        );
+    }
 
     // Kalau User sudah login
     if (session?.user) {
