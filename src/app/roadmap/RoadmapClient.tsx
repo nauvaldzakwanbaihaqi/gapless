@@ -44,7 +44,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
 
     const skillRatings = selectedHistory.skillRatings || {};
 
-    const roadmapWithProgress: RoadmapNode[] = profile.roadmap.map((phase: any, phaseIdx: number) => {
+    const roadmapWithProgress: RoadmapNode[] = profile.roadmap.map((phase: { modules: string[]; [key: string]: unknown }, phaseIdx: number) => {
       const isLockedPhase = !isPro && phaseIdx >= 2;
       
       if (isLockedPhase) {

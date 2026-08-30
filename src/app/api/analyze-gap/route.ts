@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const { skillGapData, roleName } = body as {
-      skillGapData: any[];
+      skillGapData: { name: string; userLevel: number; required: number }[];
       roleName: string;
     };
 

@@ -28,11 +28,11 @@ import { Navbar } from '@/components/Navbar';
       );
     }
 
-    const date = new Date(result.createdAt || Date.now()).toLocaleDateString('id-ID', {
+    const date = result.createdAt ? new Date(result.createdAt).toLocaleDateString('id-ID', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',
-    });
+    }) : 'Baru saja';
 
     return (
       <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 hover:shadow-md transition-shadow relative overflow-hidden">
