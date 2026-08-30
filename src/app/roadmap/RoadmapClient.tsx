@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { CAREER_PROFILES as CAREERS } from '@/data/gaplessData';
+import { CAREER_PROFILES as CAREERS, type CurriculumPhase } from '@/data/gaplessData';
 import { RoadmapView } from '@/components/RoadmapView';
 import type { RoadmapNode } from '@/contexts/CareerContext';
 import { useAuthGuard } from '@/hooks/useAuthGuard';
@@ -44,7 +44,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
 
     const skillRatings = selectedHistory.skillRatings || {};
 
-    const roadmapWithProgress: RoadmapNode[] = profile.roadmap.map((phase: { modules: string[]; [key: string]: unknown }, phaseIdx: number) => {
+    const roadmapWithProgress: RoadmapNode[] = profile.roadmap.map((phase: CurriculumPhase, phaseIdx: number) => {
       const isLockedPhase = !isPro && phaseIdx >= 2;
       
       if (isLockedPhase) {
