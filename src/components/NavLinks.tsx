@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { motion } from "motion/react"; // Pastikan import Framer Motion
 
 export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,39 +19,70 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
   return (
     <nav className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto w-full relative">
       
-      {/* 1. Div Logo */}
-      <div className="flex-1 flex justify-start">
+      {/* 1. Div Logo (Animasi dari Kiri ke Kanan) */}
+      <motion.div 
+        className="flex-1 flex justify-start"
+        initial={{ opacity: 0, x: -40 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         <Link
           href="/"
-          className="flex items-center gap-2 transition-transform hover:scale-105 animate-slide-from-left"
+          className="flex items-center gap-2 transition-transform hover:scale-105"
         >
           <img src="/Asset 1.png" alt="Gapless Explorer Logo" className="h-10 w-auto" />
           <span className="font-bold text-slate-900 text-2xl">Gapless</span>
         </Link>
-      </div>
+      </motion.div>
 
-      {/* 2. Div Links (Desktop) */}
-      <div className="hidden md:flex flex-1 justify-center items-center gap-7 animate-slide-from-right">
+      {/* 2. Div Links (Desktop) (Animasi dari Atas ke Bawah bergantian) */}
+      <motion.div 
+        className="hidden md:flex flex-1 justify-center items-center gap-7"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: { 
+              staggerChildren: 0.1, // Link turun satu per satu jeda 0.1s
+              delayChildren: 0.2 // Nunggu logo jalan duluan
+            }
+          }
+        }}
+      >
         {links.map((link) => (
-          <Link
+          <motion.div
             key={link.href}
-            href={link.href}
-            className={`text-[15px] whitespace-nowrap transition-colors ${
-              pathname === link.href
-                ? "text-slate-900 font-semibold"
-                : "text-slate-700 hover:text-slate-900 font-normal"
-            }`}
+            variants={{
+              hidden: { opacity: 0, y: -20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+            }}
           >
-            {link.label}
-          </Link>
+            <Link
+              href={link.href}
+              className={`text-[15px] whitespace-nowrap transition-colors ${
+                pathname === link.href
+                  ? "text-slate-900 font-semibold"
+                  : "text-slate-700 hover:text-slate-900 font-normal"
+              }`}
+            >
+              {link.label}
+            </Link>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      {/* 3. Div Login & Mobile Toggle */}
-      <div className="flex-1 flex justify-end items-center gap-4 animate-slide-from-right">
+      {/* 3. Div Login & Mobile Toggle (Animasi Kanan ke Kiri + Blur) */}
+      <motion.div 
+        className="flex-1 flex justify-end items-center gap-4"
+        initial={{ opacity: 0, x: 40, filter: 'blur(8px)' }}
+        animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+        transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }} // Delay biar muncul paling akhir
+      >
         {authButton}
         
-        {/* Mobile Hamburger Toggle (only visible on mobile) */}
+        {/* Mobile Hamburger Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="md:hidden text-slate-800 p-2 focus:outline-none"
@@ -72,11 +104,16 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
             )}
           </svg>
         </button>
-      </div>
+      </motion.div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu Dropdown (Efek Fade In sederhana saat diklik) */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 bg-white shadow-lg border-b border-gray-100 py-4 px-6 flex flex-col gap-4 md:hidden z-50">
+        <motion.div 
+          className="absolute top-full left-0 right-0 bg-white shadow-lg border-b border-gray-100 py-4 px-6 flex flex-col gap-4 md:hidden z-50"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.2 }}
+        >
           {links.map((link) => (
             <Link
               key={link.href}
@@ -91,7 +128,7 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
               {link.label}
             </Link>
           ))}
-        </div>
+        </motion.div>
       )}
     </nav>
   );
