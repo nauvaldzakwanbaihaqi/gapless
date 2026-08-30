@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion } from "motion/react"; // Pastikan import Framer Motion
+import { motion, AnimatePresence } from "motion/react"; // Pastikan import Framer Motion
 
 export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -97,39 +97,54 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            {isOpen ? (
-              <path d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path d="M4 6h16M4 12h16M4 18h16" />
-            )}
+            <motion.line
+              x1="4" y1="6" x2="20" y2="6"
+              animate={isOpen ? { rotate: 45, y: 6 } : { rotate: 0, y: 0 }}
+              style={{ originX: "50%", originY: "50%" }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            />
+            <motion.line
+              x1="4" y1="12" x2="20" y2="12"
+              animate={isOpen ? { opacity: 0 } : { opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            />
+            <motion.line
+              x1="4" y1="18" x2="20" y2="18"
+              animate={isOpen ? { rotate: -45, y: -6 } : { rotate: 0, y: 0 }}
+              style={{ originX: "50%", originY: "50%" }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+            />
           </svg>
         </button>
       </motion.div>
 
       {/* Mobile Menu Dropdown (Efek Fade In sederhana saat diklik) */}
-      {isOpen && (
-        <motion.div 
-          className="absolute top-full left-0 right-0 bg-white shadow-lg border-b border-gray-100 py-4 px-6 flex flex-col gap-4 md:hidden z-50"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.2 }}
-        >
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className={`block py-2 text-base transition-colors ${
-                pathname === link.href
-                  ? "text-slate-900 font-semibold"
-                  : "text-slate-700 hover:text-slate-900"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
-        </motion.div>
-      )}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div 
+            className="absolute top-full left-0 right-0 bg-white shadow-lg border-b border-gray-100 py-4 px-6 flex flex-col gap-4 md:hidden z-50"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+          >
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className={`block py-2 text-base transition-colors ${
+                  pathname === link.href
+                    ? "text-slate-900 font-semibold"
+                    : "text-slate-700 hover:text-slate-900"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 }
