@@ -107,75 +107,143 @@ export default function HomePage() {
 
       {/* Fitur Unggulan Section */}
       <section className="relative z-10 px-4 md:px-6 pt-20 max-w-7xl mx-auto">
-        <div className="rounded-4xl p-8 md:p-12 overflow-hidden shadow-2xl bg-[#0F62FE]">
 
+        {/* KARTU BIRU UTAMA (Animasi dari bawah ke atas) */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7, ease: 'easeOut' }}
+          className="rounded-4xl p-8 md:p-12 overflow-hidden shadow-2xl bg-[#0F62FE]"
+        >
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center relative z-10">
 
             {/* ---------------- BAGIAN KIRI (TEKS & FITUR) ---------------- */}
-            <div className="text-white">
-              {/* Badge */}
-              <span className="inline-block px-4 py-1.5 bg-white text-slate-800 rounded-full text-sm font-bold mb-6 shadow-sm">
-                Fitur Unggulan
-              </span>
+            <div>
 
-              {/* Heading */}
-              <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
-                Ukur Kesiapanmu, Sebelum<br className="hidden md:block" /> Melangkah Lebih Jauh
-              </h2>
+              {/* CONTAINER TEKS (Stagger Kiri ke Kanan + Blur) */}
+              <motion.div
+                className="text-white"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.15, // Delay antar teks
+                      delayChildren: 0.2 // Tunggu background biru naik dulu
+                    }
+                  }
+                }}
+              >
+                {/* Badge */}
+                <motion.span
+                  variants={{
+                    hidden: { opacity: 0, x: -30, filter: 'blur(8px)' },
+                    visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: 'easeOut' } }
+                  }}
+                  className="inline-block px-4 py-1.5 bg-white text-slate-800 rounded-full text-sm font-bold mb-6 shadow-sm"
+                >
+                  Fitur Unggulan
+                </motion.span>
 
-              {/* Sub-deskripsi dengan garis vertikal */}
-              <div className="border-l-2 border-white pl-5 py-1 mb-10">
-                <p className="text-blue-50 text-base md:text-lg leading-relaxed font-medium">
-                  Gapless membandingkan skill yang kamu punya dengan kebutuhan industri untuk melihat apa yang sudah kamu kuasai dan apa yang masih perlu diasah.
-                </p>
-              </div>
+                {/* Heading */}
+                <motion.h2
+                  variants={{
+                    hidden: { opacity: 0, x: -30, filter: 'blur(8px)' },
+                    visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: 'easeOut' } }
+                  }}
+                  className="text-4xl md:text-5xl font-bold leading-tight mb-6"
+                >
+                  Ukur Kesiapanmu, Sebelum<br className="hidden md:block" /> Melangkah Lebih Jauh
+                </motion.h2>
 
-              {/* Callout Box Putih */}
-              <div className="bg-white rounded-2xl p-5 md:p-6 mb-10 shadow-lg flex items-center gap-5">
-                <div className="w-14 h-14 shrink-0 flex items-center justify-center bg-[#0F62FE] rounded-xl shadow-inner">
-                  {/* Target/Bullseye Icon */}
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <circle cx="12" cy="12" r="10" />
-                    <circle cx="12" cy="12" r="6" />
-                    <circle cx="12" cy="12" r="2" />
-                  </svg>
-                </div>
-                <p className="text-slate-800 font-medium text-sm md:text-base leading-snug">
-                  Bukan cuma tahu &quot;kamu cocok jadi apa&quot;, kamu juga tahu apa yang perlu kamu kuasai untuk sampai ke sana.
-                </p>
-              </div>
+                {/* Sub-deskripsi */}
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, x: -30, filter: 'blur(8px)' },
+                    visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: 'easeOut' } }
+                  }}
+                  className="border-l-2 border-white pl-5 py-1 mb-10"
+                >
+                  <p className="text-blue-50 text-base md:text-lg leading-relaxed font-medium">
+                    Gapless membandingkan skill yang kamu punya dengan kebutuhan industri untuk melihat apa yang sudah kamu kuasai dan apa yang masih perlu diasah.
+                  </p>
+                </motion.div>
 
-              {/* 3 Fitur Horizontal */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-                {/* Item 1 */}
-                <div className="flex items-center sm:items-start sm:flex-col gap-4 sm:gap-3 group">
-                  <img src="/images/unggulan/kaca.png" alt="Kenali Skill" className="w-22 h-22 object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-300" />
-                  <div>
-                    <h4 className="font-bold text-white text-sm md:text-base sm:mb-1">Kenali Skill-mu</h4>
-                    <p className="text-blue-100 text-xs md:text-sm leading-tight">Pahami kekuatanmu secara objektif</p>
+                {/* Callout Box Putih */}
+                <motion.div
+                  variants={{
+                    hidden: { opacity: 0, x: -30, filter: 'blur(8px)' },
+                    visible: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: 'easeOut' } }
+                  }}
+                  className="bg-white rounded-2xl p-5 md:p-6 mb-10 shadow-lg flex items-center gap-5"
+                >
+                  <div className="w-14 h-14 shrink-0 flex items-center justify-center bg-[#0F62FE] rounded-xl shadow-inner">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="w-8 h-8 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10" />
+                      <circle cx="12" cy="12" r="6" />
+                      <circle cx="12" cy="12" r="2" />
+                    </svg>
                   </div>
-                </div>
-                {/* Item 2 */}
-                <div className="flex items-center sm:items-start sm:flex-col gap-4 sm:gap-3 group">
-                  <img src="/images/unggulan/grafik.png" alt="Lihat Gap" className="w-22 h-22 object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-300" />
-                  <div>
-                    <h4 className="font-bold text-white text-sm md:text-base sm:mb-1">Lihat Gap</h4>
-                    <p className="text-blue-100 text-xs md:text-sm leading-tight">Temukan jarak antara skill kamu dan kebutuhan industri</p>
-                  </div>
-                </div>
-                {/* Item 3 */}
-                <div className="flex items-center sm:items-start sm:flex-col gap-4 sm:gap-3 group">
-                  <img src="/images/unggulan/roket.png" alt="Tingkatkan Diri" className="w-22 h-22 object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-300" />
-                  <div>
-                    <h4 className="font-bold text-white text-sm md:text-base sm:mb-1">Tingkatkan Diri</h4>
-                    <p className="text-blue-100 text-xs md:text-sm leading-tight">Fokus pada skill yang membawa kamu lebih siap</p>
-                  </div>
-                </div>
-              </div>
+                  <p className="text-slate-800 font-medium text-sm md:text-base leading-snug">
+                    Bukan cuma tahu &quot;kamu cocok jadi apa&quot;, kamu juga tahu apa yang perlu kamu kuasai untuk sampai ke sana.
+                  </p>
+                </motion.div>
+              </motion.div>
+
+              {/* CONTAINER 3 FITUR (Stagger Bawah ke Atas) */}
+              <motion.div
+                className="grid grid-cols-1 sm:grid-cols-3 gap-6"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, amount: 0.2 }}
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.15,
+                      delayChildren: 0.6 // Nunggu elemen teks atasnya agak selesai baru muncul
+                    }
+                  }
+                }}
+              >
+                {[
+                  { img: '/images/unggulan/kaca.png', title: 'Kenali Skill-mu', desc: 'Pahami kekuatanmu secara objektif' },
+                  { img: '/images/unggulan/grafik.png', title: 'Lihat Gap', desc: 'Temukan jarak antara skill kamu dan kebutuhan industri' },
+                  { img: '/images/unggulan/roket.png', title: 'Tingkatkan Diri', desc: 'Fokus pada skill yang membawa kamu lebih siap' }
+                ].map((fitur, idx) => (
+                  <motion.div
+                    key={idx}
+                    variants={{
+                      hidden: { opacity: 0, y: 30 },
+                      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } }
+                    }}
+                    className="flex items-center sm:items-start sm:flex-col gap-4 sm:gap-3 group"
+                  >
+                    <img src={fitur.img} alt={fitur.title} className="w-22 h-22 object-contain drop-shadow-xl group-hover:scale-105 transition-transform duration-300" />
+                    <div>
+                      <h4 className="font-bold text-white text-sm md:text-base sm:mb-1">{fitur.title}</h4>
+                      <p className="text-blue-100 text-xs md:text-sm leading-tight">{fitur.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+
             </div>
 
             {/* ---------------- BAGIAN KANAN (RADAR CHART) ---------------- */}
-            <div className="bg-white rounded-3xl p-6 md:p-10 shadow-xl flex flex-col h-full">
+            {/* KARTU RADAR CHART (Animasi dari Kanan ke Kiri + Blur) */}
+            <motion.div
+              initial={{ opacity: 0, x: 40, filter: 'blur(8px)' }}
+              whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }} // Delay sedikit biar teks kiri jalan duluan
+              className="bg-white rounded-3xl p-6 md:p-10 shadow-xl flex flex-col h-full"
+            >
               {/* Header Card */}
               <div className="mb-8 md:mb-10">
                 <span className="text-slate-500 text-sm font-medium">Contoh</span>
@@ -183,7 +251,7 @@ export default function HomePage() {
                 <p className="text-slate-400 text-sm mt-1">Untuk Peran Digital Marketing Specialist</p>
               </div>
 
-              {/* Radar Chart Area - Ditambahkan my-auto dan max-w diperbesar */}
+              {/* Radar Chart Area */}
               <div className="relative w-full max-w-70 md:max-w-85 mx-auto aspect-square flex items-center justify-center my-auto py-8">
                 <svg viewBox="0 0 100 100" className="w-full h-full overflow-visible">
                   {/* Radar grid (Hexagon) */}
@@ -227,9 +295,9 @@ export default function HomePage() {
                 </div>
               </div>
 
-            </div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Section 5: Job Portal Strip */}
