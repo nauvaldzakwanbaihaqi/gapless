@@ -156,12 +156,12 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
               >
                 {/* Phase Card */}
                 <div
-                  className={`bg-white rounded-[2rem] p-6 md:p-8 relative overflow-hidden transition-all duration-300 ${
+                  className={`bg-white rounded-4xl p-6 md:p-8 relative overflow-hidden transition-all duration-300 ${
                     isActivePhase ? 'border-2 border-blue-600 ring-4 ring-blue-50 shadow-md' : 'border border-slate-200 shadow-sm'
                   }`}
                 >
                   {isLocked && (
-                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center backdrop-blur-[4px] bg-white/40">
+                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center backdrop-blur-xs bg-white/40">
                       <div className="bg-white/90 backdrop-blur-md border border-slate-100 p-8 rounded-3xl shadow-xl flex flex-col items-center max-w-sm">
                         <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 border border-slate-100">
                           <Lock className="w-6 h-6 text-slate-700" />

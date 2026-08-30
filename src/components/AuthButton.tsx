@@ -8,7 +8,7 @@ export default function AuthButton() {
 
     if (status === "loading") {
         return (
-            <div className="bg-gray-200 animate-pulse h-10 w-[160px] rounded-full"></div>
+            <div className="bg-gray-200 animate-pulse h-10 w-40 rounded-full"></div>
         );
     }
 

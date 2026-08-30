@@ -1,8 +1,35 @@
+"use client"
+
 import { Navbar } from '@/components/Navbar';
 import { AssessmentNav } from '@/components/AssessmentNav';
 import { FooterSection } from '@/components/AnimatedSections';
 
+import { motion, Variants } from 'motion/react';
+
 export default function HomePage() {
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2 }, // Delay antar elemen 0.2 detik
+    },
+  };
+
+  const itemFadeBlurVariants: Variants = {
+    hidden: { opacity: 0, y: 30, filter: 'blur(8px)' },
+    visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: 'easeOut' } },
+  };
+
+  const riasecData = [
+    { letter: 'R', name: 'Realistic', desc: 'Praktis & Teknikal' },
+    { letter: 'I', name: 'Investigative', desc: 'Analisis & Riset' }, // Typo analisis udah dibenerin
+    { letter: 'A', name: 'Artistic', desc: 'Eksploratif Kreatif' },
+    { letter: 'S', name: 'Social', desc: 'Membantu & Interaksi' },
+    { letter: 'E', name: 'Enterprising', desc: 'Memimpin & Negosiasi' },
+    { letter: 'C', name: 'Conventional', desc: 'Struktur & Detail' },
+  ];
+
   return (
     <div className="min-h-screen bg-space">
       <Navbar />
@@ -26,54 +53,56 @@ export default function HomePage() {
       </section>
 
       {/* RIASEC Section (Landasan Teori) */}
-      <section className="relative z-10 px-6 py-30 max-w-6xl mx-auto">
-        <div className="text-center mb-12">
-          <span className="inline-block px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-xs font-semibold mb-4 tracking-wider uppercase">
-            Landasan Teori
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-            Mengenal Dirimu Lewat
-            <br />
-            <span style={{ color: 'var(--color-primary)' }}>RIASEC</span>
-          </h2>
-          <p className="text-gray-500 max-w-2xl mx-auto">
-            Model RIASEC membagi minat kerja ke dalam 6 tipe utama. Kombinasi dominanmu akan menentukan lingkungan kerja yang paling cocok dan memuaskan.
-            <br />
-            <br />
-            Gapless menggunakan RIASEC sebagai salah satu fondasi untuk membantu kamu memahami pola minat dan menemukan kemungkinan arah karier di bidang digital, teknologi, dan STEM
-          </p>
-        </div>
+      <section className="relative z-10 px-6 py-30 max-w-6xl mx-auto overflow-hidden">
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5 items-stretch">
-          {[
-            { letter: 'R', name: 'Realistic', desc: 'Praktis & Teknikal' },
-            { letter: 'I', name: 'Investigative', desc: 'Analisi & Riset' },
-            { letter: 'A', name: 'Artistic', desc: 'Eksploratif Kreatif' },
-            { letter: 'S', name: 'Social', desc: 'Membantu & Interaksi' },
-            { letter: 'E', name: 'Enterprising', desc: 'Memimpin & Negosiasi' },
-            { letter: 'C', name: 'Conventional', desc: 'Struktur & Detail' },
-          ].map((item) => (
-            <div
+        {/* HEADER SECTION */}
+        <motion.div
+          className="text-center mb-12"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+        >
+          <motion.span variants={itemFadeBlurVariants} className="inline-block px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-xs font-semibold mb-4 tracking-wider uppercase">
+            Landasan Teori
+          </motion.span>
+          <motion.h2 variants={itemFadeBlurVariants} className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            Mengenal Dirimu Lewat<br />
+            <span style={{ color: 'var(--color-primary)' }}>RIASEC</span>
+          </motion.h2>
+          <motion.p variants={itemFadeBlurVariants} className="text-gray-500 max-w-2xl mx-auto">
+            Model RIASEC membagi minat kerja ke dalam 6 tipe utama. Kombinasi dominanmu akan menentukan lingkungan kerja yang paling cocok dan memuaskan.
+            <br /><br />
+            Gapless menggunakan RIASEC sebagai salah satu fondasi untuk membantu kamu memahami pola minat dan menemukan kemungkinan arah karier di bidang digital, teknologi, dan STEM
+          </motion.p>
+        </motion.div>
+
+        {/* CARDS GRID */}
+        <motion.div
+          className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5 items-stretch"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          {riasecData.map((item) => (
+            <motion.div
               key={item.letter}
+              variants={itemFadeBlurVariants}
               className="bg-white rounded-3xl p-5 md:p-6 flex flex-col items-center justify-start text-center h-full shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200 border border-slate-100"
             >
-              {/* Badge Huruf Biru - Terkunci rata atas */}
               <div className="w-11 h-11 shrink-0 flex items-center justify-center rounded-2xl bg-blue-600 text-white font-bold text-xl shadow-sm mb-4">
                 {item.letter}
               </div>
-
-              {/* Judul Teks */}
               <h3 className="font-bold text-blue-700 text-base md:text-lg leading-tight">
                 {item.name}
               </h3>
-
-              {/* Deskripsi */}
               <p className="text-blue-600 text-xs md:text-sm mt-1.5 leading-snug font-medium">
                 {item.desc}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* Fitur Unggulan Section */}

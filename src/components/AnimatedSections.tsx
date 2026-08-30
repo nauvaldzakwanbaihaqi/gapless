@@ -77,7 +77,7 @@ export function FooterSection() {
         }}
       >
         {/* max-w dilebarin jadi 3xl biar teks yang gede gak terlalu numpuk */}
-        <div className="max-w-3xl mx-auto text-center relative z-10 flex-grow flex flex-col items-center justify-center">
+        <div className="max-w-3xl mx-auto text-center relative z-10 grow flex flex-col items-center justify-center">
           
           {/* Judul Utama - Naik ke 4xl (Mobile), 5xl (Tablet), 6xl (Desktop) */}
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 reveal-child leading-tight">

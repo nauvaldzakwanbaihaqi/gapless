@@ -17,10 +17,10 @@ export function RouteSelectionModal({ isOpen, onClose }: RouteSelectionModalProp
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100]"
+            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-100"
             onClick={onClose}
           />
-          <div className="fixed inset-0 z-[101] flex items-center justify-center p-4 pointer-events-none">
+          <div className="fixed inset-0 z-101 flex items-center justify-center p-4 pointer-events-none">
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
