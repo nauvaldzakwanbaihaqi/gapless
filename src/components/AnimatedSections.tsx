@@ -26,7 +26,7 @@ const itemFadeBlur: Variants = {
 export function ArchetypesSection() {
   return (
     <section className="relative z-10 px-6 pb-28 max-w-6xl mx-auto overflow-hidden">
-      
+
       {/* HEADER SECTION */}
       <motion.div
         className="text-center mb-12"
@@ -47,7 +47,7 @@ export function ArchetypesSection() {
       </motion.div>
 
       {/* CARDS GRID */}
-      <motion.div 
+      <motion.div
         className="grid md:grid-cols-2 lg:grid-cols-4 gap-5"
         initial="hidden"
         whileInView="visible"
@@ -92,7 +92,7 @@ export function FooterSection() {
   return (
     <section className="w-full mt-20 relative">
       <footer className="pt-24 pb-10 px-6 md:px-16 lg:px-24 relative flex flex-col items-center justify-center z-10">
-        
+
         {/* --- EFEK TIRAI BACKGROUND --- */}
         <motion.div
           className="absolute inset-0 rounded-t-[2.5rem] md:rounded-t-[3rem] -z-10 shadow-2xl"
@@ -110,7 +110,7 @@ export function FooterSection() {
         />
 
         {/* --- KONTEN FOOTER (Teks & Tombol) --- */}
-        <motion.div 
+        <motion.div
           className="max-w-3xl mx-auto text-center w-full flex flex-col items-center justify-center"
           initial="hidden"
           whileInView="visible"
@@ -119,8 +119,8 @@ export function FooterSection() {
             hidden: { opacity: 0 },
             visible: {
               opacity: 1,
-              transition: { 
-                staggerChildren: 0.2, 
+              transition: {
+                staggerChildren: 0.2,
                 delayChildren: 0.5 // Tunggu efek tirai setengah jalan, baru teks muncul
               }
             }
@@ -130,15 +130,15 @@ export function FooterSection() {
           <motion.h2 variants={itemFadeBlur} className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
             Bangun Perjalanan Kariermu<br className="hidden md:block" /> Bersama Gapless
           </motion.h2>
-          
+
           {/* Teks Deskripsi */}
           <motion.p variants={itemFadeBlur} className="text-blue-50/90 mb-12 text-base md:text-lg lg:text-xl leading-relaxed">
             Gapless membantu kamu memahami potensi dan kemampuanmu untuk menemukan arah karier yang lebih jelas dan sesuai dengan kebutuhan industri.
           </motion.p>
-          
+
           {/* Tombol Ikuti Tes */}
           <motion.div variants={itemFadeBlur}>
-            <button 
+            <button
               onClick={() => setIsModalOpen(true)}
               className="inline-flex items-center gap-2 bg-white text-blue-600 font-bold text-lg px-10 py-4 rounded-full hover:bg-slate-50 hover:scale-105 transition-all duration-300 shadow-md"
             >
@@ -147,16 +147,16 @@ export function FooterSection() {
           </motion.div>
 
           {/* Copyright */}
-          <motion.div variants={itemFadeBlur} className="mt-20 md:mt-28 w-full flex justify-center items-center md:justify-end">
-            <p className="text-blue-200/80 text-sm md:text-base font-medium">
+          <motion.div variants={itemFadeBlur} className="mt-20 md:mt-28 w-full flex justify-center">
+            <p className="text-blue-200/80 text-xs md:text-sm font-medium">
               © 2026 - Gapless. All rights reserved
             </p>
           </motion.div>
         </motion.div>
-        
+
       </footer>
-      
-      <RouteSelectionModal 
+
+      <RouteSelectionModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />

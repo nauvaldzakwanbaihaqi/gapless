@@ -35,22 +35,54 @@ export default function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative z-10 text-center px-6 py-48 max-w-4xl mx-auto">
-        <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight mt- mb-4 animate-slide-up delay-200">
+      <motion.section
+        className="relative z-10 text-center px-6 py-48 max-w-4xl mx-auto"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: {
+            opacity: 1,
+            transition: {
+              staggerChildren: 0.2,
+              delayChildren: 0.3 // Kasih napas bentar nunggu Navbar turun
+            }
+          }
+        }}
+      >
+        <motion.h1
+          variants={{
+            hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+            visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: 'easeOut' } }
+          }}
+          className="text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight mb-4"
+        >
           Temukan Karier<br /><span className="gradient-text">Terbaik Untukmu</span>
-        </h1>
-        <p className="text-gray-500 text-[24px] leading-relaxed mb-10 max-w-2xl mx-auto animate-slide-up delay-300">
+        </motion.h1>
+
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+            visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: 'easeOut' } }
+          }}
+          className="text-gray-500 text-[24px] leading-relaxed mb-10 max-w-2xl mx-auto"
+        >
           Bingung harus mulai dari mana? Yuk, temukan jalur karier yang paling cocok untukmu.
-        </p>
+        </motion.p>
 
-        <div className="animate-slide-up delay-400">
-          <AssessmentNav />
-        </div>
+        {/* Komponen ini bakal di-update di langkah 2 biar tombolnya ngantre */}
+        <AssessmentNav />
 
-        <p className="text-gray-400 text-sm mt-6 animate-slide-up delay-500">
+        <motion.p
+          variants={{
+            hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+            visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: 'easeOut' } }
+          }}
+          className="text-gray-400 text-sm mt-6"
+        >
           Tanpa login · Hanya 5-7 menit · Dapatkan rekomendasi karier personal.
-        </p>
-      </section>
+        </motion.p>
+      </motion.section>
 
       {/* RIASEC Section (Landasan Teori) */}
       <section className="relative z-10 px-6 py-30 max-w-6xl mx-auto overflow-hidden">
