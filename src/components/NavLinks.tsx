@@ -17,7 +17,7 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
   ];
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto w-full relative">
+    <nav className="flex items-center justify-between px-4 md:px-6 py-4 max-w-7xl mx-auto w-full relative">
       
       {/* 1. Div Logo (Animasi dari Kiri ke Kanan) */}
       <motion.div 
@@ -30,8 +30,8 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
           href="/"
           className="flex items-center gap-2 transition-transform hover:scale-105"
         >
-          <img src="/Asset 1.png" alt="Gapless Explorer Logo" className="h-10 w-auto" />
-          <span className="font-bold text-slate-900 text-2xl">Gapless</span>
+          <img src="/Asset 1.png" alt="Gapless Explorer Logo" className="h-8 md:h-10 w-auto" />
+          <span className="font-bold text-slate-900 text-xl md:text-2xl">Gapless</span>
         </Link>
       </motion.div>
 
@@ -75,7 +75,7 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
 
       {/* 3. Div Login & Mobile Toggle (Animasi Kanan ke Kiri + Blur) */}
       <motion.div 
-        className="flex-1 flex justify-end items-center gap-4"
+        className="flex-1 flex justify-end items-center gap-2 md:gap-4"
         initial={{ opacity: 0, x: 40, filter: 'blur(8px)' }}
         animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.4 }} // Delay biar muncul paling akhir

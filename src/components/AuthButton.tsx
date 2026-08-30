@@ -2,6 +2,7 @@
 
 import { signIn, signOut } from "next-auth/react";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
+import { LogOut } from "lucide-react";
 
 export default function AuthButton() {
     const { session, status } = useAuthGuard();
@@ -15,12 +16,12 @@ export default function AuthButton() {
     // Kalau User sudah login
     if (session?.user) {
         return (
-            <div className="flex items-center gap-3 bg-white p-2 rounded-2xl border border-gray-200 shadow-sm">
+            <div className="flex items-center gap-2 md:gap-3 bg-white p-1.5 md:p-2 rounded-full md:rounded-2xl border border-gray-200 shadow-sm">
                 {/* Tampilkan foto profil kalau ada */}
                 {session.user.image && (
-                    <img src={session.user.image} alt="Profile" className="w-8 h-8 rounded-full" referrerPolicy="no-referrer" />
+                    <img src={session.user.image} alt="Profile" className="w-7 h-7 md:w-8 md:h-8 rounded-full" referrerPolicy="no-referrer" />
                 )}
-                <div className="text-sm">
+                <div className="hidden md:block text-sm">
                     <p className="font-bold text-slate-900 leading-none">{session.user.name}</p>
                     <p className="text-gray-500 text-[10px] mt-1">
                         Status: <span className="text-blue-600 font-bold">{session.user.tier || "FREE"}</span>
@@ -29,9 +30,11 @@ export default function AuthButton() {
 
                 <button 
                     onClick={() => signOut()}
-                    className="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 text-sm rounded-xl font-semibold transition-all ml-2"
+                    className="bg-red-50 hover:bg-red-100 md:bg-red-500 md:hover:bg-red-600 text-red-600 md:text-white p-1.5 md:px-3 md:py-1.5 text-sm rounded-full md:rounded-xl font-semibold transition-all ml-0 md:ml-2 flex items-center justify-center"
+                    aria-label="Logout"
                 >
-                    Logout
+                    <span className="hidden md:inline">Logout</span>
+                    <LogOut className="w-4 h-4 md:hidden" />
                 </button>
             </div>
         );
@@ -41,7 +44,8 @@ export default function AuthButton() {
     return (
         <button 
             onClick={() => signIn("google", { callbackUrl: "/" })}
-            className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-2.5 rounded-full font-semibold transition-all flex items-center gap-2 shadow-sm"
+            className="bg-slate-900 hover:bg-slate-800 text-white p-2 md:px-6 md:py-2.5 rounded-full font-semibold transition-all flex items-center gap-2 shadow-sm"
+            aria-label="Login via Google"
         >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -49,7 +53,7 @@ export default function AuthButton() {
                     <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
                     <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
                 </svg>
-                Login via Google
+                <span className="hidden md:inline">Login via Google</span>
         </button>
     );
 }
