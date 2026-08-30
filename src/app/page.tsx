@@ -301,12 +301,19 @@ export default function HomePage() {
       </section>
 
       {/* Section 5: Job Portal Strip */}
-      <section className="relative z-10 py-6 px-4 md:px-6 max-w-7xl mx-auto">
-        {/* Container Partnership - Ukuran lebar dan rounded sudah 100% sejajar dengan Fitur Unggulan */}
-        <div className="bg-white rounded-4xl py-5 px-6 lg:px-10 shadow-sm border border-slate-100 flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8">
+      <section className="relative z-10 py-6 px-4 md:px-6 max-w-7xl mx-auto overflow-hidden">
 
-          {/* 1. Bagian Kiri (Icon Database & Teks) */}
-          <div className="flex items-center gap-4 lg:w-1/3">
+        {/* Kontainer Utama */}
+        <div className="bg-white rounded-4xl py-5 px-6 lg:px-10 shadow-sm border border-slate-100 flex flex-col lg:flex-row items-center justify-between gap-6 lg:gap-8 overflow-hidden">
+
+          {/* 1. BAGIAN KIRI (Icon & Teks) - Animasi Kiri ke Kanan */}
+          <motion.div
+            className="flex items-center gap-4 lg:w-1/3"
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <div className="text-blue-600 shrink-0 flex items-center justify-center">
               {/* SVG Database */}
               <svg viewBox="0 0 24 24" fill="currentColor" className="w-10 h-10 md:w-11 md:h-11">
@@ -316,68 +323,139 @@ export default function HomePage() {
             <p className="text-blue-600 font-medium text-sm md:text-base leading-snug">
               Analisis berdasarkan data dari job portal terpercaya
             </p>
-          </div>
+          </motion.div>
 
           {/* Garis Pemisah Vertikal 1 (Hidden di Mobile) */}
-          <div className="hidden lg:block w-0.5 h-14 bg-blue-600"></div>
+          <div className="hidden lg:block w-0.5 h-14 bg-blue-600 shrink-0"></div>
 
-          {/* 2. Bagian Tengah (Logo Partnership) */}
-          <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8 shrink-0">
-            <img
-              src="images/partner/linkedin.png"
-              alt="LinkedIn"
-              className="h-7 md:h-9 w-auto object-contain"
-            />
-            <img
-              src="images/partner/dealls.png"
-              alt="Dealls"
-              className="h-7 md:h-9 w-auto object-contain"
-            />
-            <img
-              src="images/partner/glints.png"
-              alt="Glints"
-              className="h-7 md:h-9 w-auto object-contain"
-            />
-            <img
-              src="images/partner/jobstreet.png"
-              alt="Jobstreet"
-              className="h-7 md:h-9 w-auto object-contain"
-            />
+          {/* 2. BAGIAN TENGAH (Logo Partnership Looping) */}
+          {/* Kontainer dengan mask-image untuk efek pudar (blur) di ujung kiri dan kanan */}
+          <div
+            className="flex-1 overflow-hidden shrink-0 relative w-full lg:w-auto"
+            style={{
+              maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)'
+            }}
+          >
+            {/* 
+        Trik Marquee dengan Framer Motion: 
+        Kita menggerakkan div ini ke kiri sejauh -50% (setengah dari total lebarnya).
+        Agar loopingnya nyambung tanpa putus, isi logonya HARUS diduplikasi (ada 2 set logo).
+      */}
+            <motion.div
+              className="flex items-center gap-8 w-max"
+              animate={{ x: [0, -1030] }} // Nilai -1030 ini adalah perkiraan lebar 1 set logo + gap. Akan dibahas di bawah.
+              transition={{
+                repeat: Infinity,
+                repeatType: "loop",
+                duration: 15, // Semakin kecil angka, semakin ngebut jalannya
+                ease: "linear"
+              }}
+            >
+              {/* Set Logo Pertama */}
+              <div className="flex items-center gap-8 px-4">
+                <img src="images/partner/linkedin.png" alt="LinkedIn" className="h-7 md:h-9 w-auto object-contain" />
+                <img src="images/partner/dealls.png" alt="Dealls" className="h-7 md:h-9 w-auto object-contain" />
+                <img src="images/partner/glints.png" alt="Glints" className="h-7 md:h-9 w-auto object-contain" />
+                <img src="images/partner/jobstreet.png" alt="Jobstreet" className="h-7 md:h-9 w-auto object-contain" />
+              </div>
+
+              {/* Set Logo Kedua (Duplikat) - Wajib ada supaya saat set 1 jalan ke kiri, set 2 nyambung di belakangnya */}
+              <div className="flex items-center gap-8 px-4">
+                <img src="images/partner/linkedin.png" alt="LinkedIn" className="h-7 md:h-9 w-auto object-contain" />
+                <img src="images/partner/dealls.png" alt="Dealls" className="h-7 md:h-9 w-auto object-contain" />
+                <img src="images/partner/glints.png" alt="Glints" className="h-7 md:h-9 w-auto object-contain" />
+                <img src="images/partner/jobstreet.png" alt="Jobstreet" className="h-7 md:h-9 w-auto object-contain" />
+              </div>
+            </motion.div>
           </div>
 
           {/* Garis Pemisah Vertikal 2 (Hidden di Mobile) */}
-          <div className="hidden lg:block w-0.5 h-14 bg-blue-600"></div>
+          <div className="hidden lg:block w-0.5 h-14 bg-blue-600 shrink-0"></div>
 
-          {/* 3. Bagian Kanan (Teks Deskripsi Tambahan) */}
-          <div className="lg:w-1/3">
+          {/* 3. BAGIAN KANAN (Teks Deskripsi) - Animasi Kanan ke Kiri + Blur */}
+          <motion.div
+            className="lg:w-1/3"
+            initial={{ opacity: 0, x: 50, filter: 'blur(8px)' }}
+            whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, amount: 0.5 }}
+            transition={{ duration: 0.7, ease: "easeOut", delay: 0.2 }}
+          >
             <p className="text-blue-600 font-medium text-sm leading-snug lg:text-left text-center">
               Data diambil dari ribuan lowongan pekerjaan untuk berbagai posisi dan industri
             </p>
-          </div>
+          </motion.div>
 
         </div>
       </section>
 
       {/* Section 6: Testimoni Praktisi */}
-      <section className="relative z-10 px-4 md:px-6 py-32 max-w-7xl mx-auto">
-
-        {/* ---------------- HEADER SECTION ---------------- */}
-        <div className="text-center mb-14 md:mb-16">
-          <span className="inline-block px-5 py-2 bg-slate-100/80 text-slate-700 rounded-full text-sm font-semibold mb-6 shadow-sm border border-slate-200/50">
+      <section className="relative z-10 px-4 md:px-6 py-32 max-w-7xl mx-auto overflow-hidden">
+        <motion.div
+          className="text-center mb-14 md:mb-16"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: { staggerChildren: 0.2 } // Jeda 0.2 detik antar teks
+            }
+          }}
+        >
+          {/* Badge */}
+          <motion.span
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+            }}
+            className="inline-block px-5 py-2 bg-slate-100/80 text-slate-700 rounded-full text-sm font-semibold mb-6 shadow-sm border border-slate-200/50"
+          >
             Lebih Dari Sekadar Hasil Tes
-          </span>
+          </motion.span>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-5 leading-tight">
+          {/* Judul Utama */}
+          <motion.h2
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+            }}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-5 leading-tight"
+          >
             Rekomendasi Karier <span className="text-blue-600">Divalidasi</span><br className="hidden md:block" /> Langsung oleh Praktisi
-          </h2>
+          </motion.h2>
 
-          <p className="text-slate-500 text-sm md:text-base lg:text-lg max-w-3xl mx-auto leading-relaxed">
+          {/* Subtitle Deskripsi */}
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut' } }
+            }}
+            className="text-slate-500 text-sm md:text-base lg:text-lg max-w-3xl mx-auto leading-relaxed"
+          >
             Insight dari praktisi membantu memastikan rekomendasi yang kamu dapat tetap relevan dengan skill, peran, dan kebutuhan industri saat ini.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* ---------------- CARDS GRID ---------------- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        {/* Kontainer Grid Card dengan staggerChildren dan sedikit delay */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2, // Muncul bergantian dari kiri ke kanan
+                delayChildren: 0.3 // Nunggu header selesai muncul sedikit
+              }
+            }
+          }}
+        >
           {[
             {
               name: 'Rizki Teguh Putra',
@@ -398,18 +476,21 @@ export default function HomePage() {
               role: 'Data Analyst',
               company: 'Traveloka',
               img: '/images/mentor/mentor 3.png',
-              // Trik nge-zoom manual. Silakan ubah angka 1.15 (115%) sesuai kebutuhan
               customClass: 'scale-[1.50] translate-y-[-5px]'
             },
           ].map((person, i) => (
-            <div
+            // Animasi per Card: Dari Bawah ke Atas + Blur ke Fokus
+            <motion.div
               key={i}
+              variants={{
+                hidden: { opacity: 0, y: 40, filter: 'blur(8px)' },
+                visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: 'easeOut' } }
+              }}
               className="bg-white rounded-4xl px-5 py-6 md:px-7 md:py-2 flex items-center gap-5 md:gap-7 shadow-sm hover:shadow-md transition-shadow duration-300 border border-slate-100"
             >
               {/* KOTAK FOTO */}
               <div className="relative w-33.75 h-46.25 md:w-41.25 md:h-56.25 shrink-0 flex items-center justify-center">
-
-                {/* FOTO: customClass dipanggil di sini */}
+                {/* FOTO */}
                 <img
                   src={person.img}
                   alt={person.name}
@@ -429,9 +510,9 @@ export default function HomePage() {
                   {person.company}
                 </p>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer / CTA Section */}
