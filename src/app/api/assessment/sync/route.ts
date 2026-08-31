@@ -4,6 +4,16 @@ import { db } from '@/db';
 import { assessmentResults, roadmapProgress } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { computeTraitScores, getDominantTrait, CAREER_PROFILES } from '@/data/gaplessData';
+import { z } from 'zod';
+
+const RequestSchema = z.object({
+  assessmentId: z.string().optional(),
+  rawAnswers: z.record(z.string().or(z.number()), z.number()),
+  selectedCareer: z.string().nullable().optional(),
+  skillRatings: z.record(z.string(), z.number()).nullable().optional(),
+  quizType: z.enum(['belum_tahu_minat', 'sudah_tahu_minat']).optional(),
+  dominantTrait: z.enum(['The Thinker', 'The Creator', 'The Connector', 'The Builder']).optional(),
+});
 
 export async function POST(req: Request) {
   try {
@@ -13,15 +23,16 @@ export async function POST(req: Request) {
     }
     const userId = session.user.id;
 
-    const body = await req.json();
-    const { assessmentId, rawAnswers, selectedCareer, skillRatings } = body;
-    const quizType = body.quizType || 'belum_tahu_minat';
-
-    if (!rawAnswers) {
-      return NextResponse.json({ error: 'Missing required data' }, { status: 400 });
+    const rawBody = await req.json();
+    const validationResult = RequestSchema.safeParse(rawBody);
+    
+    if (!validationResult.success) {
+      return NextResponse.json({ error: 'Bad Request', details: validationResult.error.format() }, { status: 400 });
     }
 
-    let finalDominantTrait = body.dominantTrait;
+    const { assessmentId, rawAnswers, selectedCareer, skillRatings } = validationResult.data;
+    const quizType = validationResult.data.quizType || 'belum_tahu_minat';
+    let finalDominantTrait = validationResult.data.dominantTrait;
 
     let careerSlug: string | null = null;
     let actualTrait = finalDominantTrait;
@@ -60,7 +71,7 @@ export async function POST(req: Request) {
         selectedCareer: selectedCareer || null,
         careerSlug: careerSlug,
         skillRatings: skillRatings || null,
-      }).where(eq(assessmentResults.id, assessmentId)).returning();
+      }).where(and(eq(assessmentResults.id, assessmentId), eq(assessmentResults.userId, userId))).returning();
       newResult = updated;
     } else {
       // Create new (Retake / First Time)

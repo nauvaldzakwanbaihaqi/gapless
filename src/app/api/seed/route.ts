@@ -6,6 +6,10 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
     try {
+        if (process.env.NODE_ENV === 'production') {
+            return NextResponse.json({ error: 'Forbidden in production environment' }, { status: 403 });
+        }
+
         // Menghapus data lama terlebih dahulu agar tidak duplikat saat di-refresh
         await db.delete(jobRoles);
 

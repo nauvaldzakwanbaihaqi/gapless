@@ -3,6 +3,12 @@ import { db } from '@/db';
 import { roadmapProgress, assessmentResults } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { auth } from '@/auth';
+import { z } from 'zod';
+
+const RequestSchema = z.object({
+  assessmentId: z.string().min(1, 'Missing assessmentId'),
+  moduleSlug: z.string().min(1, 'Missing moduleSlug'),
+});
 
 export async function POST(req: Request) {
   try {
@@ -11,14 +17,20 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { assessmentId, moduleSlug } = await req.json();
-    if (!assessmentId || !moduleSlug) {
-      return NextResponse.json({ error: 'Missing assessmentId or moduleSlug' }, { status: 400 });
+    const rawBody = await req.json();
+    const validationResult = RequestSchema.safeParse(rawBody);
+    if (!validationResult.success) {
+      return NextResponse.json({ error: 'Bad Request', details: validationResult.error.format() }, { status: 400 });
     }
+
+    const { assessmentId, moduleSlug } = validationResult.data;
 
     // Ambil assessmentResult untuk mengetahui careerSlug
     const assessmentResult = await db.query.assessmentResults.findFirst({
-      where: eq(assessmentResults.id, assessmentId)
+      where: and(
+        eq(assessmentResults.id, assessmentId),
+        eq(assessmentResults.userId, session.user.id)
+      )
     });
 
     if (!assessmentResult || !assessmentResult.careerSlug) {
