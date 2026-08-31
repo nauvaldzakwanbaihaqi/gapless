@@ -3,14 +3,25 @@ import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { generateObject } from 'ai';
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
+import { auth } from '@/auth';
+import { checkRateLimit } from '@/lib/rateLimit';
 
-export const runtime = 'edge';
+
 
 // 1. Inisialisasi KEDUA Provider
 const groq = createGroq({ apiKey: process.env.GROQ_API_KEY || '' });
 const google = createGoogleGenerativeAI({ apiKey: process.env.GEMINI_API_KEY || '' });
 
-// 2. Definisi Skema Zod
+// 2. Definisi Skema Zod Input & Output
+const RequestSchema = z.object({
+  roleName: z.string().min(1, "Role name tidak boleh kosong"),
+  skillGapData: z.array(z.object({
+    name: z.string(),
+    userLevel: z.number().min(0).max(10), // Memberi sedikit toleransi max 10
+    required: z.number().min(0).max(10)
+  })).min(1, "Skill gap data tidak boleh kosong")
+});
+
 const GapInsightSchema = z.object({
   basis_penilaian: z.string().describe("Sumber data atau dasar evaluasi skill ini. Harus persis atau setara dengan kalimat: 'Berdasarkan profil role yang kamu pilih'"),
   kesesuaian: z.array(z.string()).describe("Daftar 2-4 poin ringkas skill yang sudah match atau melebihi ekspektasi"),
@@ -20,6 +31,27 @@ const GapInsightSchema = z.object({
 
 export async function POST(request: Request) {
   try {
+    // A. Auth Guard
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // B. Rate Limit Check (Max 5 requests per minute per user)
+    if (!checkRateLimit(session.user.id, 5, 60000)) {
+      return NextResponse.json({ error: 'Too Many Requests' }, { status: 429 });
+    }
+
+    // C. Origin Check
+    const origin = request.headers.get('origin');
+    const referer = request.headers.get('referer');
+    const host = request.headers.get('host');
+    const isAllowedOrigin = (origin && origin.includes(host as string)) || (referer && referer.includes(host as string));
+    
+    if (!isAllowedOrigin && (origin || referer)) {
+       return NextResponse.json({ error: 'Forbidden Origin' }, { status: 403 });
+    }
+
     const url = new URL(request.url);
     const selectedAI = url.searchParams.get('ai') || 'groq'; // Default ke groq
 
@@ -31,11 +63,15 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "GEMINI_API_KEY is missing!" }, { status: 500 });
     }
 
-    const body = await request.json();
-    const { skillGapData, roleName } = body as {
-      skillGapData: { name: string; userLevel: number; required: number }[];
-      roleName: string;
-    };
+    const rawBody = await request.json();
+    
+    // D. Validasi Zod
+    const validationResult = RequestSchema.safeParse(rawBody);
+    if (!validationResult.success) {
+      return NextResponse.json({ error: 'Bad Request', details: validationResult.error.format() }, { status: 400 });
+    }
+
+    const { skillGapData, roleName } = validationResult.data;
 
     const gapSummary = skillGapData
       .map(gap => `${gap.name}: User Level ${gap.userLevel}, Required Level ${gap.required}`)

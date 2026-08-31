@@ -175,3 +175,11 @@ export const roadmapProgressRelations = relations(
     }),
   })
 );
+
+export const aiRoadmaps = pgTable("ai_roadmaps", {
+  careerSlug: text("career_slug").primaryKey(),
+  careerName: text("career_name").notNull(),
+  roadmapData: jsonb("roadmap_data").notNull(),
+  onetData: jsonb("onet_data"), // To cache O*NET data if needed later
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+});

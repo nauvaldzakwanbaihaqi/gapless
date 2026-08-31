@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { CAREER_PROFILES as CAREERS, type CurriculumPhase } from '@/data/gaplessData';
 import { RoadmapView } from '@/components/RoadmapView';
 import type { RoadmapNode } from '@/contexts/CareerContext';
@@ -35,57 +35,83 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
     return history.find(h => h.id === selectedId) || history[0];
   }, [history, selectedId]);
 
-  const overrideData = useMemo(() => {
-    if (!selectedHistory || !selectedHistory.selectedCareer) return undefined;
+  const [overrideData, setOverrideData] = useState<{ id: string; selectedCareer: any; roadmapWithProgress: RoadmapNode[] } | undefined>(undefined);
+  const [isLoadingRoadmap, setIsLoadingRoadmap] = useState(false);
 
-    // Find the static career profile
-    const profile = CAREERS.find((c: { title: string }) => c.title === selectedHistory.selectedCareer);
-    if (!profile) return undefined;
-
-    const skillRatings = selectedHistory.skillRatings || {};
-
-    const roadmapWithProgress: RoadmapNode[] = profile.roadmap.map((phase: CurriculumPhase, phaseIdx: number) => {
-      const isLockedPhase = !isPro && phaseIdx >= 2;
-      
-      if (isLockedPhase) {
-        return {
-          ...phase,
-          title: 'Lanjutan',
-          subtitle: 'Materi lanjutan untuk memaksimalkan potensimu.',
-          description: 'Pelajari materi lebih dalam dengan praktik industri nyata.',
-          modules: phase.modules.map((_: unknown, i: number) => `Materi Premium ${i + 1}`),
-          completedModules: [],
-          progress: 0,
-        };
+  useEffect(() => {
+    async function fetchRoadmap() {
+      if (!selectedHistory || !selectedHistory.selectedCareer) {
+        setOverrideData(undefined);
+        return;
       }
 
-      const moduleStatuses: Record<string, boolean> = (selectedHistory.moduleStatuses as Record<string, boolean>) || {};
-      
-      const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+      setIsLoadingRoadmap(true);
+      try {
+        const res = await fetch('/api/roadmap/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ assessmentId: selectedHistory.id })
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          
+          // Find the static career profile (needed for skills matching currently)
+          const profile = CAREERS.find((c: { title: string }) => c.title === selectedHistory.selectedCareer);
+          if (!profile) return;
 
-      const completedModules = phase.modules.filter((_module: string, idx: number) => {
-        const moduleSlug = slugify(_module);
-        if (moduleStatuses[moduleSlug]) return true;
+          const skillRatings = selectedHistory.skillRatings || {};
+          
+          const roadmapWithProgress: RoadmapNode[] = data.roadmap.map((phase: CurriculumPhase, phaseIdx: number) => {
+            const isLockedPhase = !isPro && phaseIdx >= 2;
+            
+            if (isLockedPhase) {
+              return {
+                ...phase,
+                title: 'Lanjutan',
+                subtitle: 'Materi lanjutan untuk memaksimalkan potensimu.',
+                description: 'Pelajari materi lebih dalam dengan praktik industri nyata.',
+                modules: phase.modules.map((_: unknown, i: number) => `Materi Premium ${i + 1}`),
+                completedModules: [],
+                progress: 0,
+              };
+            }
 
-        const skill = profile.skills[idx % profile.skills.length];
-        if (!skill) return false;
-        const ratings = (skillRatings as Record<string, number>) || {};
-        const userLevel = ratings[skill.name] ?? 0;
-        return userLevel >= skill.required;
-      });
+            const moduleStatuses: Record<string, boolean> = (selectedHistory.moduleStatuses as Record<string, boolean>) || {};
+            const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
-      return {
-        ...phase,
-        completedModules,
-        progress: phase.modules.length > 0 ? completedModules.length / phase.modules.length : 0,
-      };
-    });
+            const completedModules = phase.modules.filter((_module: string, idx: number) => {
+              const moduleSlug = slugify(_module);
+              if (moduleStatuses[moduleSlug]) return true;
 
-    return {
-      id: selectedHistory.id,
-      selectedCareer: profile,
-      roadmapWithProgress,
-    };
+              const skill = profile.skills[idx % profile.skills.length];
+              if (!skill) return false;
+              const ratings = (skillRatings as Record<string, number>) || {};
+              const userLevel = ratings[skill.name] ?? 0;
+              return userLevel >= skill.required;
+            });
+
+            return {
+              ...phase,
+              completedModules,
+              progress: phase.modules.length > 0 ? completedModules.length / phase.modules.length : 0,
+            };
+          });
+
+          setOverrideData({
+            id: selectedHistory.id,
+            selectedCareer: profile,
+            roadmapWithProgress,
+          });
+        }
+      } catch (e) {
+        console.error('Failed to fetch roadmap:', e);
+      } finally {
+        setIsLoadingRoadmap(false);
+      }
+    }
+    
+    fetchRoadmap();
   }, [selectedHistory, isPro]);
 
   if (status === 'loading') {
@@ -149,7 +175,11 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
           </div>
         )}
 
-        {overrideData ? (
+        {isLoadingRoadmap ? (
+          <div className="max-w-4xl mx-auto px-4 py-20 flex justify-center items-center">
+            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
+          </div>
+        ) : overrideData ? (
           <div className="-mt-12">
             <RoadmapView overrideData={overrideData} />
           </div>

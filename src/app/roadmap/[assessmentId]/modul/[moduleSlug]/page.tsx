@@ -73,17 +73,25 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
     );
   }
 
+  // Ambil roadmap dinamis dari DB, fallback ke statis jika belum di-generate
+  const slug = result.careerSlug || profile.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+  const { aiRoadmaps } = await import('@/db/schema');
+  const cachedRoadmap = await db.query.aiRoadmaps.findFirst({
+    where: eq(aiRoadmaps.careerSlug, slug)
+  });
+  
+  const activeRoadmap = cachedRoadmap ? (cachedRoadmap.roadmapData as any[]) : profile.roadmap;
+
   // 4. Cari fase mana yang memiliki modul ini, dan apakah modul ini valid
-  // (Karena modules di gaplessData cuma string array, kita cocokkan stringnya setelah di-slugify)
   const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
   
   let targetPhaseIndex = -1;
   let targetModuleIndex = -1;
   let moduleTitle = '';
 
-  for (let i = 0; i < profile.roadmap.length; i++) {
-    const phase = profile.roadmap[i];
-    const modIdx = phase.modules.findIndex(m => slugify(m) === moduleSlug);
+  for (let i = 0; i < activeRoadmap.length; i++) {
+    const phase = activeRoadmap[i];
+    const modIdx = phase.modules.findIndex((m: string) => slugify(m) === moduleSlug);
     if (modIdx !== -1) {
       targetPhaseIndex = i;
       targetModuleIndex = modIdx;
@@ -102,7 +110,7 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
     );
   }
 
-  const phaseData = profile.roadmap[targetPhaseIndex];
+  const phaseData = activeRoadmap[targetPhaseIndex];
   
   // 5. Cek apakah modul ini sudah selesai
   // Logic completion: dari manual moduleStatuses ATAU dari skillRatings awal

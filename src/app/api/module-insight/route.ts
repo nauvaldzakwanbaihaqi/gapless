@@ -2,6 +2,13 @@ import { NextResponse } from 'next/server';
 import { generateObject } from 'ai';
 import { google } from '@ai-sdk/google';
 import { z } from 'zod';
+import { auth } from '@/auth';
+import { checkRateLimit } from '@/lib/rateLimit';
+
+const RequestSchema = z.object({
+  moduleName: z.string().min(1, "Module name tidak boleh kosong"),
+  roleName: z.string().min(1, "Role name tidak boleh kosong")
+});
 
 const ModuleInsightSchema = z.object({
   target: z.string(),
@@ -22,11 +29,36 @@ const ModuleInsightSchema = z.object({
 
 export async function POST(req: Request) {
   try {
-    const { moduleName, roleName } = await req.json();
-
-    if (!moduleName || !roleName) {
-      return NextResponse.json({ error: 'Missing moduleName or roleName' }, { status: 400 });
+    // A. Auth Guard
+    const session = await auth();
+    if (!session?.user?.id) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    // B. Rate Limit Check (Max 5 requests per minute per user)
+    if (!checkRateLimit(session.user.id, 5, 60000)) {
+      return NextResponse.json({ error: 'Too Many Requests' }, { status: 429 });
+    }
+
+    // C. Origin Check
+    const origin = req.headers.get('origin');
+    const referer = req.headers.get('referer');
+    const host = req.headers.get('host');
+    const isAllowedOrigin = (origin && origin.includes(host as string)) || (referer && referer.includes(host as string));
+    
+    if (!isAllowedOrigin && (origin || referer)) {
+       return NextResponse.json({ error: 'Forbidden Origin' }, { status: 403 });
+    }
+
+    const rawBody = await req.json();
+    
+    // D. Validasi Zod
+    const validationResult = RequestSchema.safeParse(rawBody);
+    if (!validationResult.success) {
+      return NextResponse.json({ error: 'Bad Request', details: validationResult.error.format() }, { status: 400 });
+    }
+
+    const { moduleName, roleName } = validationResult.data;
 
     const prompt = `
       Anda adalah pakar kurikulum dan karier untuk profesi ${roleName}.

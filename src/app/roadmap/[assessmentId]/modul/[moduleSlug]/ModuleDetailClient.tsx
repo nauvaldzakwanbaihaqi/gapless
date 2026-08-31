@@ -212,10 +212,10 @@ export default function ModuleDetailClient({
       <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
         {/* Header Card Fase */}
         <div className="p-6 sm:p-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center gap-6">
-          <div className="flex flex-col items-center justify-center bg-blue-700 text-white rounded-2xl w-24 h-24 shrink-0 shadow-lg relative overflow-hidden">
+          <div className="flex flex-col items-center justify-center bg-blue-700 text-white rounded-2xl w-28 h-24 shrink-0 shadow-lg relative overflow-hidden px-2">
             <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-bl-full blur-md"></div>
             <span className="text-sm font-semibold opacity-90">Fase {phaseIndex + 1}</span>
-            <span className="text-2xl font-black">{phaseData.title}</span>
+            <span className="text-lg md:text-xl font-black text-center truncate w-full" title={phaseData.title}>{phaseData.title}</span>
           </div>
           <div className="flex-1">
             <div className="text-sm text-slate-500 font-bold mb-1 tracking-wider uppercase">{phaseData.duration}</div>
