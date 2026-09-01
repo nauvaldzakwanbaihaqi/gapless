@@ -293,21 +293,21 @@ export const MODULE_DETAILS: Record<string, ModuleDetail> = {
         provider: 'Coursera.org',
         type: 'Course',
         isFree: true,
-        url: '#'
+        url: 'https://www.coursera.org/search?query=Design+Thinking+Fundamentals'
       },
       {
         title: 'Panduan & Tahap Design Thinking',
         provider: 'nngroup.com',
         type: 'Artikel',
         isFree: true,
-        url: '#'
+        url: 'https://www.nngroup.com/search/?q=Panduan+Tahap+Design+Thinking'
       },
       {
         title: 'Studi Kasus: Redesain Aplikasi',
         provider: 'youtube.com',
         type: 'Video',
         isFree: true,
-        url: '#'
+        url: 'https://www.youtube.com/results?search_query=Studi+Kasus+Redesain+Aplikasi'
       },
       {
         title: 'Design Thinking Masterclass',
@@ -315,7 +315,7 @@ export const MODULE_DETAILS: Record<string, ModuleDetail> = {
         type: 'Course',
         isFree: false,
         price: 'Rp 149.000',
-        url: '#'
+        url: 'https://www.skillshare.com/en/search?query=Design+Thinking+Masterclass'
       }
     ]
   }

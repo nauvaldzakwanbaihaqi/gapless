@@ -260,16 +260,23 @@ export default function ModuleDetailClient({
               {detailData.resources.map((res, idx) => {
                 const isVideo = res.type === 'Video';
                 const Icon = isVideo ? Play : res.isFree ? Book : Lock;
+                const isValidUrl = res.url && res.url !== '#';
                 
                 return (
-                  <div key={idx} className="flex items-center p-4 rounded-xl border border-blue-200 bg-white shadow-sm hover:border-blue-400 transition-colors gap-4">
-                    <div className="bg-blue-600 text-white p-3 rounded-lg shrink-0">
+                  <div key={idx} className={`flex items-center p-4 rounded-xl border bg-white shadow-sm transition-colors gap-4 ${isValidUrl ? 'border-blue-200 hover:border-blue-400' : 'border-slate-200 opacity-70'}`}>
+                    <div className={`${isValidUrl ? 'bg-blue-600' : 'bg-slate-400'} text-white p-3 rounded-lg shrink-0`}>
                       <Icon size={20} fill={isVideo ? "currentColor" : "none"} />
                     </div>
                     <div className="flex flex-col flex-1 min-w-0">
-                      <a href={res.url} target="_blank" rel="noreferrer" className="font-bold text-blue-700 text-sm truncate hover:underline">
-                        {res.title}
-                      </a>
+                      {isValidUrl ? (
+                        <a href={res.url} target="_blank" rel="noreferrer" className="font-bold text-blue-700 text-sm truncate hover:underline">
+                          {res.title}
+                        </a>
+                      ) : (
+                        <span className="font-bold text-slate-500 text-sm truncate cursor-not-allowed" title="Link referensi belum tersedia">
+                          {res.title}
+                        </span>
+                      )}
                       <span className="text-xs text-slate-500">{res.provider}</span>
                       <div className="flex items-center gap-2 mt-2">
                         {res.isFree ? (
