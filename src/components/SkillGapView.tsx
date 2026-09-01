@@ -40,18 +40,30 @@ export function SkillGapView() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [questionScores, setQuestionScores] = useState<number[]>([]);
   const [selectedOptionIdx, setSelectedOptionIdx] = useState<number | null>(null);
+  
+  const [isSyncing, setIsSyncing] = useState(false);
+  const [syncError, setSyncError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (step === 2) {
+    if (step === 2 && !isSyncing && !syncError) {
+      setIsSyncing(true);
       const syncAndRedirect = async () => {
-        const assessmentId = await syncResultNow();
-        if (assessmentId) {
-          router.push(`/hasil/${assessmentId}`);
+        try {
+          const assessmentId = await syncResultNow();
+          if (assessmentId) {
+            router.push(`/hasil/${assessmentId}`);
+          } else {
+            throw new Error('Gagal mendapatkan ID Asesmen');
+          }
+        } catch (err) {
+          setSyncError(err instanceof Error ? err.message : 'Gagal menyimpan hasil asesmen.');
+          setIsSyncing(false);
         }
       };
       syncAndRedirect();
     }
-  }, [step, syncResultNow, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, syncError, router]);
 
   if (!selectedCareer) return null;
 
@@ -281,10 +293,36 @@ export function SkillGapView() {
                 transition={{ duration: 0.3 }}
                 className="w-full"
               >
-                <div className="glass-card p-12 flex flex-col items-center justify-center animate-pulse gap-4 text-center">
-                  <div className="w-16 h-16 rounded-full border-4 border-slate-200 border-t-blue-600 animate-spin mb-4" />
-                  <h3 className="text-xl font-bold text-slate-800">Menyimpan Hasil Asesmen...</h3>
-                  <p className="text-sm text-slate-500">Mohon tunggu sebentar, kami sedang menyiapkan halaman detail hasilmu.</p>
+                <div className="glass-card p-12 flex flex-col items-center justify-center gap-4 text-center">
+                  {syncError ? (
+                    <>
+                      <div className="w-16 h-16 rounded-full border-4 border-red-200 border-t-red-600 flex items-center justify-center mb-4">
+                        <span className="text-red-600 text-2xl font-bold">!</span>
+                      </div>
+                      <h3 className="text-xl font-bold text-red-600">Gagal Menyimpan Hasil</h3>
+                      <p className="text-sm text-slate-500 max-w-sm">{syncError}</p>
+                      <div className="flex gap-4 mt-4">
+                        <button 
+                          onClick={() => setSyncError(null)}
+                          className="btn-primary"
+                        >
+                          Coba Lagi
+                        </button>
+                        <button 
+                          onClick={() => setStep(1)}
+                          className="btn-ghost"
+                        >
+                          Kembali
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="w-16 h-16 rounded-full border-4 border-slate-200 border-t-blue-600 animate-spin mb-4" />
+                      <h3 className="text-xl font-bold text-slate-800 animate-pulse">Menyimpan Hasil Asesmen...</h3>
+                      <p className="text-sm text-slate-500 animate-pulse">Mohon tunggu sebentar, kami sedang menyiapkan halaman detail hasilmu.</p>
+                    </>
+                  )}
                 </div>
               </motion.div>
             )}

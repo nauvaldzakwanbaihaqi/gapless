@@ -104,8 +104,8 @@ Berikan hasil analisis sepenuhnya menggunakan Bahasa Indonesia yang profesional,
       modelToUse = google('gemini-3.1-flash-lite'); // Gemini API model fallback
       console.log('🤖 Menggunakan Engine: Gemini 3.1 Flash Lite');
     } else {
-      modelToUse = groq('llama-3.3-70b-versatile');
-      console.log('🤖 Menggunakan Engine: Groq LLaMA 3.3');
+      modelToUse = groq('openai/gpt-oss-20b');
+      console.log('🤖 Menggunakan Engine: Groq GPT OSS 20B');
     }
 
     // 4. Tembak AI yang dipilih dengan Structured Output

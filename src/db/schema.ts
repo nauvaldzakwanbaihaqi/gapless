@@ -183,3 +183,72 @@ export const aiRoadmaps = pgTable("ai_roadmaps", {
   onetData: jsonb("onet_data"), // To cache O*NET data if needed later
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
 });
+
+// ──────────────────────────────────────────────
+// O*NET LOCAL DATABASE (Reference Layer)
+// ──────────────────────────────────────────────
+
+export const onetOccupations = pgTable("onet_occupations", {
+  onetsocCode: text("onetsoc_code").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description"),
+});
+
+export const onetSkills = pgTable("onet_skills", {
+  id: serial("id").primaryKey(),
+  onetsocCode: text("onetsoc_code").references(() => onetOccupations.onetsocCode, { onDelete: "cascade" }).notNull(),
+  elementName: text("element_name").notNull(),
+});
+
+export const onetTasks = pgTable("onet_tasks", {
+  id: serial("id").primaryKey(),
+  onetsocCode: text("onetsoc_code").references(() => onetOccupations.onetsocCode, { onDelete: "cascade" }).notNull(),
+  task: text("task").notNull(),
+});
+
+export const onetKnowledge = pgTable("onet_knowledge", {
+  id: serial("id").primaryKey(),
+  onetsocCode: text("onetsoc_code").references(() => onetOccupations.onetsocCode, { onDelete: "cascade" }).notNull(),
+  elementName: text("element_name").notNull(),
+});
+
+export const onetTools = pgTable("onet_tools", {
+  id: serial("id").primaryKey(),
+  onetsocCode: text("onetsoc_code").references(() => onetOccupations.onetsocCode, { onDelete: "cascade" }).notNull(),
+  example: text("example").notNull(),
+});
+
+export const onetOccupationsRelations = relations(onetOccupations, ({ many }) => ({
+  skills: many(onetSkills),
+  tasks: many(onetTasks),
+  knowledge: many(onetKnowledge),
+  tools: many(onetTools),
+}));
+
+export const onetSkillsRelations = relations(onetSkills, ({ one }) => ({
+  occupation: one(onetOccupations, {
+    fields: [onetSkills.onetsocCode],
+    references: [onetOccupations.onetsocCode],
+  }),
+}));
+
+export const onetTasksRelations = relations(onetTasks, ({ one }) => ({
+  occupation: one(onetOccupations, {
+    fields: [onetTasks.onetsocCode],
+    references: [onetOccupations.onetsocCode],
+  }),
+}));
+
+export const onetKnowledgeRelations = relations(onetKnowledge, ({ one }) => ({
+  occupation: one(onetOccupations, {
+    fields: [onetKnowledge.onetsocCode],
+    references: [onetOccupations.onetsocCode],
+  }),
+}));
+
+export const onetToolsRelations = relations(onetTools, ({ one }) => ({
+  occupation: one(onetOccupations, {
+    fields: [onetTools.onetsocCode],
+    references: [onetOccupations.onetsocCode],
+  }),
+}));

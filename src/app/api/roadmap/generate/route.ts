@@ -6,6 +6,15 @@ import { CAREER_PROFILES } from '@/data/gaplessData';
 import { auth } from '@/auth';
 import { z } from 'zod';
 import { checkRateLimit } from '@/lib/rateLimit';
+import { matchCareerToOnet } from '@/lib/onetMatcher';
+import { onetSkills, onetTasks, onetKnowledge, onetTools } from '@/db/schema';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { generateObject } from 'ai';
+
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+
 
 const RequestSchema = z.object({
   assessmentId: z.string().min(1, 'Missing assessmentId'),
@@ -90,24 +99,63 @@ export async function POST(req: Request) {
 
     console.log(`[CACHE MISS] Generating roadmap untuk ${slug}...`);
 
-    // 3. TODO: Panggil O*NET Web Services API (DITUNDA KARENA KREDENSIAL PENDING)
-    // 4. TODO: Generate via Groq LLaMA 3.3 (DITUNDA)
+    // 3. Match ke O*NET Lokal
+    const onetsocCode = await matchCareerToOnet(careerName);
     
-    // MOCK: Sementara kita ambil dari gaplessData.ts sebagai dummy AI generation
-    const mockProfile = CAREER_PROFILES.find(c => c.title === careerName);
-    
-    if (!mockProfile) {
-      return NextResponse.json({ error: 'Career not found for generation' }, { status: 404 });
+    let onetContextText = "";
+    let systemPrompt = "";
+    let onetDataToCache = null;
+
+    if (onetsocCode) {
+      console.log(`[ONET] Matched ${careerName} to ${onetsocCode}`);
+      // Ambil skills, tasks, knowledge, tools
+      const skills = await db.select().from(onetSkills).where(eq(onetSkills.onetsocCode, onetsocCode)).limit(20);
+      const tasks = await db.select().from(onetTasks).where(eq(onetTasks.onetsocCode, onetsocCode)).limit(10);
+      const knowledge = await db.select().from(onetKnowledge).where(eq(onetKnowledge.onetsocCode, onetsocCode)).limit(20);
+      const tools = await db.select().from(onetTools).where(eq(onetTools.onetsocCode, onetsocCode)).limit(20);
+      
+      const skillNames = skills.map(s => s.elementName).join(", ");
+      const taskNames = tasks.map(t => t.task).join("; ");
+      const knowledgeNames = knowledge.map(k => k.elementName).join(", ");
+      const toolNames = tools.map(t => t.example).join(", ");
+      
+      onetContextText = `Referensi O*NET:\n- Keahlian (Skills): ${skillNames}\n- Pengetahuan (Knowledge): ${knowledgeNames}\n- Tugas Utama (Tasks): ${taskNames}\n- Tools & Teknologi: ${toolNames}`;
+      onetDataToCache = { onetsocCode, skillNames, taskNames, knowledgeNames, toolNames };
+      
+      systemPrompt = `Kamu adalah Konselor Karier Senior. Buat 4 fase learning roadmap untuk karier yang disebutkan.
+      Wajib gunakan keahlian, pengetahuan, tools, dan tugas dari referensi O*NET yang diberikan sebagai materi utama dalam modul.
+      Instruksi eksplisit: gunakan HANYA skill/task dari referensi yang diberikan, jangan mengarang di luar itu.
+      Hasil HANYA boleh dalam format JSON sesuai skema.`;
+    } else {
+      console.log(`[ONET] No match for ${careerName}, falling back to general AI knowledge`);
+      onetContextText = "Referensi data spesifik tidak ditemukan.";
+      
+      systemPrompt = `Kamu adalah Konselor Karier Senior. Buat 4 fase learning roadmap untuk karier yang disebutkan.
+      PENTING: Tidak ada referensi standar okupasi spesifik (O*NET) yang ditemukan untuk karier ini. Harap berhati-hati, buatlah roadmap secara umum dan wajar, serta jangan melebih-lebihkan ekspektasi industri.
+      Hasil HANYA boleh dalam format JSON sesuai skema.`;
     }
 
-    const generatedRoadmapData = mockProfile.roadmap;
+    // 4. Generate via Gemini
+    console.log(`[GEMINI] Memanggil LLM untuk ${careerName}...`);
+    
+    const { object: generatedRoadmapData } = await generateObject({
+      model: google('gemini-3.5-flash-lite'),
+      system: systemPrompt,
+      prompt: `Karier: ${careerName}\n\n${onetContextText}`,
+      schema: z.array(z.object({
+        title: z.string().describe("Judul fase (misal: 'Fundamental', 'Advanced')"),
+        subtitle: z.string().describe("Subjudul singkat"),
+        description: z.string().describe("Deskripsi panjang tentang apa yang dipelajari"),
+        modules: z.array(z.string()).describe("Daftar materi spesifik yang akan dipelajari")
+      })).length(4),
+    });
 
     // 5. Simpan ke Database (Simpan data full, redaksi hanya saat response)
     await db.insert(aiRoadmaps).values({
       careerSlug: slug,
       careerName: careerName,
       roadmapData: generatedRoadmapData,
-      onetData: { status: "pending", mock: true },
+      onetData: onetDataToCache || { status: "no_match" },
     });
 
     let finalRoadmap = generatedRoadmapData;

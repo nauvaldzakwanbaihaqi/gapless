@@ -17,7 +17,7 @@ const RequestSchema = z.object({
   roleName: z.string().min(1, "Role name tidak boleh kosong"),
   skillGapData: z.array(z.object({
     name: z.string(),
-    userLevel: z.number().min(0).max(10), // Memberi sedikit toleransi max 10
+    current: z.number().min(0).max(10), // Memberi sedikit toleransi max 10
     required: z.number().min(0).max(10)
   })).min(1, "Skill gap data tidak boleh kosong")
 });
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
     const { skillGapData, roleName } = validationResult.data;
 
     const gapSummary = skillGapData
-      .map(gap => `${gap.name}: User Level ${gap.userLevel}, Required Level ${gap.required}`)
+      .map(gap => `${gap.name}: User Level ${gap.current}, Required Level ${gap.required}`)
       .join(', ');
 
     const systemPrompt = `You are an expert career counselor. Analyze the user's skill levels against the required skills for the role of "${roleName}".
@@ -94,8 +94,8 @@ Berikan analisis terstruktur menggunakan Bahasa Indonesia yang profesional dan m
       modelToUse = google('gemini-3.1-flash-lite');
       console.log('🤖 Menggunakan Engine: Gemini 3.1 Flash Lite (Gap Analysis)');
     } else {
-      modelToUse = groq('llama-3.3-70b-versatile');
-      console.log('🤖 Menggunakan Engine: Groq LLaMA 3.3 (Gap Analysis)');
+      modelToUse = groq('openai/gpt-oss-20b');
+      console.log('🤖 Menggunakan Engine: Groq GPT OSS 20B (Gap Analysis Default)');
     }
 
     // 4. Tembak AI yang dipilih dengan Structured Output

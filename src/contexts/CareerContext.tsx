@@ -473,9 +473,13 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
             setCurrentAssessmentId(data.result.id);
           }
           return data.result?.id || currentAssessmentId;
+        } else {
+          const errorData = await res.json().catch(() => ({}));
+          throw new Error(errorData.error || 'Failed to sync result');
         }
       } catch (err) {
         console.error('Failed to sync result', err);
+        throw err;
       }
     } else {
       localStorage.setItem('gapless_pending_result', JSON.stringify(payload));
@@ -486,7 +490,7 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (currentView === 'results' || currentView === 'roadmap') {
       // eslint-disable-next-line react-hooks/set-state-in-effect
-      saveResultToServerOrLocal();
+      saveResultToServerOrLocal().catch(err => console.error(err));
     }
   }, [currentView, saveResultToServerOrLocal]);
 

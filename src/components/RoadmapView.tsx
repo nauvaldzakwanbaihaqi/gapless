@@ -335,6 +335,13 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
             <RotateCcw size={18} className={isResetting ? "animate-spin" : ""} /> {isResetting ? "Mereset..." : "Reset Progress"}
           </button>
         </motion.div>
+
+        {/* O*NET Attribution */}
+        <div className="mt-12 text-center text-xs text-slate-400 max-w-3xl mx-auto border-t border-slate-200/50 pt-8 pb-4">
+          <p>
+            This page includes information from the <a href="https://www.onetcenter.org/database.html" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">O*NET 31.0 Database</a> by the U.S. Department of Labor, Employment and Training Administration (USDOL/ETA). Used under the <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">CC BY 4.0</a> license. O*NET® is a trademark of USDOL/ETA. Gapless has modified all or some of this information to generate personalized career roadmaps. USDOL/ETA has not approved, endorsed, or tested these modifications.
+          </p>
+        </div>
       </div>
 
       {/* MODAL RESET CONFIRMATION */}

@@ -7,7 +7,7 @@ import { computeTraitScores, getDominantTrait, CAREER_PROFILES } from '@/data/ga
 import { z } from 'zod';
 
 const RequestSchema = z.object({
-  assessmentId: z.string().optional(),
+  assessmentId: z.string().nullable().optional(),
   rawAnswers: z.record(z.string().or(z.number()), z.number()),
   selectedCareer: z.string().nullable().optional(),
   skillRatings: z.record(z.string(), z.number()).nullable().optional(),
