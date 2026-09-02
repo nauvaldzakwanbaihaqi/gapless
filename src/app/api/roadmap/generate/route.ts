@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     const userTier = (session.user as any).tier || 'Free';
     const isPro = userTier === 'Student Pro' || userTier === 'Pro';
 
-    if (!checkRateLimit(session.user.id, 5, 60000)) {
+    if (!checkRateLimit(session.user.id, 15, 60000)) {
       return NextResponse.json({ error: 'Too Many Requests' }, { status: 429 });
     }
 
@@ -139,7 +139,7 @@ export async function POST(req: Request) {
     console.log(`[GEMINI] Memanggil LLM untuk ${careerName}...`);
     
     const { object: generatedRoadmapData } = await generateObject({
-      model: google('gemini-3.5-flash-lite'),
+      model: google('gemini-3.6-flash'),
       system: systemPrompt,
       prompt: `Karier: ${careerName}\n\n${onetContextText}`,
       schema: z.array(z.object({
@@ -156,7 +156,7 @@ export async function POST(req: Request) {
       careerName: careerName,
       roadmapData: generatedRoadmapData,
       onetData: onetDataToCache || { status: "no_match" },
-    });
+    }).onConflictDoNothing();
 
     let finalRoadmap = generatedRoadmapData;
     if (!isPro) {

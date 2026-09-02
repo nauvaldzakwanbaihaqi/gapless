@@ -23,13 +23,14 @@ function getRoleVisuals(roleName: string) {
 }
 
 export function CareerSelectionWrapper({ roles }: WrapperProps) {
-    const { setSelectedRole, selectCareer, setCurrentView, reset } = useGaplessContext();
+    const { setSelectedRole, selectCareer, setCurrentView, reset, setQuizType } = useGaplessContext();
     const router = useRouter();
 
     useEffect(() => {
         // Reset state so that previous career selections don't leak into this new selection flow
         reset();
-    }, [reset]);
+        setQuizType('sudah_tahu_minat');
+    }, [reset, setQuizType]);
 
     return (
         <div className="relative min-h-screen bg-space px-6 py-16 z-10 overflow-hidden">

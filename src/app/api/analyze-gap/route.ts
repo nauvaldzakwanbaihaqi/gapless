@@ -37,8 +37,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // B. Rate Limit Check (Max 5 requests per minute per user)
-    if (!checkRateLimit(session.user.id, 5, 60000)) {
+    // B. Rate Limit Check (Max 15 requests per minute per user)
+    if (!checkRateLimit(session.user.id, 15, 60000)) {
       return NextResponse.json({ error: 'Too Many Requests' }, { status: 429 });
     }
 
@@ -91,8 +91,8 @@ Berikan analisis terstruktur menggunakan Bahasa Indonesia yang profesional dan m
     // 3. Logika Pemilihan Model AI
     let modelToUse;
     if (selectedAI === 'gemini') {
-      modelToUse = google('gemini-3.1-flash-lite');
-      console.log('🤖 Menggunakan Engine: Gemini 3.1 Flash Lite (Gap Analysis)');
+      modelToUse = google('gemini-3.6-flash');
+      console.log('🤖 Menggunakan Engine: Gemini 3.6 Flash (Gap Analysis)');
     } else {
       modelToUse = groq('openai/gpt-oss-20b');
       console.log('🤖 Menggunakan Engine: Groq GPT OSS 20B (Gap Analysis Default)');

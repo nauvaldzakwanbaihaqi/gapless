@@ -488,13 +488,6 @@ export function GaplessProvider({ children }: { children: ReactNode }) {
   }, [answers, traitScores, dominantTrait, selectedCareer, skillRatings, session, currentAssessmentId, quizType]);
 
   useEffect(() => {
-    if (currentView === 'results' || currentView === 'roadmap') {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      saveResultToServerOrLocal().catch(err => console.error(err));
-    }
-  }, [currentView, saveResultToServerOrLocal]);
-
-  useEffect(() => {
     if (session?.user) {
       const pending = localStorage.getItem('gapless_pending_result');
       if (pending) {

@@ -105,9 +105,15 @@ export default function ModuleDetailClient({
     // Verifikasi Auth via Hook terpusat yang mengecek ke DB (mencegah ghost user)
     const isAuthenticated = await checkIsAuthenticated();
     
-    if (!assessmentId || !isAuthenticated) {
+    if (!isAuthenticated) {
       setIsLoading(false);
       setShowLoginModal(true);
+      return;
+    }
+
+    if (!assessmentId) {
+      setIsLoading(false);
+      alert('Data roadmap tidak ditemukan. Silakan refresh halaman atau mulai tes ulang.');
       return;
     }
     

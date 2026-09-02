@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Brain, ChevronRight, ChevronLeft, BarChart3 } from 'lucide-react';
 import { ASSESSMENT_QUESTIONS, type AssessmentOption } from '@/data/gaplessData';
 import { useGaplessContext } from '@/contexts/CareerContext';
+import { useRouter } from 'next/navigation';
 
 // Fisher-Yates shuffle — creates a new shuffled array
 function shuffleArray<T>(arr: T[]): T[] {
@@ -17,12 +18,14 @@ function shuffleArray<T>(arr: T[]): T[] {
 }
 
 export function AssessmentFlow() {
-  const { answers, setAnswer, isAssessmentComplete, setView, quizType } =
+  const { answers, setAnswer, isAssessmentComplete, setView, quizType, syncResultNow } =
     useGaplessContext();
+  const router = useRouter();
   const [currentIdx, setCurrentIdx] = useState(0);
   const [started, setStarted] = useState(false);
   const [showRetakeModal, setShowRetakeModal] = useState(false);
   const [isCheckingActive, setIsCheckingActive] = useState(false);
+  const [isSyncing, setIsSyncing] = useState(false);
 
   const question = ASSESSMENT_QUESTIONS[currentIdx];
   const total = ASSESSMENT_QUESTIONS.length;
@@ -58,8 +61,20 @@ export function AssessmentFlow() {
     }
   };
 
-  const handleFinish = () => {
-    setView('results');
+  const handleFinish = async () => {
+    setIsSyncing(true);
+    try {
+      const assessmentId = await syncResultNow();
+      if (assessmentId) {
+        router.push(`/hasil/${assessmentId}`);
+      } else {
+        setView('results');
+      }
+    } catch (e) {
+      alert('Gagal menyimpan hasil asesmen. Silakan coba lagi.');
+    } finally {
+      setIsSyncing(false);
+    }
   };
 
   // ── Start Screen ──
@@ -187,10 +202,11 @@ export function AssessmentFlow() {
           </p>
           <button
             onClick={handleFinish}
-            className="btn-primary flex items-center gap-2 mx-auto text-base"
+            disabled={isSyncing}
+            className="btn-primary flex items-center gap-2 mx-auto text-base disabled:opacity-40"
           >
-            Lihat Hasil
-            <ChevronRight size={18} />
+            {isSyncing ? 'Menyimpan...' : 'Lihat Hasil'}
+            {!isSyncing && <ChevronRight size={18} />}
           </button>
         </motion.div>
       </div>
@@ -303,11 +319,11 @@ export function AssessmentFlow() {
           {currentIdx === total - 1 ? (
             <button
               onClick={handleFinish}
-              disabled={answers[question.id] === undefined}
+              disabled={answers[question.id] === undefined || isSyncing}
               className="btn-primary flex items-center gap-2 text-sm disabled:opacity-40"
             >
-              Selesai
-              <BarChart3 size={16} />
+              {isSyncing ? 'Menyimpan...' : 'Selesai'}
+              {!isSyncing && <BarChart3 size={16} />}
             </button>
           ) : (
             <button

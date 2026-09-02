@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import { generateObject } from 'ai';
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { z } from 'zod';
 import { auth } from '@/auth';
 import { checkRateLimit } from '@/lib/rateLimit';
+
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
 
 const RequestSchema = z.object({
   moduleName: z.string().min(1, "Module name tidak boleh kosong"),
@@ -35,8 +39,8 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // B. Rate Limit Check (Max 5 requests per minute per user)
-    if (!checkRateLimit(session.user.id, 5, 60000)) {
+    // B. Rate Limit Check (Max 15 requests per minute per user)
+    if (!checkRateLimit(session.user.id, 15, 60000)) {
       return NextResponse.json({ error: 'Too Many Requests' }, { status: 429 });
     }
 
@@ -76,14 +80,14 @@ export async function POST(req: Request) {
       4. Pastikan rekomendasi sangat relevan dengan ${moduleName} untuk profesi ${roleName}.
     `;
 
-    const result = await generateObject({
-      model: google('gemini-2.5-flash'),
+    const { object: moduleInsightData } = await generateObject({
+      model: google('gemini-3.6-flash'),
       schema: ModuleInsightSchema,
       prompt: prompt,
       temperature: 0.7,
     });
 
-    return NextResponse.json(result.object);
+    return NextResponse.json(moduleInsightData);
   } catch (error) {
     console.error('Failed to generate module insight:', error);
     return NextResponse.json({ error: 'Failed to generate module insight' }, { status: 500 });

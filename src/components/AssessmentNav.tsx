@@ -5,7 +5,7 @@ import { useGaplessContext } from '@/contexts/CareerContext';
 import { motion, Variants } from 'motion/react';
 
 export function AssessmentNav() {
-    const { setSelectedRole, setCurrentView } = useGaplessContext();
+    const { setSelectedRole, setCurrentView, setQuizType } = useGaplessContext();
 
     // Varian animasi blur ke full (dari bawah ke atas)
     const buttonVariants: Variants = {
@@ -32,6 +32,7 @@ export function AssessmentNav() {
                     onClick={() => {
                         setSelectedRole(null);
                         setCurrentView('assessment');
+                        setQuizType('belum_tahu_minat');
                     }}
                     className="block w-full"
                 >
@@ -45,7 +46,10 @@ export function AssessmentNav() {
             <motion.div variants={buttonVariants} className="w-full sm:w-auto">
                 <Link 
                     href="/career-test" 
-                    onClick={() => setCurrentView('selection')}
+                    onClick={() => {
+                        setCurrentView('selection');
+                        setQuizType('sudah_tahu_minat');
+                    }}
                     className="block w-full"
                 >
                     <button className="w-full cursor-pointer sm:w-auto px-6 py-3 rounded-xl font-medium text-slate-900 border border-slate-300 hover:bg-slate-50 transition-all duration-200 bg-transparent">

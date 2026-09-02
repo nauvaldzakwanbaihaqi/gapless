@@ -166,7 +166,7 @@ export function ArchetypeReasoningBlock({ dominantTrait, traitScores, keyTraits,
             className="w-full"
             style={{ maxWidth: 360, aspectRatio: '1' }}
           >
-            <ResponsiveContainer width="100%" height="100%">
+            <ResponsiveContainer width="100%" height="100%" minWidth={1} minHeight={1}>
               <RadarChart cx="50%" cy="50%" outerRadius="72%" data={traitRadarData}>
                 <PolarGrid stroke="rgba(0,0,0,0.08)" />
                 <PolarAngleAxis

@@ -61,13 +61,19 @@ export function CaseStudyQuizView() {
       if (step === 2) {
         const syncAndRedirect = async () => {
           setIsSyncing(true);
-          const assessmentId = await syncResultNow();
-          if (assessmentId) {
-            router.push(`/hasil/${assessmentId}`);
-          } else {
+          try {
+            const assessmentId = await syncResultNow();
+            if (assessmentId) {
+              router.push(`/hasil/${assessmentId}`);
+            } else {
+              setIsSyncing(false);
+              // Fallback for guest mode
+              setView('roadmap');
+            }
+          } catch (e) {
             setIsSyncing(false);
-            // Fallback just in case
-            setView('roadmap');
+            alert('Gagal menyimpan hasil asesmen. Silakan coba lagi.');
+            setStep(1);
           }
         };
         syncAndRedirect();
