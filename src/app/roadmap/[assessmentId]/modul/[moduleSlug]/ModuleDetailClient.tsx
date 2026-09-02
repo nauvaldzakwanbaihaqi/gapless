@@ -69,11 +69,32 @@ export default function ModuleDetailClient({
               breakdown: [{ title: 'Dasar', description: 'Pengenalan' }],
               resources: [
                 {
-                  title: `Cari "${moduleTitle}" di YouTube`,
+                  title: `Tutorial "${moduleTitle}" di YouTube`,
                   type: 'Video',
                   url: `https://www.youtube.com/results?search_query=${encodeURIComponent(moduleTitle)}`,
                   isFree: true,
                   provider: 'YouTube'
+                },
+                {
+                  title: `Panduan & Roadmap "${moduleTitle}"`,
+                  type: 'Roadmap',
+                  url: `https://roadmap.sh/search?q=${encodeURIComponent(moduleTitle)}`,
+                  isFree: true,
+                  provider: 'roadmap.sh'
+                },
+                {
+                  title: `Dokumentasi Resmi "${moduleTitle}" (MDN)`,
+                  type: 'Dokumentasi',
+                  url: `https://developer.mozilla.org/en-US/search?q=${encodeURIComponent(moduleTitle)}`,
+                  isFree: true,
+                  provider: 'MDN Web Docs'
+                },
+                {
+                  title: `Kursus Profesional "${moduleTitle}"`,
+                  type: 'Course',
+                  url: `https://www.coursera.org/search?query=${encodeURIComponent(moduleTitle)}`,
+                  isFree: false,
+                  provider: 'Coursera'
                 }
               ]
             });

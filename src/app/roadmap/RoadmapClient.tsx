@@ -103,9 +103,12 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
             selectedCareer: profile,
             roadmapWithProgress,
           });
+        } else {
+          setOverrideData(undefined);
         }
       } catch (e) {
         console.error('Failed to fetch roadmap:', e);
+        setOverrideData(undefined);
       } finally {
         setIsLoadingRoadmap(false);
       }
