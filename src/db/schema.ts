@@ -184,6 +184,15 @@ export const aiRoadmaps = pgTable("ai_roadmaps", {
   createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
 });
 
+export const aiModuleInsights = pgTable("ai_module_insights", {
+  moduleSlug: text("module_slug").notNull(),
+  careerSlug: text("career_slug").notNull(),
+  insightData: jsonb("insight_data").notNull(),
+  createdAt: timestamp("created_at", { mode: "date" }).defaultNow().notNull(),
+}, (t) => ({
+  compoundKey: primaryKey({ columns: [t.moduleSlug, t.careerSlug] }),
+}));
+
 // ──────────────────────────────────────────────
 // O*NET LOCAL DATABASE (Reference Layer)
 // ──────────────────────────────────────────────

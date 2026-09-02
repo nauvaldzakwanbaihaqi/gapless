@@ -49,7 +49,12 @@ export default function ModuleDetailClient({
           const res = await fetch('/api/module-insight', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ moduleName: moduleTitle, roleName: profile.title })
+            body: JSON.stringify({ 
+              moduleName: moduleTitle, 
+              roleName: profile.title,
+              moduleSlug: moduleSlug,
+              careerSlug: profile.id
+            })
           });
           
           if (res.ok) {
@@ -76,11 +81,11 @@ export default function ModuleDetailClient({
                   provider: 'YouTube'
                 },
                 {
-                  title: `Panduan & Roadmap "${moduleTitle}"`,
-                  type: 'Roadmap',
-                  url: `https://roadmap.sh/search?q=${encodeURIComponent(moduleTitle)}`,
+                  title: `Panduan & Artikel "${moduleTitle}"`,
+                  type: 'Artikel',
+                  url: `https://www.freecodecamp.org/news/search/?query=${encodeURIComponent(moduleTitle)}`,
                   isFree: true,
-                  provider: 'roadmap.sh'
+                  provider: 'freeCodeCamp'
                 },
                 {
                   title: `Dokumentasi Resmi "${moduleTitle}" (MDN)`,

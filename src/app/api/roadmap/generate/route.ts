@@ -46,10 +46,6 @@ export async function POST(req: Request) {
     const userTier = (session.user as any).tier || 'Free';
     const isPro = userTier === 'Student Pro' || userTier === 'Pro';
 
-    if (!checkRateLimit(session.user.id, 15, 60000)) {
-      return NextResponse.json({ error: 'Too Many Requests' }, { status: 429 });
-    }
-
     const rawBody = await req.json();
     const validationResult = RequestSchema.safeParse(rawBody);
     
@@ -95,6 +91,10 @@ export async function POST(req: Request) {
         careerName: cachedRoadmap.careerName,
         roadmap: finalRoadmap
       });
+    }
+
+    if (!checkRateLimit(session.user.id, 15, 60000)) {
+      return NextResponse.json({ error: 'Too Many Requests' }, { status: 429 });
     }
 
     console.log(`[CACHE MISS] Generating roadmap untuk ${slug}...`);
