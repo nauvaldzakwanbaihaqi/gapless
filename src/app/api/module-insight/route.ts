@@ -71,17 +71,18 @@ export async function POST(req: Request) {
       Tolong buatkan detail kurikulum untuk modul ini, dengan format JSON yang ketat mengikuti skema.
       
       Aturan untuk 'resources' (sumber belajar):
-      1. Berikan minimal 3 rekomendasi sumber belajar riil (YouTube, Udemy, Coursera, dsb).
-      2. Gunakan format URL pencarian yang valid dengan mengganti spasi menggunakan tanda plus (+).
-         - Contoh YouTube: https://www.youtube.com/results?search_query=Tutorial+Belajar+[Topik]
-         - Contoh Coursera: https://www.coursera.org/search?query=[Topik]
-         - Contoh Udemy: https://www.udemy.com/courses/search/?q=[Topik]
-      3. Field 'type' biasanya "Video", "Course", atau "Artikel".
-      4. Pastikan rekomendasi sangat relevan dengan ${moduleName} untuk profesi ${roleName}.
+      1. Berikan 3-4 rekomendasi sumber belajar riil, spesifik, dan berkualitas tinggi.
+      2. WAJIB mengutamakan URL langsung ke DOKUMENTASI RESMI atau platform belajar gratis terpercaya (seperti MDN Web Docs, W3Schools, freeCodeCamp, roadmap.sh, atau dokumentasi teknologi terkait). 
+         - Berikan URL langsung yang pasti dan valid ke situs tersebut, bukan sekadar URL hasil pencarian.
+      3. Jika merekomendasikan video (seperti YouTube), dan kamu tidak tahu link spesifik videonya, baru boleh gunakan format URL pencarian dengan mengganti spasi menggunakan tanda plus (+).
+         - Contoh YouTube: https://www.youtube.com/results?search_query=[Topik]+untuk+${roleName.replace(/ /g, '+')}
+      4. Field 'type' gunakan salah satu dari: "Dokumentasi", "Video", "Course", "Artikel", atau "Roadmap".
+      5. Field 'provider' tuliskan nama situsnya dengan jelas (contoh: "MDN Web Docs", "freeCodeCamp", "roadmap.sh", "YouTube", "Coursera").
+      6. Pastikan rekomendasi sangat relevan dengan topik: ${moduleName}.
     `;
 
     const { object: moduleInsightData } = await generateObject({
-      model: google('gemini-3.6-flash'),
+      model: google('gemini-3.6-flash'), // Reverted model name
       schema: ModuleInsightSchema,
       prompt: prompt,
       temperature: 0.7,
