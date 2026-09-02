@@ -5,6 +5,7 @@ import { assessmentResults, roadmapProgress } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { computeTraitScores, getDominantTrait, CAREER_PROFILES } from '@/data/gaplessData';
 import { z } from 'zod';
+import { getRemainingAttempts } from '@/lib/assessmentLimit';
 
 const RequestSchema = z.object({
   assessmentId: z.string().nullable().optional(),
@@ -61,6 +62,16 @@ export async function POST(req: Request) {
     }
 
     let newResult;
+
+    const userTier = (session.user as any).tier || 'FREE';
+    const { isAllowed, limit } = await getRemainingAttempts(userId, quizType, userTier);
+
+    if (!assessmentId && !isAllowed) {
+      return NextResponse.json(
+        { error: 'Attempt Limit Reached', message: `Anda telah menggunakan ${limit} kesempatan gratis.` },
+        { status: 403 }
+      );
+    }
 
     if (assessmentId) {
       // Update existing

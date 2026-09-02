@@ -221,7 +221,9 @@ export default function ModuleDetailClient({
           <div className="flex flex-col items-center justify-center bg-blue-700 text-white rounded-2xl w-28 h-24 shrink-0 shadow-lg relative overflow-hidden px-2">
             <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-bl-full blur-md"></div>
             <span className="text-sm font-semibold opacity-90">Fase {phaseIndex + 1}</span>
-            <span className="text-lg md:text-xl font-black text-center truncate w-full" title={phaseData.title}>{phaseData.title}</span>
+            <span className="text-lg md:text-xl font-black text-center truncate w-full" title={['Dasar', 'Menengah', 'Lanjutan', 'Expert'][phaseIndex] || 'Expert'}>
+              {['Dasar', 'Menengah', 'Lanjutan', 'Expert'][phaseIndex] || 'Expert'}
+            </span>
           </div>
           <div className="flex-1">
             <div className="text-sm text-slate-500 font-bold mb-1 tracking-wider uppercase">{phaseData.duration}</div>
