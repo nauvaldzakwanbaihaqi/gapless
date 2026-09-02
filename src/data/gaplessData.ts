@@ -259,7 +259,7 @@ export interface CurriculumPhase {
 export interface LearningResource {
   title: string;
   provider: string;
-  type: 'Course' | 'Artikel' | 'Video' | 'Buku';
+  type: 'Course' | 'Artikel' | 'Video' | 'Buku' | 'Roadmap' | 'Dokumentasi';
   isFree: boolean;
   price?: string;
   url: string;
