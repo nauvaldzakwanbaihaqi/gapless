@@ -41,7 +41,7 @@ export default async function CareerTestPage() {
               Upgrade ke Pro
             </Link>
             <Link 
-              href="/dashboard"
+              href="/"
               className="w-full py-3 px-6 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition-colors"
             >
               Kembali
