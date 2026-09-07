@@ -91,21 +91,39 @@ Berikan analisis terstruktur menggunakan Bahasa Indonesia yang profesional dan m
     // 3. Logika Pemilihan Model AI
     let modelToUse;
     if (selectedAI === 'gemini') {
-      modelToUse = google('gemini-3.6-flash');
-      console.log('🤖 Menggunakan Engine: Gemini 3.6 Flash (Gap Analysis)');
+      modelToUse = google('gemini-3.7-flash');
+      console.log('🤖 Menggunakan Engine: Gemini 3.7 Flash (Gap Analysis)');
     } else {
       modelToUse = groq('openai/gpt-oss-20b');
       console.log('🤖 Menggunakan Engine: Groq GPT OSS 20B (Gap Analysis Default)');
     }
 
-    // 4. Tembak AI yang dipilih dengan Structured Output
-    const { object } = await generateObject({
-      model: modelToUse,
-      schema: GapInsightSchema,
-      system: systemPrompt,
-      prompt: userPrompt,
-      temperature: 0.5,
-    });
+    // 4. Tembak AI yang dipilih dengan Structured Output & Auto-Fallback
+    let object;
+    try {
+      const result = await generateObject({
+        model: modelToUse,
+        schema: GapInsightSchema,
+        system: systemPrompt,
+        prompt: userPrompt,
+        temperature: 0.5,
+      });
+      object = result.object;
+    } catch (primaryError: any) {
+      if (selectedAI === 'gemini') {
+        console.warn('⚠️ Gemini primary model terkena kendala/kuota, mencoba auto-fallback ke gemini-3.1-flash-lite...', primaryError?.message);
+        const fallbackResult = await generateObject({
+          model: google('gemini-3.1-flash-lite'),
+          schema: GapInsightSchema,
+          system: systemPrompt,
+          prompt: userPrompt,
+          temperature: 0.5,
+        });
+        object = fallbackResult.object;
+      } else {
+        throw primaryError;
+      }
+    }
 
     return NextResponse.json({
       ai_engine_used: selectedAI,
