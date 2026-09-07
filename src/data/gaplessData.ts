@@ -322,6 +322,58 @@ export const MODULE_DETAILS: Record<string, ModuleDetail> = {
 };
 
 export const CAREER_PROFILES: CareerProfile[] = [
+  // ── Karier AI / ML ──
+  {
+    id: 'ai-ml-engineer',
+    title: 'AI/ML Engineer / Machine Learning Engineer',
+    trait: 'The Thinker',
+    icon: '🤖',
+    description: 'Membangun dan melatih model kecerdasan buatan untuk memecahkan masalah kompleks dan mengotomatisasi keputusan.',
+    salaryRange: 'Rp 10.000.000 - Rp 25.000.000/bulan',
+    growthOutlook: '40%',
+    skills: [
+      { name: 'Pemrograman Python & R', required: 3 },
+      { name: 'Matematika & Statistik (Aljabar Linear, Kalkulus)', required: 3 },
+      { name: 'Machine Learning Frameworks (TensorFlow, PyTorch)', required: 3 },
+      { name: 'Data Preprocessing & Feature Engineering', required: 3 },
+      { name: 'Natural Language Processing (NLP)', required: 2 },
+      { name: 'Model Deployment (Docker, FastAPI)', required: 2 },
+    ],
+    roadmap: [
+      {
+        phase: 1,
+        title: 'Dasar',
+        subtitle: 'Matematika dan Pemrograman',
+        description: 'Kuasai fondasi perhitungan matematika dan bahasa pemrograman utama untuk AI.',
+        modules: ['Aljabar Linear dan Kalkulus Dasar', 'Statistik Lanjut dan Probabilitas', 'Pemrograman Python Lanjut', 'Eksplorasi Data dengan Pandas & NumPy', 'Visualisasi Data Matplotlib'],
+        duration: '8-10 minggu',
+      },
+      {
+        phase: 2,
+        title: 'Menengah',
+        subtitle: 'Machine Learning Klasik',
+        description: 'Pahami dan terapkan algoritma dasar Machine Learning sebelum masuk ke Deep Learning.',
+        modules: ['Regresi dan Klasifikasi', 'Decision Trees & Random Forests', 'Support Vector Machines (SVM)', 'Clustering (K-Means, PCA)', 'Evaluasi Model & Tuning Hyperparameter'],
+        duration: '8-10 minggu',
+      },
+      {
+        phase: 3,
+        title: 'Lanjutan',
+        subtitle: 'Deep Learning & Neural Networks',
+        description: 'Mulai bangun arsitektur Neural Network untuk masalah yang lebih kompleks seperti visi komputer atau bahasa.',
+        modules: ['Pengenalan Neural Networks', 'Frameworks: TensorFlow & PyTorch', 'Convolutional Neural Networks (CNN) untuk Gambar', 'Recurrent Neural Networks (RNN/LSTM)', 'Natural Language Processing (NLP) Dasar'],
+        duration: '10-12 minggu',
+      },
+      {
+        phase: 4,
+        title: 'Mahir',
+        subtitle: 'MLOps & Generative AI',
+        description: 'Terapkan model ke production dan eksplorasi model AI generatif (LLM).',
+        modules: ['Model Deployment (Docker/FastAPI)', 'MLOps & Model Monitoring', 'Pengantar Large Language Models (LLM)', 'RAG (Retrieval-Augmented Generation)', 'Etika AI & Bias Model'],
+        duration: '10-12 minggu',
+      },
+    ]
+  },
   // ── Karier Analitis ──
   {
     id: 'data-scientist',
