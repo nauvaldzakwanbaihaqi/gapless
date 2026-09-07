@@ -19,7 +19,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         async session({ session, user }: any) {
             if (session.user && user) {
                 session.user.id = user.id;
-                session.user.tier = user.tier;
+                
+                // Hardcode Unlimited / Pro for testing email
+                if (session.user.email === 'nauvaldzakwan17@upi.edu') {
+                    session.user.tier = 'Pro';
+                } else {
+                    session.user.tier = user.tier;
+                }
             }
             return session;
         },
