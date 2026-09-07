@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { generateObject } from 'ai';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { z } from 'zod';
 import { auth } from '@/auth';
 import { checkRateLimit } from '@/lib/rateLimit';
@@ -12,6 +13,10 @@ const deepseek = createOpenAICompatible({
   name: 'deepseek',
   apiKey: process.env.DEEPSEEK_API_KEY,
   baseURL: 'https://api.deepseek.com/v1',
+});
+
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GEMINI_API_KEY,
 });
 
 const RequestSchema = z.object({
@@ -104,19 +109,79 @@ export async function POST(req: Request) {
       6. Pastikan rekomendasi sangat relevan dengan topik: ${moduleName}.
     `;
 
-    const { object: moduleInsightData } = await generateObject({
-      model: deepseek('deepseek-v4-flash'), // Reverted model name
-      schema: ModuleInsightSchema,
-      prompt: prompt,
-      temperature: 0.7,
-    });
+    let moduleInsightData: any;
+    try {
+      console.log(`[MODULE INSIGHT] Memanggil DeepSeek untuk ${moduleName}...`);
+      const { object } = await generateObject({
+        model: deepseek('deepseek-v4-flash'),
+        schema: ModuleInsightSchema,
+        prompt: prompt,
+        temperature: 0.7,
+      });
+      moduleInsightData = object;
+    } catch (deepseekErr: any) {
+      console.warn(`[MODULE INSIGHT FALLBACK] DeepSeek terkendala (${deepseekErr?.message}), mencoba Gemini 3.7 Flash...`);
+      try {
+        const { object } = await generateObject({
+          model: google('gemini-3.7-flash'),
+          schema: ModuleInsightSchema,
+          prompt: prompt,
+          temperature: 0.7,
+        });
+        moduleInsightData = object;
+      } catch (geminiErr: any) {
+        console.warn(`[MODULE INSIGHT FALLBACK] Gemini terkendala (${geminiErr?.message}), menggunakan kurikulum standar...`);
+        moduleInsightData = {
+          target: `Menguasai konsep esensial dan penerapan praktis dari ${moduleName} untuk peran ${roleName}.`,
+          duration: 'Estimasi 2-4 Jam',
+          breakdown: [
+            {
+              title: `Konsep Dasar ${moduleName}`,
+              description: `Mempelajari fondasi teoritis dan prinsip inti yang mendasari ${moduleName}.`
+            },
+            {
+              title: `Implementasi Praktis`,
+              description: `Latihan studi kasus langsung dan implementasi teknik ${moduleName} di industri.`
+            }
+          ],
+          resources: [
+            {
+              title: `Dokumentasi Resmi & Panduan ${moduleName}`,
+              provider: 'MDN Web Docs / Official Docs',
+              type: 'Dokumentasi',
+              isFree: true,
+              url: `https://developer.mozilla.org/en-US/search?q=${encodeURIComponent(moduleName)}`
+            },
+            {
+              title: `Tutorial Lengkap ${moduleName}`,
+              provider: 'freeCodeCamp',
+              type: 'Artikel',
+              isFree: true,
+              url: `https://www.freecodecamp.org/news/search/?query=${encodeURIComponent(moduleName)}`
+            },
+            {
+              title: `Video Pembahasan & Praktek ${moduleName}`,
+              provider: 'YouTube',
+              type: 'Video',
+              isFree: true,
+              url: `https://www.youtube.com/results?search_query=${encodeURIComponent(moduleName)}+tutorial+${encodeURIComponent(roleName)}`
+            }
+          ]
+        };
+      }
+    }
 
     // Simpan ke Cache
-    await db.insert(aiModuleInsights).values({
-      moduleSlug,
-      careerSlug,
-      insightData: moduleInsightData,
-    }).onConflictDoNothing();
+    try {
+      await db.insert(aiModuleInsights).values({
+        moduleSlug,
+        careerSlug,
+        insightData: moduleInsightData,
+      }).onConflictDoNothing();
+      console.log(`[CACHE SET] Sukses menyimpan module insight untuk ${moduleSlug} (${careerSlug})`);
+    } catch (dbErr) {
+      console.error('[CACHE ERROR] Gagal menyimpan module insight ke database:', dbErr);
+    }
 
     return NextResponse.json(moduleInsightData);
   } catch (error) {

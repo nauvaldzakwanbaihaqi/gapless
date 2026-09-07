@@ -1,20 +1,24 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/db';
-import { aiRoadmaps, assessmentResults } from '@/db/schema';
+import { aiRoadmaps, assessmentResults, onetSkills, onetTasks, onetKnowledge, onetTools } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 import { CAREER_PROFILES } from '@/data/gaplessData';
 import { auth } from '@/auth';
 import { z } from 'zod';
 import { checkRateLimit } from '@/lib/rateLimit';
 import { matchCareerToOnet } from '@/lib/onetMatcher';
-import { onetSkills, onetTasks, onetKnowledge, onetTools } from '@/db/schema';
 import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { generateObject } from 'ai';
 
 const deepseek = createOpenAICompatible({
   name: 'deepseek',
   apiKey: process.env.DEEPSEEK_API_KEY,
   baseURL: 'https://api.deepseek.com/v1',
+});
+
+const google = createGoogleGenerativeAI({
+  apiKey: process.env.GEMINI_API_KEY,
 });
 
 
@@ -137,28 +141,61 @@ export async function POST(req: Request) {
       Hasil HANYA boleh dalam format JSON sesuai skema.`;
     }
 
-    // 4. Generate via Gemini
-    console.log(`[GEMINI] Memanggil LLM untuk ${careerName}...`);
-    
-    const { object: generatedRoadmapData } = await generateObject({
-      model: deepseek('deepseek-v4-flash'),
-      system: systemPrompt,
-      prompt: `Karier: ${careerName}\n\n${onetContextText}`,
-      schema: z.array(z.object({
-        title: z.string().describe("Judul fase (misal: 'Fundamental', 'Advanced')"),
-        subtitle: z.string().describe("Subjudul singkat"),
-        description: z.string().describe("Deskripsi panjang tentang apa yang dipelajari"),
-        modules: z.array(z.string()).describe("Daftar materi spesifik yang akan dipelajari")
-      })).length(4),
-    });
+    // 4. Generate via LLM (DeepSeek dengan Auto-Fallback ke Gemini & Profil Statis)
+    const RoadmapSchema = z.array(z.object({
+      title: z.string().describe("Judul fase (misal: 'Fundamental', 'Advanced')"),
+      subtitle: z.string().describe("Subjudul singkat"),
+      description: z.string().describe("Deskripsi panjang tentang apa yang dipelajari"),
+      modules: z.array(z.string()).describe("Daftar materi spesifik yang akan dipelajari")
+    })).length(4);
+
+    let generatedRoadmapData: any;
+    let engineUsed = 'deepseek';
+
+    try {
+      console.log(`[LLM] Memanggil DeepSeek untuk ${careerName}...`);
+      const { object } = await generateObject({
+        model: deepseek('deepseek-v4-flash'),
+        system: systemPrompt,
+        prompt: `Karier: ${careerName}\n\n${onetContextText}`,
+        schema: RoadmapSchema,
+      });
+      generatedRoadmapData = object;
+    } catch (deepseekError: any) {
+      console.warn(`[LLM FALLBACK] DeepSeek terkendala (${deepseekError?.message}), mencoba Gemini 3.7 Flash...`);
+      try {
+        const { object } = await generateObject({
+          model: google('gemini-3.7-flash'),
+          system: systemPrompt,
+          prompt: `Karier: ${careerName}\n\n${onetContextText}`,
+          schema: RoadmapSchema,
+        });
+        generatedRoadmapData = object;
+        engineUsed = 'gemini-3.7-flash';
+      } catch (geminiError: any) {
+        console.warn(`[LLM FALLBACK] Gemini terkendala (${geminiError?.message}), menggunakan kurikulum profil statis...`);
+        const fallbackProfile = CAREER_PROFILES.find(p => p.title === careerName || p.id === slug);
+        if (fallbackProfile && fallbackProfile.roadmap) {
+          generatedRoadmapData = fallbackProfile.roadmap;
+          engineUsed = 'static-profile';
+        } else {
+          throw geminiError;
+        }
+      }
+    }
 
     // 5. Simpan ke Database (Simpan data full, redaksi hanya saat response)
-    await db.insert(aiRoadmaps).values({
-      careerSlug: slug,
-      careerName: careerName,
-      roadmapData: generatedRoadmapData,
-      onetData: onetDataToCache || { status: "no_match" },
-    }).onConflictDoNothing();
+    try {
+      await db.insert(aiRoadmaps).values({
+        careerSlug: slug,
+        careerName: careerName,
+        roadmapData: generatedRoadmapData,
+        onetData: onetDataToCache || { status: "no_match" },
+      }).onConflictDoNothing();
+      console.log(`[CACHE SET] Sukses menyimpan roadmap untuk ${slug} ke database.`);
+    } catch (dbErr) {
+      console.error('[CACHE ERROR] Gagal menyimpan roadmap ke database:', dbErr);
+    }
 
     let finalRoadmap = generatedRoadmapData;
     if (!isPro) {
@@ -167,7 +204,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({
       success: true,
-      source: 'generated (mock)',
+      source: engineUsed,
       careerSlug: slug,
       careerName: careerName,
       roadmap: finalRoadmap

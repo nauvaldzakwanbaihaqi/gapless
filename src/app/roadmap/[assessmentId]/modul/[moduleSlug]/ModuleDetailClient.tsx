@@ -119,7 +119,7 @@ export default function ModuleDetailClient({
     if (!assessmentId) {
       context.setView('roadmap');
     } else {
-      router.push('/roadmap');
+      router.push(`/roadmap?assessmentId=${assessmentId}`);
     }
   };
 
@@ -332,7 +332,7 @@ export default function ModuleDetailClient({
       {/* Footer Navigasi */}
       <div className="flex flex-col sm:flex-row items-center gap-4 mt-4">
         <Link 
-          href="/roadmap"
+          href={assessmentId ? `/roadmap?assessmentId=${assessmentId}` : "/roadmap"}
           className="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-slate-200 text-slate-700 font-bold hover:bg-slate-300 transition-colors"
         >
           <ArrowLeft size={18} /> Kembali ke Roadmap

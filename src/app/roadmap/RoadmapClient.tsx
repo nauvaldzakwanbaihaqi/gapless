@@ -47,24 +47,16 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
 
       setIsLoadingRoadmap(true);
       try {
-        const res = await fetch('/api/roadmap/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ assessmentId: selectedHistory.id })
-        });
-        
-        if (res.ok) {
-          const data = await res.json();
-          
-          // Find the static career profile (needed for skills matching currently)
-          const profile = CAREERS.find((c: { title: string }) => c.title === selectedHistory.selectedCareer);
-          if (!profile) return;
+        const profile = CAREERS.find((c: { title: string }) => c.title === selectedHistory.selectedCareer);
+        if (!profile) {
+          setOverrideData(undefined);
+          return;
+        }
 
+        const buildRoadmap = (rawRoadmap: CurriculumPhase[]) => {
           const skillRatings = selectedHistory.skillRatings || {};
-          
-          const roadmapWithProgress: RoadmapNode[] = data.roadmap.map((phase: CurriculumPhase, phaseIdx: number) => {
+          return rawRoadmap.map((phase: CurriculumPhase, phaseIdx: number) => {
             const isLockedPhase = !isPro && phaseIdx >= 2;
-            
             if (isLockedPhase) {
               return {
                 ...phase,
@@ -97,18 +89,79 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
               progress: phase.modules.length > 0 ? completedModules.length / phase.modules.length : 0,
             };
           });
+        };
 
+        const res = await fetch('/api/roadmap/generate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ assessmentId: selectedHistory.id })
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
           setOverrideData({
             id: selectedHistory.id,
             selectedCareer: profile,
-            roadmapWithProgress,
+            roadmapWithProgress: buildRoadmap(data.roadmap),
+          });
+        } else if (profile.roadmap) {
+          console.warn('API roadmap error, fallback to static profile roadmap');
+          setOverrideData({
+            id: selectedHistory.id,
+            selectedCareer: profile,
+            roadmapWithProgress: buildRoadmap(profile.roadmap),
           });
         } else {
           setOverrideData(undefined);
         }
       } catch (e) {
         console.error('Failed to fetch roadmap:', e);
-        setOverrideData(undefined);
+        const profile = CAREERS.find((c: { title: string }) => c.title === selectedHistory.selectedCareer);
+        if (profile && profile.roadmap) {
+          const skillRatings = selectedHistory.skillRatings || {};
+          const moduleStatuses: Record<string, boolean> = (selectedHistory.moduleStatuses as Record<string, boolean>) || {};
+          const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+
+          const fallbackNodes = profile.roadmap.map((phase: CurriculumPhase, phaseIdx: number) => {
+            const isLockedPhase = !isPro && phaseIdx >= 2;
+            if (isLockedPhase) {
+              return {
+                ...phase,
+                title: 'Lanjutan',
+                subtitle: 'Materi lanjutan untuk memaksimalkan potensimu.',
+                description: 'Pelajari materi lebih dalam dengan praktik industri nyata.',
+                modules: phase.modules.map((_: unknown, i: number) => `Materi Premium ${i + 1}`),
+                completedModules: [],
+                progress: 0,
+              };
+            }
+
+            const completedModules = phase.modules.filter((_module: string, idx: number) => {
+              const moduleSlug = slugify(_module);
+              if (moduleStatuses[moduleSlug]) return true;
+
+              const skill = profile.skills[idx % profile.skills.length];
+              if (!skill) return false;
+              const ratings = (skillRatings as Record<string, number>) || {};
+              const userLevel = ratings[skill.name] ?? 0;
+              return userLevel >= skill.required;
+            });
+
+            return {
+              ...phase,
+              completedModules,
+              progress: phase.modules.length > 0 ? completedModules.length / phase.modules.length : 0,
+            };
+          });
+
+          setOverrideData({
+            id: selectedHistory.id,
+            selectedCareer: profile,
+            roadmapWithProgress: fallbackNodes,
+          });
+        } else {
+          setOverrideData(undefined);
+        }
       } finally {
         setIsLoadingRoadmap(false);
       }
