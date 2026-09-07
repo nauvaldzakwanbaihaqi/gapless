@@ -103,7 +103,7 @@ export async function POST(req: Request) {
     `;
 
     const { object: moduleInsightData } = await generateObject({
-      model: google('gemini-1.5-flash'), // Reverted model name
+      model: google('gemini-3-flash'), // Reverted model name
       schema: ModuleInsightSchema,
       prompt: prompt,
       temperature: 0.7,
