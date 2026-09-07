@@ -69,7 +69,7 @@ export function CareerSelectionWrapper({ roles }: WrapperProps) {
                                         'content creator / social media strategist': 'content creator / social media specialist', 
                                         'content creator / social media specialist': 'content creator / social media specialist',
                                         'software engineer (front/back/full-stack)': 'software engineer (front/back/full-stack)', 
-                                        'ai/ml engineer / machine learning engineer': 'data analyst / business intelligence', 
+                                        'ai/ml engineer / machine learning engineer': 'ai/ml engineer / machine learning engineer', 
                                         'devops engineer / qa automation engineer': 'devops engineer / qa automation engineer', 
                                         'data analyst / business intelligence': 'data analyst / business intelligence', 
                                         'data researcher / strategy analyst': 'data researcher / strategy analyst',
