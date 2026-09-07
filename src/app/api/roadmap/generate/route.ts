@@ -139,7 +139,7 @@ export async function POST(req: Request) {
     console.log(`[GEMINI] Memanggil LLM untuk ${careerName}...`);
     
     const { object: generatedRoadmapData } = await generateObject({
-      model: google('gemini-3.6-flash'),
+      model: google('gemini-1.5-flash'),
       system: systemPrompt,
       prompt: `Karier: ${careerName}\n\n${onetContextText}`,
       schema: z.array(z.object({
