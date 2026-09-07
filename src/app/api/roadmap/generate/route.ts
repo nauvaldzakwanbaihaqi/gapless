@@ -8,11 +8,13 @@ import { z } from 'zod';
 import { checkRateLimit } from '@/lib/rateLimit';
 import { matchCareerToOnet } from '@/lib/onetMatcher';
 import { onetSkills, onetTasks, onetKnowledge, onetTools } from '@/db/schema';
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { generateObject } from 'ai';
 
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GEMINI_API_KEY,
+const deepseek = createOpenAICompatible({
+  name: 'deepseek',
+  apiKey: process.env.DEEPSEEK_API_KEY,
+  baseURL: 'https://api.deepseek.com/v1',
 });
 
 
@@ -139,7 +141,7 @@ export async function POST(req: Request) {
     console.log(`[GEMINI] Memanggil LLM untuk ${careerName}...`);
     
     const { object: generatedRoadmapData } = await generateObject({
-      model: google('gemini-3-flash'),
+      model: deepseek('deepseek-v4-flash'),
       system: systemPrompt,
       prompt: `Karier: ${careerName}\n\n${onetContextText}`,
       schema: z.array(z.object({

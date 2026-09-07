@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { generateObject } from 'ai';
-import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { createOpenAICompatible } from '@ai-sdk/openai-compatible';
 import { z } from 'zod';
 import { auth } from '@/auth';
 import { checkRateLimit } from '@/lib/rateLimit';
@@ -8,8 +8,10 @@ import { db } from '@/db';
 import { aiModuleInsights } from '@/db/schema';
 import { eq, and } from 'drizzle-orm';
 
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GEMINI_API_KEY,
+const deepseek = createOpenAICompatible({
+  name: 'deepseek',
+  apiKey: process.env.DEEPSEEK_API_KEY,
+  baseURL: 'https://api.deepseek.com/v1',
 });
 
 const RequestSchema = z.object({
@@ -103,7 +105,7 @@ export async function POST(req: Request) {
     `;
 
     const { object: moduleInsightData } = await generateObject({
-      model: google('gemini-3-flash'), // Reverted model name
+      model: deepseek('deepseek-v4-flash'), // Reverted model name
       schema: ModuleInsightSchema,
       prompt: prompt,
       temperature: 0.7,
