@@ -64,16 +64,12 @@ export function AssessmentFlow() {
   const handleFinish = async () => {
     setIsSyncing(true);
     try {
-      const assessmentId = await syncResultNow();
-      if (assessmentId) {
-        router.push(`/hasil/${assessmentId}`);
-      } else {
-        setView('results');
-      }
+      await syncResultNow();
     } catch (e) {
-      alert('Gagal menyimpan hasil asesmen. Silakan coba lagi.');
+      console.warn('Background sync failed, continuing to results view', e);
     } finally {
       setIsSyncing(false);
+      setView('results');
     }
   };
 

@@ -84,8 +84,16 @@ export function ResultDetailClient({ resultId, selectedCareer, skillRatings, dom
 
   if (!careerProfile) {
     return (
-      <div className="container mx-auto px-4 py-12 max-w-4xl text-center">
-        <p className="text-gray-500">Data karier tidak ditemukan atau tidak valid.</p>
+      <div className="container mx-auto px-4 py-12 max-w-4xl flex justify-center">
+        <div className="glass-card p-8 max-w-md w-full text-center">
+          <h2 className="text-xl font-bold text-slate-800 mb-2">Pilihan Karier Belum Lengkap</h2>
+          <p className="text-slate-500 text-sm mb-6">
+            Hasil asesmen kepribadian telah tersimpan, namun kamu belum memilih karier untuk dianalisis kesenjangan skill-nya.
+          </p>
+          <a href="/assessment" className="btn-primary inline-flex">
+            Lanjutkan Asesmen
+          </a>
+        </div>
       </div>
     );
   }

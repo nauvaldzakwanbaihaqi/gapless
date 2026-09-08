@@ -16,11 +16,14 @@ const getQuizKey = (title: string) => {
         'ui-ux-designer': 'ui-ux-designer',
         'content-creator-social-media-specialist': 'content-creator',
         'software-engineer-front-back-full-stack': 'software-engineer',
-        'data-analyst-business-intelligence': 'data-analyst',
+        'ai-ml-engineer-machine-learning-engineer': 'ai-ml-engineer',
         'devops-engineer-qa-automation-engineer': 'devops-qa-engineer',
+        'data-analyst-business-intelligence': 'data-analyst',
         'data-researcher-strategy-analyst': 'data-researcher',
         'digital-marketing-specialist': 'digital-marketing',
         'business-development-account-executive': 'business-development',
+        'graphic-designer-digital-creative-product-designer': 'graphic-designer',
+        'e-commerce-dropship-specialist': 'ecommerce-specialist',
     };
     return aliases[slug] || slug;
 };

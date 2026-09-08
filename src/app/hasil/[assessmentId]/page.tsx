@@ -24,6 +24,10 @@ export default async function ResultDetailPage({ params }: { params: Promise<{ a
     redirect('/results');
   }
 
+  if (!result.selectedCareer) {
+    redirect('/results');
+  }
+
   // ⚠️ OWNERSHIP CHECK ⚠️
   if (result.userId !== session.user.id) {
     return (
