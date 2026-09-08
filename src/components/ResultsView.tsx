@@ -63,7 +63,7 @@ export function ResultsView() {
                   ? 'Menghubungkan ke neural engine...'
                   : aiError
                     ? 'Analisis AI sedang tidak tersedia'
-                    : `Didukung oleh ${aiInsight?.ai_engine_used === 'gemini' ? 'Google Gemini' : 'Groq'} — berdasarkan pola jawaban spesifikmu`
+                    : 'Didukung oleh AI Cerdas Gapless — berdasarkan pola jawaban spesifikmu'
                 }
               </p>
             </div>

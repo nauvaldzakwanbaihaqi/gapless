@@ -185,7 +185,7 @@ export default function ModuleDetailClient({
         <div className="flex flex-col items-center gap-4 text-center">
           <Sparkles className="w-12 h-12 text-blue-500 animate-pulse" />
           <h2 className="text-2xl font-bold text-slate-800">AI Sedang Meracik Kurikulum...</h2>
-          <p className="text-slate-500 max-w-md">Gemini sedang mencari silabus dan link sumber belajar terbaik untuk modul &quot;{moduleTitle}&quot;.</p>
+          <p className="text-slate-500 max-w-md">AI sedang meracik silabus dan mencari sumber belajar terbaik untuk modul &quot;{moduleTitle}&quot;.</p>
         </div>
       </div>
     );
