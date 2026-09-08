@@ -14,316 +14,466 @@ export const quizBank: Record<string, QuizQuestion[]> = {
     "software-engineer": [
         {
             "id": "se-1",
-            "question": "Sistem payment gateway Anda mengalami lonjakan trafik 50x lipat yang menyebabkan database utama mengalami deadlock dan antrean message broker menumpuk. Anda dihadapkan pada pilihan sulit: memulihkan layanan dengan risiko integritas data, melakukan perbaikan arsitektur yang memakan waktu namun permanen, atau mengutamakan komunikasi transparan dengan stakeholder untuk mengelola ekspektasi publik. Sebagai Lead Engineer, strategi manakah yang Anda prioritaskan untuk menangani krisis ini?",
+            "question": "Sistem payment gateway Anda mengalami lonjakan trafik 50x lipat yang menyebabkan database utama mengalami deadlock dan antrean message broker menumpuk. Sebagai Lead Engineer, strategi teknis manakah yang Anda prioritaskan untuk menangani krisis ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi komunikasi krisis secara real-time kepada seluruh stakeholder dan tim internal untuk menyelaraskan ekspektasi, sambil menunda tindakan teknis drastis guna memastikan setiap keputusan diambil melalui konsensus tim agar tidak terjadi kesalahan fatal akibat tekanan yang tinggi.",
+                    "text": "Menginisiasi komunikasi krisis dan rapat berkepanjangan dengan seluruh stakeholder untuk mencari konsensus bersama sebelum mengambil tindakan teknis apapun.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan tindakan mitigasi darurat berupa pemutusan koneksi idle, pengalihan trafik ke read-replica, dan pembersihan antrean message broker untuk memulihkan ketersediaan layanan secara instan demi menyelamatkan target transaksi bisnis saat ini.",
-                    "score": 5
+                    "text": "Melakukan mitigasi darurat berupa pemutusan koneksi idle pool dan mengalihkan semua query baca/tulis ke read-replica sementara tanpa membedakan transaksi finansial.",
+                    "score": 4
                 },
                 {
                     "label": "C",
-                    "text": "Menghentikan sementara layanan untuk melakukan isolasi pada root cause deadlock, menerapkan optimasi query secara permanen, dan melakukan refactoring pada mekanisme antrean untuk memastikan stabilitas sistem jangka panjang serta integritas data yang absolut, meskipun harus menghadapi downtime yang lebih lama.",
+                    "text": "Mengaktifkan distributed rate limiting & circuit breaker di layer gateway, mendrain antrean duplikat, dan mengisolasi transaksi finansial dengan timeout lock pendek terukur.",
                     "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menghentikan sementara layanan untuk isolasi root cause deadlock, menerapkan optimasi query indeks, dan refactoring antrean message broker, meski menyebabkan downtime terencana 30 menit.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Menambah kapasitas CPU & memory database secara vertikal (scale-up instan) tanpa mengubah konfigurasi isolasi transaksi atau query locking.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-2",
-            "question": "Platform e-commerce Anda akan meluncurkan fitur dompet digital dalam 3 jam. QA menemukan race condition yang berisiko menyebabkan inkonsistensi saldo pada transaksi simultan. Di satu sisi, menunda rilis akan merusak kepercayaan investor dan membatalkan kampanye pemasaran besar-besaran yang sudah berjalan. Di sisi lain, membiarkan bug ini berpotensi menyebabkan kerugian finansial perusahaan dan hilangnya kepercayaan pengguna. Sebagai Lead Engineer, bagaimana Anda menyikapi tekanan ini?",
+            "question": "Platform e-commerce Anda akan meluncurkan fitur dompet digital dalam 3 jam. QA menemukan race condition yang berisiko menyebabkan inkonsistensi saldo pada transaksi simultan. Bagaimana Anda menyikapi situasi ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan penundaan rilis untuk melakukan refactoring mendalam guna mengimplementasikan mekanisme locking atau atomic operations yang solid, karena integritas data adalah fondasi utama kepercayaan pengguna yang tidak boleh dikompromikan demi target jangka pendek.",
+                    "text": "Menunda rilis untuk mengimplementasikan transaksi atomik berbasis DB serializable isolation level atau distributed lock (Redis Redlock/optimistic locking dengan versioning), demi zero-tolerance integritas saldo.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Mengadakan diskusi terbuka dengan seluruh pemangku kepentingan untuk menyelaraskan ekspektasi, mendengarkan kekhawatiran tim teknis maupun bisnis, serta membangun konsensus bersama mengenai langkah mitigasi yang paling dapat diterima oleh semua pihak.",
+                    "text": "Mengadakan diskusi terbuka dengan stakeholder bisnis untuk menyelaraskan ekspektasi kompromi tanpa melakukan perbaikan pada layer transaksi data.",
                     "score": 0
                 },
                 {
                     "label": "C",
-                    "text": "Menerapkan hotfix sementara dengan membatasi jumlah transaksi per detik (rate limiting) dan menambahkan antrean (queueing) untuk menstabilkan sistem, sehingga rilis tetap berjalan sesuai jadwal sambil terus memantau data secara ketat di lingkungan produksi.",
-                    "score": 5
+                    "text": "Menerapkan pembatasan rate limit transaksi per user per detik dan antrean asinkron untuk menekan kemungkinan transaksi bersamaan tanpa mengubah logika query.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menerapkan hotfix penanganan race condition dengan row-level lock (SELECT ... FOR UPDATE) pada query update saldo di controller utama, sambil memantau log transaksi secara intensif.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Menambahkan pengecekan saldo ganda di sisi frontend dan delay 2 detik pada tombol submit transaksi untuk mencegah klik berulang.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-3",
-            "question": "Anda memimpin tim engineering di sebuah startup yang sedang melakukan ekspansi agresif. Produk utama Anda saat ini mengalami degradasi performa akibat akumulasi utang teknis (technical debt) yang signifikan. Di sisi lain, tim produk baru saja mendapatkan komitmen investasi besar dengan syarat peluncuran fitur unggulan dalam dua minggu ke depan. Jika Anda memaksakan perbaikan arsitektur, fitur akan tertunda dan pendanaan terancam batal. Jika Anda memaksakan peluncuran fitur, sistem berisiko mengalami downtime permanen yang akan merusak reputasi jangka panjang perusahaan. Bagaimana Anda mengambil keputusan strategis ini?",
+            "question": "Startup Anda sedang ekspansi agresif. Produk utama mengalami degradasi performa akibat akumulasi utang teknis (technical debt), sementara fitur baru dijanjikan ke investor dalam 2 minggu. Bagaimana Anda mengambil keputusan strategis ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi sesi kolaborasi lintas departemen yang intensif untuk memetakan ekspektasi pemangku kepentingan, memastikan setiap anggota tim merasa memiliki andil dalam keputusan, serta membangun konsensus kolektif mengenai kompromi yang akan diambil agar seluruh organisasi tetap selaras dan termotivasi meski dalam tekanan tinggi.",
+                    "text": "Mengalokasikan 100% kapasitas tim untuk rapat koordinasi lintas divisi dan pembagian tugas tanpa eksekusi teknis pada modul kritis.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengadopsi pendekatan pragmatis dengan melakukan refactoring minimalis pada modul kritis saja dan menerapkan strategi 'feature flagging' yang ketat, sehingga fitur tetap dapat dirilis tepat waktu untuk mengamankan pendanaan sambil tetap menjaga stabilitas sistem melalui mitigasi risiko yang terukur.",
-                    "score": 5
+                    "text": "Menerapkan strategi modular decoupling: refactoring terbatas pada modul bottleneck kritis, menerapkan feature flagging untuk fitur baru, dan mengisolasi database path agar fitur baru tidak memperparah degradasi.",
+                    "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Mengambil keputusan untuk menunda peluncuran fitur guna melakukan restrukturisasi arsitektur secara fundamental, dengan menyusun argumen berbasis data mengenai risiko kegagalan sistem kepada manajemen, demi memastikan skalabilitas jangka panjang dan kesehatan teknis produk yang lebih berkelanjutan.",
-                    "score": 10
+                    "text": "Menunda peluncuran fitur baru selama 1 sprint untuk restrukturisasi arsitektur secara mendasar dengan mempresentasikan data risiko teknis dan cost-of-outage kepada manajemen.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Membangun fitur baru di atas codebase lama secepatnya dengan mengabaikan test coverage, dengan janji refactoring total setelah pendanaan cair.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Menambahkan layer Redis cache generik di seluruh endpoint untuk menutupi query lambat tanpa menyentuh technical debt di level arsitektur database.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-4",
-            "question": "Dua jam sebelum peluncuran fitur utama yang telah tertunda berkali-kali, kamu menemukan celah Broken Object Level Authorization (BOLA) pada API. Manajer proyek menekan agar rilis tetap berjalan demi memenuhi ekspektasi investor, sementara tim keamanan menuntut penundaan total untuk perbaikan menyeluruh. Sebagai pemimpin teknis, kamu harus memutuskan langkah strategis yang menyeimbangkan integritas sistem dengan kelangsungan bisnis.",
+            "question": "Dua jam sebelum peluncuran fitur utama, kamu menemukan celah Broken Object Level Authorization (BOLA/IDOR) pada API endpoint sensitif. Tindakan teknis apa yang harus diambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan pertemuan darurat dengan seluruh pemangku kepentingan untuk memetakan dampak risiko terhadap kepercayaan pengguna dan reputasi perusahaan, guna mencapai konsensus kolektif mengenai langkah mitigasi yang paling dapat diterima oleh semua pihak.",
-                    "score": 0
+                    "text": "Mengubah format identifier dari integer auto-increment menjadi UUID v4 (obfuscation) agar endpoint sulit ditebak oleh pihak luar.",
+                    "score": 4
                 },
                 {
                     "label": "B",
-                    "text": "Menerapkan hotfix segera berupa validasi kepemilikan objek pada layer controller untuk memitigasi celah tersebut tanpa mengubah arsitektur, sehingga rilis tetap berjalan sesuai jadwal dan komitmen bisnis tetap terjaga.",
-                    "score": 5
+                    "text": "Menerapkan hotfix validasi kepemilikan objek langsung di dalam blok controller endpoint tersebut secara spesifik agar rilis tetap aman dan jadwal bisnis terpenuhi.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Menunda rilis secara resmi untuk melakukan refactoring pada layer otorisasi API guna memastikan implementasi kebijakan akses yang terpusat dan teruji, sebagai investasi jangka panjang demi stabilitas sistem dan keamanan data yang berkelanjutan.",
+                    "text": "Mengimplementasikan middleware otorisasi terpusat yang memvalidasi kepemilikan resource (user_id == resource.owner_id) sebelum handler dieksekusi, atau membatalkan rilis jika belum terproteksi.",
                     "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan Web Application Firewall (WAF) rule untuk memblokir pola request anomali tanpa memperbaiki logika verifikasi izin akses di backend.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Melanjutkan rilis dengan menyembunyikan endpoint dari dokumentasi publik dan mengandalkan keamanan token JWT yang sudah ada.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "se-5",
-            "question": "Dua jam sebelum peluncuran fitur utama, pengujian beban menunjukkan latensi kritis pada dashboard admin akibat masalah N+1 query pada modul artikel. Sebagai Lead Developer, Anda dihadapkan pada pilihan sulit: menunda peluncuran yang telah dijanjikan kepada stakeholder untuk melakukan perbaikan teknis yang mendalam, atau mengambil tindakan mitigasi cepat yang berisiko menyisakan utang teknis (technical debt) di masa depan. Bagaimana Anda menyikapi situasi ini?",
+            "question": "Dua jam sebelum peluncuran fitur utama, pengujian beban menunjukkan latensi kritis pada dashboard admin akibat masalah N+1 query pada modul artikel. Bagaimana Anda menyikapinya?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi komunikasi transparan dengan stakeholder mengenai risiko teknis yang ditemukan, lalu memfasilitasi diskusi kolaboratif untuk menyelaraskan ekspektasi antara kebutuhan bisnis dan kapasitas tim, agar keputusan peluncuran diambil berdasarkan konsensus bersama yang menjaga moral serta kepercayaan antar departemen.",
+                    "text": "Memindahkan query data artikel ke client-side fetching dengan ratusan request parallel via browser.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan refactoring sistematis pada modul artikel dengan mengimplementasikan pola repository dan optimasi query secara menyeluruh, meskipun hal ini mengharuskan penundaan peluncuran demi memastikan integritas arsitektur, skalabilitas jangka panjang, dan stabilitas sistem yang berkelanjutan.",
+                    "text": "Mengimplementasikan eager loading dengan query batching (join/include relasi) dan pagination terbatas di backend, serta menambahkan profiling query pada CI pipeline.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menerapkan hotfix berupa caching pada level aplikasi dan eager loading terbatas untuk menekan latensi secara instan, sehingga target peluncuran tetap tercapai sesuai jadwal, dengan komitmen untuk melakukan pembersihan utang teknis tersebut pada sprint berikutnya.",
-                    "score": 5
+                    "text": "Menerapkan caching di level Redis untuk hasil query artikel dan eager loading parsial pada relasi utama untuk memangkas latensi seketika.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan indeks database pada foreign key relasi artikel tanpa memperbaiki loop query N+1 di layer ORM.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Menaikkan connection pool database dan RAM server agar mampu menangani ratusan query serial per request.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-6",
-            "question": "Platform e-commerce Anda mengalami lonjakan trafik ekstrem tepat dua jam sebelum kampanye besar, menyebabkan latensi pencarian melonjak hingga 10 detik dengan CPU mencapai 99%. Anda dihadapkan pada pilihan sulit: melakukan optimasi teknis mendalam yang berisiko tinggi terhadap stabilitas sistem jika terjadi kesalahan konfigurasi, melakukan scale-up infrastruktur secara agresif yang menelan biaya operasional sangat besar, atau menghentikan sementara fitur pencarian untuk menjaga stabilitas layanan inti (checkout) demi menjaga kepercayaan pelanggan.",
+            "question": "Platform e-commerce Anda mengalami lonjakan trafik ekstrem tepat dua jam sebelum kampanye besar, menyebabkan latensi pencarian melonjak hingga 10 detik dengan CPU mencapai 99%. Solusi apa yang paling tepat?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Melakukan load shedding pada fitur pencarian dan mengalihkan trafik ke halaman statis, serta segera mengumpulkan seluruh stakeholder untuk menyelaraskan ekspektasi mengenai penurunan performa fitur tertentu demi memastikan alur checkout tetap berjalan lancar dan menjaga harmoni antar departemen.",
+                    "text": "Menonaktifkan total fitur pencarian dan mengarahkan semua pengguna ke halaman katalog statis tanpa pencarian.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan scaling infrastruktur secara vertikal dengan menambah kapasitas server secara instan untuk menampung lonjakan beban, meskipun hal ini akan menyebabkan pembengkakan biaya operasional yang signifikan di luar anggaran bulanan.",
-                    "score": 5
+                    "text": "Melakukan vertical scale-up server database dan web server secara instan dengan spesifikasi 4x lipat.",
+                    "score": 4
                 },
                 {
                     "label": "C",
-                    "text": "Menerapkan covering index pada kolom pencarian untuk eliminasi lookup data dan mengaktifkan query caching pada layer aplikasi untuk memangkas eksekusi, guna menyelesaikan akar masalah performa secara struktural tanpa harus menambah biaya infrastruktur atau mengorbankan fitur.",
+                    "text": "Mengaktifkan query caching untuk keyword populer, membatasi pagination/result limit, menerapkan covering index pada kolom pencarian, dan load shedding jika beban terus naik.",
                     "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menerapkan covering index pada database dan mengalihkan pembacaan search ke read-replica yang didedikasikan secara khusus.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Mematikan fungsi sorting dan filter kompleks pada frontend untuk mengurangi beban query secara artifisial.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-7",
-            "question": "Sistem payment gateway Anda mengalami deadlock saat peak traffic akibat konflik refactoring pada shared service. Anda memiliki waktu 4 jam sebelum sistem crash total. Di sisi lain, tim sedang mengalami kelelahan (burnout) tinggi dan dua pengembang kunci yang bertanggung jawab atas kode tersebut memiliki ego profesional yang kuat. Sebagai Lead, manakah pendekatan yang Anda ambil untuk menangani krisis ini?",
+            "question": "Sistem payment gateway Anda mengalami deadlock saat peak traffic akibat konflik refactoring pada shared service. Anda memiliki waktu 4 jam sebelum sistem crash total. Pendekatan manakah yang diambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi sesi kolaborasi terbuka untuk memfasilitasi dialog antara kedua pengembang agar mereka dapat menyelaraskan pemahaman teknis mereka. Fokus utama adalah memastikan setiap anggota tim merasa didengar dan memiliki rasa kepemilikan (ownership) terhadap solusi yang dihasilkan, sehingga harmoni tim tetap terjaga pasca-krisis.",
+                    "text": "Menahan deployment dan menggelar mediasi diskusi personal tanpa mengambil tindakan teknis mitigasi pada sistem yang sedang deadlock.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Segera melakukan hard-revert ke versi stabil terakhir untuk memulihkan layanan, kemudian menerapkan arsitektur database-level pessimistic locking dan memisahkan logika ke dalam isolated service worker. Strategi ini memprioritaskan stabilitas sistem jangka panjang dan penghapusan akar masalah teknis secara struktural, meskipun memerlukan usaha rekayasa yang intensif.",
+                    "text": "Segera rollback ke commit stabil terakhir, menetapkan timeout transaksi pendek, lalu memecah lock contention dengan memisahkan transaksi menjadi micro-task asinkron yang independen.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Mengarahkan kedua pengembang untuk melakukan pair programming intensif guna menggabungkan logika kedua fitur tersebut ke dalam satu fungsi tunggal yang dapat segera dideploy. Pendekatan ini memprioritaskan pemenuhan target bisnis dan ketersediaan fitur bagi pengguna dalam waktu sesingkat mungkin, dengan mengesampingkan optimasi arsitektur untuk sementara waktu.",
-                    "score": 5
+                    "text": "Menginstruksikan pengembang menggabungkan kode ke dalam satu file besar dengan try-catch luas agar tidak melempar error.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Melakukan hard-revert ke versi stabil terakhir, lalu menerapkan pessimistic locking pada tingkat database untuk mencegah konflik penulisan konkuren.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Mengubah tingkat isolasi database menjadi Read Uncommitted (dirty reads) agar query tidak saling menunggu lock.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-8",
-            "question": "Website portal berita klien mengalami lonjakan trafik 500% yang tidak terprediksi tepat 24 jam sebelum peluncuran besar. Sebagai Lead Developer, Anda dihadapkan pada dilema antara menjaga stabilitas sistem, memenuhi ekspektasi klien yang sangat ketat, atau menjaga integritas tim yang sudah kelelahan. Langkah strategis apa yang Anda ambil?",
+            "question": "Website portal berita klien mengalami lonjakan trafik 500% yang tidak terprediksi tepat 24 jam sebelum peluncuran besar. Langkah strategis arsitektur apa yang diambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi diskusi terbuka dengan klien dan tim untuk mengevaluasi ulang ruang lingkup peluncuran, dengan mengusulkan peluncuran bertahap guna menjaga kesejahteraan tim dan memastikan keselarasan ekspektasi semua pihak agar kolaborasi jangka panjang tetap terjaga.",
+                    "text": "Mengusulkan penundaan peluncuran dan meminta klien membatasi promosi media agar trafik tidak melebihi kapasitas origin server.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menerapkan arsitektur Static Site Generation (SSG) dengan konfigurasi CDN edge caching yang agresif untuk memindahkan beban komputasi dari server origin, guna memastikan skalabilitas sistem yang tangguh dan performa Core Web Vitals yang optimal dalam jangka panjang.",
+                    "text": "Mengubah arsitektur rendering halaman publik menjadi ISR/SSG dengan CDN edge caching (Cloudflare/Fastly) dan stale-while-revalidate untuk offload 95%+ trafik dari origin server.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Melakukan optimasi cepat pada query database dan mengaktifkan load balancer tambahan untuk menangani lonjakan trafik secara instan, demi memastikan target peluncuran tetap tercapai sesuai jadwal tanpa harus melakukan perombakan arsitektur yang berisiko di menit terakhir.",
-                    "score": 5
+                    "text": "Menambah instance server backend di belakang load balancer (horizontal autoscaling) tanpa menyentuh layer caching atau CDN.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menerapkan caching HTML penuh di level reverse proxy (Nginx) dan mengoptimasi query database terberat.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Mengaktifkan kompresi Gzip/Brotli agresif dan minifikasi aset statis untuk menghemat bandwidth server.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-9",
-            "question": "Anda memimpin tim engineering dalam peluncuran dashboard real-time yang krusial. Empat jam sebelum deadline, ditemukan memory leak yang menyebabkan crash saat beban tinggi. Anda dihadapkan pada dilema: melakukan perbaikan teknis mendalam yang berisiko melampaui tenggat waktu, menerapkan solusi sementara (workaround) yang menjamin peluncuran tepat waktu namun meninggalkan utang teknis, atau mengomunikasikan risiko ini kepada klien untuk menegosiasikan ulang ekspektasi demi menjaga kesehatan tim dan kualitas jangka panjang. Apa langkah strategis Anda?",
+            "question": "Anda memimpin tim engineering dalam peluncuran dashboard real-time yang krusial. Empat jam sebelum deadline, ditemukan memory leak yang menyebabkan crash saat beban tinggi. Apa langkah strategis Anda?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi sesi diskusi terbuka dengan klien dan tim untuk memaparkan realitas teknis yang ada, guna menyelaraskan ekspektasi ulang dan membangun konsensus kolektif mengenai prioritas fitur yang dapat diluncurkan hari ini tanpa mengorbankan kesejahteraan tim.",
+                    "text": "Mematikan fitur update real-time dan menggantinya dengan auto-refresh halaman setiap 5 detik via browser meta tag.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menerapkan mekanisme restart otomatis (auto-scaling/reboot) pada service yang terdampak sebagai solusi pragmatis untuk menjaga stabilitas dashboard agar tetap dapat diakses klien tepat waktu, sembari menjadwalkan perbaikan akar masalah secara menyeluruh setelah peluncuran.",
-                    "score": 5
+                    "text": "Menerapkan mekanisme automatic rolling restart pada container/service setiap kali penggunaan RAM menyentuh 80%.",
+                    "score": 4
                 },
                 {
                     "label": "C",
-                    "text": "Mengalokasikan seluruh sumber daya untuk mengisolasi heap dump dan melakukan refactoring pada lifecycle hook yang bermasalah guna memastikan stabilitas sistem yang permanen, meskipun harus mengambil risiko keterlambatan peluncuran demi menjaga integritas arsitektur produk.",
+                    "text": "Menganalisis heap snapshot untuk menemukan unclosed event listener/WebSocket connection, melakukan cleanup pada lifecycle teardown, dan membatasi buffer data di memory.",
                     "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Mengisolasi memory leak ke worker thread terpisah dan menambahkan garbage collection hook berkala serta buffer limit.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Menaikkan memory limit container dari 1GB menjadi 8GB agar proses tidak cepat terkena OOM killer.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-10",
-            "question": "Sistem pemesanan tiket konser Anda akan dibuka dalam 60 menit, namun simulasi beban terakhir menunjukkan database utama mengalami deadlock kronis akibat lonjakan transaksi konkuren yang masif. Anda dihadapkan pada pilihan sulit: memaksakan sistem berjalan dengan risiko gangguan teknis, melakukan perubahan arsitektur yang berisiko tinggi namun solutif, atau menunda peluncuran yang akan berdampak pada reputasi bisnis dan ekspektasi pemangku kepentingan.",
+            "question": "Sistem pemesanan tiket konser Anda akan dibuka dalam 60 menit, namun simulasi beban terakhir menunjukkan database utama mengalami deadlock kronis akibat lonjakan transaksi konkuren yang masif. Pilihan mitigasi terbaik?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh anggota tim untuk melakukan sesi sinkronisasi cepat guna menyepakati strategi mitigasi risiko bersama, memastikan transparansi komunikasi kepada manajemen mengenai potensi kendala, serta membangun konsensus agar seluruh tim memiliki rasa kepemilikan dan tanggung jawab kolektif dalam menghadapi lonjakan trafik yang akan datang.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Menerapkan database sharding berbasis user-id untuk memecah lock contention, mengaktifkan read-replica untuk offloading query, serta mengimplementasikan optimistic locking pada level aplikasi sebagai solusi struktural yang fundamental untuk menjamin integritas data dan skalabilitas sistem dalam jangka panjang, meskipun membutuhkan ketelitian tinggi dalam waktu singkat.",
+                    "text": "Menggunakan Redis atomic decrement/token bucket untuk reservasi kuota tiket di in-memory cache, lalu memasukkan order valid ke message queue untuk penulisan DB asinkron.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menghapus constraint unique dan transaksi ACID pada database demi kecepatan insert tiket.",
+                    "score": 0
+                },
+                {
                     "label": "C",
-                    "text": "Melakukan bypass sementara pada validasi database yang tidak krusial dan menerapkan antrean (queueing) berbasis message broker untuk menahan laju transaksi masuk, demi memastikan sistem tetap dapat melayani pemesanan tepat waktu sesuai target bisnis, sembari menunda perbaikan arsitektur mendalam setelah periode puncak penjualan berakhir.",
-                    "score": 5
+                    "text": "Menerapkan antrean virtual (virtual waiting room) di frontend untuk membatasi jumlah user yang masuk ke halaman pembayaran.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menerapkan database sharding dan optimistic locking berbasis kolom versioning pada baris tiket di database.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Menggunakan tabel transaksi sementara (temporary table) tanpa foreign key constraint untuk mempercepat penulisan order.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-11",
-            "question": "Aplikasi e-commerce Anda dijadwalkan rilis dalam dua jam. Audit performa mendadak menunjukkan ukuran bundle JavaScript mencapai 3MB dengan TTI di atas 10 detik. Investor menuntut rilis tepat waktu untuk mengejar momentum kampanye marketing, namun performa saat ini berisiko tinggi menyebabkan bounce rate yang masif. Sebagai lead developer, tindakan apa yang Anda ambil?",
+            "question": "Aplikasi e-commerce Anda dijadwalkan rilis dalam dua jam. Audit performa mendadak menunjukkan ukuran bundle JavaScript mencapai 3MB dengan TTI di atas 10 detik. Tindakan teknis apa yang Anda ambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh pemangku kepentingan untuk memaparkan data performa secara transparan, menegosiasikan penundaan rilis selama 24 jam guna memastikan stabilitas sistem, serta membangun kesepakatan kolektif agar tim tidak mengalami kelelahan akibat tekanan rilis yang dipaksakan.",
+                    "text": "Membiarkan bundle 3MB tetap utuh dan memasang animasi skeleton loader panjang agar user mengira aplikasi sedang loading normal.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan strategi code-splitting berbasis rute secara agresif dan menerapkan dynamic imports pada komponen non-kritis untuk memangkas initial payload, sekaligus mengonfigurasi ulang tree-shaking pada bundler guna memastikan arsitektur aplikasi tetap optimal dan scalable untuk jangka panjang.",
+                    "text": "Menerapkan dynamic import (code splitting berbasis rute dan komponen berat), tree-shaking library pihak ketiga, dan deferring non-critical script.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Melakukan kompresi aset gambar secara masif ke format WebP, menghapus library pihak ketiga yang tidak esensial, dan menerapkan caching strategy pada level CDN untuk menekan TTI secara instan tanpa mengubah struktur logika aplikasi yang sudah stabil demi memenuhi tenggat waktu rilis.",
-                    "score": 5
+                    "text": "Mengaktifkan kompresi Brotli di level server dan mengompresi gambar banner ke format WebP.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Melakukan code splitting pada rute utama dan memindahkan library besar ke CDN eksternal via script tag asynchronous.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Menghapus source maps dan menjalankan tool obfuscation kode agar ukuran file sedikit menyusut.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-12",
-            "question": "Sistem inti perusahaan mengalami degradasi performa kritis akibat bottleneck pada modul otorisasi. Anda memiliki waktu 24 jam untuk memulihkan layanan sebelum terjadi kerugian finansial masif. Struktur data 'Many-to-Many' yang ada sangat rapuh dan berisiko tinggi terhadap anomali data jika dilakukan migrasi skema secara penuh. Sebagai pemimpin teknis, Anda dihadapkan pada pilihan strategi pemulihan yang memiliki konsekuensi jangka panjang yang berbeda bagi stabilitas sistem dan operasional perusahaan.",
+            "question": "Sistem inti perusahaan mengalami degradasi performa kritis akibat bottleneck pada modul otorisasi data relasi Many-to-Many. Strategi apa yang paling solutif?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi pertemuan lintas departemen untuk memetakan dampak operasional dari setiap opsi teknis, memastikan seluruh pemangku kepentingan memahami risiko dan memberikan persetujuan kolektif, sehingga keputusan akhir memiliki legitimasi kuat serta menjaga harmoni kerja tim di tengah tekanan krisis.",
+                    "text": "Menonaktifkan pengecekan izin pada level sub-modul dan hanya memvalidasi status login user.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menerapkan caching layer pada level aplikasi menggunakan Redis untuk menyimpan mapping User-Role sebagai key-value pair, guna memotong latensi query database secara instan tanpa menyentuh skema relasional yang rapuh, sehingga stabilitas sistem pulih dengan cepat tanpa risiko migrasi data.",
-                    "score": 5
+                    "text": "Membuat tabel cache denormalisasi hak akses (flattened permission bitmap) atau caching token izin di Redis dengan invalidasi berbasis event saat role berubah.",
+                    "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Melakukan normalisasi database secara menyeluruh dengan menerapkan tabel junction dan constraint foreign key yang ketat, meskipun proses ini berisiko tinggi melebihi batas waktu 24 jam, demi memastikan integritas referensial dan menghilangkan akar masalah bottleneck secara permanen.",
-                    "score": 10
+                    "text": "Menyimpan seluruh array ID permission ke dalam kolom JSONB pada tabel user tanpa tabel relasi.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan compound index pada foreign keys tabel pivot relasi dan menerapkan eager loading berindeks di query middleware.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Melakukan caching seluruh tabel otorisasi ke memory variabel global aplikasi tanpa mekanisme sinkronisasi multi-instance.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-13",
-            "question": "Sistem e-commerce utama Anda mengalami serangan distributed brute force yang sangat canggih tepat di puncak kampanye promosi tahunan. Database berada di ambang kegagalan total, sementara manajemen menuntut akses VIP tetap berjalan untuk menjaga loyalitas klien besar, dan tim operasional mendesak adanya komunikasi publik segera untuk menjaga kepercayaan pelanggan. Anda harus memilih strategi respons di tengah tekanan waktu yang sangat ketat.",
+            "question": "Sistem e-commerce utama Anda mengalami serangan distributed brute force login tepat di tengah peluncuran produk flash sale. Langkah pertahanan teknis apa yang harus diambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi rapat koordinasi lintas divisi untuk menyelaraskan narasi komunikasi krisis dan memastikan setiap pemangku kepentingan memiliki pemahaman yang sama mengenai dampak teknis, sehingga keputusan yang diambil mencerminkan konsensus kolektif dan menjaga harmoni hubungan internal maupun eksternal perusahaan.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Menerapkan arsitektur pertahanan berlapis dengan mengaktifkan circuit breaker pada API gateway, menerapkan rate limiting berbasis prioritas pada sesi terautentikasi, serta melakukan drop pada trafik mencurigakan untuk menstabilkan database secara sistematis guna memastikan integritas jangka panjang sistem.",
+                    "text": "Mengimplementasikan adaptive rate limiting berbasis IP + username/fingerprint di layer API gateway, mengaktifkan CAPTCHA kontekstual (Cloudflare Turnstile), dan mengisolasi auth service dengan circuit breaker.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Mengubah endpoint login ke URL rahasia baru tanpa sistem proteksi rate limiting otomatis.",
+                    "score": 0
+                },
+                {
                     "label": "C",
-                    "text": "Menghentikan sementara seluruh akses masuk ke sistem dan mengalihkannya ke halaman maintenance statis yang informatif, guna memitigasi risiko kerusakan data secara instan dan memberikan ruang bagi tim untuk memulihkan layanan secara bertahap demi memenuhi target operasional jangka pendek.",
-                    "score": 5
+                    "text": "Mengunci akun (lock account) selama 30 menit setelah 5 kali percobaan password salah.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menerapkan IP-based rate limiting ketat pada endpoint /api/login dan mewajibkan OTP/2FA untuk semua akun yang terdeteksi login anomali.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Menambahkan sleep/delay 3 detik pada backend setiap kali request login gagal untuk memperlambat penyerang.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-14",
-            "question": "Aplikasi internal perusahaan akan diluncurkan dalam 24 jam. Manajer produk menuntut fitur 'One-Click Account Recovery' untuk menekan angka tiket dukungan, sementara tim keamanan menolak keras karena risiko eksfiltrasi data. Sebagai lead developer, Anda harus mengambil keputusan teknis yang krusial di tengah tekanan deadline ini.",
+            "question": "Manajer produk menuntut fitur 'One-Click Bulk Delete' data pelanggan tanpa mekanisme soft delete. Bagaimana Anda menanganinya secara arsitektur?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan penundaan peluncuran selama 48 jam untuk memfasilitasi sesi mitigasi risiko kolaboratif, memastikan seluruh pemangku kepentingan mencapai konsensus teknis yang disepakati bersama demi menjaga integritas budaya kerja dan keselarasan visi jangka panjang antar departemen.",
+                    "text": "Menuruti permintaan hard delete langsung tanpa audit trail atau backup demi performa kueri tercepat.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan sistem pemulihan akun dengan mekanisme verifikasi berbasis konteks (seperti verifikasi perangkat terpercaya dan log aktivitas) yang memperkuat arsitektur keamanan secara fundamental, meskipun memerlukan refactoring sistem autentikasi yang cukup kompleks dalam waktu singkat.",
+                    "text": "Mengimplementasikan soft delete (deleted_at), membatasi eksekusi dalam asynchronous background job dengan audit logging lengkap, dan mewajibkan 2FA konfirmasi sebelum eksekusi massal.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Mengaktifkan fitur pemulihan instan dengan batasan ketat pada durasi token dan implementasi rate-limiting yang agresif, sebagai solusi pragmatis untuk memenuhi target peluncuran tepat waktu tanpa mengabaikan kebutuhan keamanan dasar bagi pengguna.",
-                    "score": 5
+                    "text": "Menjalankan query SQL DELETE CASCADE langsung di dalam database transaction dengan popup konfirmasi browser 'Apakah Anda yakin?'.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menerapkan soft delete pada database dan validasi izin admin berjenjang sebelum data ditandai terhapus.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Membuat backup tabel manual sekali sebelum mengeksekusi hard delete massal via endpoint synchronous.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "se-15",
-            "question": "Sebagai Lead Engineer, Anda mendapati kebocoran memori pada service mesh tepat 45 menit sebelum peluncuran fitur global yang sangat dinanti. CEO menuntut rilis tepat waktu karena ketergantungan pada kampanye pemasaran masif yang sudah berjalan, sementara tim SRE memperingatkan bahwa memaksakan rilis dengan kondisi saat ini berisiko menyebabkan kegagalan sistem total dalam hitungan jam setelah peluncuran. Sebagai pemimpin, bagaimana Anda menavigasi situasi ini?",
+            "question": "Sebagai Lead Engineer, Anda mendapati kebocoran memori pada service mesh Envoy/Sidecar tepat 45 menit sebelum peluncuran sistem enterprise. Langkah apa yang diambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi komunikasi transparan dengan CEO dan pemangku kepentingan bisnis untuk memaparkan risiko teknis secara mendalam, sembari memfasilitasi ruang diskusi agar tim dapat mencapai konsensus kolektif mengenai strategi mitigasi yang paling dapat diterima oleh semua pihak demi menjaga kepercayaan dan harmoni organisasi.",
-                    "score": 0
+                    "text": "Menganalisis log connection draining, menyesuaikan batas max_connections dan buffer limit proxy, serta mengaktifkan fallback routing direct service jika sidecar overload.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Mengambil keputusan taktis untuk melakukan bypass pada sidecar proxy yang bermasalah dan mengalihkan trafik ke load balancer cadangan dengan konfigurasi statis, guna memastikan fitur tetap meluncur tepat waktu sambil menerima konsekuensi peningkatan beban kerja manual tim untuk pemantauan pasca-rilis.",
-                    "score": 5
+                    "text": "Menghapus service mesh secara total dari arsitektur 30 menit sebelum rilis tanpa pengujian keamanan komunikasi antar service.",
+                    "score": 0
                 },
                 {
                     "label": "C",
-                    "text": "Mengusulkan penundaan rilis secara terukur dengan memberikan argumen berbasis data mengenai potensi kerugian finansial akibat downtime, serta mengalihkan fokus tim untuk melakukan refactoring arsitektur komunikasi guna menyelesaikan akar masalah kebocoran memori secara permanen sebelum sistem diaktifkan kembali.",
-                    "score": 10
+                    "text": "Menaikkan alokasi resource limit CPU & RAM pada pod sidecar container di Kubernetes cluster.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Melakukan restart bertahap (rolling reload) pada sidecar proxy dan menurunkan keep-alive connection timeout.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Mematikan fitur tracing dan access log pada service mesh untuk menghemat penggunaan memori.",
+                    "score": 2
                 }
             ]
         }
@@ -331,316 +481,466 @@ export const quizBank: Record<string, QuizQuestion[]> = {
     "ui-ux-designer": [
         {
             "id": "uiux-1",
-            "question": "Anda adalah Lead Data Engineer di sebuah startup fintech yang sedang mengalami lonjakan latensi pada sistem batch processing saat periode pelaporan kuartalan investor. Infrastruktur cloud berada dalam batas normal, namun antrean message broker membengkak, menyebabkan sinkronisasi data ke database utama terhambat. Tim operasional menuntut laporan status segera karena investor menunggu data performa, sementara di sisi lain, tim engineering mencurigai adanya masalah pada arsitektur query yang tidak efisien yang jika dibiarkan akan mengakibatkan akumulasi hutang teknis (technical debt) yang lebih besar di masa depan. Sebagai pemimpin, langkah apa yang Anda ambil untuk menyeimbangkan kebutuhan mendesak dan integritas sistem?",
+            "question": "Dashboard analitik fintech mengalami lonjakan latensi rendering saat pengguna menerapkan filter data kompleks. Solusi UX/UI apa yang paling optimal?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi komunikasi transparan kepada seluruh pemangku kepentingan mengenai kendala teknis yang sedang dihadapi, sembari memfasilitasi diskusi lintas departemen untuk menyelaraskan ekspektasi pelaporan dan memastikan seluruh tim tetap memiliki pemahaman yang sama mengenai prioritas bisnis selama masa investigasi berlangsung.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan optimasi mendalam pada consumer group dan melakukan refactoring pada query yang menyebabkan contention, meskipun tindakan ini berisiko memperlambat penyelesaian laporan kuartalan dalam jangka pendek demi menjamin stabilitas arsitektur dan skalabilitas sistem di masa depan.",
+                    "text": "Menerapkan skeleton loading states kontekstual, optimasi visual hierarchy, dan virtual scrolling dengan feedback mikro-interaksi instan saat filter diterapkan.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menampilkan spinner loader global dengan estimasi waktu pemrosesan data dan caching visual pada filter sebelumnya.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Menerapkan solusi sementara berupa peningkatan resource sementara (vertical scaling) dan melakukan bypass pada validasi data tertentu untuk mempercepat sinkronisasi, guna memastikan laporan investor dapat diselesaikan tepat waktu sesuai tenggat yang dijanjikan, sebelum melakukan perbaikan teknis permanen di sprint berikutnya.",
-                    "score": 5
+                    "text": "Menyederhanakan tampilan tabel dengan menghapus kolom data penting agar beban rendering berkurang.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Memasang progress bar statis 0-100% yang berjalan otomatis tanpa mencerminkan status query data aktual.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Membiarkan layar membeku (freeze) tanpa indikator loading selama proses filter data berlangsung.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "uiux-2",
-            "question": "Produk aplikasi flagship kamu akan rilis dalam 48 jam. Tim frontend menemukan bahwa desain grid kustom yang menjadi daya tarik utama produk menyebabkan Cumulative Layout Shift (CLS) tinggi dan penurunan frame rate pada perangkat mobile entry-level. Sebagai Lead Engineer, kamu dihadapkan pada pilihan sulit antara mempertahankan integritas visual atau menjamin stabilitas performa teknis di bawah tekanan tenggat waktu yang sangat ketat.",
+            "question": "Produk aplikasi flagship kamu akan rilis dalam 48 jam. Tim frontend menemukan bahwa desain grid kustom tidak responsif pada layar kecil (mobile). Tindakan mitigasi terbaik?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi rapat koordinasi lintas departemen untuk mempresentasikan temuan teknis ini kepada product owner dan tim desain, guna mencapai konsensus kolektif mengenai kompromi visual yang dapat diterima oleh semua pihak sebelum rilis dilakukan.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan refactoring arsitektur grid ke standar CSS native yang lebih performan dan menerapkan contain-intrinsic-size untuk mengunci dimensi layout, meskipun harus mengorbankan beberapa detail estetika yang sebelumnya menjadi nilai jual utama.",
+                    "text": "Mendesain ulang layout menggunakan auto-layout responsive dengan fallback 1-kolom fleksibel pada breakpoint mobile tanpa merusak hierarki informasi penting.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Mengonversi grid kustom menjadi format horizontal scroll card (carousel) khusus pada viewport mobile.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Mempertahankan implementasi grid kustom saat ini untuk menjaga fidelitas visual, namun memprioritaskan optimasi agresif pada aset gambar dan caching layer untuk meminimalisir beban rendering, guna memastikan produk tetap rilis tepat waktu sesuai spesifikasi desain.",
-                    "score": 5
+                    "text": "Mengecilkan skala (scale down) seluruh elemen grid secara proporsional agar muat di layar kecil walau teks menjadi sangat kecil.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menyembunyikan 50% elemen grid di mobile dan hanya menampilkannya di desktop.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Memaksa tampilan desktop dengan horizontal scrollbar di perangkat mobile tanpa adaptasi layout.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "uiux-3",
-            "question": "Produk SaaS Anda mengalami penurunan retensi 15% MoM. Stakeholder mendesak peluncuran fitur 'Social Feed' dalam 14 hari untuk menahan churn, namun data teknis menunjukkan aplikasi sudah mencapai limit kognitif pengguna dan latensi tinggi. Menambahkan fitur ini akan meningkatkan payload sebesar 40%, yang berisiko memperburuk stabilitas sistem dan UX yang sudah rapuh, namun di sisi lain, penundaan fitur dapat menyebabkan hilangnya kepercayaan investor dan potensi kehilangan pangsa pasar yang signifikan.",
+            "question": "Produk SaaS Anda mengalami penurunan retensi 15% MoM. Stakeholder mendesak peluncuran fitur 'Social Sharing' gamifikasi. Bagaimana sikap Anda sebagai Lead Product Designer?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi forum diskusi lintas fungsi untuk membedah urgensi bisnis dan batasan teknis secara transparan, guna mencapai konsensus kolektif mengenai peta jalan produk yang paling dapat diterima oleh seluruh pemangku kepentingan tanpa mengorbankan kohesi tim.",
+                    "text": "Langsung menyetujui penambahan fitur social sharing di seluruh halaman tanpa validasi data problem retensi pengguna.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengakomodasi permintaan fitur dengan pendekatan MVP yang sangat minimalis, mengorbankan beberapa elemen visual non-esensial untuk menjaga payload tetap stabil, guna memenuhi tenggat waktu peluncuran demi menjaga momentum bisnis dan kepercayaan investor.",
-                    "score": 5
+                    "text": "Melakukan audit usability pada core workflow pengguna, analisis funnel drop-off, dan wawancara pengguna untuk menemukan titik friksi utama sebelum menambah fitur baru.",
+                    "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menunda peluncuran fitur dan mengalokasikan sumber daya untuk melakukan optimasi arsitektur serta refactoring sistem guna mengatasi masalah latensi, dengan argumen bahwa stabilitas fondasi adalah prasyarat mutlak untuk keberhasilan fitur baru di masa depan.",
-                    "score": 10
+                    "text": "Merancang A/B test antara optimasi alur onboarding inti vs implementasi fitur sharing terbatas untuk mengukur dampak retensi riil.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Mendesain fitur social sharing dengan pop-up banner mencolok setiap kali pengguna menyelesaikan tugas di dalam aplikasi.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Mengganti skema warna tombol CTA menjadi lebih kontras agar pengguna lebih sering menekan tombol fitur lama.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "uiux-4",
-            "question": "Sebagai Lead Design System, kamu baru saja merilis pembaruan 'Master Button' yang secara tidak sengaja menyebabkan ratusan instance di file produk mengalami 'override reset', merusak layout tepat dua jam sebelum deadline rilis fitur krusial. Tim engineering telah menunggu aset final untuk implementasi. Kamu dihadapkan pada pilihan sulit antara integritas sistem, komitmen bisnis, atau stabilitas tim.",
+            "question": "Sebagai Lead Design System, kamu baru saja merilis pembaruan 'Master Button' yang secara tidak sengaja merusak padding di 40+ layar aplikasi. Tindakan Anda?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh desainer untuk sesi evaluasi kolektif guna meredam kepanikan dan menyelaraskan pemahaman bersama, sembari memfasilitasi diskusi terbuka agar setiap anggota tim merasa didengar dan tetap termotivasi meski harus melakukan perbaikan manual secara gotong royong hingga deadline tercapai.",
+                    "text": "Menghapus semua varian button sekunder dan memaksa 1 ukuran button seragam di seluruh aplikasi.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan rollback instan ke versi library sebelumnya untuk memulihkan stabilitas aset bagi tim engineering agar rilis fitur tetap tepat waktu, kemudian menjadwalkan sesi perbaikan teknis mendalam setelah rilis untuk memastikan arsitektur komponen lebih tangguh di masa depan.",
-                    "score": 5
+                    "text": "Meminta tim frontend melakukan override hardcoded CSS padding secara manual di masing-masing 40 layar yang terdampak.",
+                    "score": 4
                 },
                 {
                     "label": "C",
-                    "text": "Segera melakukan rollback untuk mengamankan operasional, lalu menghentikan sementara alur kerja rilis guna melakukan audit menyeluruh pada 'Component Properties' dan menerapkan protokol 'Publishing Branch' yang ketat untuk mencegah terulangnya kegagalan struktural serupa di masa mendatang.",
+                    "text": "Segera rollback token komponen ke versi stabil sebelumnya di Figma & Code library, lalu membuat automated visual regression test sebelum merilis token baru.",
                     "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Membuat komponen tombol alternatif baru (ButtonV2) khusus untuk layar yang rusak sambil memperbaiki Master Button bertahap.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Membiarkan padding rusak untuk rilis minor ini dan menjadwalkan perbaikan saat major release berikutnya.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "uiux-5",
-            "question": "Anda adalah Lead Engineer untuk aplikasi perbankan mobile yang akan diluncurkan dalam 48 jam. Audit keamanan terakhir mengungkap celah enkripsi data lokal yang berisiko pada perangkat yang di-root. Manajemen bersikeras peluncuran tetap berjalan demi memenuhi komitmen investor, sementara memperbaiki arsitektur enkripsi secara total membutuhkan waktu satu minggu. Sebagai pemimpin teknis, Anda dihadapkan pada pilihan strategi untuk menyeimbangkan integritas sistem, target bisnis, dan ekspektasi pemangku kepentingan.",
+            "question": "Audit aksesibilitas (WCAG 2.1 AA) menunjukkan color contrast ratio gagal pada tombol utama aplikasi perbankan mobile. Langkah perbaikan apa yang diambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan penundaan peluncuran kepada manajemen dengan menyajikan analisis risiko mendalam dan mengadakan sesi diskusi terbuka bersama pemangku kepentingan untuk menyelaraskan ekspektasi, guna memastikan integritas produk tetap menjadi prioritas utama demi menjaga kepercayaan jangka panjang pengguna.",
+                    "text": "Mengabaikan hasil audit karena warna tombol adalah identitas brand utama yang tidak boleh disentuh.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan mekanisme 'root detection' pada runtime untuk memblokir eksekusi aplikasi pada perangkat yang tidak aman, serta menerapkan enkripsi berbasis hardware (Keystore/Keychain) secara terbatas pada data sensitif saja untuk meminimalisir surface area serangan tanpa mengubah arsitektur utama.",
+                    "text": "Menyesuaikan palet warna primer agar memenuhi minimum kontras 4.5:1 untuk teks normal (dan 3:1 untuk elemen UI besar), serta menambahkan ikon pendukung sebagai redundant visual cue.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Meluncurkan aplikasi sesuai jadwal dengan menambahkan lapisan mitigasi berupa peringatan (disclaimer) pada syarat dan ketentuan mengenai penggunaan perangkat yang dimodifikasi, serta menyusun rencana perbaikan arsitektur enkripsi sebagai prioritas utama dalam pembaruan (patch) versi berikutnya.",
-                    "score": 5
+                    "text": "Menaikkan ketebalan teks (font weight) dan menambah drop shadow gelap di belakang teks tombol untuk meningkatkan keterbacaan.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Memperbesar ukuran font tombol menjadi 24px agar lolos kriteria kontras untuk 'large text' tanpa mengubah warna brand.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Menambahkan border hitam tipis di sekeliling tombol tanpa mengubah kontras warna background dan teks di dalamnya.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "uiux-6",
-            "question": "Anda memimpin pengembangan fitur krusial yang harus dipresentasikan kepada investor dalam 24 jam. Di satu sisi, tim teknis membutuhkan waktu untuk refactoring kode agar sistem stabil dan scalable di masa depan. Di sisi lain, manajemen menuntut mockup High-Fidelity yang memukau secara visual untuk mengamankan pendanaan. Sebagai lead, Anda harus memilih pendekatan untuk menghadapi tekanan ini tanpa mengorbankan integritas profesional.",
+            "question": "Anda memimpin pengembangan fitur krusial yang harus dipresentasikan kepada investor dalam 24 jam. Flow prototipe sangat bercabang dan kompleks. Pendekatan prototyping apa yang paling efektif?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi sesi kolaborasi intensif dengan seluruh stakeholder untuk menyelaraskan ekspektasi antara kebutuhan teknis dan visi bisnis, memastikan bahwa setiap pihak merasa didengar dan memahami risiko yang ada sebelum mengambil keputusan final demi menjaga harmoni tim.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Memprioritaskan arsitektur sistem yang modular dan pembersihan utang teknis (technical debt) sejak awal, dengan menyajikan mockup fungsional yang esensial namun stabil, guna memastikan fondasi produk kuat untuk pengembangan jangka panjang meskipun visual belum sepenuhnya dipoles.",
+                    "text": "Fokus pada satu 'Happy Path' end-to-end yang solid dan mulus dengan micro-interactions realistis, serta menyiapkan visual mockups pendukung untuk skenario alternatif.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Membuat prototipe klik interaktif lengkap dengan navigasi dasar tanpa micro-interactions atau animasi transisi yang halus.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Memanfaatkan library komponen yang sudah ada untuk mempercepat pembuatan mockup High-Fidelity yang impresif bagi investor, dengan melakukan kompromi pada optimasi backend sementara waktu agar target tenggat waktu tercapai dan pendanaan tetap aman.",
-                    "score": 5
+                    "text": "Menampilkan slide presentasi statis dengan rekaman video walkthrough yang sudah diedit sebelumnya tanpa demo langsung.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menghubungkan semua halaman secara acak (spaghetti links) di Figma demi menunjukkan kesan aplikasi yang masif.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Mencoba membuat seluruh branch interaktif rumit di Figma dalam semalam hingga prototipe lag dan berantakan saat demo.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "uiux-7",
-            "question": "Anda memimpin tim produk di tengah sprint kritis, 24 jam sebelum peluncuran fitur utama. Data A/B testing menunjukkan tombol 'Beli' berwarna merah (di luar palet brand) meningkatkan CTR sebesar 15% dibandingkan warna biru brand. Tim Brand menolak keras perubahan tersebut karena dianggap merusak identitas visual perusahaan. Anda dihadapkan pada pilihan sulit: mengabaikan data performa demi menjaga konsistensi brand, atau memprioritaskan metrik konversi dengan risiko mengabaikan panduan visual yang telah ditetapkan. Bagaimana Anda mengambil keputusan di tengah tekanan tenggat waktu ini?",
+            "question": "Data A/B testing menunjukkan Variasi B meningkatkan CTR tombol checkout sebesar 20%, namun memicu lonjakan komplain pengguna karena menggunakan dark pattern (countdown timer palsu). Apa keputusan Anda?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengadakan sesi diskusi cepat dengan perwakilan tim Brand dan tim Produk untuk menyelaraskan ekspektasi, lalu mengambil keputusan berbasis konsensus yang dapat diterima oleh kedua belah pihak guna menjaga keharmonisan budaya kerja dan komitmen kolaboratif jangka panjang.",
-                    "score": 0
+                    "text": "Menolak variasi B, menganalisis penyebab frustrasi pengguna, dan merancang variasi C yang transparan dan memberikan nilai tambah tanpa manipulasi psikologis.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan deployment dengan warna merah sesuai data A/B testing untuk memastikan target kuartal tercapai, sembari menyusun laporan pasca-rilis yang mendokumentasikan dampak positif terhadap pendapatan sebagai dasar untuk negosiasi ulang pedoman brand di masa depan.",
-                    "score": 5
+                    "text": "Melakukan penyesuaian copywriting pada Variasi B agar lebih jelas dan mengurangi elemen manipulatif sebelum menguji ulang.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Mengintegrasikan elemen desain yang mengoptimalkan kontras visual dan psikologi warna dalam batasan palet brand yang diizinkan melalui penyesuaian saturasi atau tata letak, guna menyelesaikan akar masalah konversi tanpa mengorbankan integritas identitas visual perusahaan.",
-                    "score": 10
+                    "text": "Meluncurkan Variasi B hanya kepada pengguna baru (new users) yang belum terbiasa dengan UI lama.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menerapkan Variasi B penuh dengan menambahkan disclaimer tulisan kecil di footer halaman.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Langsung meluncurkan Variasi B ke seluruh pengguna karena target bisnis hanyalah metrik CTR jangka pendek.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "uiux-8",
-            "question": "Sistem payment gateway pada aplikasi e-commerce Anda mengalami kegagalan transaksi sebesar 40% pasca-deployment fitur baru. Stakeholder menuntut pemulihan layanan dalam 12 jam. Tim desain bersikeras bahwa fitur UI baru adalah elemen krusial untuk kampanye branding yang sedang berjalan, sementara tim engineering menemukan bahwa kompleksitas integrasi UI baru membebani resource API yang sudah kritis. Sebagai lead engineer, bagaimana Anda menavigasi situasi ini?",
+            "question": "Sistem payment gateway pada aplikasi e-commerce Anda mengalami kegagalan transaksi sebesar 40% pasca update antarmuka checkout. Langkah mitigasi UX apa yang diprioritaskan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi forum diskusi lintas departemen untuk memetakan ekspektasi stakeholder dan kebutuhan teknis secara mendalam, guna menyepakati solusi kompromi yang menjaga harmoni tim serta memastikan setiap pihak merasa dilibatkan dalam pengambilan keputusan strategis demi keberlanjutan kolaborasi jangka panjang.",
+                    "text": "Mengubah warna tombol 'Bayar Sekarang' menjadi hijau menyala agar pengguna tidak ragu menekan tombol.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan isolasi pada service payment melalui implementasi feature flag untuk menonaktifkan modul UI baru secara selektif, melakukan refactoring pada endpoint API yang terpengaruh untuk memisahkan beban proses, serta merancang ulang arsitektur komunikasi data agar sistem lebih resilient terhadap perubahan UI di masa depan.",
+                    "text": "Menganalisis session recording & heatmaps pada form checkout, menyederhanakan input fields, memperjelas feedback validasi error real-time, dan mengembalikan pilihan metode pembayaran terpopuler di posisi teratas.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menerapkan hotfix pada sisi backend dengan mengoptimalkan query database dan melakukan caching pada layer API untuk menekan latensi, sehingga fitur UI baru tetap dapat dipertahankan sesuai permintaan tim desain tanpa harus mengorbankan target waktu pemulihan layanan yang diberikan stakeholder.",
-                    "score": 5
+                    "text": "Menambahkan penjelasan teks instruksi cara pembayaran yang lebih panjang dan banner bantuan customer service di halaman checkout.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Mengembalikan layout checkout ke versi lama (full rollback) tanpa mengidentifikasi elemen UX mana yang menjadi penyebab kegagalan transaksi.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Menambahkan pop-up konfirmasi 'Pastikan data Anda benar' sebelum pengguna menekan tombol bayar.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "uiux-9",
-            "question": "Aplikasi e-commerce Anda akan meluncur dalam 72 jam. Tim teknis menemukan bottleneck pada API gateway saat beban puncak yang berisiko menyebabkan kegagalan transaksi, namun pihak ketiga penyedia layanan API menegaskan bahwa limitasi tersebut bersifat permanen. Anda dihadapkan pada pilihan sulit: menunda peluncuran yang akan merusak kepercayaan investor dan target pemasaran, atau meluncurkan dengan risiko stabilitas yang belum terukur. Bagaimana Anda mengambil keputusan strategis ini?",
+            "question": "Aplikasi e-commerce Anda akan meluncur dalam 72 jam. Tim teknis menemukan bottleneck pada API gateway yang menyebabkan rendering gambar katalog lambat. Solusi desain apa yang diambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi forum diskusi terbuka dengan seluruh pemangku kepentingan untuk memetakan dampak risiko secara transparan, membangun konsensus kolektif mengenai ekspektasi performa, serta menyusun rencana komunikasi krisis yang inklusif untuk menjaga moral tim dan kepercayaan stakeholder dalam menghadapi ketidakpastian peluncuran.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan rekayasa ulang pada alur komunikasi API dengan menerapkan pola circuit breaker dan antrean asinkron untuk mengisolasi kegagalan, sehingga meskipun terdapat keterbatasan dari pihak ketiga, sistem tetap memiliki ketahanan struktural yang terukur dan tidak bergantung pada perbaikan dari pihak eksternal.",
+                    "text": "Merancang progressive image loading (blur-up placeholder/LQIP), lazy loading di bawah fold, dan state kosong (empty/error state) yang informatif.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menampilkan skeleton placeholder abu-abu dengan dimensi tetap (aspect ratio lock) untuk mencegah layout shift (CLS).",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Mengimplementasikan mekanisme throttling pada fitur-fitur pendukung yang tidak krusial dan mengalokasikan seluruh kapasitas API gateway untuk proses checkout, guna memastikan core business tetap berjalan lancar sesuai tenggat waktu meskipun harus mengorbankan pengalaman pengguna pada fitur sekunder.",
-                    "score": 5
+                    "text": "Mengecilkan thumbnail gambar menjadi ukuran sangat kecil dan monokrom di seluruh katalog.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menghilangkan gambar pada tampilan list awal dan hanya menampilkannya saat kartu produk diklik.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Membiarkan box gambar kosong putih tanpa placeholder sehingga layout berantakan saat gambar terlambat termuat.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "uiux-10",
-            "question": "Anda adalah Lead Product Designer di sebuah startup fintech yang sedang menghadapi penurunan konversi sebesar 40% pada funnel pendaftaran tepat 24 jam sebelum audit investor. Tim engineering menolak melakukan perubahan backend karena risiko stabilitas sistem, namun CEO menuntut perbaikan instan untuk menjaga valuasi. Anda harus memilih strategi untuk merespons tekanan ini dengan mempertimbangkan keberlangsungan produk dan hubungan stakeholder.",
+            "question": "Form registrasi multi-step fintech mengalami drop-off rate sebesar 25% pada step verifikasi data. Tindakan apa yang paling efektif untuk memulihkan konversi?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan pertemuan sinkronisasi untuk memetakan ekspektasi CEO dengan batasan teknis tim engineering, guna menyusun narasi audit yang jujur mengenai tantangan teknis saat ini sekaligus menunjukkan peta jalan perbaikan yang terukur untuk meyakinkan investor akan integritas operasional perusahaan.",
+                    "text": "Mewajibkan verifikasi KTP dan selfie biometrik di step pertama sebelum pengguna dapat melihat isi aplikasi.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan optimasi pada sisi client-side dengan menyederhanakan alur UI dan validasi input secara lokal tanpa menyentuh API backend, guna memberikan peningkatan konversi yang cepat sebagai bukti progres nyata kepada investor tanpa mengorbankan stabilitas sistem inti.",
-                    "score": 5
+                    "text": "Mereduksi jumlah field yang tidak esensial, menambahkan progress tracker interaktif, inline validation instan, dan opsi social login/autofill.",
+                    "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Menolak melakukan perubahan kosmetik yang berisiko menciptakan hutang teknis baru, dan memilih untuk menyajikan analisis data komprehensif kepada CEO mengenai akar masalah sistemik, sembari mengusulkan strategi perbaikan arsitektur jangka panjang yang lebih berkelanjutan meski harus menghadapi risiko audit yang menantang.",
-                    "score": 10
+                    "text": "Menggabungkan seluruh step menjadi 1 halaman form panjang (single-page form) dengan sectioning yang rapi.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan pesan motivasi dan gambar ilustrasi besar di setiap step form registrasi.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Mengubah tombol 'Lanjut' menjadi 'Klaim Bonus Pendaftaran' untuk memancing klik tanpa menyederhanakan form.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "uiux-11",
-            "question": "Aplikasi e-commerce Anda akan meluncur dalam 24 jam. Saat final review, Anda menemukan inkonsistensi spacing (12px, 15px, 17px) pada komponen utama. Mengingat waktu yang sangat ketat, Anda dihadapkan pada dilema antara mengejar kesempurnaan teknis, menjaga stabilitas jadwal rilis, atau memastikan keselarasan tim. Langkah apa yang Anda ambil sebagai Lead?",
+            "question": "Saat final review 24 jam sebelum rilis, Anda menemukan inkonsistensi spacing, typography scale, dan button sizes antar halaman modul. Bagaimana menyelesaikannya?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengumpulkan seluruh tim untuk melakukan diskusi terbuka guna menyamakan persepsi mengenai standar kualitas visual, sehingga setiap anggota tim merasa dihargai kontribusinya dan memiliki pemahaman kolektif yang kuat untuk pengembangan fitur di masa depan.",
+                    "text": "Menghapus semua variasi ukuran font dan hanya menggunakan 2 ukuran font di seluruh aplikasi.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menginstruksikan engineering untuk melakukan hotfix pada CSS variable/token dengan memetakan ulang nilai tersebut ke sistem spacing berbasis kelipatan 4 atau 8, serta menjalankan unit test terbatas untuk memastikan integritas layout tanpa mengubah struktur DOM secara drastis.",
+                    "text": "Membuat pemetaan token standar (4/8pt grid spacing system & type ramp), melakukan sinkronisasi komponen Figma dengan design tokens di frontend, dan audit menyeluruh.",
                     "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Membiarkan inkonsistensi tersebut tetap ada untuk saat ini demi menjaga stabilitas build yang sudah lulus QA, lalu segera menjadwalkan sesi refactoring teknis pada sprint berikutnya agar target rilis tercapai tanpa risiko bug baru di menit terakhir.",
-                    "score": 5
+                    "text": "Memperbaiki halaman utama (homepage & checkout) terlebih dahulu sesuai design system dan menjadwalkan halaman sekunder di sprint berikutnya.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Menyamakan ukuran font secara manual dengan inspect tool tanpa mengadopsi variabel design token terpusat.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Mengabaikan inkonsistensi spacing karena menganggap mata pengguna umum tidak akan menyadari perbedaan 4px.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "uiux-12",
-            "question": "Sistem e-commerce Anda menghadapi lonjakan 15% kegagalan pengiriman akibat kesalahan input alamat pengguna tepat 48 jam sebelum peak season dimulai. Di saat yang sama, tim engineering sedang berada di tengah fase code-freeze untuk refactoring backend yang krusial demi stabilitas jangka panjang sistem. Sebagai lead, Anda harus memilih strategi mitigasi yang memiliki konsekuensi berbeda terhadap operasional, teknis, dan dinamika tim.",
+            "question": "Sistem e-commerce Anda menghadapi lonjakan 15% kegagalan pengiriman akibat kesalahan input alamat pengguna tepat 48 jam sebelum peak season. Solusi desain apa yang diterapkan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi forum diskusi lintas departemen untuk memetakan dampak risiko secara kolektif, memastikan seluruh stakeholder memahami trade-off yang diambil, serta membangun konsensus bersama agar setiap divisi merasa memiliki tanggung jawab moral atas keputusan yang disepakati untuk menjaga stabilitas internal perusahaan.",
-                    "score": 0
+                    "text": "Merancang form alamat terstruktur dengan integrasi autocomplete API (Google Places/Kodepos), pin-point peta interaktif, dan format alamat standar kurir.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Mengimplementasikan validasi regex sisi klien dan integrasi API pihak ketiga untuk verifikasi alamat secara real-time sebagai solusi taktis yang cepat, guna menekan angka kegagalan pengiriman secara instan tanpa mengganggu stabilitas codebase backend yang sedang dalam tahap refactoring.",
-                    "score": 5
+                    "text": "Menambahkan popup modal verifikasi ringkasan alamat lengkap yang mewajibkan konfirmasi checklist sebelum checkout.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Melakukan interupsi terukur pada sprint refactoring untuk mengintegrasikan modul validasi alamat berbasis microservice yang terstandarisasi, meskipun berisiko menunda jadwal rilis fitur backend, demi memastikan integritas data yang permanen dan skalabilitas arsitektur di masa depan.",
-                    "score": 10
+                    "text": "Memberikan peringatan teks merah 'Harap tulis alamat lengkap RT/RW' di bawah kolom textarea bebas.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mewajibkan pengguna mengunggah foto kartu identitas atau resi lama untuk mencocokkan alamat manual.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Membebankan biaya penanganan gagal kirim sepenuhnya kepada pengguna tanpa memperbaiki form input alamat.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "uiux-13",
-            "question": "Dua jam sebelum peluncuran fitur krusial, stakeholder utama memberikan feedback mendadak bahwa transisi UI terasa berat dan kurang intuitif. Tim engineering sedang dalam proses deployment backend yang tidak bisa diinterupsi, sehingga Anda harus memutuskan strategi mitigasi mandiri. Anda dihadapkan pada pilihan antara mempertahankan integritas teknis, mengejar target rilis tepat waktu, atau mengakomodasi ekspektasi stakeholder demi menjaga keberlanjutan hubungan kerja.",
+            "question": "Dua jam sebelum peluncuran fitur krusial, stakeholder utama memberikan feedback mendadak bahwa transisi UI terasa berat dan kurang intuitif. Apa tindakan Anda?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi pertemuan singkat dengan stakeholder untuk mendemonstrasikan batasan teknis yang ada dan mencari titik temu desain yang dapat diterima kedua belah pihak, guna memastikan bahwa keputusan akhir diambil berdasarkan konsensus bersama dan menjaga kepercayaan stakeholder terhadap integritas tim.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan optimasi teknis mendalam dengan menyederhanakan struktur layer, menghapus elemen redundant, dan menyesuaikan kurva animasi ke standar performa yang lebih ringan, meskipun berisiko melakukan perubahan desain yang belum sempat divalidasi ulang oleh stakeholder.",
+                    "text": "Menyesuaikan durasi easing animasi menjadi 150-250ms (standard ease-out), menghapus motion blur berat, dan memastikan transisi memberikan affordance arah navigasi yang logis.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menghilangkan animasi transisi yang rumit dan menggantinya dengan fade transition sederhana berdurasi 100ms.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Mengimplementasikan solusi 'quick-fix' dengan mengganti transisi kompleks menjadi transisi instan atau fade sederhana untuk memastikan fitur tetap rilis sesuai jadwal tanpa mengganggu alur backend, sembari menjadwalkan perbaikan desain yang lebih komprehensif pada iterasi berikutnya.",
-                    "score": 5
+                    "text": "Menonaktifkan seluruh animasi transisi di seluruh aplikasi agar navigasi menjadi instan dan kaku.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Memperpanjang durasi animasi menjadi 500ms agar transisi terlihat lebih dramatis dan artistik.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menjelaskan kepada stakeholder bahwa animasi berat adalah bagian dari konsep kemewahan desain yang tidak boleh diubah.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "uiux-14",
-            "question": "Aplikasi e-commerce Anda mengalami penurunan konversi 15% pasca-update UI. Di tengah tekanan target kuartalan yang ketat, manajemen mendesak penempatan banner iklan pihak ketiga di area 'white space' halaman checkout untuk menutup gap revenue. Anda dihadapkan pada dilema antara menjaga integritas pengalaman pengguna (UX) yang krusial bagi retensi jangka panjang, atau memenuhi urgensi finansial perusahaan yang menuntut hasil instan. Bagaimana Anda menyikapi instruksi ini?",
+            "question": "Aplikasi e-commerce Anda mengalami penurunan konversi 15% pasca-update UI halaman detail produk. Langkah investigasi dan perbaikan apa yang diambil?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan forum diskusi lintas departemen yang melibatkan tim produk, marketing, dan manajemen untuk memetakan dampak strategis secara kolektif, memastikan setiap pemangku kepentingan memahami risiko dan peluang, serta membangun konsensus bersama demi menjaga sinergi budaya kerja yang tetap kondusif.",
+                    "text": "Menyalahkan tim marketing karena menganggap penurunan konversi murni akibat kualitas trafik iklan yang buruk.",
                     "score": 0
                 },
                 {
                     "label": "B",
-                    "text": "Menyetujui implementasi banner iklan tersebut sebagai langkah taktis untuk memenuhi target kuartalan, sembari melakukan optimasi teknis pada aset iklan agar tidak menambah latensi dan memastikan integrasi visual tetap bersih untuk meminimalisir gangguan pada alur pembayaran.",
-                    "score": 5
+                    "text": "Melakukan usability testing komparatif, menganalisis heatmaps posisi CTA 'Beli Sekarang' (sticky CTA di mobile), keterbacaan varian produk, dan kejelasan informasi ongkir.",
+                    "score": 10
                 },
                 {
                     "label": "C",
-                    "text": "Mengusulkan pendekatan berbasis data melalui A/B testing dengan segmentasi trafik untuk mengukur dampak nyata banner terhadap konversi dan AOV, serta memprioritaskan perbaikan akar masalah pada UI yang menyebabkan penurunan 15% sebelum menambah elemen baru yang berisiko meningkatkan cognitive load.",
-                    "score": 10
+                    "text": "Mengembalikan posisi tombol CTA utama ke atas fold dan memperbesar kontras elemen harga serta ulasan produk.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan badge diskon 'BEST SELLER' berkedip di dekat tombol beli untuk menarik perhatian.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Membuat popup diskon otomatis muncul setiap kali pengguna berada di halaman detail produk lebih dari 5 detik.",
+                    "score": 2
                 }
             ]
         },
         {
             "id": "uiux-15",
-            "question": "Aplikasi finansial Anda mengalami churn rate 15% pada tahap onboarding akibat friction autentikasi. Manajemen menuntut implementasi 'Biometric Login' segera untuk menekan angka tersebut. Namun, tim backend sedang dalam fase migrasi database krusial yang sangat rentan terhadap latensi API. Menambahkan beban query baru saat ini berisiko menyebabkan downtime total, sementara menunda fitur akan mengabaikan urgensi bisnis yang mendesak. Sebagai lead engineer, bagaimana Anda mengambil keputusan strategis ini?",
+            "question": "Aplikasi finansial Anda mengalami churn rate 15% pada tahap onboarding akibat friction autentikasi. Bagaimana Anda mendesain ulang alurnya?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi serangkaian lokakarya lintas departemen untuk memetakan risiko secara komprehensif, memastikan seluruh stakeholder memahami keterbatasan teknis saat ini, serta menyepakati jadwal perilisan bertahap yang selaras dengan kapasitas tim dan ekspektasi bisnis demi menjaga stabilitas operasional dan harmoni organisasi.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Mengimplementasikan mekanisme client-side caching untuk session token dan memicu biometrik melalui local authentication provider tanpa melakukan API call ke database utama, serta menerapkan pola circuit breaker pada endpoint autentikasi untuk memastikan sistem tetap resilien terhadap lonjakan latensi selama masa migrasi.",
+                    "text": "Menerapkan progressive onboarding (izinkan eksplorasi fitur sebelum wajib daftar), biometrik login (FaceID/Fingerprint), dan opsi passwordless via Magic Link/WhatsApp OTP.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menyederhanakan layar pembuatan password dengan checklist validasi kriteria keamanan real-time yang jelas.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Melakukan integrasi fitur biometrik dengan strategi throttling pada endpoint API untuk membatasi jumlah request per detik, serta membagi beban query ke dalam batch kecil guna memastikan fitur tetap rilis tepat waktu sesuai target manajemen tanpa menghentikan proses migrasi database yang sedang berjalan.",
-                    "score": 5
+                    "text": "Membuat carousel panduan onboarding 5-slide yang menjelaskan pentingnya keamanan data finansial.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mengganti form pendaftaran dengan video tutorial cara membuat password yang aman.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menambah pertanyaan keamanan ekstra (nama ibu kandung, hewan peliharaan) di awal pendaftaran demi keamanan maksimal.",
+                    "score": 0
                 }
             ]
         }
@@ -648,126 +948,186 @@ export const quizBank: Record<string, QuizQuestion[]> = {
     "graphic-designer": [
         {
             "id": "gd-1",
-            "question": "Klien meminta logo dikirim agar bisa dicetak di billboard raksasa tanpa pecah. Format file apa yang wajib kamu berikan?",
+            "question": "Klien meminta logo dikirim agar bisa dicetak di billboard raksasa tanpa pecah. Format file apa yang wajib Anda kirimkan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "TIFF resolusi tinggi yang disesuaikan dengan ukuran fisik billboard (300dpi pada ukuran cetak asli).",
-                    "score": 6
-                },
-                {
-                    "label": "B",
-                    "text": "Vector (SVG/EPS/AI).",
+                    "text": "File berbasis Vektor master seperti .AI, .EPS, atau .PDF (vector-preserved) yang scalable tanpa batas resolusi.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "File raster resolusi sangat tinggi (.TIFF atau .PSD 300 DPI pada skala ukuran aktual cetak billboard).",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "JPEG dengan kompresi serendah mungkin pada ukuran file maksimal yang didukung software desain.",
+                    "text": "File .PNG beresolusi 4K dengan background transparan.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "File .JPEG kualitas maksimal (100% quality) dari hasil export web.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Screenshot logo dari website perusahaan berformat .GIF.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "gd-2",
-            "question": "Warna desain flyer saat dicetak di mesin offset terlihat sangat kusam dibandingkan saat kamu desain di monitor. Kesalahan utamanya adalah?",
+            "question": "Warna desain flyer saat dicetak di mesin offset terlihat sangat kusam dibandingkan saat kamu desain di monitor. Apa penyebab teknis utamanya?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Bekerja di mode warna RGB, bukan CMYK, sehingga warna cerah yang muncul di layar tidak semuanya bisa direproduksi mesin cetak.",
+                    "text": "Color space desain masih RGB (spektrum layar aditif); wajib dikonversi ke CMYK dengan profil ICC mesin offset dan cek batas Total Ink Limit (TAC).",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Monitor yang dipakai untuk mendesain tidak dikalibrasi, sehingga warna yang terlihat sejak awal sudah tidak akurat.",
-                    "score": 6
+                    "text": "Desain dikerjakan dalam mode CMYK tetapi tidak melakukan proofing warna digital/spot color matching (Pantone) sebelum cetak.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Resolusi gambar terlalu rendah.",
+                    "text": "Monitor desainer terlalu terang, solusinya menaikkan brightness dan saturation warna di Photoshop sebelum kirim cetak.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menyimpan file dalam format PNG 72 DPI yang menyebabkan degradasi warna cetak.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Kertas cetak yang digunakan terlalu bagus sehingga menyerap warna tinta offset.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "gd-3",
-            "question": "Sebuah poster memiliki banyak teks panjang namun terlihat membosankan dan susah dibaca. Prinsip desain apa yang harus diterapkan?",
+            "question": "Sebuah poster memiliki banyak teks panjang namun terlihat membosankan dan susah dibaca. Prinsip desain apa yang paling efektif diterapkan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Membagi teks panjang menjadi poin-poin singkat (bullet points) tanpa mengubah ukuran atau bobot font.",
-                    "score": 6
+                    "text": "Menerapkan Visual Hierarchy ketat: bedakan typographic scale (Headline, Subhead, Body), gunakan whitespace lega, dan kelompokkan informasi dengan Gestalt law of proximity.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Mengecilkan ukuran font secara keseluruhan agar semua teks muat rapi dalam satu blok.",
-                    "score": 0
+                    "text": "Menggunakan bullet points tebal, kombinasi 2 font kontras (Serif & Sans-Serif), dan membagi teks ke dalam 2 kolom rapi.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Menerapkan Typographic Hierarchy (Heading, Subheading, Body) dan white space.",
-                    "score": 10
+                    "text": "Memberikan warna berbeda-beda (pelangi) pada setiap baris teks agar terlihat lebih meriah.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Memperbesar semua ukuran huruf menjadi sama besar dan huruf kapital semua (ALL CAPS) agar terbaca jelas.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menambahkan ornamen garis, bingkai bunga, dan clipart di setiap sudut poster yang kosong.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "gd-4",
-            "question": "Klien komplain 'Logo saya kurang kelihatan pop-out!'. Secara tata letak visual, cara profesional untuk mengatasi ini tanpa merusak komposisi adalah?",
+            "question": "Klien komplain 'Logo saya kurang kelihatan pop-out!'. Secara tata letak visual, cara profesional untuk menonjolkannya adalah?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Meningkatkan kontras warna logo terhadap background tanpa mengubah posisi atau ukurannya.",
-                    "score": 6
+                    "text": "Meningkatkan kontras visual di sekitar logo, memanfaatkan negative space (clear space) yang lebih luas, dan mereduksi elemen visual yang berkompetisi di latar belakang.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Membesarkan ukuran logo sampai memenuhi setengah layout.",
-                    "score": 0
+                    "text": "Memperbesar proporsi ukuran logo sebesar 20% dan memberikan latar belakang warna solid netral yang kontras.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Menambah negative space (ruang kosong) di sekitar logo agar mata fokus ke sana.",
-                    "score": 10
+                    "text": "Memberikan efek drop shadow tebal berwarna hitam di belakang logo.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan efek border/stroke kuning menyala di sekeliling logo.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menempatkan logo di tengah-tengah poster dengan efek 3D bevel-and-emboss dan filter lens flare.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "gd-5",
-            "question": "Kamu merancang feed Instagram bersambung (puzzle feed). Risiko terbesar yang sering dilupakan desainer pemula saat menggunakan teknik ini adalah?",
+            "question": "Kamu merancang feed Instagram bersambung (puzzle feed). Risiko terbesar yang sering dihadapi audiens adalah?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Setiap gambar satuan terlihat aneh/terpotong jika user melihatnya dari timeline biasa (bukan dari grid profil).",
+                    "text": "Tiap kotak postingan tunggal terlihat membosankan, tidak informatif, atau terpotong aneh saat berdiri sendiri di beranda (feed/home) audiens.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Instagram bisa mengubah rasio crop thumbnail secara otomatis, sehingga potongan gambar bisa bergeser dari rencana desain awal.",
-                    "score": 6
+                    "text": "Garis sambungan antar postingan bergeser (misalignment) jika ukuran resolusi grid export tidak konsisten pixel-perfect.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Warna tidak konsisten di setiap kotak.",
+                    "text": "Warna antar foto di feed puzzle terlihat tidak seragam jika tidak memakai preset filter yang sama.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Ukuran file keseluruhan puzzle terlalu besar saat diunggah ke Instagram.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Algoritma Instagram akan langsung memblokir akun yang menggunakan format desain puzzle.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "gd-6",
-            "question": "Dalam teori warna, kamu ditugaskan membuat desain kemasan untuk produk makanan organik yang terkesan 'sehat dan premium'. Kombinasi yang cocok?",
+            "question": "Dalam teori warna, kamu ditugaskan membuat desain kemasan untuk produk makanan organik yang terkesan sehat, alami, dan premium. Kombinasi palet warna apa yang ideal?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Putih bersih (minimalist) dipadukan hitam untuk tipografi.",
-                    "score": 6
-                },
-                {
-                    "label": "B",
-                    "text": "Hijau earth-tone (muted) dipadukan dengan aksen emas atau krem.",
+                    "text": "Palet warna earth-tone (olive green, terracotta, warm beige/krem) dipadukan dengan tipografi clean, finishing kraft paper/matte, dan aksen foil minimalis.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Kombinasi warna hijau daun cerah dan putih bersih dengan ilustrasi dedaunan segar di bagian tengah kemasan.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Merah cerah dan kuning neon.",
+                    "text": "Warna cokelat tanah tua polos tanpa elemen visual pendukung atau aksen tipografi modern.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Warna merah cerah dan kuning terang untuk membangkitkan selera makan instan.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Warna hitam glossy dipadukan dengan warna-warni neon futuristik menyala.",
                     "score": 0
                 }
             ]
@@ -778,80 +1138,120 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "options": [
                 {
                     "label": "A",
-                    "text": "Menambahkan shape overlay transparan (gradient/vignette) khusus di area teks, tanpa mengubah foto produk aslinya.",
+                    "text": "Menambahkan shape overlay semi-transparan (gradient/scrim) atau melakukan masking isolasi produk dengan background blur halus (depth of field) di belakang teks.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Menerapkan efek blur (Depth of Field) langsung ke foto background asli.",
-                    "score": 6
+                    "text": "Menempatkan teks di dalam boks solid kontras (label card) di area yang paling minim detail visual.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Menambahkan stroke tebal berwarna merah menyala pada teks.",
+                    "text": "Memberikan efek drop shadow hitam pekat dan outer glow tebal pada seluruh huruf.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Memberikan outline/stroke warna merah menyala pada teks tanpa mengubah background foto.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Memperbesar teks hingga menutupi 80% area foto produk utama.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "gd-8",
-            "question": "Klien memberi revisi: 'Desainnya kurang modern, terasa jadul.' Elemen apa yang paling cepat diubah untuk memberikan kesan modern minimalis?",
+            "question": "Klien memberi revisi: 'Desainnya kurang modern, terasa jadul.' Elemen apa yang paling tepat diubah untuk memberikan kesan modern minimalis?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengganti seluruh palet warna menjadi warna pastel tanpa mengubah font atau layout.",
-                    "score": 6
+                    "text": "Menghilangkan ornamen berlebih (skema flat/clean), beralih ke tipografi Sans-Serif geometris berkualitas, perluas whitespace, dan terapkan palet warna kontemporer yang kohesif.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Menambahkan lebih banyak ornamen bunga dan pita.",
-                    "score": 0
+                    "text": "Mengganti font serif dekoratif menjadi sans-serif modern dan menghapus efek bayangan (drop shadow) 3D yang tebal.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Mengganti font serif klasik menjadi sans-serif bersih dan menghilangkan efek drop shadow berlebihan.",
-                    "score": 10
+                    "text": "Mengganti seluruh warna background menjadi gradasi warna pastel tanpa merapikan tata letak dan font.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan stiker ornamen tren visual terkini di setiap ruang kosong desain.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menambahkan efek vintage texture, grain, dan border renda klasik pada desain.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "gd-9",
-            "question": "Kamu menggunakan Illustrator untuk maskot, Photoshop untuk edit foto, dan InDesign untuk?",
+            "question": "Kamu menggunakan Illustrator untuk maskot vektor dan Photoshop untuk edit foto. Untuk apakah penggunaan utama Adobe InDesign?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Retouching dan color grading foto produk secara mendalam.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Layouting dokumen multi-halaman (majalah/company profile) karena text formattingnya lebih kuat.",
+                    "text": "Layouting dokumen multi-halaman (buku, majalah, katalog, company profile) berkat master pages, grid sistem komprehensif, dan kontrol tipografi paragraf tingkat lanjut.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menyusun file PDF presentasi interaktif dan portofolio cetak multi-halaman dengan pagination otomatis.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Menyusun ilustrasi vector yang sudah jadi ke dalam layout sekaligus mengatur text wrapping di sekitarnya.",
-                    "score": 6
+                    "text": "Membuat poster promosi 1 halaman dengan manipulasi efek visual teks yang rumit.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Melakukan retouching warna, masking foto model, dan manipulasi gambar resolusi tinggi.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menggambar ilustrasi vektor logo dan maskot ikonik dari nol.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "gd-10",
-            "question": "Brand guidelines klien menetapkan penggunaan spesifik untuk 'Margin of Safety'. Apa maksudnya?",
+            "question": "Brand guidelines klien menetapkan penggunaan spesifik untuk 'Margin of Safety' (Safe Zone). Apa arti teknis istilah tersebut?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Batas area aman DI DALAM garis potong (trim) supaya teks/logo penting tidak terpotong saat proses cetak atau tampil di layar.",
+                    "text": "Batas area aman di dalam garis potong (trim line) tempat semua teks dan elemen visual kritis harus berada agar tidak terpotong saat proses pemotongan mesin cetak.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Bleed area tambahan yang sengaja dibuat melebihi garis potong (trim) untuk toleransi mesin cetak.",
-                    "score": 6
+                    "text": "Area margin luar antara konten desain dengan tepi layout untuk menjaga kerapian visual estetika.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Area untuk menaruh watermark desainernya.",
+                    "text": "Area bleed tambahan di luar garis potong untuk toleransi geseran pisau potong percetakan.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Area khusus di bagian bawah desain yang diperuntukkan bagi penempatan copyright dan watermark desainer.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Batas resolusi minimum file desain agar tidak terjadi penolakan cetak oleh vendor.",
                     "score": 0
                 }
             ]
@@ -862,110 +1262,310 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "id": "cc-1",
             "question": "Video TikTok-mu punya retention rate tinggi di akhir, tapi views-nya sangat rendah (tidak masuk FYP). Masalah utama biasanya ada di?",
             "options": [
-                { "label": "A", "text": "Hook (3 detik pertama) kurang kuat sehingga user langsung scroll.", "score": 10 },
-                { "label": "B", "text": "Menggunakan sound/audio orisinal yang tidak sedang trending, sehingga sinyal relevansi ke algoritma FYP lebih lemah.", "score": 8 },
-                { "label": "C", "text": "Posting di luar jam aktif mayoritas audiens (jam tayang kurang optimal).", "score": 6 },
-                { "label": "D", "text": "Hashtag yang dipakai terlalu niche/jarang dicari orang.", "score": 4 },
-                { "label": "E", "text": "Kualitas kamera kurang tajam.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "Hook (3 detik pertama) kurang kuat sehingga user langsung scroll.",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "Menggunakan sound/audio orisinal yang tidak sedang trending, sehingga sinyal relevansi ke algoritma FYP lebih lemah.",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "Posting di luar jam aktif mayoritas audiens (jam tayang kurang optimal).",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Hashtag yang dipakai terlalu niche/jarang dicari orang.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Kualitas kamera kurang tajam.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "cc-2",
             "question": "Algoritma Instagram mulai memprioritaskan 'Saves' (Simpan) dan 'Shares' (Bagikan) dibanding 'Likes'. Jenis konten apa yang harus kamu perbanyak?",
             "options": [
-                { "label": "A", "text": "Konten before-after/transformasi yang mendorong orang membagikan untuk motivasi.", "score": 8 },
-                { "label": "B", "text": "Video dance challenge mengikuti tren sound yang sedang viral.", "score": 6 },
-                { "label": "C", "text": "Quote/kata-kata motivasi generik dengan desain menarik.", "score": 4 },
-                { "label": "D", "text": "Selfie estetik dengan caption singkat.", "score": 0 },
-                { "label": "E", "text": "Konten edukasi, tips, template, atau relatable memes.", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "Konten before-after/transformasi yang mendorong orang membagikan untuk motivasi.",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Video dance challenge mengikuti tren sound yang sedang viral.",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Quote/kata-kata motivasi generik dengan desain menarik.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Selfie estetik dengan caption singkat.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "Konten edukasi, tips, template, atau relatable memes.",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "cc-3",
             "question": "Kamu membuat konten YouTube panjang, lalu ingin mendaur ulangnya (repurpose) ke TikTok/Shorts. Kesalahan editing terburuk adalah?",
             "options": [
-                { "label": "A", "text": "Memotong bagian paling menarik dari video panjang tanpa membuat hook pembuka baru khusus vertical.", "score": 6 },
-                { "label": "B", "text": "Watermark platform asal (misal watermark YouTube) masih tersisa di video hasil re-upload.", "score": 4 },
-                { "label": "C", "text": "Menambahkan backsound lagu viral.", "score": 0 },
-                { "label": "D", "text": "Mengunggah video berformat landscape langsung ke platform vertikal tanpa menyesuaikan rasio dan caption dinamis.", "score": 10 },
-                { "label": "E", "text": "Tidak menambahkan subtitle/closed caption otomatis, padahal mayoritas penonton platform vertikal menonton tanpa suara.", "score": 8 }
+                {
+                    "label": "A",
+                    "text": "Memotong bagian paling menarik dari video panjang tanpa membuat hook pembuka baru khusus vertical.",
+                    "score": 6
+                },
+                {
+                    "label": "B",
+                    "text": "Watermark platform asal (misal watermark YouTube) masih tersisa di video hasil re-upload.",
+                    "score": 4
+                },
+                {
+                    "label": "C",
+                    "text": "Menambahkan backsound lagu viral.",
+                    "score": 0
+                },
+                {
+                    "label": "D",
+                    "text": "Mengunggah video berformat landscape langsung ke platform vertikal tanpa menyesuaikan rasio dan caption dinamis.",
+                    "score": 10
+                },
+                {
+                    "label": "E",
+                    "text": "Tidak menambahkan subtitle/closed caption otomatis, padahal mayoritas penonton platform vertikal menonton tanpa suara.",
+                    "score": 8
+                }
             ]
         },
         {
             "id": "cc-4",
             "question": "Brand klien ingin konten yang memicu audiens berkomentar (engagement rate tinggi). Strategi copywriting apa yang paling efektif?",
             "options": [
-                { "label": "A", "text": "Menambahkan emoji berlebihan di caption tanpa mengubah isi pesan.", "score": 4 },
-                { "label": "B", "text": "Menulis deskripsi produk yang sangat teknis dan panjang.", "score": 0 },
-                { "label": "C", "text": "Memberikan opini polarisasi atau CTA (Call to Action) berupa pertanyaan terbuka di akhir video/caption.", "score": 10 },
-                { "label": "D", "text": "Membalas komentar pertama dengan pertanyaan balik untuk memancing thread diskusi lanjutan.", "score": 8 },
-                { "label": "E", "text": "Meminta audiens like, share, dan follow di akhir video sebagai penutup.", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Menambahkan emoji berlebihan di caption tanpa mengubah isi pesan.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Menulis deskripsi produk yang sangat teknis dan panjang.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Memberikan opini polarisasi atau CTA (Call to Action) berupa pertanyaan terbuka di akhir video/caption.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Membalas komentar pertama dengan pertanyaan balik untuk memancing thread diskusi lanjutan.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Meminta audiens like, share, dan follow di akhir video sebagai penutup.",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "cc-5",
             "question": "Video edukasimu sangat informatif tapi membosankan. Teknik 'Pattern Interrupt' apa yang bisa digunakan saat editing di CapCut?",
             "options": [
-                { "label": "A", "text": "Membuat transisi perlahan yang sangat mulus.", "score": 0 },
-                { "label": "B", "text": "Mengganti angle kamera/zoom, menambahkan sound effect, atau memunculkan pop-up teks setiap 3-5 detik.", "score": 10 },
-                { "label": "C", "text": "Menambahkan teks kinetic typography (teks bergerak mengikuti narasi) untuk highlight poin penting.", "score": 8 },
-                { "label": "D", "text": "Menyisipkan b-roll (footage tambahan) di antara adegan talking head untuk variasi visual.", "score": 6 },
-                { "label": "E", "text": "Menambahkan animasi transisi standar bawaan CapCut secara konsisten di tiap potongan.", "score": 4 }
+                {
+                    "label": "A",
+                    "text": "Membuat transisi perlahan yang sangat mulus.",
+                    "score": 0
+                },
+                {
+                    "label": "B",
+                    "text": "Mengganti angle kamera/zoom, menambahkan sound effect, atau memunculkan pop-up teks setiap 3-5 detik.",
+                    "score": 10
+                },
+                {
+                    "label": "C",
+                    "text": "Menambahkan teks kinetic typography (teks bergerak mengikuti narasi) untuk highlight poin penting.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Menyisipkan b-roll (footage tambahan) di antara adegan talking head untuk variasi visual.",
+                    "score": 6
+                },
+                {
+                    "label": "E",
+                    "text": "Menambahkan animasi transisi standar bawaan CapCut secara konsisten di tiap potongan.",
+                    "score": 4
+                }
             ]
         },
         {
             "id": "cc-6",
             "question": "Saat melakukan riset tren, kamu menemukan sound sedang viral. Bagaimana cara brand-mu ikut tren tanpa terlihat 'cringe' (memalukan)?",
             "options": [
-                { "label": "A", "text": "Mengadaptasi konteks suara viral tersebut dengan masalah sehari-hari (pain points) yang dialami target audiens brand-mu.", "score": 10 },
-                { "label": "B", "text": "Mengganti audio asli tren menjadi voice over yang relevan dengan brand, sambil tetap memakai format/gerakan asli tren.", "score": 8 },
-                { "label": "C", "text": "Tidak usah ikut tren sama sekali, fokus pada konten evergreen brand seperti biasa.", "score": 6 },
-                { "label": "D", "text": "Ikut tren secara literal tapi menambahkan logo brand kecil di sudut video.", "score": 4 },
-                { "label": "E", "text": "Melakukan dance persis sama meskipun brand-mu menjual asuransi B2B.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "Mengadaptasi konteks suara viral tersebut dengan masalah sehari-hari (pain points) yang dialami target audiens brand-mu.",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "Mengganti audio asli tren menjadi voice over yang relevan dengan brand, sambil tetap memakai format/gerakan asli tren.",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "Tidak usah ikut tren sama sekali, fokus pada konten evergreen brand seperti biasa.",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Ikut tren secara literal tapi menambahkan logo brand kecil di sudut video.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Melakukan dance persis sama meskipun brand-mu menjual asuransi B2B.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "cc-7",
             "question": "Klien menuduh akunnya kena 'Shadowban' karena views tiba-tiba anjlok 80%. Analisis data pertama yang harus kamu lakukan?",
             "options": [
-                { "label": "A", "text": "Membandingkan grafik views 7 hari terakhir dengan video-video sebelumnya untuk melihat pola penurunan bertahap vs mendadak.", "score": 8 },
-                { "label": "B", "text": "Mengecek riwayat pelanggaran community guidelines atau strike terbaru di akun.", "score": 6 },
-                { "label": "C", "text": "Bertanya ke komunitas kreator lain apakah mereka mengalami penurunan serupa (isu platform-wide).", "score": 4 },
-                { "label": "D", "text": "Menghapus semua video lama.", "score": 0 },
-                { "label": "E", "text": "Mengecek analitik apakah views dari 'Non-Followers' (For You/Explore) masih masuk atau nol persen.", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "Membandingkan grafik views 7 hari terakhir dengan video-video sebelumnya untuk melihat pola penurunan bertahap vs mendadak.",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Mengecek riwayat pelanggaran community guidelines atau strike terbaru di akun.",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Bertanya ke komunitas kreator lain apakah mereka mengalami penurunan serupa (isu platform-wide).",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menghapus semua video lama.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "Mengecek analitik apakah views dari 'Non-Followers' (For You/Explore) masih masuk atau nol persen.",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "cc-8",
             "question": "Copywriting untuk caption harus menerapkan prinsip AIDA. 'Desain casing hp ini anti banting dari lantai 3' termasuk dalam fase?",
             "options": [
-                { "label": "A", "text": "Awareness — kalimat ini fakta mengejutkan yang menarik perhatian di awal.", "score": 6 },
-                { "label": "B", "text": "Conviction — istilah dari framework marketing lain (AIDCA), bukan bagian dari AIDA klasik yang ditanyakan.", "score": 4 },
-                { "label": "C", "text": "Action.", "score": 0 },
-                { "label": "D", "text": "Interest — kalimat ini menjelaskan manfaat/keunggulan spesifik produk yang membangun ketertarikan mendalam.", "score": 10 },
-                { "label": "E", "text": "Desire — dekat dengan Interest, tapi Desire biasanya lebih menonjolkan penekanan emosional, bukan sekadar pernyataan fakta teknis begini.", "score": 8 }
+                {
+                    "label": "A",
+                    "text": "Awareness — kalimat ini fakta mengejutkan yang menarik perhatian di awal.",
+                    "score": 6
+                },
+                {
+                    "label": "B",
+                    "text": "Conviction — istilah dari framework marketing lain (AIDCA), bukan bagian dari AIDA klasik yang ditanyakan.",
+                    "score": 4
+                },
+                {
+                    "label": "C",
+                    "text": "Action.",
+                    "score": 0
+                },
+                {
+                    "label": "D",
+                    "text": "Interest — kalimat ini menjelaskan manfaat/keunggulan spesifik produk yang membangun ketertarikan mendalam.",
+                    "score": 10
+                },
+                {
+                    "label": "E",
+                    "text": "Desire — dekat dengan Interest, tapi Desire biasanya lebih menonjolkan penekanan emosional, bukan sekadar pernyataan fakta teknis begini.",
+                    "score": 8
+                }
             ]
         },
         {
             "id": "cc-9",
             "question": "Dalam merekam video UGC (User Generated Content) untuk review produk, elemen apa yang paling membangun kepercayaan penonton?",
             "options": [
-                { "label": "A", "text": "Menambahkan disclaimer '#ad' atau '#sponsored' yang jelas di awal video.", "score": 4 },
-                { "label": "B", "text": "Skrip yang dihafal seperti robot dan memuji tanpa henti.", "score": 0 },
-                { "label": "C", "text": "Testimoni otentik (menunjukkan sebelum-sesudah) dan pencahayaan natural.", "score": 10 },
-                { "label": "D", "text": "Menunjukkan proses pemakaian produk secara real-time tanpa banyak cut/editing (raw footage).", "score": 8 },
-                { "label": "E", "text": "Menggunakan reviewer dengan jumlah followers besar, meski skripnya sudah disiapkan penuh oleh brand.", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Menambahkan disclaimer '#ad' atau '#sponsored' yang jelas di awal video.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Skrip yang dihafal seperti robot dan memuji tanpa henti.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Testimoni otentik (menunjukkan sebelum-sesudah) dan pencahayaan natural.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menunjukkan proses pemakaian produk secara real-time tanpa banyak cut/editing (raw footage).",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Menggunakan reviewer dengan jumlah followers besar, meski skripnya sudah disiapkan penuh oleh brand.",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "cc-10",
             "question": "Apa fungsi utama dari menganalisis metrik 'Watch Time / Average View Duration' pada Social Media Analytics?",
             "options": [
-                { "label": "A", "text": "Hanya sekadar angka untuk dipamerkan ke klien.", "score": 0 },
-                { "label": "B", "text": "Untuk mengetahui di detik ke berapa penonton bosan, sehingga pacing editing bisa diperbaiki ke depannya.", "score": 10 },
-                { "label": "C", "text": "Untuk mengidentifikasi bagian video yang paling banyak di-rewatch (retention spike) agar bisa direplikasi di konten berikutnya.", "score": 8 },
-                { "label": "D", "text": "Untuk membandingkan performa relatif antar video dalam kanal yang sama.", "score": 6 },
-                { "label": "E", "text": "Untuk menentukan estimasi pendapatan iklan (ad revenue) dari total durasi tonton.", "score": 4 }
+                {
+                    "label": "A",
+                    "text": "Hanya sekadar angka untuk dipamerkan ke klien.",
+                    "score": 0
+                },
+                {
+                    "label": "B",
+                    "text": "Untuk mengetahui di detik ke berapa penonton bosan, sehingga pacing editing bisa diperbaiki ke depannya.",
+                    "score": 10
+                },
+                {
+                    "label": "C",
+                    "text": "Untuk mengidentifikasi bagian video yang paling banyak di-rewatch (retention spike) agar bisa direplikasi di konten berikutnya.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Untuk membandingkan performa relatif antar video dalam kanal yang sama.",
+                    "score": 6
+                },
+                {
+                    "label": "E",
+                    "text": "Untuk menentukan estimasi pendapatan iklan (ad revenue) dari total durasi tonton.",
+                    "score": 4
+                }
             ]
         }
     ],
@@ -974,110 +1574,310 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "id": "ai-1",
             "question": "Model Machine Learning yang kamu buat (misal prediksi harga rumah) bekerja 99% akurat di data training, tapi sangat buruk saat di-test dengan data baru. Modelmu mengalami?",
             "options": [
-                { "label": "A", "text": "Overfitting.", "score": 10 },
-                { "label": "B", "text": "Model mengalami memorization terhadap data training (menghafal detail/noise spesifik, bukan mempelajari pola umum).", "score": 8 },
-                { "label": "C", "text": "High variance akibat model terlalu kompleks relatif terhadap jumlah data.", "score": 6 },
-                { "label": "D", "text": "Model butuh dilatih dengan lebih banyak epoch/iterasi lagi supaya makin akurat.", "score": 4 },
-                { "label": "E", "text": "Underfitting.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "Overfitting.",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "Model mengalami memorization terhadap data training (menghafal detail/noise spesifik, bukan mempelajari pola umum).",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "High variance akibat model terlalu kompleks relatif terhadap jumlah data.",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Model butuh dilatih dengan lebih banyak epoch/iterasi lagi supaya makin akurat.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Underfitting.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "ai-2",
             "question": "Kamu membangun sistem RAG (Retrieval-Augmented Generation) menggunakan LLM, tapi sistem sering berhalusinasi mengarang jawaban di luar dokumen. Solusi arsitekturnya?",
             "options": [
-                { "label": "A", "text": "Menambahkan langkah verifikasi (self-check) agar LLM mengutip sumber persis dari dokumen sebelum menjawab, plus reranking hasil retrieval.", "score": 8 },
-                { "label": "B", "text": "Melakukan fine-tuning model LLM pada dataset domain spesifik (menyesuaikan bobot model yang sudah ada).", "score": 6 },
-                { "label": "C", "text": "Menaikkan jumlah dokumen yang di-retrieve (top-k) sebesar mungkin supaya konteks makin lengkap.", "score": 4 },
-                { "label": "D", "text": "Melatih (fine-tune) model LLM dari nol.", "score": 0 },
-                { "label": "E", "text": "Memperbaiki prompt dengan instruksi ketat 'Jawab HANYA berdasarkan konteks' dan mengevaluasi teknik chunking + vector search di Vector DB.", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "Menambahkan langkah verifikasi (self-check) agar LLM mengutip sumber persis dari dokumen sebelum menjawab, plus reranking hasil retrieval.",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Melakukan fine-tuning model LLM pada dataset domain spesifik (menyesuaikan bobot model yang sudah ada).",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Menaikkan jumlah dokumen yang di-retrieve (top-k) sebesar mungkin supaya konteks makin lengkap.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Melatih (fine-tune) model LLM dari nol.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "Memperbaiki prompt dengan instruksi ketat 'Jawab HANYA berdasarkan konteks' dan mengevaluasi teknik chunking + vector search di Vector DB.",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "ai-3",
             "question": "Proses pencarian dokumen terdekat (semantic search) dari jutaan teks berjalan sangat lambat. Library apa yang sebaiknya diimplementasikan untuk indexing vektor?",
             "options": [
-                { "label": "A", "text": "Elasticsearch dengan BM25 (pencarian keyword/full-text tradisional).", "score": 6 },
-                { "label": "B", "text": "Membuat index manual dengan dictionary Python dan looping brute-force menghitung cosine similarity.", "score": 4 },
-                { "label": "C", "text": "Pandas DataFrame.", "score": 0 },
-                { "label": "D", "text": "FAISS (Facebook AI Similarity Search) atau Vector Database khusus.", "score": 10 },
-                { "label": "E", "text": "Library ANN (Approximate Nearest Neighbor) seperti Annoy atau HNSWlib yang di-embed langsung di aplikasi.", "score": 8 }
+                {
+                    "label": "A",
+                    "text": "Elasticsearch dengan BM25 (pencarian keyword/full-text tradisional).",
+                    "score": 6
+                },
+                {
+                    "label": "B",
+                    "text": "Membuat index manual dengan dictionary Python dan looping brute-force menghitung cosine similarity.",
+                    "score": 4
+                },
+                {
+                    "label": "C",
+                    "text": "Pandas DataFrame.",
+                    "score": 0
+                },
+                {
+                    "label": "D",
+                    "text": "FAISS (Facebook AI Similarity Search) atau Vector Database khusus.",
+                    "score": 10
+                },
+                {
+                    "label": "E",
+                    "text": "Library ANN (Approximate Nearest Neighbor) seperti Annoy atau HNSWlib yang di-embed langsung di aplikasi.",
+                    "score": 8
+                }
             ]
         },
         {
             "id": "ai-4",
             "question": "Saat melakukan pembersihan data untuk NLP (Natural Language Processing), teks mengandung banyak stop words dan imbuhan. Tahap preprocessing yang diperlukan?",
             "options": [
-                { "label": "A", "text": "Menggunakan spell-checker otomatis untuk memperbaiki typo di seluruh teks.", "score": 4 },
-                { "label": "B", "text": "Mengubah semuanya menjadi huruf kapital.", "score": 0 },
-                { "label": "C", "text": "Tokenization, Stopword Removal, dan Stemming/Lemmatization.", "score": 10 },
-                { "label": "D", "text": "Tokenization dan Stopword Removal saja, tanpa Stemming/Lemmatization.", "score": 8 },
-                { "label": "E", "text": "Lowercase seluruh teks dan menghapus tanda baca saja.", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Menggunakan spell-checker otomatis untuk memperbaiki typo di seluruh teks.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Mengubah semuanya menjadi huruf kapital.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Tokenization, Stopword Removal, dan Stemming/Lemmatization.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Tokenization dan Stopword Removal saja, tanpa Stemming/Lemmatization.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Lowercase seluruh teks dan menghapus tanda baca saja.",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "ai-5",
             "question": "Dalam membangun sistem klasifikasi gambar (CNN), jumlah datamu (dataset) untuk kelas tertentu sangat sedikit. Teknik apa yang bisa dipakai agar model tetap bagus?",
             "options": [
-                { "label": "A", "text": "Menurunkan threshold confidence khusus untuk kelas yang datanya sedikit saat prediksi.", "score": 4 },
-                { "label": "B", "text": "Menghapus kelas tersebut dari prediksi.", "score": 0 },
-                { "label": "C", "text": "Data Augmentation (memutar, memotong gambar) atau Transfer Learning dari model pre-trained (seperti ResNet/YOLO).", "score": 10 },
-                { "label": "D", "text": "Menggunakan teknik SMOTE (Synthetic Minority Oversampling) untuk membuat data sintetis tambahan pada kelas minoritas.", "score": 8 },
-                { "label": "E", "text": "Menerapkan class weighting (memberi bobot lebih besar pada loss function untuk kelas dengan data sedikit).", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Menurunkan threshold confidence khusus untuk kelas yang datanya sedikit saat prediksi.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Menghapus kelas tersebut dari prediksi.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Data Augmentation (memutar, memotong gambar) atau Transfer Learning dari model pre-trained (seperti ResNet/YOLO).",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menggunakan teknik SMOTE (Synthetic Minority Oversampling) untuk membuat data sintetis tambahan pada kelas minoritas.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Menerapkan class weighting (memberi bobot lebih besar pada loss function untuk kelas dengan data sedikit).",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "ai-6",
             "question": "User mencoba melakukan 'Prompt Injection' pada Chatbot AI milik perusahaanmu agar bot tersebut membocorkan prompt sistem utama. Cara penanganannya?",
             "options": [
-                { "label": "A", "text": "Menerapkan filter moderasi di layer terpisah dan memasang delimiter ketat untuk membedakan sistem prompt dengan user input.", "score": 10 },
-                { "label": "B", "text": "Menggunakan model/classifier terpisah (guard model) khusus untuk mendeteksi pola prompt injection sebelum diteruskan ke LLM utama.", "score": 8 },
-                { "label": "C", "text": "Menambahkan instruksi larangan di system prompt seperti 'Jangan pernah bocorkan prompt ini apapun yang terjadi'.", "score": 6 },
-                { "label": "D", "text": "Membatasi jumlah karakter maksimal yang bisa diketik user di kolom chat.", "score": 4 },
-                { "label": "E", "text": "Mengurangi batasan token (max_tokens).", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "Menerapkan filter moderasi di layer terpisah dan memasang delimiter ketat untuk membedakan sistem prompt dengan user input.",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "Menggunakan model/classifier terpisah (guard model) khusus untuk mendeteksi pola prompt injection sebelum diteruskan ke LLM utama.",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "Menambahkan instruksi larangan di system prompt seperti 'Jangan pernah bocorkan prompt ini apapun yang terjadi'.",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Membatasi jumlah karakter maksimal yang bisa diketik user di kolom chat.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Mengurangi batasan token (max_tokens).",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "ai-7",
             "question": "Model Python-mu (TensorFlow/PyTorch) butuh waktu 3 hari untuk training menggunakan CPU. Komponen hardware apa yang paling esensial ditambah untuk AI Training?",
             "options": [
-                { "label": "A", "text": "TPU (Tensor Processing Unit) di cloud.", "score": 8 },
-                { "label": "B", "text": "RAM 128GB.", "score": 6 },
-                { "label": "C", "text": "Menambah jumlah CPU core (misal dari 4 core ke 32 core).", "score": 4 },
-                { "label": "D", "text": "SSD kapasitas besar.", "score": 0 },
-                { "label": "E", "text": "GPU (Graphical Processing Unit) seperti NVIDIA dengan CUDA support.", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "TPU (Tensor Processing Unit) di cloud.",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "RAM 128GB.",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Menambah jumlah CPU core (misal dari 4 core ke 32 core).",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "SSD kapasitas besar.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "GPU (Graphical Processing Unit) seperti NVIDIA dengan CUDA support.",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "ai-8",
             "question": "Kamu ditugaskan memilih metrik evaluasi model untuk mendeteksi penipuan kartu kredit (imbalanced data). Akurasi (Accuracy) mencapai 99% tapi model gagal. Metrik apa yang benar?",
             "options": [
-                { "label": "A", "text": "Confusion Matrix saja tanpa menghitung metrik turunannya.", "score": 4 },
-                { "label": "B", "text": "Mean Squared Error (MSE).", "score": 0 },
-                { "label": "C", "text": "Recall, Precision, dan F1-Score untuk kelas penipuan.", "score": 10 },
-                { "label": "D", "text": "Precision-Recall AUC (Area Under PR Curve).", "score": 8 },
-                { "label": "E", "text": "AUC-ROC (Area Under the ROC Curve).", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Confusion Matrix saja tanpa menghitung metrik turunannya.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Mean Squared Error (MSE).",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Recall, Precision, dan F1-Score untuk kelas penipuan.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Precision-Recall AUC (Area Under PR Curve).",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "AUC-ROC (Area Under the ROC Curve).",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "ai-9",
             "question": "Untuk mengurangi biaya API LLM komersial (seperti OpenAI) di task summarization internal, kamu berniat menggunakan model Open Source. Langkah yang tepat?",
             "options": [
-                { "label": "A", "text": "Menggunakan caching agresif untuk hasil summary yang pernah diminta sebelumnya, tanpa mengganti model.", "score": 4 },
-                { "label": "B", "text": "Menggunakan metode regex tradisional alih-alih AI.", "score": 0 },
-                { "label": "C", "text": "Men-deploy model seperti LLaMA/Mistral secara lokal atau di cloud GPU sendiri.", "score": 10 },
-                { "label": "D", "text": "Menggunakan model open source lewat layanan inference terkelola pihak ketiga (misal Together AI, Groq) tanpa mengelola infrastruktur GPU sendiri.", "score": 8 },
-                { "label": "E", "text": "Downgrade ke model komersial versi lebih kecil/murah (tier mini/nano) dari provider yang sama.", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Menggunakan caching agresif untuk hasil summary yang pernah diminta sebelumnya, tanpa mengganti model.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Menggunakan metode regex tradisional alih-alih AI.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Men-deploy model seperti LLaMA/Mistral secara lokal atau di cloud GPU sendiri.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menggunakan model open source lewat layanan inference terkelola pihak ketiga (misal Together AI, Groq) tanpa mengelola infrastruktur GPU sendiri.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Downgrade ke model komersial versi lebih kecil/murah (tier mini/nano) dari provider yang sama.",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "ai-10",
             "question": "Salah satu kelemahan model LLM saat ini adalah 'Knowledge Cutoff' (tidak tahu informasi terbaru). Fitur sistem apa yang dibangun engineer untuk mengatasi ini?",
             "options": [
-                { "label": "A", "text": "Memaksa model menghafal data.", "score": 0 },
-                { "label": "B", "text": "Membangun sistem Tool Calling / Function Calling agar LLM bisa memanggil API Google Search atau query database saat itu juga.", "score": 10 },
-                { "label": "C", "text": "Membangun sistem RAG yang menyuntikkan dokumen/data terbaru ke dalam konteks prompt sebelum LLM menjawab.", "score": 8 },
-                { "label": "D", "text": "Melakukan fine-tuning ulang model secara berkala dengan data terbaru.", "score": 6 },
-                { "label": "E", "text": "Menambahkan disclaimer di UI 'Informasi mungkin tidak up-to-date' agar user maklum.", "score": 4 }
+                {
+                    "label": "A",
+                    "text": "Memaksa model menghafal data.",
+                    "score": 0
+                },
+                {
+                    "label": "B",
+                    "text": "Membangun sistem Tool Calling / Function Calling agar LLM bisa memanggil API Google Search atau query database saat itu juga.",
+                    "score": 10
+                },
+                {
+                    "label": "C",
+                    "text": "Membangun sistem RAG yang menyuntikkan dokumen/data terbaru ke dalam konteks prompt sebelum LLM menjawab.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Melakukan fine-tuning ulang model secara berkala dengan data terbaru.",
+                    "score": 6
+                },
+                {
+                    "label": "E",
+                    "text": "Menambahkan disclaimer di UI 'Informasi mungkin tidak up-to-date' agar user maklum.",
+                    "score": 4
+                }
             ]
         }
     ],
@@ -1086,110 +1886,310 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "id": "dev-1",
             "question": "Setiap kali developer merilis kode, aplikasi production sering mati sesaat. Solusi Deployment yang harus diimplementasikan DevOps adalah?",
             "options": [
-                { "label": "A", "text": "Menerapkan CI/CD pipeline dengan strategi Blue-Green Deployment atau Zero Downtime Deployment.", "score": 10 },
-                { "label": "B", "text": "Menerapkan Rolling Update (mengganti instance lama dengan baru secara bertahap, bukan sekaligus).", "score": 8 },
-                { "label": "C", "text": "Menjadwalkan deploy hanya di jam traffic paling rendah (maintenance window).", "score": 6 },
-                { "label": "D", "text": "Menambahkan health check endpoint sederhana yang dicek manual oleh tim sebelum & sesudah deploy.", "score": 4 },
-                { "label": "E", "text": "Melakukan deploy manual jam 3 pagi.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "Menerapkan CI/CD pipeline dengan strategi Blue-Green Deployment atau Zero Downtime Deployment.",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "Menerapkan Rolling Update (mengganti instance lama dengan baru secara bertahap, bukan sekaligus).",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "Menjadwalkan deploy hanya di jam traffic paling rendah (maintenance window).",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan health check endpoint sederhana yang dicek manual oleh tim sebelum & sesudah deploy.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Melakukan deploy manual jam 3 pagi.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "dev-2",
             "question": "Tim QA mendapati skrip Automation Test (Selenium/Cypress) mereka sering gagal (flaky) karena elemen halaman kadang belum termuat penuh. Cara memperbaikinya?",
             "options": [
-                { "label": "A", "text": "Menggunakan Fluent Wait (Explicit Wait dengan polling interval & exception yang bisa dikustomisasi).", "score": 8 },
-                { "label": "B", "text": "Menambahkan Implicit Wait global di awal skrip (satu kali setting untuk seluruh driver).", "score": 6 },
-                { "label": "C", "text": "Menjalankan ulang (retry) test case secara otomatis sampai 3x jika gagal, tanpa mengubah waktu tunggu.", "score": 4 },
-                { "label": "D", "text": "Menambahkan `sleep(10)` (hard wait) di setiap baris.", "score": 0 },
-                { "label": "E", "text": "Menggunakan Explicit Wait (menunggu elemen tertentu visible/clickable secara dinamis).", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "Menggunakan Fluent Wait (Explicit Wait dengan polling interval & exception yang bisa dikustomisasi).",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Menambahkan Implicit Wait global di awal skrip (satu kali setting untuk seluruh driver).",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Menjalankan ulang (retry) test case secara otomatis sampai 3x jika gagal, tanpa mengubah waktu tunggu.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan `sleep(10)` (hard wait) di setiap baris.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "Menggunakan Explicit Wait (menunggu elemen tertentu visible/clickable secara dinamis).",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "dev-3",
             "question": "Aplikasi berjalan lancar di laptop developer tapi error karena masalah versi OS/dependensi saat dijalankan di server staging. Teknologi untuk memecahkan 'It works on my machine'?",
             "options": [
-                { "label": "A", "text": "Menstandarkan versi Node.js/Python yang dipakai semua developer lewat file .nvmrc atau .python-version.", "score": 4 },
-                { "label": "B", "text": "Zip dan FTP manual.", "score": 0 },
-                { "label": "C", "text": "Containerization menggunakan Docker.", "score": 10 },
-                { "label": "D", "text": "Menggunakan Virtual Machine (VM) dengan snapshot environment yang sudah dikonfigurasi identik.", "score": 8 },
-                { "label": "E", "text": "Membuat dokumentasi detail versi OS & dependency, lalu tim lain mereplikasi secara manual.", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Menstandarkan versi Node.js/Python yang dipakai semua developer lewat file .nvmrc atau .python-version.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Zip dan FTP manual.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Containerization menggunakan Docker.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menggunakan Virtual Machine (VM) dengan snapshot environment yang sudah dikonfigurasi identik.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Membuat dokumentasi detail versi OS & dependency, lalu tim lain mereplikasi secara manual.",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "dev-4",
             "question": "Server cloud (AWS) sering mengalami lonjakan traffic tinggi tak terduga yang membuat RAM penuh, lalu kembali sepi. Fitur apa yang harus di-setup?",
             "options": [
-                { "label": "A", "text": "Menambahkan cache layer (Redis/Memcached) di depan server untuk mengurangi beban.", "score": 4 },
-                { "label": "B", "text": "Membeli server terbesar secara permanen (Overprovisioning).", "score": 0 },
-                { "label": "C", "text": "Auto Scaling Group dikombinasikan dengan Load Balancer.", "score": 10 },
-                { "label": "D", "text": "Menggunakan Serverless Function (misal AWS Lambda) untuk komponen yang traffic-nya paling fluktuatif.", "score": 8 },
-                { "label": "E", "text": "Menaikkan spesifikasi server secara manual (vertical scaling) setiap kali terjadi lonjakan.", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Menambahkan cache layer (Redis/Memcached) di depan server untuk mengurangi beban.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Membeli server terbesar secara permanen (Overprovisioning).",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Auto Scaling Group dikombinasikan dengan Load Balancer.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menggunakan Serverless Function (misal AWS Lambda) untuk komponen yang traffic-nya paling fluktuatif.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Menaikkan spesifikasi server secara manual (vertical scaling) setiap kali terjadi lonjakan.",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "dev-5",
             "question": "Terjadi celah keamanan data karena developer memasukkan password database (credentials) langsung ke dalam source code di GitHub (Hardcoded). Praktik CI/CD yang benar?",
             "options": [
-                { "label": "A", "text": "Menyimpan credentials di Environment Variables (Secrets Management) dan injeksi saat pipeline berjalan.", "score": 10 },
-                { "label": "B", "text": "Menggunakan dedicated Secrets Manager (misal AWS Secrets Manager/HashiCorp Vault) dengan rotasi otomatis.", "score": 8 },
-                { "label": "C", "text": "Menghapus commit yang mengandung credentials dari histori Git dan segera mengganti (rotate) password yang bocor.", "score": 6 },
-                { "label": "D", "text": "Menambahkan file .gitignore untuk mencegah file config baru ter-commit, tanpa membersihkan credentials lama yang sudah bocor.", "score": 4 },
-                { "label": "E", "text": "Membuat repo GitHub menjadi private.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "Menyimpan credentials di Environment Variables (Secrets Management) dan injeksi saat pipeline berjalan.",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "Menggunakan dedicated Secrets Manager (misal AWS Secrets Manager/HashiCorp Vault) dengan rotasi otomatis.",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "Menghapus commit yang mengandung credentials dari histori Git dan segera mengganti (rotate) password yang bocor.",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan file .gitignore untuk mencegah file config baru ter-commit, tanpa membersihkan credentials lama yang sudah bocor.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Membuat repo GitHub menjadi private.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "dev-6",
             "question": "Saat melakukan Load Testing (misal menggunakan JMeter/K6), metrik utama apa yang paling diperhatikan untuk mengukur keandalan (reliability) server?",
             "options": [
-                { "label": "A", "text": "Response Time, Throughput (RPS), dan Error Rate saat concurrent user tinggi.", "score": 10 },
-                { "label": "B", "text": "Response Time dan Error Rate saja, tanpa memperhatikan Throughput (RPS).", "score": 8 },
-                { "label": "C", "text": "Penggunaan CPU dan Memory server selama pengujian berlangsung.", "score": 6 },
-                { "label": "D", "text": "Jumlah total request yang berhasil dikirim selama pengujian, tanpa memperhatikan waktu respons atau error.", "score": 4 },
-                { "label": "E", "text": "Warna antarmuka server.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "Response Time, Throughput (RPS), dan Error Rate saat concurrent user tinggi.",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "Response Time dan Error Rate saja, tanpa memperhatikan Throughput (RPS).",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "Penggunaan CPU dan Memory server selama pengujian berlangsung.",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Jumlah total request yang berhasil dikirim selama pengujian, tanpa memperhatikan waktu respons atau error.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Warna antarmuka server.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "dev-7",
             "question": "Dalam ekosistem Kubernetes, satu Pod utama tiba-tiba crash. Apa yang secara otomatis dilakukan sistem Orchestration ini?",
             "options": [
-                { "label": "A", "text": "Kubernetes akan mencoba restart pod di node yang sama dulu (sesuai restart policy), baru dijadwalkan ulang ke node lain jika terus gagal.", "score": 8 },
-                { "label": "B", "text": "Mengirim alert otomatis ke sistem monitoring (misal Prometheus/Grafana) tanpa mengambil tindakan pemulihan apapun.", "score": 6 },
-                { "label": "C", "text": "Kubernetes akan menghapus (delete) pod yang crash secara permanen tanpa membuat replacement.", "score": 4 },
-                { "label": "D", "text": "Mematikan seluruh server.", "score": 0 },
-                { "label": "E", "text": "Restart otomatis pod tersebut atau menjadwalkan ulang di node lain yang sehat untuk menjaga 'desired state'.", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "Kubernetes akan mencoba restart pod di node yang sama dulu (sesuai restart policy), baru dijadwalkan ulang ke node lain jika terus gagal.",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Mengirim alert otomatis ke sistem monitoring (misal Prometheus/Grafana) tanpa mengambil tindakan pemulihan apapun.",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Kubernetes akan menghapus (delete) pod yang crash secara permanen tanpa membuat replacement.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mematikan seluruh server.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "Restart otomatis pod tersebut atau menjadwalkan ulang di node lain yang sehat untuk menjaga 'desired state'.",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "dev-8",
             "question": "QA Engineer menemukan Defect (Bug) kritis pada fitur pembayaran. Selain melaporkan bug, informasi esensial apa yang wajib ada di tiket Jira agar developer paham?",
             "options": [
-                { "label": "A", "text": "Tingkat keparahan (Severity/Priority) serta informasi browser/device yang dipakai saat testing.", "score": 6 },
-                { "label": "B", "text": "Video rekaman layar penuh dari awal sampai akhir proses tanpa penjelasan tertulis apapun.", "score": 4 },
-                { "label": "C", "text": "Hanya screenshot dan kata 'Error'.", "score": 0 },
-                { "label": "D", "text": "Steps to reproduce (Langkah mengulangi bug), Expected Result (Hasil yang diharapkan), dan Actual Result (Hasil asli).", "score": 10 },
-                { "label": "E", "text": "Steps to reproduce dan Expected Result saja, tanpa mencantumkan Actual Result secara eksplisit.", "score": 8 }
+                {
+                    "label": "A",
+                    "text": "Tingkat keparahan (Severity/Priority) serta informasi browser/device yang dipakai saat testing.",
+                    "score": 6
+                },
+                {
+                    "label": "B",
+                    "text": "Video rekaman layar penuh dari awal sampai akhir proses tanpa penjelasan tertulis apapun.",
+                    "score": 4
+                },
+                {
+                    "label": "C",
+                    "text": "Hanya screenshot dan kata 'Error'.",
+                    "score": 0
+                },
+                {
+                    "label": "D",
+                    "text": "Steps to reproduce (Langkah mengulangi bug), Expected Result (Hasil yang diharapkan), dan Actual Result (Hasil asli).",
+                    "score": 10
+                },
+                {
+                    "label": "E",
+                    "text": "Steps to reproduce dan Expected Result saja, tanpa mencantumkan Actual Result secara eksplisit.",
+                    "score": 8
+                }
             ]
         },
         {
             "id": "dev-9",
             "question": "Infrastruktur cloud perusahaan saat ini dikonfigurasi secara manual lewat klik di Dashboard UI (AWS Console). Pendekatan ini rentan error dan sulit diduplikasi. Solusinya?",
             "options": [
-                { "label": "A", "text": "Membuat template AMI (Amazon Machine Image) custom yang sudah dikonfigurasi, lalu clone manual setiap butuh server baru.", "score": 4 },
-                { "label": "B", "text": "Membuat dokumentasi Word panjang.", "score": 0 },
-                { "label": "C", "text": "Infrastructure as Code (IaC) menggunakan alat seperti Terraform atau Ansible.", "score": 10 },
-                { "label": "D", "text": "Menggunakan AWS CloudFormation (IaC native AWS, deklaratif seperti Terraform tapi vendor-specific).", "score": 8 },
-                { "label": "E", "text": "Membuat script Shell/Bash yang menjalankan urutan perintah AWS CLI secara berurutan setiap kali konfigurasi.", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Membuat template AMI (Amazon Machine Image) custom yang sudah dikonfigurasi, lalu clone manual setiap butuh server baru.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Membuat dokumentasi Word panjang.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Infrastructure as Code (IaC) menggunakan alat seperti Terraform atau Ansible.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menggunakan AWS CloudFormation (IaC native AWS, deklaratif seperti Terraform tapi vendor-specific).",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Membuat script Shell/Bash yang menjalankan urutan perintah AWS CLI secara berurutan setiap kali konfigurasi.",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "dev-10",
             "question": "Untuk memastikan fitur lama tidak rusak akibat rilis kode baru, jenis testing (pengujian) apa yang dijalankan oleh QA Automation di dalam pipeline?",
             "options": [
-                { "label": "A", "text": "Unit Testing yang dijalankan otomatis oleh developer sebelum kode di-merge.", "score": 4 },
-                { "label": "B", "text": "Exploratory Testing.", "score": 0 },
-                { "label": "C", "text": "Regression Testing.", "score": 10 },
-                { "label": "D", "text": "Sanity Testing (pengujian cepat terfokus pada bagian yang baru diubah saja, lebih sempit dari smoke test).", "score": 8 },
-                { "label": "E", "text": "Smoke Testing (pengujian cepat fungsi kritis utama saja).", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Unit Testing yang dijalankan otomatis oleh developer sebelum kode di-merge.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Exploratory Testing.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Regression Testing.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Sanity Testing (pengujian cepat terfokus pada bagian yang baru diubah saja, lebih sempit dari smoke test).",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Smoke Testing (pengujian cepat fungsi kritis utama saja).",
+                    "score": 6
+                }
             ]
         }
     ],
@@ -1198,110 +2198,310 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "id": "da-1",
             "question": "Terdapat dua tabel: 'Users' dan 'Orders'. Kamu ingin menampilkan semua user, bahkan yang belum pernah order sekalipun. Jenis SQL Join apa yang dipakai?",
             "options": [
-                { "label": "A", "text": "LEFT JOIN (dari tabel Users).", "score": 10 },
-                { "label": "B", "text": "LEFT JOIN dari tabel Users, ditambah DISTINCT untuk menghindari duplikasi baris jika 1 user punya banyak order.", "score": 8 },
-                { "label": "C", "text": "FULL OUTER JOIN.", "score": 6 },
-                { "label": "D", "text": "RIGHT JOIN dari tabel Orders.", "score": 4 },
-                { "label": "E", "text": "INNER JOIN.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "LEFT JOIN (dari tabel Users).",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "LEFT JOIN dari tabel Users, ditambah DISTINCT untuk menghindari duplikasi baris jika 1 user punya banyak order.",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "FULL OUTER JOIN.",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "RIGHT JOIN dari tabel Orders.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "INNER JOIN.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "da-2",
             "question": "Saat membersihkan data (Data Cleansing) di Python/Pandas, kamu menemukan kolom 'Pendapatan' memiliki banyak nilai kosong (NaN/Null). Cara statistika terbaik menanganinya?",
             "options": [
-                { "label": "A", "text": "Melakukan Imputasi dengan Median saja, tanpa mempertimbangkan skewness lebih lanjut.", "score": 8 },
-                { "label": "B", "text": "Melakukan Imputasi dengan nilai Modus (Mode).", "score": 6 },
-                { "label": "C", "text": "Menggunakan nilai imputasi dari model prediktif sederhana (regresi) berdasarkan kolom lain.", "score": 4 },
-                { "label": "D", "text": "Mengisi dengan angka 0.", "score": 0 },
-                { "label": "E", "text": "Melakukan Imputasi (mengisi dengan Median atau Mean) tergantung distribusi kemiringan (skewness) datanya.", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "Melakukan Imputasi dengan Median saja, tanpa mempertimbangkan skewness lebih lanjut.",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Melakukan Imputasi dengan nilai Modus (Mode).",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Menggunakan nilai imputasi dari model prediktif sederhana (regresi) berdasarkan kolom lain.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mengisi dengan angka 0.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "Melakukan Imputasi (mengisi dengan Median atau Mean) tergantung distribusi kemiringan (skewness) datanya.",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "da-3",
             "question": "Dashboard Tableau yang kamu buat loadingnya sangat lama saat dibuka oleh direktur (menghabiskan 30 detik). Kesalahan desain arsitektur yang sering terjadi?",
             "options": [
-                { "label": "A", "text": "Terlalu banyak filter interaktif dan calculated fields kompleks yang dihitung ulang setiap kali dashboard dibuka.", "score": 6 },
-                { "label": "B", "text": "Terlalu banyak worksheet/tab dalam satu file dashboard yang sama.", "score": 4 },
-                { "label": "C", "text": "Warna dashboard terlalu cerah.", "score": 0 },
-                { "label": "D", "text": "Tabel di-query langsung ke database produksi jutaan baris (Live Connection) tanpa Extract/Agregasi sebelumnya.", "score": 10 },
-                { "label": "E", "text": "Live Connection ke database produksi tapi tanpa index yang tepat di kolom yang sering difilter.", "score": 8 }
+                {
+                    "label": "A",
+                    "text": "Terlalu banyak filter interaktif dan calculated fields kompleks yang dihitung ulang setiap kali dashboard dibuka.",
+                    "score": 6
+                },
+                {
+                    "label": "B",
+                    "text": "Terlalu banyak worksheet/tab dalam satu file dashboard yang sama.",
+                    "score": 4
+                },
+                {
+                    "label": "C",
+                    "text": "Warna dashboard terlalu cerah.",
+                    "score": 0
+                },
+                {
+                    "label": "D",
+                    "text": "Tabel di-query langsung ke database produksi jutaan baris (Live Connection) tanpa Extract/Agregasi sebelumnya.",
+                    "score": 10
+                },
+                {
+                    "label": "E",
+                    "text": "Live Connection ke database produksi tapi tanpa index yang tepat di kolom yang sering difilter.",
+                    "score": 8
+                }
             ]
         },
         {
             "id": "da-4",
             "question": "Tim sales ingin visualisasi yang menunjukkan perbandingan porsi penjualan tiap regional terhadap total penjualan keseluruhan (100%). Chart yang kurang disarankan secara UX data adalah?",
             "options": [
-                { "label": "A", "text": "Line Chart untuk menunjukkan porsi masing-masing regional di satu titik waktu.", "score": 4 },
-                { "label": "B", "text": "Bar Chart bertingkat (Stacked Bar).", "score": 0 },
-                { "label": "C", "text": "Pie Chart 3D dengan belasan kategori (sulit membandingkan volume mata secara presisi, distorsi 3D menambah kesulitan).", "score": 10 },
-                { "label": "D", "text": "Donut Chart dengan lebih dari 10 kategori berbeda (ruang tengah kosong mengurangi luas area perbandingan).", "score": 8 },
-                { "label": "E", "text": "Tree Map (baik untuk part-to-whole, tapi tetap sulit membandingkan nilai yang besarnya mirip tanpa label angka).", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Line Chart untuk menunjukkan porsi masing-masing regional di satu titik waktu.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Bar Chart bertingkat (Stacked Bar).",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Pie Chart 3D dengan belasan kategori (sulit membandingkan volume mata secara presisi, distorsi 3D menambah kesulitan).",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Donut Chart dengan lebih dari 10 kategori berbeda (ruang tengah kosong mengurangi luas area perbandingan).",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Tree Map (baik untuk part-to-whole, tapi tetap sulit membandingkan nilai yang besarnya mirip tanpa label angka).",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "da-5",
             "question": "Di Power BI, untuk menghitung 'Total Penjualan Tahun Berjalan' yang bisa update dinamis, bahasa ekspresi (formula) apa yang digunakan?",
             "options": [
-                { "label": "A", "text": "DAX (Data Analysis Expressions) seperti TOTALYTD.", "score": 10 },
-                { "label": "B", "text": "DAX, tapi menggunakan CALCULATE dengan filter tanggal manual alih-alih fungsi bawaan TOTALYTD.", "score": 8 },
-                { "label": "C", "text": "Power Query (M Language).", "score": 6 },
-                { "label": "D", "text": "Menggunakan fungsi bawaan Excel seperti SUMIFS yang di-copy ke Power BI.", "score": 4 },
-                { "label": "E", "text": "HTML.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "DAX (Data Analysis Expressions) seperti TOTALYTD.",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "DAX, tapi menggunakan CALCULATE dengan filter tanggal manual alih-alih fungsi bawaan TOTALYTD.",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "Power Query (M Language).",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Menggunakan fungsi bawaan Excel seperti SUMIFS yang di-copy ke Power BI.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "HTML.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "da-6",
             "question": "Data menunjukkan angka rata-rata (Mean) penjualan bulan ini naik tajam, tapi median (nilai tengah) tetap. Apa indikasi terkuat dari fenomena ini?",
             "options": [
-                { "label": "A", "text": "Terdapat Outlier ekstrim (misal 1 transaksi bernilai raksasa) yang mengerek angka rata-rata.", "score": 10 },
-                { "label": "B", "text": "Ada beberapa transaksi bernilai sangat besar (bukan cuma satu) yang mendorong rata-rata naik, sementara mayoritas transaksi lain normal.", "score": 8 },
-                { "label": "C", "text": "Distribusi data secara umum menjadi condong (skewed) ke kanan bulan ini.", "score": 6 },
-                { "label": "D", "text": "Jumlah transaksi bulan ini lebih banyak dari biasanya (volume naik), meski nilai rata-rata per transaksi sama.", "score": 4 },
-                { "label": "E", "text": "Semua sales mengalami peningkatan.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "Terdapat Outlier ekstrim (misal 1 transaksi bernilai raksasa) yang mengerek angka rata-rata.",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "Ada beberapa transaksi bernilai sangat besar (bukan cuma satu) yang mendorong rata-rata naik, sementara mayoritas transaksi lain normal.",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "Distribusi data secara umum menjadi condong (skewed) ke kanan bulan ini.",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Jumlah transaksi bulan ini lebih banyak dari biasanya (volume naik), meski nilai rata-rata per transaksi sama.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Semua sales mengalami peningkatan.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "da-7",
             "question": "Stakeholder bertanya: 'Mengapa user churn rate kita naik bulan ini?'. Analisis ini masuk ke dalam kategori analitik tahap apa?",
             "options": [
-                { "label": "A", "text": "Root Cause Analysis — pendekatan spesifik mencari akar penyebab, secara konsep termasuk bagian dari tahap Diagnostic Analytics.", "score": 8 },
-                { "label": "B", "text": "Descriptive Analytics (Apa yang terjadi).", "score": 6 },
-                { "label": "C", "text": "Prescriptive Analytics (Apa yang sebaiknya dilakukan).", "score": 4 },
-                { "label": "D", "text": "Predictive Analytics (Apa yang akan terjadi besok).", "score": 0 },
-                { "label": "E", "text": "Diagnostic Analytics (Mengapa itu terjadi).", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "Root Cause Analysis — pendekatan spesifik mencari akar penyebab, secara konsep termasuk bagian dari tahap Diagnostic Analytics.",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Descriptive Analytics (Apa yang terjadi).",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Prescriptive Analytics (Apa yang sebaiknya dilakukan).",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Predictive Analytics (Apa yang akan terjadi besok).",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "Diagnostic Analytics (Mengapa itu terjadi).",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "da-8",
             "question": "Dalam SQL, klausa apa yang digunakan untuk memfilter hasil *setelah* dilakukan pengelompokan agregasi (GROUP BY)?",
             "options": [
-                { "label": "A", "text": "HAVING dikombinasikan dengan WHERE (WHERE untuk filter baris sebelum agregasi, HAVING untuk filter setelah agregasi).", "score": 8 },
-                { "label": "B", "text": "WHERE dikombinasikan dengan subquery yang sudah mengagregasi data terlebih dahulu.", "score": 6 },
-                { "label": "C", "text": "QUALIFY clause (tersedia di beberapa dialek SQL seperti Snowflake/BigQuery, untuk filter setelah window function).", "score": 4 },
-                { "label": "D", "text": "ORDER BY.", "score": 0 },
-                { "label": "E", "text": "HAVING.", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "HAVING dikombinasikan dengan WHERE (WHERE untuk filter baris sebelum agregasi, HAVING untuk filter setelah agregasi).",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "WHERE dikombinasikan dengan subquery yang sudah mengagregasi data terlebih dahulu.",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "QUALIFY clause (tersedia di beberapa dialek SQL seperti Snowflake/BigQuery, untuk filter setelah window function).",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "ORDER BY.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "HAVING.",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "da-9",
             "question": "Kamu akan melakukan presentasi ('Data Storytelling') kepada tim eksekutif non-teknis. Aturan emas yang harus dipegang?",
             "options": [
-                { "label": "A", "text": "Menggunakan istilah statistik presisi (p-value, confidence interval) agar terlihat kredibel di depan direksi.", "score": 4 },
-                { "label": "B", "text": "Menampilkan seluruh kode Python dan formula query di layar.", "score": 0 },
-                { "label": "C", "text": "Menyorot Insight utama/Kesimpulan Bisnis terlebih dahulu, visual yang sederhana, dan rekomendasi aksi yang jelas (Actionable Insight).", "score": 10 },
-                { "label": "D", "text": "Menyorot insight utama di awal, tapi tetap menyertakan 2-3 slide appendix berisi detail metodologi untuk yang bertanya.", "score": 8 },
-                { "label": "E", "text": "Menampilkan seluruh grafik dan detail angka yang tersedia agar terlihat menyeluruh dan transparan.", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Menggunakan istilah statistik presisi (p-value, confidence interval) agar terlihat kredibel di depan direksi.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Menampilkan seluruh kode Python dan formula query di layar.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Menyorot Insight utama/Kesimpulan Bisnis terlebih dahulu, visual yang sederhana, dan rekomendasi aksi yang jelas (Actionable Insight).",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menyorot insight utama di awal, tapi tetap menyertakan 2-3 slide appendix berisi detail metodologi untuk yang bertanya.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Menampilkan seluruh grafik dan detail angka yang tersedia agar terlihat menyeluruh dan transparan.",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "da-10",
             "question": "Kolom tanggal formatnya berupa string berantakan (contoh: 'Jan 12 2024', '2024-01-12'). Untuk dianalisa, data ini harus diparsing menjadi format standar. Teknik ini disebut?",
             "options": [
-                { "label": "A", "text": "Data Standardization (secara umum, tanpa spesifik mengubah tipe data).", "score": 4 },
-                { "label": "B", "text": "Data Encryption.", "score": 0 },
-                { "label": "C", "text": "Data Transformation / Casting ke tipe data Date/Datetime.", "score": 10 },
-                { "label": "D", "text": "Data Parsing (secara spesifik mengekstrak & mengubah string tanggal menjadi tipe data terstruktur).", "score": 8 },
-                { "label": "E", "text": "Data Cleansing (istilah umum/payung).", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Data Standardization (secara umum, tanpa spesifik mengubah tipe data).",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Data Encryption.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Data Transformation / Casting ke tipe data Date/Datetime.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Data Parsing (secara spesifik mengekstrak & mengubah string tanggal menjadi tipe data terstruktur).",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Data Cleansing (istilah umum/payung).",
+                    "score": 6
+                }
             ]
         }
     ],
@@ -1310,321 +2510,621 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "id": "dres-1",
             "question": "Survei riset pasarmu menjangkau 1000 orang, tapi 90% responden adalah mahasiswa pria di bawah 25 tahun, padahal produkmu untuk umum. Masalah utama riset ini?",
             "options": [
-                { "label": "A", "text": "Sampling Bias (Sampel tidak merepresentasikan populasi target).", "score": 10 },
-                { "label": "B", "text": "Convenience Sampling yang tidak representatif (sampel diambil dari kelompok paling mudah dijangkau, bukan yang mewakili populasi).", "score": 8 },
-                { "label": "C", "text": "Ukuran sampel (1000 orang) terlalu kecil untuk mewakili pasar secara nasional.", "score": 6 },
-                { "label": "D", "text": "Margin of Error survei terlalu besar untuk ukuran sampel yang dipakai.", "score": 4 },
-                { "label": "E", "text": "Kuesionernya terlalu pendek.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "Sampling Bias (Sampel tidak merepresentasikan populasi target).",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "Convenience Sampling yang tidak representatif (sampel diambil dari kelompok paling mudah dijangkau, bukan yang mewakili populasi).",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "Ukuran sampel (1000 orang) terlalu kecil untuk mewakili pasar secara nasional.",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Margin of Error survei terlalu besar untuk ukuran sampel yang dipakai.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Kuesionernya terlalu pendek.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "dres-2",
             "question": "Dalam riset kualitatif (In-depth Interview), user ditanya: 'Apakah aplikasi ini sudah bagus dan mudah digunakan?'. Kesalahan apa pada perumusan pertanyaan ini?",
             "options": [
-                { "label": "A", "text": "Pertanyaan tersebut adalah Leading Question (menggiring jawaban), tapi formatnya sudah cukup terbuka.", "score": 8 },
-                { "label": "B", "text": "Pertanyaan tersebut terlalu umum/generik sehingga jawabannya tidak actionable.", "score": 6 },
-                { "label": "C", "text": "Pertanyaan tersebut seharusnya ditanyakan di awal interview, bukan di pertengahan/akhir.", "score": 4 },
-                { "label": "D", "text": "Kata-katanya kurang sopan.", "score": 0 },
-                { "label": "E", "text": "Pertanyaan tersebut adalah Leading Question (menggiring jawaban) dan tertutup (Yes/No answer).", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "Pertanyaan tersebut adalah Leading Question (menggiring jawaban), tapi formatnya sudah cukup terbuka.",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Pertanyaan tersebut terlalu umum/generik sehingga jawabannya tidak actionable.",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Pertanyaan tersebut seharusnya ditanyakan di awal interview, bukan di pertengahan/akhir.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Kata-katanya kurang sopan.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "Pertanyaan tersebut adalah Leading Question (menggiring jawaban) dan tertutup (Yes/No answer).",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "dres-3",
             "question": "Perusahaan ingin masuk ke pasar baru. Kamu ditugaskan menghitung TAM (Total Addressable Market). Pendekatan yang benar?",
             "options": [
-                { "label": "A", "text": "Menjumlahkan total pendapatan semua kompetitor yang sudah beroperasi di pasar tersebut saat ini.", "score": 6 },
-                { "label": "B", "text": "Menggunakan angka TAM dari laporan riset pasar milik kompetitor/industri tanpa validasi ulang.", "score": 4 },
-                { "label": "C", "text": "Menghitung hanya orang yang sudah pasti beli bulan depan.", "score": 0 },
-                { "label": "D", "text": "Menghitung total keseluruhan estimasi pendapatan yang tersedia dari seluruh permintaan pasar untuk produk tersebut.", "score": 10 },
-                { "label": "E", "text": "Mengalikan jumlah total populasi target dengan estimasi harga rata-rata produk (pendekatan top-down).", "score": 8 }
+                {
+                    "label": "A",
+                    "text": "Menjumlahkan total pendapatan semua kompetitor yang sudah beroperasi di pasar tersebut saat ini.",
+                    "score": 6
+                },
+                {
+                    "label": "B",
+                    "text": "Menggunakan angka TAM dari laporan riset pasar milik kompetitor/industri tanpa validasi ulang.",
+                    "score": 4
+                },
+                {
+                    "label": "C",
+                    "text": "Menghitung hanya orang yang sudah pasti beli bulan depan.",
+                    "score": 0
+                },
+                {
+                    "label": "D",
+                    "text": "Menghitung total keseluruhan estimasi pendapatan yang tersedia dari seluruh permintaan pasar untuk produk tersebut.",
+                    "score": 10
+                },
+                {
+                    "label": "E",
+                    "text": "Mengalikan jumlah total populasi target dengan estimasi harga rata-rata produk (pendekatan top-down).",
+                    "score": 8
+                }
             ]
         },
         {
             "id": "dres-4",
             "question": "Saat melakukan Competitor Analysis, selain fitur produk kompetitor, kerangka kerja (framework) strategis apa yang paling sering digunakan untuk memetakan kekuatan & kelemahan?",
             "options": [
-                { "label": "A", "text": "PESTEL Analysis (Politik, Ekonomi, Sosial, Teknologi, Environment, Legal).", "score": 8 },
-                { "label": "B", "text": "Porter's Five Forces.", "score": 6 },
-                { "label": "C", "text": "Business Model Canvas kompetitor.", "score": 4 },
-                { "label": "D", "text": "A/B Testing.", "score": 0 },
-                { "label": "E", "text": "SWOT Analysis.", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "PESTEL Analysis (Politik, Ekonomi, Sosial, Teknologi, Environment, Legal).",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Porter's Five Forces.",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Business Model Canvas kompetitor.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "A/B Testing.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "SWOT Analysis.",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "dres-5",
             "question": "Stakeholder menuntut hasil riset kualitatif dalam 2 hari, padahal butuh waktu untuk FGD. Strategi riset sekunder tercepat?",
             "options": [
-                { "label": "A", "text": "Membuat kuesioner online singkat dan menyebarkannya lewat media sosial pribadi, menunggu hasil masuk dalam 2 hari.", "score": 4 },
-                { "label": "B", "text": "Melakukan survei door-to-door.", "score": 0 },
-                { "label": "C", "text": "Melakukan Social Listening / Desk Research dari review kompetitor di internet, forum, dan laporan industri yang sudah ada.", "score": 10 },
-                { "label": "D", "text": "Menganalisis ulang data riset internal lama (misal survei tahun lalu) yang relevan dengan topik saat ini.", "score": 8 },
-                { "label": "E", "text": "Melakukan wawancara singkat (15 menit) dengan 5 orang terdekat yang mudah dihubungi (convenience sampling).", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Membuat kuesioner online singkat dan menyebarkannya lewat media sosial pribadi, menunggu hasil masuk dalam 2 hari.",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Melakukan survei door-to-door.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Melakukan Social Listening / Desk Research dari review kompetitor di internet, forum, dan laporan industri yang sudah ada.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Menganalisis ulang data riset internal lama (misal survei tahun lalu) yang relevan dengan topik saat ini.",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Melakukan wawancara singkat (15 menit) dengan 5 orang terdekat yang mudah dihubungi (convenience sampling).",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "dres-6",
             "question": "Hasil riset kuantitatif menunjukkan Korelasi positif tinggi antara penjualan es krim dan kematian akibat tenggelam. Kesimpulan kausal (sebab-akibat) yang benar?",
             "options": [
-                { "label": "A", "text": "Korelasi tidak berarti Kausalitas (bisa jadi ada variabel ke-3, misal: musim panas).", "score": 10 },
-                { "label": "B", "text": "Korelasi tersebut valid dan signifikan secara statistik, sehingga sudah cukup kuat dijadikan dasar kebijakan publik terkait keduanya.", "score": 8 },
-                { "label": "C", "text": "Ada hubungan langsung antara kedua data ini yang perlu diteliti lebih lanjut sebelum bisa disimpulkan.", "score": 6 },
-                { "label": "D", "text": "Data ini kemungkinan hasil dari coincidence murni (kebetulan acak) tanpa pola yang bisa dijelaskan.", "score": 4 },
-                { "label": "E", "text": "Makan es krim menyebabkan tenggelam.", "score": 0 }
+                {
+                    "label": "A",
+                    "text": "Korelasi tidak berarti Kausalitas (bisa jadi ada variabel ke-3, misal: musim panas).",
+                    "score": 10
+                },
+                {
+                    "label": "B",
+                    "text": "Korelasi tersebut valid dan signifikan secara statistik, sehingga sudah cukup kuat dijadikan dasar kebijakan publik terkait keduanya.",
+                    "score": 8
+                },
+                {
+                    "label": "C",
+                    "text": "Ada hubungan langsung antara kedua data ini yang perlu diteliti lebih lanjut sebelum bisa disimpulkan.",
+                    "score": 6
+                },
+                {
+                    "label": "D",
+                    "text": "Data ini kemungkinan hasil dari coincidence murni (kebetulan acak) tanpa pola yang bisa dijelaskan.",
+                    "score": 4
+                },
+                {
+                    "label": "E",
+                    "text": "Makan es krim menyebabkan tenggelam.",
+                    "score": 0
+                }
             ]
         },
         {
             "id": "dres-7",
             "question": "Alat ukur survei yang kamu buat konsisten menghasilkan nilai yang sama bila dites berulang-ulang, namun ternyata meleset dari tujuan pengukuran awal. Artinya survei ini?",
             "options": [
-                { "label": "A", "text": "Reliable dan sebagian Valid — konsisten mengukur sesuatu, hanya saja bukan konstruk yang dituju secara penuh.", "score": 8 },
-                { "label": "B", "text": "Instrumen ini sepenuhnya tidak berguna dan harus dirombak total dari nol.", "score": 6 },
-                { "label": "C", "text": "Instrumen ini butuh ditambah lebih banyak item pertanyaan supaya makin akurat.", "score": 4 },
-                { "label": "D", "text": "Valid tapi tidak Reliable.", "score": 0 },
-                { "label": "E", "text": "Reliable (Konsisten) tapi tidak Valid.", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "Reliable dan sebagian Valid — konsisten mengukur sesuatu, hanya saja bukan konstruk yang dituju secara penuh.",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Instrumen ini sepenuhnya tidak berguna dan harus dirombak total dari nol.",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Instrumen ini butuh ditambah lebih banyak item pertanyaan supaya makin akurat.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Valid tapi tidak Reliable.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "Reliable (Konsisten) tapi tidak Valid.",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "dres-8",
             "question": "Banyak responden meninggalkan kuesioner online di tengah jalan (Drop-off rate tinggi). Penyebab terbesarnya biasanya?",
             "options": [
-                { "label": "A", "text": "Kuesioner terlalu panjang saja, tanpa masalah repetisi atau skala yang membingungkan.", "score": 8 },
-                { "label": "B", "text": "Kuesioner tidak memberikan insentif/reward bagi responden yang mengisi sampai selesai.", "score": 6 },
-                { "label": "C", "text": "Kuesioner diakses lewat perangkat mobile yang tampilannya kurang responsive/rapi.", "score": 4 },
-                { "label": "D", "text": "Karena kuesioner tersebut anonim.", "score": 0 },
-                { "label": "E", "text": "Kuesioner terlalu panjang, pertanyaan repetitif, atau skala likert membingungkan (Survey Fatigue).", "score": 10 }
+                {
+                    "label": "A",
+                    "text": "Kuesioner terlalu panjang saja, tanpa masalah repetisi atau skala yang membingungkan.",
+                    "score": 8
+                },
+                {
+                    "label": "B",
+                    "text": "Kuesioner tidak memberikan insentif/reward bagi responden yang mengisi sampai selesai.",
+                    "score": 6
+                },
+                {
+                    "label": "C",
+                    "text": "Kuesioner diakses lewat perangkat mobile yang tampilannya kurang responsive/rapi.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Karena kuesioner tersebut anonim.",
+                    "score": 0
+                },
+                {
+                    "label": "E",
+                    "text": "Kuesioner terlalu panjang, pertanyaan repetitif, atau skala likert membingungkan (Survey Fatigue).",
+                    "score": 10
+                }
             ]
         },
         {
             "id": "dres-9",
             "question": "Dalam riset pricing (harga), untuk mengetahui kesediaan membayar user secara tidak langsung, metode yang sering digunakan adalah?",
             "options": [
-                { "label": "A", "text": "Melihat harga kompetitor sejenis di pasar dan menetapkan harga serupa (competitor-based pricing).", "score": 4 },
-                { "label": "B", "text": "Bertanya langsung 'Berapa harga yang Anda inginkan?'.", "score": 0 },
-                { "label": "C", "text": "Van Westendorp Price Sensitivity Meter atau Conjoint Analysis.", "score": 10 },
-                { "label": "D", "text": "Gabor-Granger Method (menanyakan kesediaan membeli pada serangkaian harga berbeda secara bertahap).", "score": 8 },
-                { "label": "E", "text": "Melakukan A/B Testing harga langsung di pasar (menampilkan harga berbeda ke segmen berbeda dan mengukur konversi).", "score": 6 }
+                {
+                    "label": "A",
+                    "text": "Melihat harga kompetitor sejenis di pasar dan menetapkan harga serupa (competitor-based pricing).",
+                    "score": 4
+                },
+                {
+                    "label": "B",
+                    "text": "Bertanya langsung 'Berapa harga yang Anda inginkan?'.",
+                    "score": 0
+                },
+                {
+                    "label": "C",
+                    "text": "Van Westendorp Price Sensitivity Meter atau Conjoint Analysis.",
+                    "score": 10
+                },
+                {
+                    "label": "D",
+                    "text": "Gabor-Granger Method (menanyakan kesediaan membeli pada serangkaian harga berbeda secara bertahap).",
+                    "score": 8
+                },
+                {
+                    "label": "E",
+                    "text": "Melakukan A/B Testing harga langsung di pasar (menampilkan harga berbeda ke segmen berbeda dan mengukur konversi).",
+                    "score": 6
+                }
             ]
         },
         {
             "id": "dres-10",
             "question": "Sebagai Strategy Analyst, kamu menemukan bahwa CAC (Customer Acquisition Cost) perusahaan melebihi LTV (Lifetime Value). Apa rekomendasi bisnismu?",
             "options": [
-                { "label": "A", "text": "Meningkatkan budget iklan (bakar uang) agar menang volume.", "score": 0 },
-                { "label": "B", "text": "Bisnis ini tidak berkelanjutan; sarankan untuk efisiensi marketing, naikkan retention, atau inovasi pricing/upselling.", "score": 10 },
-                { "label": "C", "text": "Bisnis ini tidak berkelanjutan; fokuskan dulu ke retention & pricing sebelum menambah budget akuisisi baru.", "score": 8 },
-                { "label": "D", "text": "Fokus mengejar pertumbuhan jumlah user (growth-at-all-cost) dulu, baru cari profitabilitas setelah mencapai skala besar.", "score": 6 },
-                { "label": "E", "text": "Meningkatkan harga produk secara drastis untuk menutup gap CAC-LTV dengan cepat.", "score": 4 }
+                {
+                    "label": "A",
+                    "text": "Meningkatkan budget iklan (bakar uang) agar menang volume.",
+                    "score": 0
+                },
+                {
+                    "label": "B",
+                    "text": "Bisnis ini tidak berkelanjutan; sarankan untuk efisiensi marketing, naikkan retention, atau inovasi pricing/upselling.",
+                    "score": 10
+                },
+                {
+                    "label": "C",
+                    "text": "Bisnis ini tidak berkelanjutan; fokuskan dulu ke retention & pricing sebelum menambah budget akuisisi baru.",
+                    "score": 8
+                },
+                {
+                    "label": "D",
+                    "text": "Fokus mengejar pertumbuhan jumlah user (growth-at-all-cost) dulu, baru cari profitabilitas setelah mencapai skala besar.",
+                    "score": 6
+                },
+                {
+                    "label": "E",
+                    "text": "Meningkatkan harga produk secara drastis untuk menutup gap CAC-LTV dengan cepat.",
+                    "score": 4
+                }
             ]
         }
     ],
     "digital-marketing": [
         {
             "id": "dm-1",
-            "question": "Anda adalah Performance Marketer yang menangani kampanye Meta Ads dengan CTR tinggi (4%) namun konversi penjualan di website tetap 0% menjelang akhir hari. Klien menuntut hasil instan sebelum anggaran habis. Anda dihadapkan pada dilema antara melakukan perbaikan teknis mendalam yang memakan waktu, melakukan optimasi cepat pada elemen visual untuk mendorong konversi segera, atau melakukan sinkronisasi ulang dengan tim terkait untuk memastikan ekspektasi klien selaras dengan realitas data. Langkah strategis apa yang Anda ambil?",
+            "question": "Anda adalah Performance Marketer yang menangani kampanye Meta Ads dengan CTR tinggi (4%) namun rasio konversi (CVR) di landing page sangat rendah (0.5%). Langkah evaluasi apa yang diprioritaskan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menghentikan sementara iklan untuk melakukan sesi sinkronisasi intensif dengan tim kreatif dan IT guna memastikan seluruh pemangku kepentingan memiliki pemahaman yang sama mengenai hambatan konversi, sehingga keputusan berikutnya diambil berdasarkan konsensus kolektif dan visi yang selaras.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan audit teknis mendalam pada payload size landing page dan mengeliminasi script pihak ketiga yang menghambat rendering, serta memvalidasi ulang konsistensi intent antara headline iklan dengan value proposition untuk memastikan fondasi konversi yang solid dan berkelanjutan.",
+                    "text": "Menganalisis relevansi pesan iklan terhadap landing page (Message Match), kecepatan muat mobile landing page, kejelasan CTA, dan kesesuaian harga/penawaran.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Melakukan A/B testing copywriting dan tata letak landing page serta memasang tool session recording untuk melihat drop-off pengguna.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Melakukan perubahan taktis instan pada elemen visual dan copy di landing page untuk menciptakan urgensi (scarcity) serta menyederhanakan alur checkout guna memaksimalkan peluang konversi dari traffic yang sudah ada sebelum anggaran hari ini habis.",
-                    "score": 5
+                    "text": "Mengubah target audiens Meta Ads ke Lookalike Audience 1% pembeli sebelumnya tanpa memeriksa landing page.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mematikan kampanye iklan dan mengganti seluruh visual konten kreatif iklan dengan video baru.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menaikkan budget iklan 3x lipat dengan asumsi konversi akan naik secara proporsional mengikuti volume klik.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "dm-2",
-            "question": "Anda adalah konsultan SEO untuk sebuah startup e-commerce yang sedang dalam fase krusial sebelum putaran pendanaan. Data menunjukkan adanya kanibalisasi keyword antara dua landing page utama yang menyebabkan penurunan peringkat drastis. Di satu sisi, CEO menuntut pemulihan trafik instan dalam 48 jam untuk menunjukkan traksi kepada investor. Di sisi lain, tim konten merasa salah satu halaman tersebut adalah aset branding yang sangat berharga bagi loyalitas pelanggan, sementara tim teknis memperingatkan bahwa perubahan drastis pada struktur URL akan berisiko menyebabkan ketidakstabilan indeksasi jangka panjang. Sebagai pemimpin proyek, pendekatan mana yang akan Anda ambil?",
+            "question": "Anda adalah konsultan SEO untuk sebuah startup e-commerce yang sedang dalam fase krusial migrasi domain website. Bagaimana strategi migrasi untuk meminimalkan kehilangan traffic organik?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi sesi kolaborasi lintas departemen untuk menyelaraskan ekspektasi antara CEO, tim konten, dan tim teknis, guna memastikan bahwa keputusan yang diambil nantinya mendapatkan dukungan penuh dari seluruh pemangku kepentingan dan menjaga harmoni visi perusahaan.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Menerapkan 301 redirect dari halaman dengan performa lebih rendah ke halaman utama serta melakukan konsolidasi internal link secara menyeluruh untuk memperkuat otoritas domain, meskipun langkah ini memerlukan waktu untuk pemulihan indeksasi dan mengabaikan nilai branding dari halaman yang dihapus.",
+                    "text": "Membuat pemetaan 301 Redirect 1-to-1 komprehensif, memperbarui internal link & XML sitemap, mempertahankan struktur title/meta tag, dan memonitor Google Search Console untuk 404 error.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menerapkan wildcard 301 redirect dari semua URL domain lama ke homepage domain baru dan mendaftarkan domain di Google Search Console.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Melakukan optimasi cepat dengan memodifikasi meta-tag dan menambahkan variasi keyword long-tail pada kedua halaman agar Google dapat membedakan relevansi konten secara instan, demi memenuhi target trafik jangka pendek CEO tanpa harus menghapus aset konten yang ada.",
-                    "score": 5
+                    "text": "Mengunggah sitemap domain baru ke Google Search Console tanpa mengatur 301 redirect dari URL lama.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Memasang meta tag 'canonical' pada domain lama yang mengarah ke domain baru tanpa konfigurasi server-side redirect.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menghapus hosting domain lama secara instan dan mengandalkan robot Google untuk mengindeks ulang domain baru dari nol.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "dm-3",
-            "question": "Klien utama Anda menuntut penjelasan mendesak karena ROAS kampanye Google Ads anjlok drastis dari 4.0 ke 1.2 dalam 48 jam terakhir, sementara CEO menuntut laporan performa lengkap dalam satu jam. Di satu sisi, Anda memiliki keterbatasan data yang belum terverifikasi sepenuhnya, namun di sisi lain, Anda harus memilih antara memberikan jawaban cepat untuk menenangkan pemangku kepentingan atau melakukan investigasi teknis mendalam yang mungkin memakan waktu namun memberikan solusi berbasis data yang akurat. Langkah strategis apa yang Anda ambil dalam situasi ini?",
+            "question": "Klien utama Anda menuntut penjelasan mendesak karena ROAS kampanye Google Ads anjlok drastis dalam seminggu terakhir. Langkah audit apa yang harus Anda lakukan pertama kali?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi pertemuan sinkronisasi dengan tim internal untuk menyelaraskan narasi dan mengelola ekspektasi klien secara transparan, dengan fokus utama pada menjaga kepercayaan jangka panjang dan memastikan seluruh pihak memiliki pemahaman yang seragam mengenai situasi yang sedang dihadapi.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan audit teknis mendalam pada struktur data, memvalidasi integritas tracking pixel, dan menganalisis anomali pada search terms secara komprehensif untuk memastikan bahwa solusi yang diberikan bersifat struktural dan mencegah terulangnya masalah serupa di masa depan, meskipun membutuhkan waktu lebih lama.",
+                    "text": "Memeriksa Search Terms report untuk kata kunci tidak relevan (tambahkan negative keywords), cek perubahan bidding strategi, periksa Quality Score ad groups, dan pantau aktivitas kompetitor (Auction Insights).",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Mengaudit Search Terms report untuk mengecualikan kata kunci boros budget dan beralih sementara ke Target CPA bidding.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Menyusun laporan ringkas berbasis data yang tersedia saat ini dengan mengidentifikasi tren utama dan memberikan rekomendasi taktis jangka pendek untuk memitigasi kerugian segera, guna memenuhi tenggat waktu CEO dan memberikan kepastian kepada klien bahwa situasi sedang dalam kendali.",
-                    "score": 5
+                    "text": "Menaikkan target Target ROAS di pengaturan kampanye agar algoritma Google dipaksa mencari audiens dengan konversi lebih tinggi.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mengganti semua teks judul iklan (headlines) dengan kata kunci pencarian bervolume tertinggi.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menghapus seluruh ad groups lama dan membuat kampanye baru dari awal tanpa menganalisis data historis.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "dm-4",
-            "question": "Anda adalah Product Lead di sebuah startup fintech yang sedang bersiap untuk peluncuran fitur investasi baru. Di saat yang sama, tim engineering menemukan celah keamanan minor yang berpotensi memengaruhi data pengguna, namun memperbaikinya akan menunda peluncuran selama dua minggu dan berisiko kehilangan momentum pemasaran yang sudah dianggarkan besar-besaran. Di sisi lain, tim marketing dan stakeholder mendesak agar peluncuran tetap sesuai jadwal dengan janji akan menambal celah tersebut melalui update patch di minggu berikutnya. Bagaimana Anda mengambil keputusan strategis ini?",
+            "question": "Anda adalah Product Lead di sebuah startup fintech yang sedang bersiap untuk peluncuran fitur referral baru. Metrik North Star apa yang paling tepat untuk mengukur keberhasilan pertumbuhan jangka panjang?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengedepankan mitigasi risiko jangka panjang dengan menunda peluncuran untuk melakukan perbaikan arsitektur keamanan secara menyeluruh, guna memastikan integritas sistem dan kepercayaan pengguna tetap terjaga sebagai fondasi utama pertumbuhan bisnis yang berkelanjutan.",
+                    "text": "K-Factor (Viral Coefficient) yang dikombinasikan dengan persentase referred users yang melakukan transaksi pertama (Activation/Retained Referrals).",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Menginisiasi diskusi mendalam dengan seluruh kepala divisi untuk menyelaraskan ekspektasi, menimbang dampak reputasi, dan mencapai konsensus bersama yang menghargai kebutuhan tim pemasaran sekaligus kekhawatiran tim teknis agar keputusan yang diambil mencerminkan nilai kolektif perusahaan.",
-                    "score": 0
+                    "text": "Total jumlah undangan referral yang berhasil dikirimkan oleh pengguna aktif per minggu.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Melanjutkan peluncuran sesuai jadwal dengan menerapkan protokol keamanan darurat sementara dan memprioritaskan rilis patch perbaikan segera setelah fitur meluncur, demi mengamankan momentum pasar dan memenuhi target akuisisi pengguna yang telah ditetapkan.",
-                    "score": 5
+                    "text": "Total jumlah pendaftaran akun baru (New Signups) yang menggunakan kode referral.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Jumlah klik pada tombol 'Bagikan Kode Referral' di dalam aplikasi.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Total impressions banner program referral di media sosial perusahaan.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "dm-5",
-            "question": "Anda memimpin proyek optimasi konversi email marketing dengan deadline ketat 48 jam. Tim kreatif mengajukan perombakan visual total untuk meningkatkan engagement emosional, sementara tim data menuntut pengujian A/B yang ketat dengan variabel minimal untuk menjaga integritas statistik. Mengingat keterbatasan waktu dan audiens, Anda harus memilih strategi eksekusi yang paling tepat untuk menyeimbangkan kebutuhan akan inovasi visual, validitas data, dan urgensi target bisnis.",
+            "question": "Anda memimpin proyek optimasi konversi email marketing dengan deadline ketat 48 jam sebelum event promo besar. Strategi apa yang paling cepat mendongkrak Open Rate dan Click-Through Rate?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi sesi kolaborasi intensif untuk menyelaraskan ekspektasi kreatif dan standar data, memastikan bahwa keputusan akhir diambil berdasarkan konsensus tim guna menjaga moral serta kohesi visi perusahaan dalam jangka panjang.",
-                    "score": 0
+                    "text": "Personalisasi Subject Line & Preheader berbasis data pengguna, segmentasi audiens aktif (engaged in last 30 days), optimasi single primary CTA button, dan desain mobile-responsive teruji.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Menerapkan pengujian multivariat yang mencakup perubahan visual dan elemen konten secara simultan untuk memaksimalkan potensi peningkatan konversi instan, dengan menerima risiko adanya noise data demi mencapai target jangka pendek.",
-                    "score": 5
+                    "text": "Menjalankan A/B test pada 20% audiens untuk memilih Subject Line terbaik sebelum mengirimkan sisa 80% email.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Mengisolasi satu variabel kunci dengan dampak CTR tertinggi untuk diuji melalui randomisasi audiens yang ketat, serta melakukan kalkulasi power analysis untuk memastikan hasil yang valid secara statistik sebagai dasar pengambilan keputusan strategis yang berkelanjutan.",
-                    "score": 10
+                    "text": "Mengirimkan email broadcast serentak (blast) ke seluruh database kontak (termasuk inactive subscriber) agar jangkauan maksimal.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menambahkan 5 penawaran produk berbeda dengan 5 link CTA tombol berbeda dalam satu email yang sama.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menggunakan kata-kata seperti 'GRATIS$$$!! KLIK SEKARANG JUGA!!' di subject line untuk memancing open rate.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "dm-6",
-            "question": "Anda adalah Lead Data Analyst yang baru saja memigrasikan atribusi klien ke model Data-Driven di GA4. Klien melaporkan penurunan metrik konversi sebesar 40% di dashboard dan menuntut penjelasan instan dalam 10 menit. Anda dihadapkan pada dilema antara integritas data, urgensi bisnis, dan stabilitas hubungan klien. Langkah apa yang Anda ambil?",
+            "question": "Anda baru saja memigrasikan model atribusi Google Analytics 4 klien dari Last-Click ke Data-Driven Attribution (DDA). Apa keunggulan mendasar DDA bagi efisiensi anggaran iklan multi-channel?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi pertemuan darurat dengan klien untuk memfasilitasi dialog terbuka, mendengarkan kekhawatiran mereka secara empatik, serta membangun kesepahaman bersama mengenai kompleksitas transisi sistem agar kepercayaan klien tetap terjaga di tengah ketidakpastian.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan komparasi mendalam menggunakan 'Model Comparison Tool' untuk memetakan pergeseran kredit atribusi pada channel top-funnel, lalu mempresentasikan analisis teknis mengenai validitas model baru untuk membuktikan akurasi jangka panjang di balik fluktuasi angka tersebut.",
+                    "text": "DDA mendistribusikan kredit konversi secara proporsional ke semua touchpoints berdasarkan kontribusi statistik aktual mesin pembelajaran, bukan hanya interaksi paling akhir.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "DDA membagi kredit konversi secara merata ke saluran pertama dan saluran terakhir yang dikunjungi pengguna.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Mengembalikan konfigurasi ke model Last-Click secara sementara untuk memulihkan visibilitas angka konversi sesuai ekspektasi operasional klien, guna memberikan ruang napas bagi tim untuk melakukan audit teknis tanpa mengganggu alur kerja bisnis yang sedang berjalan.",
-                    "score": 5
+                    "text": "DDA memberikan 100% kredit konversi kepada channel pemasaran berbayar (Paid Ads) saja.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "DDA mengabaikan interaksi iklan non-Google dan hanya menghitung klik pencarian organik.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "DDA dan Last-Click menghasilkan data atribusi yang sama persis tanpa perbedaan laporan.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "dm-7",
-            "question": "Anda memimpin proyek SEO untuk klien korporat besar yang sedang menghadapi krisis reputasi. Klien menuntut kenaikan drastis pada metrik Domain Authority (DA) dalam 28 hari agar memenuhi syarat administratif tender nasional yang krusial bagi keberlangsungan bisnis mereka. Tim internal Anda terbelah: sebagian menyarankan pendekatan agresif untuk mencapai target instan demi menyelamatkan kontrak, sementara sebagian lain memperingatkan risiko penalti jangka panjang dari algoritma Google yang dapat merusak aset digital klien secara permanen. Bagaimana Anda mengambil keputusan strategis ini?",
+            "question": "Anda memimpin proyek SEO untuk klien korporat besar yang sedang menghadapi krisis reputasi akibat artikel berita negatif di halaman 1 Google Search. Strategi ORM (Online Reputation Management) apa yang paling etis dan efektif?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi diskusi kolaboratif dengan pihak klien dan tim teknis untuk melakukan kalibrasi ulang ekspektasi, menyajikan data mengenai risiko teknis, serta menawarkan solusi alternatif berupa penguatan otoritas konten organik yang lebih aman meskipun tidak menjamin kenaikan metrik instan, demi menjaga kepercayaan dan integritas kemitraan jangka panjang.",
-                    "score": 0
+                    "text": "Menerapkan strategi ORM: publikasikan press release otoritatif di media tier-1, optimasi profil media sosial resmi, dan bangun konten bernilai tinggi untuk mendesak turun URL negatif dari page 1.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Mengambil langkah pragmatis dengan mengalokasikan sumber daya untuk kampanye Digital PR yang intensif dan akuisisi backlink berkualitas tinggi secara cepat, serta mengoptimalkan struktur internal linking untuk memaksimalkan distribusi equity yang ada, guna mengejar target metrik secepat mungkin tanpa harus melanggar pedoman webmaster secara terang-terangan.",
-                    "score": 5
+                    "text": "Membuat beberapa sub-domain dan blog resmi baru yang dioptimasi dengan nama brand untuk merebut peringkat 10 besar Google.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Menolak melakukan optimasi agresif yang berisiko, dan sebagai gantinya, fokus pada perombakan arsitektur teknis situs secara fundamental untuk meningkatkan Topical Authority dan performa Core Web Vitals, sembari menyusun dokumentasi teknis yang kuat untuk meyakinkan klien bahwa stabilitas jangka panjang jauh lebih berharga daripada metrik vanity yang rentan terhadap volatilitas algoritma.",
-                    "score": 10
+                    "text": "Mengirimkan form permintaan take-down (DMCA/penghapusan) ke Google Search Console tanpa dasar pelanggaran hak cipta yang sah.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Membanjiri kolom komentar website berita negatif dengan bantahan publik menggunakan akun resmi perusahaan.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Membeli ribuan backlink spam murahan dan mengarahkannya ke URL artikel berita negatif dengan harapan Google akan mempenaltinya.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "dm-8",
-            "question": "Startup Anda memiliki sisa runway dua bulan. Investor menuntut efisiensi pemasaran untuk pendanaan darurat, namun tim pemasaran berargumen bahwa memotong anggaran iklan akan menghancurkan akuisisi pengguna di tengah kompetisi agresif. Sebagai Growth Lead, Anda dihadapkan pada pilihan sulit antara menjaga stabilitas operasional, mempertahankan pangsa pasar, atau melakukan restrukturisasi teknis yang mendalam. Langkah strategis apa yang Anda ambil?",
+            "question": "Startup Anda memiliki sisa runway dua bulan. Investor menuntut efisiensi pemasaran untuk mencapai profitabilitas sebelum kas habis. Bagaimana Anda mengalokasikan budget pemasaran?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi forum diskusi terbuka untuk menyelaraskan ekspektasi antara tim pemasaran dan investor, guna membangun konsensus kolektif yang menjaga moral tim tetap stabil di tengah ketidakpastian, sehingga setiap anggota merasa memiliki tanggung jawab bersama dalam melewati masa transisi ini.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan audit teknis mendalam dengan menerapkan model atribusi berbasis cohort dan analisis marginal contribution per channel untuk menghentikan pengeluaran pada kanal dengan LTV:CAC negatif, guna memastikan setiap rupiah yang dikeluarkan memiliki dampak struktural yang terukur bagi keberlanjutan jangka panjang perusahaan.",
+                    "text": "Fokus 100% pada channel berbayar dengan payback period terpendek (High-Intent Search & Retargeting) serta optimasi aktivasi dan retention pengguna yang sudah ada (Zero CAC).",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menghentikan seluruh kampanye Brand Awareness dan mengalihkan dana ke kampanye Performance Marketing ber-ROAS positif.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Mengalihkan fokus pada optimalisasi konversi organik dan retensi pengguna melalui kampanye taktis jangka pendek yang minim biaya, guna menjaga momentum pertumbuhan tetap positif di mata investor tanpa harus mengorbankan visibilitas merek secara drastis dalam jangka waktu dua bulan ke depan.",
-                    "score": 5
+                    "text": "Membuat kampanye viral marketing di TikTok dengan menyewa influencer besar berbiaya tinggi untuk mencari lonjakan transaksi instan.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menginvestasikan seluruh sisa budget ke proyek Content Marketing dan SEO jangka panjang.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menghentikan seluruh aktivitas pemasaran dan operasional promosi untuk menghemat kas secara pasif.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "dm-9",
-            "question": "Anda adalah Lead Growth Strategist untuk sebuah e-commerce besar yang menghadapi penurunan akurasi atribusi data sebesar 60% pasca pembaruan privasi iOS. Di satu sisi, tim IT memprioritaskan stabilitas sistem dan menolak perubahan arsitektur mendadak sebelum peak season. Di sisi lain, manajemen menuntut pemulihan performa iklan secara instan untuk mencapai target revenue. Anda harus memilih pendekatan strategis yang memiliki konsekuensi berbeda terhadap stabilitas operasional, akurasi data, dan dinamika tim.",
+            "question": "Sebagai Lead Growth Strategist e-commerce, Anda mendapati Repeat Purchase Rate (pembelian berulang) pelanggan sangat rendah setelah transaksi pertama. Strategi retention apa yang paling teruji?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi forum sinkronisasi lintas departemen untuk memetakan risiko teknis dan menetapkan ekspektasi realistis kepada stakeholder, sembari mengalihkan fokus kampanye ke kanal-kanal yang tidak bergantung pada pihak ketiga untuk menjaga harmoni tim dan keberlanjutan bisnis jangka panjang.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Mengimplementasikan Meta Conversion API (CAPI) melalui server-side gateway sebagai solusi teknis yang mandiri; pendekatan ini memitigasi keterbatasan tracking tanpa mengganggu infrastruktur core tim IT, sehingga memberikan akurasi data yang lebih presisi untuk optimasi jangka panjang.",
+                    "text": "Membangun automated lifecycle post-purchase email/WhatsApp workflow (tips produk, rekomendasi replenishment relevan di waktu pas, dan loyalty rewards terpersonalisasi).",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Memberikan voucher diskon 20% untuk pembelian kedua via notifikasi aplikasi dalam 7 hari pasca pesanan tiba.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Melakukan optimasi pada parameter UTM dan memanfaatkan data historis untuk memodelkan atribusi secara manual guna memberikan hasil instan yang dibutuhkan manajemen, meskipun pendekatan ini bersifat sementara dan memerlukan pemeliharaan intensif selama periode peak season.",
-                    "score": 5
+                    "text": "Menjalankan iklan retargeting Facebook Ads yang menampilkan produk yang sama persis dengan yang baru saja dibeli.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mengirimkan pesan promosi broadcast setiap hari ke WhatsApp seluruh pelanggan.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menaikkan harga produk awal dan menghapus program garansi pengembalian barang.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "dm-10",
-            "question": "Anda memimpin peluncuran produk baru dengan anggaran terbatas. Direktur Pemasaran menuntut laporan konversi penjualan instan di akhir minggu pertama, sementara data analitik menunjukkan audiens masih berada di tahap pengenalan brand (top-funnel). Mengingat tekanan target perusahaan dan integritas data yang Anda pegang, langkah strategis apa yang akan Anda ambil?",
+            "question": "Anda memimpin peluncuran produk baru dengan anggaran terbatas. Direktur Pemasaran menuntut strategi Go-To-Market (GTM) digital yang paling efisien menghasilkan traksi awal. Pilihan strategi apa yang Anda ajukan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengadakan sesi diskusi mendalam dengan Direktur Pemasaran untuk menyelaraskan ekspektasi manajemen dengan realitas perilaku konsumen saat ini, guna membangun pemahaman bersama dan memastikan seluruh tim bergerak dengan visi yang harmonis serta dukungan penuh dari pemangku kepentingan.",
-                    "score": 0
+                    "text": "Strategi Product-Led Growth (PLG) / Freemium terarah, kemitraan mikro-influencer niche berbasis komisi afiliasi (rev-share), dan optimasi Organic Social / Komunitas.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan realokasi anggaran secara taktis ke kanal konversi langsung untuk memenuhi target penjualan jangka pendek, dengan menerima risiko bahwa data atribusi mungkin belum matang, demi menjaga momentum bisnis dan memenuhi ekspektasi performa yang mendesak.",
-                    "score": 5
+                    "text": "Menjalankan kampanye iklan berbayar terfokus di satu platform utama (misal Meta Ads) dengan penawaran early-bird terbatas.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Mempertahankan alokasi pada metrik top-funnel untuk mengakumulasi data user-intent yang akurat, kemudian mengimplementasikan model atribusi berbasis data untuk mengidentifikasi mikro-konversi sebagai proxy performa sebelum melakukan retargeting berbasis perilaku yang lebih presisi.",
-                    "score": 10
+                    "text": "Membagi rata budget yang sedikit ke 6 platform iklan berbeda (Google, Meta, TikTok, Twitter, LinkedIn, YouTube).",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Membuat event webinar berbayar dan mewajibkan peserta membeli produk sebelum mengikuti acara.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menghabiskan seluruh budget untuk memasang satu billboard outdoor di jalan protokol.",
+                    "score": 0
                 }
             ]
         }
@@ -1632,211 +3132,311 @@ export const quizBank: Record<string, QuizQuestion[]> = {
     "business-development": [
         {
             "id": "bd-1",
-            "question": "Anda memimpin tim pemasaran B2B yang sedang mengejar target akuisisi klien agresif. Kampanye cold outreach Anda saat ini memiliki open rate di bawah 5%. Anda dihadapkan pada dilema strategis: apakah akan menghentikan sementara kampanye untuk melakukan pembersihan database dan riset mendalam terhadap persona audiens, atau tetap melanjutkan dengan melakukan penyesuaian gaya bahasa yang lebih persuasif pada subjek email agar target kuartal tetap tercapai. Langkah manakah yang akan Anda ambil?",
+            "question": "Anda memimpin tim pemasaran B2B yang sedang mengejar target akuisisi klien korporat agresif. Strategi lead generation apa yang paling tepat untuk menutup deal bernilai tinggi?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengedepankan harmoni tim dengan mendiskusikan keresahan anggota tim mengenai rendahnya respon klien, lalu bersama-sama menyusun narasi email yang lebih personal dan empatik agar hubungan dengan calon klien tetap terjaga meski dalam skala kecil.",
-                    "score": 0
+                    "text": "Account-Based Marketing (ABM) terfokus pada daftar Ideal Customer Profile (ICP) tier-1, pendekatan konsultatif multi-stakeholder (C-level, IT, Finance), dan personalized value proposition.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Melakukan optimasi cepat pada subjek email dengan teknik A/B testing yang lebih agresif dan menarik perhatian untuk memastikan target volume pengiriman tetap terpenuhi demi menjaga momentum bisnis jangka pendek.",
-                    "score": 5
+                    "text": "Kombinasi outreach LinkedIn Sales Navigator terpersonalisasi dengan follow-up cold email bernilai tambah (case study industri terkait).",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Menghentikan sementara pengiriman untuk melakukan audit teknis pada kualitas database dan segmentasi audiens guna memastikan pesan yang disampaikan relevan secara struktural, meskipun hal ini akan menggeser jadwal pencapaian target kuartal.",
-                    "score": 10
+                    "text": "Membeli database kontak 10.000 email perusahaan dan mengirimkan cold email blast massal bertema penawaran diskon.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Memasang iklan banner B2B di media sosial publik dengan pesan 'Software Kami Terbaik di Indonesia'.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menunggu prospek korporat datang secara organik melalui form kontak website tanpa melakukan outreach proaktif.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "bd-2",
-            "question": "Anda sedang memimpin negosiasi Enterprise Sales untuk solusi SaaS strategis. Klien sangat antusias, namun departemen Legal dan IT Security mereka mengajukan persyaratan kepatuhan (compliance) yang sangat ketat dan memakan waktu berbulan-bulan untuk ditinjau. Di sisi lain, tim internal Anda memiliki target kuartalan yang agresif, dan klien juga membutuhkan solusi ini segera untuk mendukung peluncuran produk mereka. Bagaimana Anda menyikapi hambatan ini?",
+            "question": "Anda sedang memimpin negosiasi Enterprise Sales untuk solusi SaaS strategis. Klien sangat tertarik namun menuntut diskon harga 40% dan kustomisasi fitur eksklusif. Bagaimana Anda meresponsnya?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengedepankan pendekatan kolaboratif dengan memfasilitasi serangkaian workshop intensif antara tim teknis Anda dan tim IT Security klien untuk menyelaraskan ekspektasi, membangun kepercayaan, dan memastikan kedua belah pihak merasa didengar dalam proses pengambilan keputusan.",
-                    "score": 0
+                    "text": "Menolak pemotongan harga sepihak; tawarkan trade-off strategis (misal: kontrak multi-tahun, pembayaran upfront tahunan, studi kasus publik) atau sesuaikan tier fitur (de-scoping) agar margin tetap sehat.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Mengusulkan implementasi solusi dalam fase terbatas (Minimum Viable Product) yang memenuhi standar keamanan dasar agar klien bisa segera beroperasi, sambil tetap melanjutkan proses audit kepatuhan penuh secara paralel untuk memenuhi target jangka panjang.",
-                    "score": 5
+                    "text": "Memberikan diskon maksimal 20% dengan syarat klien menandatangani kontrak minimal 2 tahun dan bersedia menjadi referensi publik.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Melakukan restrukturisasi arsitektur sistem dan dokumentasi kepatuhan secara menyeluruh sejak awal untuk memenuhi standar keamanan tertinggi, meskipun hal ini menunda peluncuran, guna memastikan skalabilitas jangka panjang dan meminimalisir risiko operasional di masa depan.",
-                    "score": 10
+                    "text": "Menyetujui diskon 40% dan seluruh permintaan kustomisasi demi memenangkan logo nama besar perusahaan klien.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Langsung menolak tegas tanpa memberikan opsi alternatif solusi atau negosiasi ruang lingkup.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menawarkan produk secara gratis selama 1 tahun penuh dengan harapan klien akan membayar di tahun kedua.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "bd-3",
-            "question": "Anda adalah seorang Sales Lead yang sedang menangani klien korporat besar dengan potensi kontrak jangka panjang. Di tengah proses kualifikasi menggunakan framework BANT (Budget, Authority, Need, Timeline), Anda menemukan bahwa klien memiliki kebutuhan mendesak (Need) dan otoritas (Authority) yang kuat, namun anggaran (Budget) mereka belum disetujui secara resmi dan jadwal implementasi (Timeline) sangat ketat. Mengingat tekanan target kuartalan yang tinggi, strategi manakah yang akan Anda ambil dalam mengelola prospek ini?",
+            "question": "Banyak prospek B2B bernilai tinggi dalam pipeline penjualan Anda macet di tahap 'Proposal Sent' selama berminggu-minggu tanpa kepastian. Tindakan apa yang paling efektif menggerakkan kesepakatan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengedepankan harmoni dan kepercayaan dengan melakukan sesi diskusi mendalam untuk menyelaraskan visi jangka panjang antara tim teknis kita dan pemangku kepentingan klien, guna memastikan bahwa keputusan anggaran nantinya didasarkan pada kemitraan yang solid dan saling menguntungkan.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Memfokuskan sumber daya pada pengembangan arsitektur solusi yang paling efisien dan skalabel untuk memastikan bahwa ketika anggaran disetujui, sistem yang dibangun memiliki integritas teknis tinggi dan mampu meminimalisir utang teknis di masa depan, meskipun proses kualifikasi memakan waktu lebih lama.",
+                    "text": "Lakukan qualifying ulang dengan kerangka BANT/MEDDPIC, identifikasi Economic Buyer & Decision Criteria, serta jadwalkan sesi Joint Business Case Alignment bukan sekadar menanyakan status.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Mengirimkan email follow-up berkala setiap minggu yang menyertakan testimoni klien serupa dan ringkasan ROI kalkulasi.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Melakukan kompromi dengan menawarkan solusi MVP (Minimum Viable Product) yang dapat diimplementasikan dengan cepat sesuai jadwal klien, guna mengamankan kontrak lebih awal dan memenuhi target kinerja kuartal ini sambil tetap menjaga komunikasi terkait penyesuaian anggaran di tahap berikutnya.",
-                    "score": 5
+                    "text": "Menawarkan diskon potongan harga 10% tambahan melalui pesan singkat (WhatsApp) agar prospek segera merespons.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menghubungi prospek setiap hari melalui telepon untuk meminta kepastian tanggal penandatanganan kontrak.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Langsung menutup prospek sebagai 'Lost' di CRM tanpa melakukan kontak konfirmasi lanjutan.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "bd-4",
-            "question": "Anda adalah Lead Consultant yang sedang menangani klien korporat besar. Klien menuntut diskon 50% dengan alasan anggaran terbatas, namun mereka juga meminta standar kualitas premium yang sama. Jika Anda menolak, mereka akan beralih ke kompetitor yang lebih murah namun memiliki reputasi kualitas yang meragukan. Bagaimana Anda merespons situasi ini?",
+            "question": "Klien korporat utama menuntut diskon ganti rugi SLA dan mengancam membatalkan kontrak bernilai miliaran rupiah akibat downtime sistem operasional. Bagaimana Anda menyikapinya?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan pertemuan tatap muka untuk memahami kendala internal klien secara mendalam, menyelaraskan ekspektasi kedua belah pihak, dan mencari jalan tengah yang menjaga hubungan kemitraan jangka panjang agar tetap harmonis dan saling mendukung.",
-                    "score": 0
+                    "text": "Gelar pertemuan krisis tingkat eksekutif, akui kendala operasional secara transparan, tawarkan Service Credit/Kompensasi sesuai klausul kontrak, dan sajikan Corrective Action Plan permanen yang terukur.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Menyetujui permintaan diskon dengan syarat melakukan 'scope reduction' yang signifikan, yaitu memangkas fitur atau layanan non-esensial agar margin keuntungan tetap terjaga dan proyek tetap berjalan sesuai tenggat waktu yang ketat.",
-                    "score": 5
+                    "text": "Menawarkan kompensasi perpanjangan masa langganan gratis selama 2 bulan dan mendedikasikan 1 staf technical support khusus untuk akun klien.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Menolak diskon dengan memberikan edukasi berbasis data mengenai Total Cost of Ownership (TCO) dan risiko kegagalan teknis jika menggunakan vendor murah, serta menawarkan opsi pembayaran bertahap untuk menjaga integritas kualitas dan standar arsitektur solusi Anda.",
-                    "score": 10
+                    "text": "Menyalahkan vendor infrastruktur pihak ketiga (cloud provider) di hadapan klien untuk membela diri.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mengirimkan tim legal untuk mengancam penalti pemutusan kontrak sepihak sebelum masa kontrak berakhir.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Mengabaikan komplain klien dan berharap masalah akan mereda dengan sendirinya seiring waktu.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "bd-5",
-            "question": "Anda adalah Sales Operations Manager yang menghadapi dilema: Tim Sales menolak menginput log telepon ke CRM karena dianggap menghambat kecepatan closing di akhir kuartal. Di sisi lain, manajemen membutuhkan data tersebut untuk akurasi pipeline dan evaluasi strategi tahun depan. Bagaimana Anda menyikapi situasi ini?",
+            "question": "Sebagai Sales Operations Manager, Anda mendapati Tim Sales menolak menginput laporan aktivitas ke dalam CRM karena dianggap membuang waktu. Solusi apa yang paling tepat?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengadakan sesi diskusi empat mata dengan setiap anggota tim untuk memahami hambatan teknis mereka, lalu memfasilitasi dialog antara tim sales dan manajemen guna mencari titik temu yang tidak membebani salah satu pihak demi menjaga moral tim.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Mengimplementasikan sistem otomasi integrasi telepon ke CRM (CTI) serta melakukan restrukturisasi alur kerja input data agar proses administratif menjadi otomatis dan tidak lagi membebani produktivitas tim sales di lapangan.",
+                    "text": "Otomatisasi input CRM (integrasi email/kalender/WhatsApp), pangkas field mandatory menjadi hanya data krusial, dan tunjukkan nilai langsung ke sales reps (pipeline visibility & komisi akurat).",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menyelenggarakan workshop pelatihan ulang sistem CRM dan memberikan reward bulanan bagi staf sales dengan data terbersih.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Memberikan dispensasi sementara bagi tim sales untuk tidak menginput log telepon hingga target kuartal tercapai, dengan komitmen bahwa mereka akan melakukan pembersihan data secara massal setelah periode sibuk berakhir.",
-                    "score": 5
+                    "text": "Menerapkan sanksi pemotongan komisi penjualan bagi staf yang tidak mengisi aktivitas harian di CRM.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Merekrut staf admin khusus untuk mencatat manual semua laporan aktivitas tim sales ke dalam CRM.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menghapus penggunaan sistem CRM dan membiarkan tim sales mencatat prospek di buku catatan masing-masing.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "bd-6",
-            "question": "Perusahaan Anda berencana melakukan ekspansi pasar ke segmen enterprise. Anda dihadapkan pada dua calon mitra strategis: Mitra A adalah pemain besar dengan basis klien luas namun memiliki sistem legacy yang kaku dan lambat dalam integrasi teknis. Mitra B adalah startup lincah dengan teknologi mutakhir yang sangat kompatibel dengan produk Anda, namun memiliki jangkauan pasar yang masih sangat terbatas dan belum teruji stabilitas operasionalnya. Bagaimana Anda menentukan strategi kemitraan ini?",
+            "question": "Perusahaan Anda berencana ekspansi pasar ke segmen enterprise. Anda dihadapkan pada pilihan: membangun kemitraan strategis (Partnership/Reseller) vs merekrut tim Direct Sales internal. Kriteria evaluasi terpenting?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Memilih Mitra B karena fokus pada kecepatan penetrasi pasar dan momentum eksekusi yang krusial untuk mengamankan posisi di pasar baru sebelum kompetitor lain masuk, dengan rencana melakukan iterasi produk secara cepat berdasarkan feedback lapangan.",
-                    "score": 5
+                    "text": "Menganalisis Strategic Fit, sinergi kanal distribusi mitra, struktur bagi hasil (revenue-share model), potensi risiko ketergantungan (lock-in), dan dampak jangka panjang terhadap brand equity.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Memilih Mitra A untuk membangun fondasi kemitraan yang inklusif dan kolaboratif, memprioritaskan penyelarasan visi jangka panjang serta menjaga harmoni hubungan antar-stakeholder agar ekosistem bisnis yang terbentuk memiliki dukungan sosial dan kepercayaan yang kuat dari kedua belah pihak.",
-                    "score": 0
+                    "text": "Membandingkan estimasi biaya akuisisi pelanggan (CAC) via jaringan mitra vs biaya investasi membangun tim penjualan internal.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Memilih Mitra A namun dengan persyaratan re-engineering sistem integrasi yang ketat, memprioritaskan stabilitas arsitektur dan skalabilitas jangka panjang meskipun membutuhkan waktu implementasi lebih lama, guna memastikan kualitas layanan tetap terjaga saat volume transaksi meningkat.",
-                    "score": 10
+                    "text": "Memilih bermitra dengan perusahaan terbesar di pasar tanpa menghitung kesiapan integrasi operasional kedua belah pihak.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menolak semua tawaran kemitraan karena tidak ingin membagi margin keuntungan kepada pihak luar.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menyetujui perjanjian kemitraan eksklusif tanpa klausul target performa minimum dari pihak mitra.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "bd-7",
-            "question": "Anda adalah konsultan teknis yang sedang memenangkan proyek besar. Klien bersikeras tetap menggunakan vendor lama yang sudah bekerja sama selama 10 tahun, meskipun Anda mendeteksi bahwa arsitektur sistem vendor tersebut sudah usang dan berisiko tinggi terhadap skalabilitas di masa depan. Klien sangat puas dengan stabilitas hubungan mereka dengan vendor tersebut. Bagaimana Anda menyikapi situasi ini?",
+            "question": "Klien enterprise bersikeras tetap menggunakan arsitektur On-Premise lama dan menolak migrasi Cloud murni karena alasan kepatuhan data. Bagaimana Anda mengamankan deal ini?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengusulkan pendekatan kolaboratif di mana Anda bertindak sebagai mitra strategis yang menjembatani kebutuhan teknis klien dengan vendor lama, fokus pada penyelarasan visi jangka panjang dan menjaga harmoni hubungan kerja yang sudah terjalin selama satu dekade.",
-                    "score": 0
+                    "text": "Eksplorasi motivasi regulasi/keamanan data klien, tawarkan arsitektur kompromi (Private Cloud / Hybrid / Single-Tenant VPC dengan compliance sertifikasi ISO 27001 / SOC 2), atau kalkulasi TCO On-Premise riil.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Menawarkan solusi transisi bertahap yang memungkinkan klien tetap mempertahankan vendor lama untuk operasional harian, sementara Anda membangun modul baru yang lebih efisien untuk menangani beban kerja masa depan, guna memastikan target bisnis tetap tercapai tanpa mengganggu stabilitas saat ini.",
-                    "score": 5
+                    "text": "Menyediakan opsi deployment Hybrid Cloud di mana data sensitif tetap berada di server lokal klien sementara modul analitik di cloud.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Menyajikan laporan audit teknis yang mendalam mengenai risiko teknis dan utang teknis (technical debt) yang tersembunyi, serta mengusulkan perombakan arsitektur secara struktural untuk menjamin keberlangsungan sistem dan efisiensi biaya jangka panjang bagi perusahaan.",
-                    "score": 10
+                    "text": "Menyetujui pembangunan versi On-Premise kustom dari awal walau perusahaan tidak memiliki tim maintainer server lokal.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mencoba meyakinkan klien bahwa kekhawatiran regulasi mereka tidak relevan di era modern.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Langsung membatalkan peluang tender karena menolak beradaptasi dengan kebutuhan klien korporat.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "bd-8",
-            "question": "Startup teknologi Anda sedang berada di titik krusial. Tim Sales Executive mendesak untuk segera melakukan ekspansi pasar ke segmen baru guna mencapai target kuartal yang agresif, sementara tim Business Development (BD) menyarankan untuk menunda ekspansi tersebut demi mematangkan kemitraan strategis jangka panjang yang akan mengunci ekosistem pasar secara lebih permanen. Sebagai pemimpin, pendekatan mana yang Anda ambil untuk menyeimbangkan kebutuhan perusahaan?",
+            "question": "Terjadi konflik channel antara tim Direct Sales internal dengan Channel Partner (Mitra Reseller) yang memperebutkan prospek akun enterprise yang sama. Bagaimana Anda menyelesaikannya?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengutamakan inisiatif BD untuk membangun fondasi kemitraan strategis yang kuat, meskipun harus mengorbankan pencapaian target kuartal saat ini demi keberlanjutan arsitektur bisnis dan dominasi pasar yang lebih kokoh di masa depan.",
+                    "text": "Terapkan aturan 'Deal Registration' yang ketat dan transparan di portal mitra, batasi segmentasi akun (Enterprise ke Direct, Mid-Market ke Partner), dan selaraskan insentif komisi tim internal.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Memprioritaskan sinkronisasi antara tim Sales dan BD dengan memfasilitasi diskusi mendalam untuk menyelaraskan ekspektasi, memastikan setiap pihak merasa didengar, dan mencari jalan tengah yang menjaga harmoni serta komitmen kolektif seluruh tim.",
-                    "score": 0
+                    "text": "Memberikan prioritas hak jual kepada pihak yang pertama kali memasukkan data prospek ke sistem registrasi terpusat.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Mendukung percepatan ekspansi pasar yang diusulkan tim Sales untuk mengamankan arus kas dan momentum pertumbuhan jangka pendek, dengan keyakinan bahwa pencapaian target saat ini adalah modal utama untuk mendanai strategi pengembangan di masa depan.",
-                    "score": 5
+                    "text": "Membiarkan kedua belah pihak bersaing bebas dengan menurunkan harga penawaran ke prospek (perang harga internal).",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menutup seluruh program kemitraan reseller dan mengambil alih seluruh prospek ke tim internal.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Mengambil paksa akun prospek dari mitra untuk diberikan ke tim sales internal tanpa kompensasi komisi.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "bd-9",
-            "question": "Anda adalah seorang Business Development Manager yang sedang mencoba menembus akun klien strategis berskala besar melalui LinkedIn. Anda memiliki waktu terbatas dan harus memilih strategi pendekatan pertama (InMail) yang paling efektif untuk membuka peluang kerja sama. Strategi mana yang akan Anda ambil dalam menghadapi ketidakpastian respons dari calon klien tersebut?",
+            "question": "Anda adalah Business Development Manager yang sedang mencoba menembus akun klien korporat tier-1 melalui cold outreach ke C-Level (CEO/CTO). Pendekatan pesan apa yang paling efektif?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengirimkan pesan singkat yang memuji pencapaian terbaru klien dan menanyakan kesediaan mereka untuk berdiskusi santai guna menyelaraskan visi, dengan tujuan membangun rapport dan kepercayaan jangka panjang sebelum membahas detail teknis.",
-                    "score": 0
+                    "text": "Riset mendalam tantangan bisnis spesifik mereka (laporan tahunan/berita industri), sampaikan insight bernilai tinggi (bukan presentasi produk), dan tawarkan diskusi 15 menit seputar benchmark industri.",
+                    "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Mengirimkan pesan yang berisi ringkasan solusi teknis yang telah terbukti menyelesaikan masalah serupa di industri mereka, disertai proposal singkat agar klien segera mendapatkan gambaran nilai konkret dan mempercepat pengambilan keputusan.",
-                    "score": 5
+                    "text": "Mengirimkan pesan singkat terpersonalisasi via LinkedIn yang memaparkan bagaimana kompetitor mereka berhasil memangkas biaya 30% dengan solusi Anda.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Mengirimkan pesan yang berfokus pada audit mendalam terhadap tantangan struktural yang kemungkinan besar sedang dihadapi perusahaan klien saat ini, dengan menawarkan kerangka kerja strategis untuk perbaikan sistem jangka panjang tanpa langsung menawarkan produk.",
-                    "score": 10
+                    "text": "Mengirimkan lampiran company profile 40 halaman dan katalog produk lengkap ke email pribadi C-Level.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menghubungi nomor pribadi C-Level berulang kali melalui pesan instan tanpa perkenalan profesional.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Mengirimkan pesan template generik 'Halo Pak/Bu, kami menyediakan software terbaik...' tanpa personalisasi.",
+                    "score": 0
                 }
             ]
         },
         {
             "id": "bd-10",
-            "question": "Anda menangani prospek strategis yang telah berada di tahap 'Nurturing' selama enam bulan tanpa kemajuan signifikan. Di sisi lain, tim manajemen menuntut pencapaian target kuartal yang agresif, sementara prospek tersebut secara personal sangat menghargai hubungan baik yang telah terbangun namun belum memiliki urgensi internal untuk melakukan eksekusi. Sebagai Business Development, langkah strategis apa yang Anda ambil?",
+            "question": "Anda menangani prospek strategis yang telah berada di tahap 'Nurturing' selama enam bulan tanpa keputusan (Analysis Paralysis). Tindakan apa yang paling tepat untuk menutup siklus penjualan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menginisiasi sesi diskusi mendalam untuk memetakan kembali tantangan internal klien secara kolaboratif, guna memastikan solusi yang ditawarkan benar-benar selaras dengan visi jangka panjang mereka, meskipun hal ini berisiko memperpanjang siklus penjualan lebih jauh.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan restrukturisasi pada alur komunikasi dengan mengintegrasikan sistem drip campaign berbasis data perilaku, guna mengidentifikasi titik krusial yang dapat memicu keputusan pembelian melalui pendekatan yang lebih terukur dan efisien secara operasional.",
+                    "text": "Ciptakan 'Compelling Event' (misal: perubahan regulasi, risiko inaction cost, atau penawaran program implementasi pilot terfokus dengan metrik keberhasilan terdefinisi dalam 30 hari).",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menawarkan sesi workshop strategis gratis untuk membantu tim internal klien memetakan business case dan menghitung estimasi ROI internal.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Menawarkan insentif khusus atau paket solusi yang disederhanakan dengan batasan waktu tertentu untuk memberikan urgensi bagi klien agar segera melakukan konversi, demi mengamankan target pencapaian tim di akhir kuartal ini.",
-                    "score": 5
+                    "text": "Memberikan batas waktu diskon harga khusus yang akan hangus dalam 48 jam ke depan.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mengirimkan email setiap bulan dengan pertanyaan generik 'Apakah ada update mengenai proposal kami?'.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Mengirimkan surat somasi pembatalan negosiasi secara sepihak untuk memprovokasi respons klien.",
+                    "score": 0
                 }
             ]
         }
@@ -1844,210 +3444,310 @@ export const quizBank: Record<string, QuizQuestion[]> = {
     "ecommerce-specialist": [
         {
             "id": "ecom-1",
-            "question": "Toko onlinemu di Marketplace (Shopee/Tokopedia) traffic-nya tinggi tapi konversi (penjualan) sangat rendah (High Bounce Rate). Hal pertama yang dioptimasi?",
+            "question": "Toko onlinemu di Marketplace (Shopee/Tokopedia) traffic-nya tinggi (10.000 kunjungan/hari) tapi konversi penjualannya sangat rendah (0.3%). Langkah perbaikan apa yang diprioritaskan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menambah budget iklan internal.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Audit gambar produk (apakah jelas), kejelasan deskripsi, rating/review, dan harga yang kompetitif.",
+                    "text": "Audit visual & video produk (foto profesional dengan infografis benefit), optimasi harga kompetitif, perbaiki kejelasan varian/stok, bangun reputasi ulasan bintang 5, dan aktifkan voucher toko.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menambahkan video unboxing produk pada cover galeri dan menawarkan promo Flash Sale terbatas untuk memicu pembelian impulsif.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Mengganti nama toko.",
+                    "text": "Menurunkan harga produk menjadi lebih murah 15% dari rata-rata pasar tanpa mengubah tampilan konten listing.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menaikkan anggaran iklan kata kunci marketplace (Shopee/Tokopedia Ads) untuk menjaring lebih banyak trafik lagi.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Mengubah judul produk setiap hari dengan memasukkan puluhan kata kunci acak yang tidak relevan.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "ecom-2",
-            "question": "Sebagai Dropshipper, masalah paling sering terjadi adalah 'Barang Habis' di supplier saat konsumen sudah terlanjur bayar. Manajemen operasional terbaik?",
+            "question": "Sebagai pengelola bisnis E-commerce, masalah stok habis di supplier saat pesanan customer marketplace melonjak sering terjadi. Solusi operasional terbaik?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengabaikan komplain pembeli.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Membangun relasi erat dengan multi-supplier, sinkronisasi stok rutin, atau menggunakan tool manajemen API order otomatis.",
+                    "text": "Membangun sistem integrasi multi-supplier dengan auto-sync inventory, alokasikan buffer stock mandiri untuk produk 'Hero/Winner', dan jalin SLA kecepatan pengiriman dengan supplier cadangan.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menghubungi supplier alternatif seketika untuk cross-fulfillment pesanan meskipun margin laba sedikit terpotong.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Mengirim barang lain secara acak.",
+                    "text": "Mengirimkan barang sejenis dengan warna/varian berbeda tanpa konfirmasi terlebih dahulu kepada pembeli.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menunda pengiriman hingga batas akhir waktu penalti marketplace sambil menunggu supplier restock.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Membatalkan seluruh pesanan secara massal dan membiarkan reputasi penalti toko anjlok.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "ecom-3",
-            "question": "Tingkat 'Cart Abandonment' (keranjang ditinggalkan) toko mencapai 75%. Fitur promo apa yang paling ampuh mengurangi ini?",
+            "question": "Tingkat 'Cart Abandonment' (keranjang ditinggalkan) toko online independen (Shopify/WooCommerce) mencapai 75%. Fitur promo dan alur apa yang paling ampuh memulihkan konversi?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Harga produk dinaikkan.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Pesan otomatis pengingat keranjang + Gratis Ongkir atau Voucher Diskon batas waktu (Urgency/Scarcity).",
+                    "text": "Terapkan transparent pricing di awal (tampilkan kalkulator ongkir instan & tanpa biaya tersembunyi), sediakan metode pembayaran variatif (QRIS, E-Wallet, PayLater), sederhanakan 1-page checkout, dan otomatisasi abandoned cart recovery email/WhatsApp.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Membuat automated abandoned cart email sequence berdiskon 10% yang terkirim 1 jam dan 24 jam setelah keranjang ditinggalkan.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Menyembunyikan keranjang.",
+                    "text": "Memasang pop-up exit-intent banner yang menawarkan gratis ongkir saat kursor mouse bergerak ke tombol keluar browser.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mewajibkan pengguna login akun terlebih dahulu sebelum mereka dapat menambahkan produk ke dalam keranjang.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menaikkan batas minimal belanja untuk mendapatkan layanan gratis ongkir menjadi 5x lipat.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "ecom-4",
-            "question": "Livestream Commerce (misal TikTok Live) membutuhkan strategi agar penonton bertahan (retention). Apa komponen pentingnya selain harga murah?",
+            "question": "Livestream Commerce (misal TikTok Live / Shopee Live) mengalami penurunan retensi penonton di bawah 30 detik. Strategi apa yang paling efektif menjaga keterikatan penonton hingga checkout?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Host yang diam saja.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Interaksi real-time (tanya jawab), flash sale 'hanya di live ini', dan peragaan produk fisik secara jelas.",
+                    "text": "Kombinasi interaksi dinamis host, pacing demo produk cepat dengan visual hook setiap 15 detik, strategi 'Drop Voucher Eksklusif Jam Ini', games lelang/kuis interaktif, dan pin banner produk relevan.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menawarkan voucher diskon eksklusif live streaming berkuota terbatas yang dibagikan secara berkala setiap 5 menit.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Musik berisik.",
+                    "text": "Host berbicara tanpa henti menjelaskan spesifikasi teknis produk secara mendalam dari awal hingga akhir siaran.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menampilkan musik latar (backsound) kencang dan efek suara tepuk tangan terus-menerus selama live berlangsung.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menyiarkan rekaman video produk berulang-ulang (looping video) tanpa adanya host interaktif langsung.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "ecom-5",
-            "question": "Agar produk Dropshipmu muncul di pencarian organik Marketplace (Marketplace SEO), strategi penulisan judul yang benar adalah?",
+            "question": "Agar produk toko Anda muncul di peringkat teratas pencarian organik Marketplace (Marketplace SEO), strategi optimasi listing mana yang paling tepat?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Judul pendek: 'Baju Murah'.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Format lengkap: Merek + Kata Kunci Utama + Spesifikasi/Warna + Kata Kunci Tambahan.",
+                    "text": "Struktur judul terstandarisasi (Brand + Tipe + Fitur Utama + Kata Kunci Pencarian Populer), pengisian atribut spesifikasi lengkap 100%, optimasi performa penjualan historis, dan kecepatan respon chat.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menyusun judul produk berbasis kata kunci bervolume tinggi dari fitur pencarian rekomendasi marketplace dan mengisi deskripsi lengkap.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Menggunakan banyak emoji di judul.",
+                    "text": "Menumpuk puluhan hashtag (#) dan kata kunci kompetitor di bagian paling bawah deskripsi produk (keyword stuffing).",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Memasukkan nama brand kompetitor terkenal ke dalam judul produk agar ikut muncul saat dicari pengguna.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menamai produk hanya dengan kode SKU internal pabrik (contoh: 'PROD-SKU-9921-A') tanpa deskripsi.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "ecom-6",
-            "question": "Perhitungan profitabilitas E-commerce bukan cuma soal margin kotor, tapi harus menghitung Net Margin. Komponen biaya tersembunyi apa yang sering lupa dihitung Dropshipper?",
+            "question": "Perhitungan profitabilitas E-commerce bukan cuma soal margin kotor. Komponen biaya apa saja yang wajib dihitung untuk mengetahui laba bersih riil (True Net Profit)?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Biaya kuota internet rumahan.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Biaya Admin/Layanan platform marketplace (bisa 2-8%), retur/refund barang rusak, dan biaya packaging/iklan.",
+                    "text": "Net Profit = Total Penjualan - (COGS/HPP + Biaya Layanan & Komisi Marketplace + Ad Spend/CAC + Biaya Logistik & Return/Damaged Goods + Biaya Packing & Operasional).",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Menghitung keuntungan bersih dengan rumus: Total Omset dikurangi HPP produk dan biaya iklan berbayar (Ad Spend).",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Biaya cicilan mobil pribadi.",
+                    "text": "Hanya menghitung margin selisih antara harga jual toko dengan harga beli modal dari supplier.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menghitung saldo kas yang berhasil ditarik (withdrawal) ke rekening bank di akhir bulan tanpa memperhitungkan biaya packing dan retur.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menganggap seluruh total omset penjualan kotor bulanan sebagai keuntungan bersih bisnis e-commerce.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "ecom-7",
-            "question": "Strategi 'Cross-Selling' di platform e-commerce (Shopify) bertujuan untuk meningkatkan AOV (Average Order Value). Contoh fiturnya?",
+            "question": "Strategi 'Cross-Selling' dan 'Up-Selling' di platform e-commerce bertujuan untuk meningkatkan Average Order Value (AOV). Penerapan taktis mana yang paling menghasilkan konversi tertinggi?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menampilkan rekomendasi 'Sering dibeli bersamaan' (Bundle case hp + antigores) saat user checkout hp.",
+                    "text": "Rekomendasikan 'Frequently Bought Together' komplementer yang relevan (misal: beli sepatu -> tawarkan kaos kaki & pembersih), buat bundle hemat berdiskon, dan pasang threshold 'Beli Tambah Rp 30rb untuk Gratis Ongkir'.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Membatasi pembelian maksimal 1 barang.",
-                    "score": 0
+                    "text": "Menampilkan widget produk terkait di halaman keranjang belanja dan menawarkan paket bundling diskon 2 produk sejenis.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Menghapus menu navigasi website.",
+                    "text": "Menampilkan pop-up rekomendasi 10 produk acak termahal saat pengguna menekan tombol 'Checkout'.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Mengalihkan pengguna ke halaman penawaran produk lain secara otomatis sebelum mereka dapat menyelesaikan pembayaran.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Menghapus opsi pembelian satuan dan hanya menjual produk dalam paket grosir jumlah besar.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "ecom-8",
-            "question": "Kompetitor menjual barang dari supplier yang sama persis dengan hargamu, namun tokonya lebih laris. Strategi diferensiasi (pembeda) yang bisa kamu buat?",
+            "question": "Kompetitor menjual barang dari supplier yang sama persis dengan hargamu bahkan lebih murah, namun toko Anda ingin memenangkan pasar tanpa perang harga. Strategi diferensiasi apa yang dipilih?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Menurunkan harga hingga rugi (Bakar uang tiada akhir).",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Memperbaiki Branding, membuat foto/video produk sendiri (UGC), dan menawarkan layanan Garansi/Customer Service superior.",
+                    "text": "Bangun diferensiasi value: bundling bonus eksklusif, garansi resmi/retur mudah tanpa ribet, kemasan premium unboxing experience, respon chat super cepat, dan loyalty reward untuk repeat order.",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Fokus pada pembuatan konten video ulasan orisinal yang edukatif dan menonjolkan kredibilitas serta rating ulasan toko yang terpercaya.",
+                    "score": 8
+                },
+                {
                     "label": "C",
-                    "text": "Melakukan spam chat ke kompetitor.",
+                    "text": "Ikut menurunkan harga produk hingga di bawah harga kompetitor meskipun margin keuntungan menjadi tipis (perang harga).",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Melaporkan akun toko kompetitor ke customer service marketplace dengan tuduhan pelanggaran hak cipta.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Membeli produk di toko kompetitor lalu memberikan ulasan bintang 1 palsu untuk menjatuhkan reputasi mereka.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "ecom-9",
-            "question": "Kamu mengandalkan fitur Affiliate Marketing di e-commerce untuk mendorong kreator mempromosikan produkmu. Faktor utama agar kreator tertarik berafiliasi?",
+            "question": "Kamu mengandalkan fitur Affiliate Marketing di e-commerce untuk mendorong kreator mempromosikan produk tokomu. Strategi insentif apa yang paling berkelanjutan?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Persentase komisi yang menarik, sampel produk gratis, dan aset foto yang siap pakai.",
+                    "text": "Sediakan struktur komisi berjenjang (Tiered Commission) yang menarik, kirimkan sampel gratis terkurasi (Free Sample) ke kreator potensial, sediakan materi promosi siap pakai (Creative Kits & Hooks), dan bangun relasi komunitas affiliate.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Persyaratan KYC yang sangat rumit.",
-                    "score": 0
+                    "text": "Menaikkan persentase komisi afiliasi secara terbuka untuk semua produk agar menarik minat kreator mendaftar secara mandiri.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Memaksa kreator wajib beli barangmu dulu harga normal.",
+                    "text": "Mengirimkan pesan massal ke ribuan kreator secara acak tanpa menyediakan sampel produk atau panduan konten.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menetapkan komisi afiliasi sebesar 1% untuk semua kategori produk guna meminimalkan pengeluaran promosi.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Mewajibkan kreator membeli produk sendiri tanpa kompensasi komisi jika penjualan belum mencapai 100 pesanan.",
                     "score": 0
                 }
             ]
         },
         {
             "id": "ecom-10",
-            "question": "Saat menjalankan kampanye Pay-Per-Click (CPAS/Facebook Ads to Marketplace), tantangan analisis data utamanya adalah?",
+            "question": "Saat menjalankan kampanye Pay-Per-Click Collaborative Ads (CPAS / Facebook Ads to Marketplace), tantangan analitik terbesarnya adalah melacak konversi. Bagaimana cara optimasi kampanye CPAS yang benar?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Piksel tracking sulit dipasang secara penuh di dalam aplikasi marketplace pihak ketiga dibanding web sendiri.",
+                    "text": "Manfaatkan katalog produk dinamis (DPA), segmentasikan audiens retargeting (Viewed but not purchased & Add to cart 7-14 hari), uji penawaran bundle di kreatif iklan, dan pantau metrik ROAS terintegrasi.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Facebook melarang e-commerce.",
-                    "score": 0
+                    "text": "Menjalankan iklan CPAS dengan fokus pada target audiens broad (Broad Targeting) menggunakan materi video review produk terbaik.",
+                    "score": 8
                 },
                 {
                     "label": "C",
-                    "text": "Budget selalu ditolak sistem.",
+                    "text": "Menargetkan seluruh katalog 500 produk sekaligus ke audiens umum tanpa memfilter produk hero/bestseller.",
+                    "score": 4
+                },
+                {
+                    "label": "D",
+                    "text": "Menghentikan kampanye iklan jika dalam 24 jam pertama belum menghasilkan penjualan yang signifikan.",
+                    "score": 2
+                },
+                {
+                    "label": "E",
+                    "text": "Mengarahkan link iklan Facebook ke halaman beranda utama marketplace tanpa menghubungkan katalog CPAS toko.",
                     "score": 0
                 }
             ]
