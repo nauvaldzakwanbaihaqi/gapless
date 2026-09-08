@@ -652,8 +652,8 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "options": [
                 {
                     "label": "A",
-                    "text": "PNG resolusi 300dpi.",
-                    "score": 0
+                    "text": "TIFF resolusi tinggi yang disesuaikan dengan ukuran fisik billboard (300dpi pada ukuran cetak asli).",
+                    "score": 6
                 },
                 {
                     "label": "B",
@@ -662,7 +662,7 @@ export const quizBank: Record<string, QuizQuestion[]> = {
                 },
                 {
                     "label": "C",
-                    "text": "JPEG ukuran 50MB.",
+                    "text": "JPEG dengan kompresi serendah mungkin pada ukuran file maksimal yang didukung software desain.",
                     "score": 0
                 }
             ]
@@ -673,17 +673,17 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "options": [
                 {
                     "label": "A",
-                    "text": "Bekerja di mode warna RGB, bukan CMYK.",
+                    "text": "Bekerja di mode warna RGB, bukan CMYK, sehingga warna cerah yang muncul di layar tidak semuanya bisa direproduksi mesin cetak.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Resolusi gambar terlalu rendah.",
-                    "score": 0
+                    "text": "Monitor yang dipakai untuk mendesain tidak dikalibrasi, sehingga warna yang terlihat sejak awal sudah tidak akurat.",
+                    "score": 6
                 },
                 {
                     "label": "C",
-                    "text": "Kurang menaikkan brightness di Photoshop.",
+                    "text": "Resolusi gambar terlalu rendah.",
                     "score": 0
                 }
             ]
@@ -694,18 +694,18 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "options": [
                 {
                     "label": "A",
-                    "text": "Menggunakan 5 jenis font berbeda agar meriah.",
-                    "score": 0
+                    "text": "Membagi teks panjang menjadi poin-poin singkat (bullet points) tanpa mengubah ukuran atau bobot font.",
+                    "score": 6
                 },
                 {
                     "label": "B",
-                    "text": "Menerapkan Typographic Hierarchy (Heading, Subheading, Body) dan white space.",
-                    "score": 10
+                    "text": "Mengecilkan ukuran font secara keseluruhan agar semua teks muat rapi dalam satu blok.",
+                    "score": 0
                 },
                 {
                     "label": "C",
-                    "text": "Membuat semua teks menjadi huruf kapital (ALL CAPS).",
-                    "score": 0
+                    "text": "Menerapkan Typographic Hierarchy (Heading, Subheading, Body) dan white space.",
+                    "score": 10
                 }
             ]
         },
@@ -715,8 +715,8 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "options": [
                 {
                     "label": "A",
-                    "text": "Menambah negative space (ruang kosong) di sekitar logo agar mata fokus ke sana.",
-                    "score": 10
+                    "text": "Meningkatkan kontras warna logo terhadap background tanpa mengubah posisi atau ukurannya.",
+                    "score": 6
                 },
                 {
                     "label": "B",
@@ -725,8 +725,8 @@ export const quizBank: Record<string, QuizQuestion[]> = {
                 },
                 {
                     "label": "C",
-                    "text": "Memberi warna neon terang pada background logo.",
-                    "score": 0
+                    "text": "Menambah negative space (ruang kosong) di sekitar logo agar mata fokus ke sana.",
+                    "score": 10
                 }
             ]
         },
@@ -736,17 +736,17 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "options": [
                 {
                     "label": "A",
-                    "text": "Warna tidak konsisten di setiap kotak.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Setiap gambar satuan terlihat aneh/terpotong jika user melihatnya dari timeline biasa.",
+                    "text": "Setiap gambar satuan terlihat aneh/terpotong jika user melihatnya dari timeline biasa (bukan dari grid profil).",
                     "score": 10
                 },
                 {
+                    "label": "B",
+                    "text": "Instagram bisa mengubah rasio crop thumbnail secara otomatis, sehingga potongan gambar bisa bergeser dari rencana desain awal.",
+                    "score": 6
+                },
+                {
                     "label": "C",
-                    "text": "Ukuran file terlalu besar untuk di-upload.",
+                    "text": "Warna tidak konsisten di setiap kotak.",
                     "score": 0
                 }
             ]
@@ -757,8 +757,8 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "options": [
                 {
                     "label": "A",
-                    "text": "Merah cerah dan kuning neon.",
-                    "score": 0
+                    "text": "Putih bersih (minimalist) dipadukan hitam untuk tipografi.",
+                    "score": 6
                 },
                 {
                     "label": "B",
@@ -767,7 +767,7 @@ export const quizBank: Record<string, QuizQuestion[]> = {
                 },
                 {
                     "label": "C",
-                    "text": "Hitam pekat dan ungu tua.",
+                    "text": "Merah cerah dan kuning neon.",
                     "score": 0
                 }
             ]
@@ -778,17 +778,17 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengaplikasikan efek blur (Depth of Field) di background atau menambahkan shape overlay transparan di bawah teks.",
+                    "text": "Menambahkan shape overlay transparan (gradient/vignette) khusus di area teks, tanpa mengubah foto produk aslinya.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Menambahkan stroke tebal berwarna merah menyala pada teks.",
-                    "score": 0
+                    "text": "Menerapkan efek blur (Depth of Field) langsung ke foto background asli.",
+                    "score": 6
                 },
                 {
                     "label": "C",
-                    "text": "Menghapus foto produk dan hanya memakai teks.",
+                    "text": "Menambahkan stroke tebal berwarna merah menyala pada teks.",
                     "score": 0
                 }
             ]
@@ -799,8 +799,8 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "options": [
                 {
                     "label": "A",
-                    "text": "Mengganti font serif klasik menjadi sans-serif bersih dan menghilangkan efek drop shadow berlebihan.",
-                    "score": 10
+                    "text": "Mengganti seluruh palet warna menjadi warna pastel tanpa mengubah font atau layout.",
+                    "score": 6
                 },
                 {
                     "label": "B",
@@ -809,18 +809,18 @@ export const quizBank: Record<string, QuizQuestion[]> = {
                 },
                 {
                     "label": "C",
-                    "text": "Mewarnai ulang seluruh desain dengan gradasi pelangi.",
-                    "score": 0
+                    "text": "Mengganti font serif klasik menjadi sans-serif bersih dan menghilangkan efek drop shadow berlebihan.",
+                    "score": 10
                 }
             ]
         },
         {
             "id": "gd-9",
-            "question": "Kamu menggunakan Illustrator untuk maskot, Photoshop untuk edit foto, dan InDesign untuk? ",
+            "question": "Kamu menggunakan Illustrator untuk maskot, Photoshop untuk edit foto, dan InDesign untuk?",
             "options": [
                 {
                     "label": "A",
-                    "text": "Membuat animasi GIF logo.",
+                    "text": "Retouching dan color grading foto produk secara mendalam.",
                     "score": 0
                 },
                 {
@@ -830,8 +830,8 @@ export const quizBank: Record<string, QuizQuestion[]> = {
                 },
                 {
                     "label": "C",
-                    "text": "Mewarnai vektor.",
-                    "score": 0
+                    "text": "Menyusun ilustrasi vector yang sudah jadi ke dalam layout sekaligus mengatur text wrapping di sekitarnya.",
+                    "score": 6
                 }
             ]
         },
@@ -841,17 +841,17 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "options": [
                 {
                     "label": "A",
-                    "text": "Batas area aman di desain agar teks/logo penting tidak terpotong saat proses cetak (trim) atau tampil di layar.",
+                    "text": "Batas area aman DI DALAM garis potong (trim) supaya teks/logo penting tidak terpotong saat proses cetak atau tampil di layar.",
                     "score": 10
                 },
                 {
                     "label": "B",
-                    "text": "Area untuk menaruh watermark desainernya.",
-                    "score": 0
+                    "text": "Bleed area tambahan yang sengaja dibuat melebihi garis potong (trim) untuk toleransi mesin cetak.",
+                    "score": 6
                 },
                 {
                     "label": "C",
-                    "text": "Warna background yang aman untuk mata.",
+                    "text": "Area untuk menaruh watermark desainernya.",
                     "score": 0
                 }
             ]
@@ -862,210 +862,110 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "id": "cc-1",
             "question": "Video TikTok-mu punya retention rate tinggi di akhir, tapi views-nya sangat rendah (tidak masuk FYP). Masalah utama biasanya ada di?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Kualitas kamera kurang tajam.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Hook (3 detik pertama) kurang kuat sehingga user langsung scroll.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Kurang panjang durasinya.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Hook (3 detik pertama) kurang kuat sehingga user langsung scroll.", "score": 10 },
+                { "label": "B", "text": "Menggunakan sound/audio orisinal yang tidak sedang trending, sehingga sinyal relevansi ke algoritma FYP lebih lemah.", "score": 8 },
+                { "label": "C", "text": "Posting di luar jam aktif mayoritas audiens (jam tayang kurang optimal).", "score": 6 },
+                { "label": "D", "text": "Hashtag yang dipakai terlalu niche/jarang dicari orang.", "score": 4 },
+                { "label": "E", "text": "Kualitas kamera kurang tajam.", "score": 0 }
             ]
         },
         {
             "id": "cc-2",
             "question": "Algoritma Instagram mulai memprioritaskan 'Saves' (Simpan) dan 'Shares' (Bagikan) dibanding 'Likes'. Jenis konten apa yang harus kamu perbanyak?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Selfie estetik dengan caption singkat.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Konten edukasi, tips, template, atau relatable memes.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Video dance challenge.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Konten before-after/transformasi yang mendorong orang membagikan untuk motivasi.", "score": 8 },
+                { "label": "B", "text": "Video dance challenge mengikuti tren sound yang sedang viral.", "score": 6 },
+                { "label": "C", "text": "Quote/kata-kata motivasi generik dengan desain menarik.", "score": 4 },
+                { "label": "D", "text": "Selfie estetik dengan caption singkat.", "score": 0 },
+                { "label": "E", "text": "Konten edukasi, tips, template, atau relatable memes.", "score": 10 }
             ]
         },
         {
             "id": "cc-3",
             "question": "Kamu membuat konten YouTube panjang, lalu ingin mendaur ulangnya (repurpose) ke TikTok/Shorts. Kesalahan editing terburuk adalah?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Mengunggah video berformat landscape langsung ke platform vertikal tanpa menyesuaikan rasio dan caption dinamis.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Memotong video jadi di bawah 60 detik.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Menambahkan backsound lagu viral.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Memotong bagian paling menarik dari video panjang tanpa membuat hook pembuka baru khusus vertical.", "score": 6 },
+                { "label": "B", "text": "Watermark platform asal (misal watermark YouTube) masih tersisa di video hasil re-upload.", "score": 4 },
+                { "label": "C", "text": "Menambahkan backsound lagu viral.", "score": 0 },
+                { "label": "D", "text": "Mengunggah video berformat landscape langsung ke platform vertikal tanpa menyesuaikan rasio dan caption dinamis.", "score": 10 },
+                { "label": "E", "text": "Tidak menambahkan subtitle/closed caption otomatis, padahal mayoritas penonton platform vertikal menonton tanpa suara.", "score": 8 }
             ]
         },
         {
             "id": "cc-4",
             "question": "Brand klien ingin konten yang memicu audiens berkomentar (engagement rate tinggi). Strategi copywriting apa yang paling efektif?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Menulis deskripsi produk yang sangat teknis dan panjang.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Memberikan opini polarisasi atau CTA (Call to Action) berupa pertanyaan terbuka di akhir video/caption.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Hanya menggunakan hashtag saja tanpa caption.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menambahkan emoji berlebihan di caption tanpa mengubah isi pesan.", "score": 4 },
+                { "label": "B", "text": "Menulis deskripsi produk yang sangat teknis dan panjang.", "score": 0 },
+                { "label": "C", "text": "Memberikan opini polarisasi atau CTA (Call to Action) berupa pertanyaan terbuka di akhir video/caption.", "score": 10 },
+                { "label": "D", "text": "Membalas komentar pertama dengan pertanyaan balik untuk memancing thread diskusi lanjutan.", "score": 8 },
+                { "label": "E", "text": "Meminta audiens like, share, dan follow di akhir video sebagai penutup.", "score": 6 }
             ]
         },
         {
             "id": "cc-5",
             "question": "Video edukasimu sangat informatif tapi membosankan. Teknik 'Pattern Interrupt' apa yang bisa digunakan saat editing di CapCut?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Membuat transisi perlahan yang sangat mulus.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Mengganti angle kamera/zoom, menambahkan sound effect, atau memunculkan pop-up teks setiap 3-5 detik.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Mengecilkan volume musik latar.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Membuat transisi perlahan yang sangat mulus.", "score": 0 },
+                { "label": "B", "text": "Mengganti angle kamera/zoom, menambahkan sound effect, atau memunculkan pop-up teks setiap 3-5 detik.", "score": 10 },
+                { "label": "C", "text": "Menambahkan teks kinetic typography (teks bergerak mengikuti narasi) untuk highlight poin penting.", "score": 8 },
+                { "label": "D", "text": "Menyisipkan b-roll (footage tambahan) di antara adegan talking head untuk variasi visual.", "score": 6 },
+                { "label": "E", "text": "Menambahkan animasi transisi standar bawaan CapCut secara konsisten di tiap potongan.", "score": 4 }
             ]
         },
         {
             "id": "cc-6",
             "question": "Saat melakukan riset tren, kamu menemukan sound sedang viral. Bagaimana cara brand-mu ikut tren tanpa terlihat 'cringe' (memalukan)?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Melakukan dance persis sama meskipun brand-mu menjual asuransi B2B.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Mengadaptasi konteks suara viral tersebut dengan masalah sehari-hari (pain points) yang dialami target audiens brand-mu.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Tidak usah ikut tren sama sekali.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Mengadaptasi konteks suara viral tersebut dengan masalah sehari-hari (pain points) yang dialami target audiens brand-mu.", "score": 10 },
+                { "label": "B", "text": "Mengganti audio asli tren menjadi voice over yang relevan dengan brand, sambil tetap memakai format/gerakan asli tren.", "score": 8 },
+                { "label": "C", "text": "Tidak usah ikut tren sama sekali, fokus pada konten evergreen brand seperti biasa.", "score": 6 },
+                { "label": "D", "text": "Ikut tren secara literal tapi menambahkan logo brand kecil di sudut video.", "score": 4 },
+                { "label": "E", "text": "Melakukan dance persis sama meskipun brand-mu menjual asuransi B2B.", "score": 0 }
             ]
         },
         {
             "id": "cc-7",
             "question": "Klien menuduh akunnya kena 'Shadowban' karena views tiba-tiba anjlok 80%. Analisis data pertama yang harus kamu lakukan?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Menghapus semua video lama.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Mengecek analitik apakah views dari 'Non-Followers' (For You/Explore) masih masuk atau nol persen.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Membuat akun baru seketika.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Membandingkan grafik views 7 hari terakhir dengan video-video sebelumnya untuk melihat pola penurunan bertahap vs mendadak.", "score": 8 },
+                { "label": "B", "text": "Mengecek riwayat pelanggaran community guidelines atau strike terbaru di akun.", "score": 6 },
+                { "label": "C", "text": "Bertanya ke komunitas kreator lain apakah mereka mengalami penurunan serupa (isu platform-wide).", "score": 4 },
+                { "label": "D", "text": "Menghapus semua video lama.", "score": 0 },
+                { "label": "E", "text": "Mengecek analitik apakah views dari 'Non-Followers' (For You/Explore) masih masuk atau nol persen.", "score": 10 }
             ]
         },
         {
             "id": "cc-8",
             "question": "Copywriting untuk caption harus menerapkan prinsip AIDA. 'Desain casing hp ini anti banting dari lantai 3' termasuk dalam fase?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Action.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Interest / Desire.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Awareness.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Awareness — kalimat ini fakta mengejutkan yang menarik perhatian di awal.", "score": 6 },
+                { "label": "B", "text": "Conviction — istilah dari framework marketing lain (AIDCA), bukan bagian dari AIDA klasik yang ditanyakan.", "score": 4 },
+                { "label": "C", "text": "Action.", "score": 0 },
+                { "label": "D", "text": "Interest — kalimat ini menjelaskan manfaat/keunggulan spesifik produk yang membangun ketertarikan mendalam.", "score": 10 },
+                { "label": "E", "text": "Desire — dekat dengan Interest, tapi Desire biasanya lebih menonjolkan penekanan emosional, bukan sekadar pernyataan fakta teknis begini.", "score": 8 }
             ]
         },
         {
             "id": "cc-9",
             "question": "Dalam merekam video UGC (User Generated Content) untuk review produk, elemen apa yang paling membangun kepercayaan penonton?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Kamera mahal RED 8K.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Skrip yang dihafal seperti robot dan memuji tanpa henti.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Testimoni otentik (menunjukkan sebelum-sesudah) dan pencahayaan natural.",
-                    "score": 10
-                }
+                { "label": "A", "text": "Menambahkan disclaimer '#ad' atau '#sponsored' yang jelas di awal video.", "score": 4 },
+                { "label": "B", "text": "Skrip yang dihafal seperti robot dan memuji tanpa henti.", "score": 0 },
+                { "label": "C", "text": "Testimoni otentik (menunjukkan sebelum-sesudah) dan pencahayaan natural.", "score": 10 },
+                { "label": "D", "text": "Menunjukkan proses pemakaian produk secara real-time tanpa banyak cut/editing (raw footage).", "score": 8 },
+                { "label": "E", "text": "Menggunakan reviewer dengan jumlah followers besar, meski skripnya sudah disiapkan penuh oleh brand.", "score": 6 }
             ]
         },
         {
             "id": "cc-10",
             "question": "Apa fungsi utama dari menganalisis metrik 'Watch Time / Average View Duration' pada Social Media Analytics?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Untuk mengetahui di detik ke berapa penonton bosan, sehingga pacing editing bisa diperbaiki ke depannya.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Hanya sekadar angka untuk dipamerkan ke klien.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Menentukan apakah algoritma sedang rusak.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Hanya sekadar angka untuk dipamerkan ke klien.", "score": 0 },
+                { "label": "B", "text": "Untuk mengetahui di detik ke berapa penonton bosan, sehingga pacing editing bisa diperbaiki ke depannya.", "score": 10 },
+                { "label": "C", "text": "Untuk mengidentifikasi bagian video yang paling banyak di-rewatch (retention spike) agar bisa direplikasi di konten berikutnya.", "score": 8 },
+                { "label": "D", "text": "Untuk membandingkan performa relatif antar video dalam kanal yang sama.", "score": 6 },
+                { "label": "E", "text": "Untuk menentukan estimasi pendapatan iklan (ad revenue) dari total durasi tonton.", "score": 4 }
             ]
         }
     ],
@@ -1074,210 +974,110 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "id": "ai-1",
             "question": "Model Machine Learning yang kamu buat (misal prediksi harga rumah) bekerja 99% akurat di data training, tapi sangat buruk saat di-test dengan data baru. Modelmu mengalami?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Underfitting.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Overfitting.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Data Normalization.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Overfitting.", "score": 10 },
+                { "label": "B", "text": "Model mengalami memorization terhadap data training (menghafal detail/noise spesifik, bukan mempelajari pola umum).", "score": 8 },
+                { "label": "C", "text": "High variance akibat model terlalu kompleks relatif terhadap jumlah data.", "score": 6 },
+                { "label": "D", "text": "Model butuh dilatih dengan lebih banyak epoch/iterasi lagi supaya makin akurat.", "score": 4 },
+                { "label": "E", "text": "Underfitting.", "score": 0 }
             ]
         },
         {
             "id": "ai-2",
             "question": "Kamu membangun sistem RAG (Retrieval-Augmented Generation) menggunakan LLM, tapi sistem sering berhalusinasi mengarang jawaban di luar dokumen. Solusi arsitekturnya?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Melatih (fine-tune) model LLM dari nol.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Memperbaiki prompt dengan instruksi ketat 'Jawab HANYA berdasarkan konteks' dan mengevaluasi teknik chunking + vector search di Vector DB.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Meningkatkan parameter temperature model menjadi 1.0.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menambahkan langkah verifikasi (self-check) agar LLM mengutip sumber persis dari dokumen sebelum menjawab, plus reranking hasil retrieval.", "score": 8 },
+                { "label": "B", "text": "Melakukan fine-tuning model LLM pada dataset domain spesifik (menyesuaikan bobot model yang sudah ada).", "score": 6 },
+                { "label": "C", "text": "Menaikkan jumlah dokumen yang di-retrieve (top-k) sebesar mungkin supaya konteks makin lengkap.", "score": 4 },
+                { "label": "D", "text": "Melatih (fine-tune) model LLM dari nol.", "score": 0 },
+                { "label": "E", "text": "Memperbaiki prompt dengan instruksi ketat 'Jawab HANYA berdasarkan konteks' dan mengevaluasi teknik chunking + vector search di Vector DB.", "score": 10 }
             ]
         },
         {
             "id": "ai-3",
             "question": "Proses pencarian dokumen terdekat (semantic search) dari jutaan teks berjalan sangat lambat. Library apa yang sebaiknya diimplementasikan untuk indexing vektor?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Pandas DataFrame.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "FAISS (Facebook AI Similarity Search) atau Vector Database khusus.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Regex match.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Elasticsearch dengan BM25 (pencarian keyword/full-text tradisional).", "score": 6 },
+                { "label": "B", "text": "Membuat index manual dengan dictionary Python dan looping brute-force menghitung cosine similarity.", "score": 4 },
+                { "label": "C", "text": "Pandas DataFrame.", "score": 0 },
+                { "label": "D", "text": "FAISS (Facebook AI Similarity Search) atau Vector Database khusus.", "score": 10 },
+                { "label": "E", "text": "Library ANN (Approximate Nearest Neighbor) seperti Annoy atau HNSWlib yang di-embed langsung di aplikasi.", "score": 8 }
             ]
         },
         {
             "id": "ai-4",
             "question": "Saat melakukan pembersihan data untuk NLP (Natural Language Processing), teks mengandung banyak stop words dan imbuhan. Tahap preprocessing yang diperlukan?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Tokenization, Stopword Removal, dan Stemming/Lemmatization.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Mengubah semuanya menjadi huruf kapital.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Menghapus semua vokal.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menggunakan spell-checker otomatis untuk memperbaiki typo di seluruh teks.", "score": 4 },
+                { "label": "B", "text": "Mengubah semuanya menjadi huruf kapital.", "score": 0 },
+                { "label": "C", "text": "Tokenization, Stopword Removal, dan Stemming/Lemmatization.", "score": 10 },
+                { "label": "D", "text": "Tokenization dan Stopword Removal saja, tanpa Stemming/Lemmatization.", "score": 8 },
+                { "label": "E", "text": "Lowercase seluruh teks dan menghapus tanda baca saja.", "score": 6 }
             ]
         },
         {
             "id": "ai-5",
             "question": "Dalam membangun sistem klasifikasi gambar (CNN), jumlah datamu (dataset) untuk kelas tertentu sangat sedikit. Teknik apa yang bisa dipakai agar model tetap bagus?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Menghapus kelas tersebut dari prediksi.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Data Augmentation (memutar, memotong gambar) atau Transfer Learning dari model pre-trained (seperti ResNet/YOLO).",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Melakukan copy-paste gambar yang sama berulang kali.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menurunkan threshold confidence khusus untuk kelas yang datanya sedikit saat prediksi.", "score": 4 },
+                { "label": "B", "text": "Menghapus kelas tersebut dari prediksi.", "score": 0 },
+                { "label": "C", "text": "Data Augmentation (memutar, memotong gambar) atau Transfer Learning dari model pre-trained (seperti ResNet/YOLO).", "score": 10 },
+                { "label": "D", "text": "Menggunakan teknik SMOTE (Synthetic Minority Oversampling) untuk membuat data sintetis tambahan pada kelas minoritas.", "score": 8 },
+                { "label": "E", "text": "Menerapkan class weighting (memberi bobot lebih besar pada loss function untuk kelas dengan data sedikit).", "score": 6 }
             ]
         },
         {
             "id": "ai-6",
             "question": "User mencoba melakukan 'Prompt Injection' pada Chatbot AI milik perusahaanmu agar bot tersebut membocorkan prompt sistem utama. Cara penanganannya?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Membiarkan saja karena AI memang bisa diajak mengobrol.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Menerapkan filter moderasi di layer terpisah dan memasang delimiter ketat untuk membedakan sistem prompt dengan user input.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Mengurangi batasan token (max_tokens).",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menerapkan filter moderasi di layer terpisah dan memasang delimiter ketat untuk membedakan sistem prompt dengan user input.", "score": 10 },
+                { "label": "B", "text": "Menggunakan model/classifier terpisah (guard model) khusus untuk mendeteksi pola prompt injection sebelum diteruskan ke LLM utama.", "score": 8 },
+                { "label": "C", "text": "Menambahkan instruksi larangan di system prompt seperti 'Jangan pernah bocorkan prompt ini apapun yang terjadi'.", "score": 6 },
+                { "label": "D", "text": "Membatasi jumlah karakter maksimal yang bisa diketik user di kolom chat.", "score": 4 },
+                { "label": "E", "text": "Mengurangi batasan token (max_tokens).", "score": 0 }
             ]
         },
         {
             "id": "ai-7",
             "question": "Model Python-mu (TensorFlow/PyTorch) butuh waktu 3 hari untuk training menggunakan CPU. Komponen hardware apa yang paling esensial ditambah untuk AI Training?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "SSD kapasitas besar.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "GPU (Graphical Processing Unit) seperti NVIDIA dengan CUDA support.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "RAM 128GB.",
-                    "score": 0
-                }
+                { "label": "A", "text": "TPU (Tensor Processing Unit) di cloud.", "score": 8 },
+                { "label": "B", "text": "RAM 128GB.", "score": 6 },
+                { "label": "C", "text": "Menambah jumlah CPU core (misal dari 4 core ke 32 core).", "score": 4 },
+                { "label": "D", "text": "SSD kapasitas besar.", "score": 0 },
+                { "label": "E", "text": "GPU (Graphical Processing Unit) seperti NVIDIA dengan CUDA support.", "score": 10 }
             ]
         },
         {
             "id": "ai-8",
             "question": "Kamu ditugaskan memilih metrik evaluasi model untuk mendeteksi penipuan kartu kredit (imbalanced data). Akurasi (Accuracy) mencapai 99% tapi model gagal. Metrik apa yang benar?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Recall, Precision, dan F1-Score untuk kelas penipuan.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Mean Squared Error (MSE).",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Accuracy saja sudah cukup.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Confusion Matrix saja tanpa menghitung metrik turunannya.", "score": 4 },
+                { "label": "B", "text": "Mean Squared Error (MSE).", "score": 0 },
+                { "label": "C", "text": "Recall, Precision, dan F1-Score untuk kelas penipuan.", "score": 10 },
+                { "label": "D", "text": "Precision-Recall AUC (Area Under PR Curve).", "score": 8 },
+                { "label": "E", "text": "AUC-ROC (Area Under the ROC Curve).", "score": 6 }
             ]
         },
         {
             "id": "ai-9",
             "question": "Untuk mengurangi biaya API LLM komersial (seperti OpenAI) di task summarization internal, kamu berniat menggunakan model Open Source. Langkah yang tepat?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Men-deploy model seperti LLaMA/Mistral secara lokal atau di cloud GPU sendiri.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Tetap pakai OpenAI tanpa peduli biaya.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Menggunakan metode regex tradisional alih-alih AI.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menggunakan caching agresif untuk hasil summary yang pernah diminta sebelumnya, tanpa mengganti model.", "score": 4 },
+                { "label": "B", "text": "Menggunakan metode regex tradisional alih-alih AI.", "score": 0 },
+                { "label": "C", "text": "Men-deploy model seperti LLaMA/Mistral secara lokal atau di cloud GPU sendiri.", "score": 10 },
+                { "label": "D", "text": "Menggunakan model open source lewat layanan inference terkelola pihak ketiga (misal Together AI, Groq) tanpa mengelola infrastruktur GPU sendiri.", "score": 8 },
+                { "label": "E", "text": "Downgrade ke model komersial versi lebih kecil/murah (tier mini/nano) dari provider yang sama.", "score": 6 }
             ]
         },
         {
             "id": "ai-10",
             "question": "Salah satu kelemahan model LLM saat ini adalah 'Knowledge Cutoff' (tidak tahu informasi terbaru). Fitur sistem apa yang dibangun engineer untuk mengatasi ini?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Memaksa model menghafal data.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Membangun sistem Tool Calling / Function Calling agar LLM bisa memanggil API Google Search atau query database saat itu juga.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Menurunkan temperature.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Memaksa model menghafal data.", "score": 0 },
+                { "label": "B", "text": "Membangun sistem Tool Calling / Function Calling agar LLM bisa memanggil API Google Search atau query database saat itu juga.", "score": 10 },
+                { "label": "C", "text": "Membangun sistem RAG yang menyuntikkan dokumen/data terbaru ke dalam konteks prompt sebelum LLM menjawab.", "score": 8 },
+                { "label": "D", "text": "Melakukan fine-tuning ulang model secara berkala dengan data terbaru.", "score": 6 },
+                { "label": "E", "text": "Menambahkan disclaimer di UI 'Informasi mungkin tidak up-to-date' agar user maklum.", "score": 4 }
             ]
         }
     ],
@@ -1286,210 +1086,110 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "id": "dev-1",
             "question": "Setiap kali developer merilis kode, aplikasi production sering mati sesaat. Solusi Deployment yang harus diimplementasikan DevOps adalah?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Melakukan deploy manual jam 3 pagi.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Menerapkan CI/CD pipeline dengan strategi Blue-Green Deployment atau Zero Downtime Deployment.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Meminta developer tidak sering update aplikasi.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menerapkan CI/CD pipeline dengan strategi Blue-Green Deployment atau Zero Downtime Deployment.", "score": 10 },
+                { "label": "B", "text": "Menerapkan Rolling Update (mengganti instance lama dengan baru secara bertahap, bukan sekaligus).", "score": 8 },
+                { "label": "C", "text": "Menjadwalkan deploy hanya di jam traffic paling rendah (maintenance window).", "score": 6 },
+                { "label": "D", "text": "Menambahkan health check endpoint sederhana yang dicek manual oleh tim sebelum & sesudah deploy.", "score": 4 },
+                { "label": "E", "text": "Melakukan deploy manual jam 3 pagi.", "score": 0 }
             ]
         },
         {
             "id": "dev-2",
             "question": "Tim QA mendapati skrip Automation Test (Selenium/Cypress) mereka sering gagal (flaky) karena elemen halaman kadang belum termuat penuh. Cara memperbaikinya?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Menambahkan `sleep(10)` (hard wait) di setiap baris.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Menggunakan Explicit Wait (menunggu elemen tertentu visible/clickable secara dinamis).",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Mengabaikan error tersebut.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menggunakan Fluent Wait (Explicit Wait dengan polling interval & exception yang bisa dikustomisasi).", "score": 8 },
+                { "label": "B", "text": "Menambahkan Implicit Wait global di awal skrip (satu kali setting untuk seluruh driver).", "score": 6 },
+                { "label": "C", "text": "Menjalankan ulang (retry) test case secara otomatis sampai 3x jika gagal, tanpa mengubah waktu tunggu.", "score": 4 },
+                { "label": "D", "text": "Menambahkan `sleep(10)` (hard wait) di setiap baris.", "score": 0 },
+                { "label": "E", "text": "Menggunakan Explicit Wait (menunggu elemen tertentu visible/clickable secara dinamis).", "score": 10 }
             ]
         },
         {
             "id": "dev-3",
             "question": "Aplikasi berjalan lancar di laptop developer tapi error karena masalah versi OS/dependensi saat dijalankan di server staging. Teknologi untuk memecahkan 'It works on my machine'?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Containerization menggunakan Docker.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Mengganti laptop developer dengan laptop server.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Zip dan FTP manual.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menstandarkan versi Node.js/Python yang dipakai semua developer lewat file .nvmrc atau .python-version.", "score": 4 },
+                { "label": "B", "text": "Zip dan FTP manual.", "score": 0 },
+                { "label": "C", "text": "Containerization menggunakan Docker.", "score": 10 },
+                { "label": "D", "text": "Menggunakan Virtual Machine (VM) dengan snapshot environment yang sudah dikonfigurasi identik.", "score": 8 },
+                { "label": "E", "text": "Membuat dokumentasi detail versi OS & dependency, lalu tim lain mereplikasi secara manual.", "score": 6 }
             ]
         },
         {
             "id": "dev-4",
             "question": "Server cloud (AWS) sering mengalami lonjakan traffic tinggi tak terduga yang membuat RAM penuh, lalu kembali sepi. Fitur apa yang harus di-setup?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Membeli server terbesar secara permanen (Overprovisioning).",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Auto Scaling Group dikombinasikan dengan Load Balancer.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Menghapus fitur berat di aplikasi.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menambahkan cache layer (Redis/Memcached) di depan server untuk mengurangi beban.", "score": 4 },
+                { "label": "B", "text": "Membeli server terbesar secara permanen (Overprovisioning).", "score": 0 },
+                { "label": "C", "text": "Auto Scaling Group dikombinasikan dengan Load Balancer.", "score": 10 },
+                { "label": "D", "text": "Menggunakan Serverless Function (misal AWS Lambda) untuk komponen yang traffic-nya paling fluktuatif.", "score": 8 },
+                { "label": "E", "text": "Menaikkan spesifikasi server secara manual (vertical scaling) setiap kali terjadi lonjakan.", "score": 6 }
             ]
         },
         {
             "id": "dev-5",
             "question": "Terjadi celah keamanan data karena developer memasukkan password database (credentials) langsung ke dalam source code di GitHub (Hardcoded). Praktik CI/CD yang benar?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Menyimpan credentials di Environment Variables (Secrets Management) dan injeksi saat pipeline berjalan.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Membuat repo GitHub menjadi private.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Mengenkripsi password secara manual.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menyimpan credentials di Environment Variables (Secrets Management) dan injeksi saat pipeline berjalan.", "score": 10 },
+                { "label": "B", "text": "Menggunakan dedicated Secrets Manager (misal AWS Secrets Manager/HashiCorp Vault) dengan rotasi otomatis.", "score": 8 },
+                { "label": "C", "text": "Menghapus commit yang mengandung credentials dari histori Git dan segera mengganti (rotate) password yang bocor.", "score": 6 },
+                { "label": "D", "text": "Menambahkan file .gitignore untuk mencegah file config baru ter-commit, tanpa membersihkan credentials lama yang sudah bocor.", "score": 4 },
+                { "label": "E", "text": "Membuat repo GitHub menjadi private.", "score": 0 }
             ]
         },
         {
             "id": "dev-6",
             "question": "Saat melakukan Load Testing (misal menggunakan JMeter/K6), metrik utama apa yang paling diperhatikan untuk mengukur keandalan (reliability) server?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Warna antarmuka server.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Response Time, Throughput (RPS), dan Error Rate saat concurrent user tinggi.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Kecepatan internet laptop tester.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Response Time, Throughput (RPS), dan Error Rate saat concurrent user tinggi.", "score": 10 },
+                { "label": "B", "text": "Response Time dan Error Rate saja, tanpa memperhatikan Throughput (RPS).", "score": 8 },
+                { "label": "C", "text": "Penggunaan CPU dan Memory server selama pengujian berlangsung.", "score": 6 },
+                { "label": "D", "text": "Jumlah total request yang berhasil dikirim selama pengujian, tanpa memperhatikan waktu respons atau error.", "score": 4 },
+                { "label": "E", "text": "Warna antarmuka server.", "score": 0 }
             ]
         },
         {
             "id": "dev-7",
             "question": "Dalam ekosistem Kubernetes, satu Pod utama tiba-tiba crash. Apa yang secara otomatis dilakukan sistem Orchestration ini?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Restart otomatis pod tersebut atau menjadwalkan ulang di node lain yang sehat untuk menjaga 'desired state'.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Mematikan seluruh server.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Mengirim email agar DevOps datang menyalakan ulang manual.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Kubernetes akan mencoba restart pod di node yang sama dulu (sesuai restart policy), baru dijadwalkan ulang ke node lain jika terus gagal.", "score": 8 },
+                { "label": "B", "text": "Mengirim alert otomatis ke sistem monitoring (misal Prometheus/Grafana) tanpa mengambil tindakan pemulihan apapun.", "score": 6 },
+                { "label": "C", "text": "Kubernetes akan menghapus (delete) pod yang crash secara permanen tanpa membuat replacement.", "score": 4 },
+                { "label": "D", "text": "Mematikan seluruh server.", "score": 0 },
+                { "label": "E", "text": "Restart otomatis pod tersebut atau menjadwalkan ulang di node lain yang sehat untuk menjaga 'desired state'.", "score": 10 }
             ]
         },
         {
             "id": "dev-8",
             "question": "QA Engineer menemukan Defect (Bug) kritis pada fitur pembayaran. Selain melaporkan bug, informasi esensial apa yang wajib ada di tiket Jira agar developer paham?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Hanya screenshot dan kata 'Error'.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Steps to reproduce (Langkah mengulangi bug), Expected Result (Hasil yang diharapkan), dan Actual Result (Hasil asli).",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Menyalahkan developer di kolom komentar.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Tingkat keparahan (Severity/Priority) serta informasi browser/device yang dipakai saat testing.", "score": 6 },
+                { "label": "B", "text": "Video rekaman layar penuh dari awal sampai akhir proses tanpa penjelasan tertulis apapun.", "score": 4 },
+                { "label": "C", "text": "Hanya screenshot dan kata 'Error'.", "score": 0 },
+                { "label": "D", "text": "Steps to reproduce (Langkah mengulangi bug), Expected Result (Hasil yang diharapkan), dan Actual Result (Hasil asli).", "score": 10 },
+                { "label": "E", "text": "Steps to reproduce dan Expected Result saja, tanpa mencantumkan Actual Result secara eksplisit.", "score": 8 }
             ]
         },
         {
             "id": "dev-9",
             "question": "Infrastruktur cloud perusahaan saat ini dikonfigurasi secara manual lewat klik di Dashboard UI (AWS Console). Pendekatan ini rentan error dan sulit diduplikasi. Solusinya?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Membuat dokumentasi Word panjang.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Infrastructure as Code (IaC) menggunakan alat seperti Terraform atau Ansible.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Merekam layar saat konfigurasi.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Membuat template AMI (Amazon Machine Image) custom yang sudah dikonfigurasi, lalu clone manual setiap butuh server baru.", "score": 4 },
+                { "label": "B", "text": "Membuat dokumentasi Word panjang.", "score": 0 },
+                { "label": "C", "text": "Infrastructure as Code (IaC) menggunakan alat seperti Terraform atau Ansible.", "score": 10 },
+                { "label": "D", "text": "Menggunakan AWS CloudFormation (IaC native AWS, deklaratif seperti Terraform tapi vendor-specific).", "score": 8 },
+                { "label": "E", "text": "Membuat script Shell/Bash yang menjalankan urutan perintah AWS CLI secara berurutan setiap kali konfigurasi.", "score": 6 }
             ]
         },
         {
             "id": "dev-10",
             "question": "Untuk memastikan fitur lama tidak rusak akibat rilis kode baru, jenis testing (pengujian) apa yang dijalankan oleh QA Automation di dalam pipeline?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Regression Testing.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Exploratory Testing.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Usability Testing.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Unit Testing yang dijalankan otomatis oleh developer sebelum kode di-merge.", "score": 4 },
+                { "label": "B", "text": "Exploratory Testing.", "score": 0 },
+                { "label": "C", "text": "Regression Testing.", "score": 10 },
+                { "label": "D", "text": "Sanity Testing (pengujian cepat terfokus pada bagian yang baru diubah saja, lebih sempit dari smoke test).", "score": 8 },
+                { "label": "E", "text": "Smoke Testing (pengujian cepat fungsi kritis utama saja).", "score": 6 }
             ]
         }
     ],
@@ -1498,210 +1198,110 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "id": "da-1",
             "question": "Terdapat dua tabel: 'Users' dan 'Orders'. Kamu ingin menampilkan semua user, bahkan yang belum pernah order sekalipun. Jenis SQL Join apa yang dipakai?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "INNER JOIN.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "LEFT JOIN (dari tabel Users).",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "CROSS JOIN.",
-                    "score": 0
-                }
+                { "label": "A", "text": "LEFT JOIN (dari tabel Users).", "score": 10 },
+                { "label": "B", "text": "LEFT JOIN dari tabel Users, ditambah DISTINCT untuk menghindari duplikasi baris jika 1 user punya banyak order.", "score": 8 },
+                { "label": "C", "text": "FULL OUTER JOIN.", "score": 6 },
+                { "label": "D", "text": "RIGHT JOIN dari tabel Orders.", "score": 4 },
+                { "label": "E", "text": "INNER JOIN.", "score": 0 }
             ]
         },
         {
             "id": "da-2",
             "question": "Saat membersihkan data (Data Cleansing) di Python/Pandas, kamu menemukan kolom 'Pendapatan' memiliki banyak nilai kosong (NaN/Null). Cara statistika terbaik menanganinya?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Menghapus semua baris data agar bersih.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan Imputasi (mengisi dengan Median atau Mean) tergantung distribusi kemiringan (skewness) datanya.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Mengisi dengan angka 0.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Melakukan Imputasi dengan Median saja, tanpa mempertimbangkan skewness lebih lanjut.", "score": 8 },
+                { "label": "B", "text": "Melakukan Imputasi dengan nilai Modus (Mode).", "score": 6 },
+                { "label": "C", "text": "Menggunakan nilai imputasi dari model prediktif sederhana (regresi) berdasarkan kolom lain.", "score": 4 },
+                { "label": "D", "text": "Mengisi dengan angka 0.", "score": 0 },
+                { "label": "E", "text": "Melakukan Imputasi (mengisi dengan Median atau Mean) tergantung distribusi kemiringan (skewness) datanya.", "score": 10 }
             ]
         },
         {
             "id": "da-3",
             "question": "Dashboard Tableau yang kamu buat loadingnya sangat lama saat dibuka oleh direktur (menghabiskan 30 detik). Kesalahan desain arsitektur yang sering terjadi?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Tabel di-query langsung ke database produksi jutaan baris (Live Connection) tanpa Extract/Agregasi sebelumnya.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Warna dashboard terlalu cerah.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Menggunakan grafik Bar Chart.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Terlalu banyak filter interaktif dan calculated fields kompleks yang dihitung ulang setiap kali dashboard dibuka.", "score": 6 },
+                { "label": "B", "text": "Terlalu banyak worksheet/tab dalam satu file dashboard yang sama.", "score": 4 },
+                { "label": "C", "text": "Warna dashboard terlalu cerah.", "score": 0 },
+                { "label": "D", "text": "Tabel di-query langsung ke database produksi jutaan baris (Live Connection) tanpa Extract/Agregasi sebelumnya.", "score": 10 },
+                { "label": "E", "text": "Live Connection ke database produksi tapi tanpa index yang tepat di kolom yang sering difilter.", "score": 8 }
             ]
         },
         {
             "id": "da-4",
             "question": "Tim sales ingin visualisasi yang menunjukkan perbandingan porsi penjualan tiap regional terhadap total penjualan keseluruhan (100%). Chart yang kurang disarankan secara UX data adalah?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Bar Chart bertingkat (Stacked Bar).",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Pie Chart 3D dengan belasan kategori (sulit membandingkan volume mata secara presisi).",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Tree Map.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Line Chart untuk menunjukkan porsi masing-masing regional di satu titik waktu.", "score": 4 },
+                { "label": "B", "text": "Bar Chart bertingkat (Stacked Bar).", "score": 0 },
+                { "label": "C", "text": "Pie Chart 3D dengan belasan kategori (sulit membandingkan volume mata secara presisi, distorsi 3D menambah kesulitan).", "score": 10 },
+                { "label": "D", "text": "Donut Chart dengan lebih dari 10 kategori berbeda (ruang tengah kosong mengurangi luas area perbandingan).", "score": 8 },
+                { "label": "E", "text": "Tree Map (baik untuk part-to-whole, tapi tetap sulit membandingkan nilai yang besarnya mirip tanpa label angka).", "score": 6 }
             ]
         },
         {
             "id": "da-5",
             "question": "Di Power BI, untuk menghitung 'Total Penjualan Tahun Berjalan' yang bisa update dinamis, bahasa ekspresi (formula) apa yang digunakan?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "HTML.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "DAX (Data Analysis Expressions) seperti TOTALYTD.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "VLOOKUP.",
-                    "score": 0
-                }
+                { "label": "A", "text": "DAX (Data Analysis Expressions) seperti TOTALYTD.", "score": 10 },
+                { "label": "B", "text": "DAX, tapi menggunakan CALCULATE dengan filter tanggal manual alih-alih fungsi bawaan TOTALYTD.", "score": 8 },
+                { "label": "C", "text": "Power Query (M Language).", "score": 6 },
+                { "label": "D", "text": "Menggunakan fungsi bawaan Excel seperti SUMIFS yang di-copy ke Power BI.", "score": 4 },
+                { "label": "E", "text": "HTML.", "score": 0 }
             ]
         },
         {
             "id": "da-6",
             "question": "Data menunjukkan angka rata-rata (Mean) penjualan bulan ini naik tajam, tapi median (nilai tengah) tetap. Apa indikasi terkuat dari fenomena ini?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Semua sales mengalami peningkatan.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Terdapat Outlier ekstrim (misal 1 transaksi bernilai raksasa) yang mengerek angka rata-rata.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Data tersebut invalid.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Terdapat Outlier ekstrim (misal 1 transaksi bernilai raksasa) yang mengerek angka rata-rata.", "score": 10 },
+                { "label": "B", "text": "Ada beberapa transaksi bernilai sangat besar (bukan cuma satu) yang mendorong rata-rata naik, sementara mayoritas transaksi lain normal.", "score": 8 },
+                { "label": "C", "text": "Distribusi data secara umum menjadi condong (skewed) ke kanan bulan ini.", "score": 6 },
+                { "label": "D", "text": "Jumlah transaksi bulan ini lebih banyak dari biasanya (volume naik), meski nilai rata-rata per transaksi sama.", "score": 4 },
+                { "label": "E", "text": "Semua sales mengalami peningkatan.", "score": 0 }
             ]
         },
         {
             "id": "da-7",
             "question": "Stakeholder bertanya: 'Mengapa user churn rate kita naik bulan ini?'. Analisis ini masuk ke dalam kategori analitik tahap apa?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Descriptive Analytics (Apa yang terjadi).",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Diagnostic Analytics (Mengapa itu terjadi).",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Predictive Analytics (Apa yang akan terjadi besok).",
-                    "score": 0
-                }
+                { "label": "A", "text": "Root Cause Analysis — pendekatan spesifik mencari akar penyebab, secara konsep termasuk bagian dari tahap Diagnostic Analytics.", "score": 8 },
+                { "label": "B", "text": "Descriptive Analytics (Apa yang terjadi).", "score": 6 },
+                { "label": "C", "text": "Prescriptive Analytics (Apa yang sebaiknya dilakukan).", "score": 4 },
+                { "label": "D", "text": "Predictive Analytics (Apa yang akan terjadi besok).", "score": 0 },
+                { "label": "E", "text": "Diagnostic Analytics (Mengapa itu terjadi).", "score": 10 }
             ]
         },
         {
             "id": "da-8",
             "question": "Dalam SQL, klausa apa yang digunakan untuk memfilter hasil *setelah* dilakukan pengelompokan agregasi (GROUP BY)?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "WHERE.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "HAVING.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "ORDER BY.",
-                    "score": 0
-                }
+                { "label": "A", "text": "HAVING dikombinasikan dengan WHERE (WHERE untuk filter baris sebelum agregasi, HAVING untuk filter setelah agregasi).", "score": 8 },
+                { "label": "B", "text": "WHERE dikombinasikan dengan subquery yang sudah mengagregasi data terlebih dahulu.", "score": 6 },
+                { "label": "C", "text": "QUALIFY clause (tersedia di beberapa dialek SQL seperti Snowflake/BigQuery, untuk filter setelah window function).", "score": 4 },
+                { "label": "D", "text": "ORDER BY.", "score": 0 },
+                { "label": "E", "text": "HAVING.", "score": 10 }
             ]
         },
         {
             "id": "da-9",
             "question": "Kamu akan melakukan presentasi ('Data Storytelling') kepada tim eksekutif non-teknis. Aturan emas yang harus dipegang?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Menampilkan seluruh kode Python dan formula query di layar.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Menyorot Insight utama/Kesimpulan Bisnis terlebih dahulu, visual yang sederhana, dan rekomendasi aksi yang jelas (Actionable Insight).",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Membaca angka di tabel satu persatu.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menggunakan istilah statistik presisi (p-value, confidence interval) agar terlihat kredibel di depan direksi.", "score": 4 },
+                { "label": "B", "text": "Menampilkan seluruh kode Python dan formula query di layar.", "score": 0 },
+                { "label": "C", "text": "Menyorot Insight utama/Kesimpulan Bisnis terlebih dahulu, visual yang sederhana, dan rekomendasi aksi yang jelas (Actionable Insight).", "score": 10 },
+                { "label": "D", "text": "Menyorot insight utama di awal, tapi tetap menyertakan 2-3 slide appendix berisi detail metodologi untuk yang bertanya.", "score": 8 },
+                { "label": "E", "text": "Menampilkan seluruh grafik dan detail angka yang tersedia agar terlihat menyeluruh dan transparan.", "score": 6 }
             ]
         },
         {
             "id": "da-10",
             "question": "Kolom tanggal formatnya berupa string berantakan (contoh: 'Jan 12 2024', '2024-01-12'). Untuk dianalisa, data ini harus diparsing menjadi format standar. Teknik ini disebut?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Data Encryption.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Data Transformation / Casting ke tipe data Date/Datetime.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Data Dropping.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Data Standardization (secara umum, tanpa spesifik mengubah tipe data).", "score": 4 },
+                { "label": "B", "text": "Data Encryption.", "score": 0 },
+                { "label": "C", "text": "Data Transformation / Casting ke tipe data Date/Datetime.", "score": 10 },
+                { "label": "D", "text": "Data Parsing (secara spesifik mengekstrak & mengubah string tanggal menjadi tipe data terstruktur).", "score": 8 },
+                { "label": "E", "text": "Data Cleansing (istilah umum/payung).", "score": 6 }
             ]
         }
     ],
@@ -1710,210 +1310,110 @@ export const quizBank: Record<string, QuizQuestion[]> = {
             "id": "dres-1",
             "question": "Survei riset pasarmu menjangkau 1000 orang, tapi 90% responden adalah mahasiswa pria di bawah 25 tahun, padahal produkmu untuk umum. Masalah utama riset ini?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Budget survei terlalu kecil.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Sampling Bias (Sampel tidak merepresentasikan populasi target).",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Kuesionernya terlalu pendek.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Sampling Bias (Sampel tidak merepresentasikan populasi target).", "score": 10 },
+                { "label": "B", "text": "Convenience Sampling yang tidak representatif (sampel diambil dari kelompok paling mudah dijangkau, bukan yang mewakili populasi).", "score": 8 },
+                { "label": "C", "text": "Ukuran sampel (1000 orang) terlalu kecil untuk mewakili pasar secara nasional.", "score": 6 },
+                { "label": "D", "text": "Margin of Error survei terlalu besar untuk ukuran sampel yang dipakai.", "score": 4 },
+                { "label": "E", "text": "Kuesionernya terlalu pendek.", "score": 0 }
             ]
         },
         {
             "id": "dres-2",
             "question": "Dalam riset kualitatif (In-depth Interview), user ditanya: 'Apakah aplikasi ini sudah bagus dan mudah digunakan?'. Kesalahan apa pada perumusan pertanyaan ini?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Pertanyaan tersebut adalah Leading Question (menggiring jawaban) dan tertutup (Yes/No answer).",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Kata-katanya kurang sopan.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Seharusnya ditanyakan lewat email.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Pertanyaan tersebut adalah Leading Question (menggiring jawaban), tapi formatnya sudah cukup terbuka.", "score": 8 },
+                { "label": "B", "text": "Pertanyaan tersebut terlalu umum/generik sehingga jawabannya tidak actionable.", "score": 6 },
+                { "label": "C", "text": "Pertanyaan tersebut seharusnya ditanyakan di awal interview, bukan di pertengahan/akhir.", "score": 4 },
+                { "label": "D", "text": "Kata-katanya kurang sopan.", "score": 0 },
+                { "label": "E", "text": "Pertanyaan tersebut adalah Leading Question (menggiring jawaban) dan tertutup (Yes/No answer).", "score": 10 }
             ]
         },
         {
             "id": "dres-3",
             "question": "Perusahaan ingin masuk ke pasar baru. Kamu ditugaskan menghitung TAM (Total Addressable Market). Pendekatan yang benar?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Menghitung hanya orang yang sudah pasti beli bulan depan.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Menghitung total keseluruhan estimasi pendapatan yang tersedia dari seluruh permintaan pasar untuk produk tersebut.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Melihat pendapatan kompetitor terendah.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Menjumlahkan total pendapatan semua kompetitor yang sudah beroperasi di pasar tersebut saat ini.", "score": 6 },
+                { "label": "B", "text": "Menggunakan angka TAM dari laporan riset pasar milik kompetitor/industri tanpa validasi ulang.", "score": 4 },
+                { "label": "C", "text": "Menghitung hanya orang yang sudah pasti beli bulan depan.", "score": 0 },
+                { "label": "D", "text": "Menghitung total keseluruhan estimasi pendapatan yang tersedia dari seluruh permintaan pasar untuk produk tersebut.", "score": 10 },
+                { "label": "E", "text": "Mengalikan jumlah total populasi target dengan estimasi harga rata-rata produk (pendekatan top-down).", "score": 8 }
             ]
         },
         {
             "id": "dres-4",
             "question": "Saat melakukan Competitor Analysis, selain fitur produk kompetitor, kerangka kerja (framework) strategis apa yang paling sering digunakan untuk memetakan kekuatan & kelemahan?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "SWOT Analysis.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "A/B Testing.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Agile Scrum.",
-                    "score": 0
-                }
+                { "label": "A", "text": "PESTEL Analysis (Politik, Ekonomi, Sosial, Teknologi, Environment, Legal).", "score": 8 },
+                { "label": "B", "text": "Porter's Five Forces.", "score": 6 },
+                { "label": "C", "text": "Business Model Canvas kompetitor.", "score": 4 },
+                { "label": "D", "text": "A/B Testing.", "score": 0 },
+                { "label": "E", "text": "SWOT Analysis.", "score": 10 }
             ]
         },
         {
             "id": "dres-5",
             "question": "Stakeholder menuntut hasil riset kualitatif dalam 2 hari, padahal butuh waktu untuk FGD. Strategi riset sekunder tercepat?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Melakukan survei door-to-door.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Melakukan Social Listening / Desk Research dari review kompetitor di internet, forum, dan laporan industri yang sudah ada.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Menolak tugas tersebut mentah-mentah.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Membuat kuesioner online singkat dan menyebarkannya lewat media sosial pribadi, menunggu hasil masuk dalam 2 hari.", "score": 4 },
+                { "label": "B", "text": "Melakukan survei door-to-door.", "score": 0 },
+                { "label": "C", "text": "Melakukan Social Listening / Desk Research dari review kompetitor di internet, forum, dan laporan industri yang sudah ada.", "score": 10 },
+                { "label": "D", "text": "Menganalisis ulang data riset internal lama (misal survei tahun lalu) yang relevan dengan topik saat ini.", "score": 8 },
+                { "label": "E", "text": "Melakukan wawancara singkat (15 menit) dengan 5 orang terdekat yang mudah dihubungi (convenience sampling).", "score": 6 }
             ]
         },
         {
             "id": "dres-6",
             "question": "Hasil riset kuantitatif menunjukkan Korelasi positif tinggi antara penjualan es krim dan kematian akibat tenggelam. Kesimpulan kausal (sebab-akibat) yang benar?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Makan es krim menyebabkan tenggelam.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Korelasi tidak berarti Kausalitas (bisa jadi ada variabel ke-3, misal: musim panas).",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Data riset tersebut pasti dimanipulasi.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Korelasi tidak berarti Kausalitas (bisa jadi ada variabel ke-3, misal: musim panas).", "score": 10 },
+                { "label": "B", "text": "Korelasi tersebut valid dan signifikan secara statistik, sehingga sudah cukup kuat dijadikan dasar kebijakan publik terkait keduanya.", "score": 8 },
+                { "label": "C", "text": "Ada hubungan langsung antara kedua data ini yang perlu diteliti lebih lanjut sebelum bisa disimpulkan.", "score": 6 },
+                { "label": "D", "text": "Data ini kemungkinan hasil dari coincidence murni (kebetulan acak) tanpa pola yang bisa dijelaskan.", "score": 4 },
+                { "label": "E", "text": "Makan es krim menyebabkan tenggelam.", "score": 0 }
             ]
         },
         {
             "id": "dres-7",
             "question": "Alat ukur survei yang kamu buat konsisten menghasilkan nilai yang sama bila dites berulang-ulang, namun ternyata meleset dari tujuan pengukuran awal. Artinya survei ini?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Reliable (Konsisten) tapi tidak Valid.",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Valid tapi tidak Reliable.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Sempurna.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Reliable dan sebagian Valid — konsisten mengukur sesuatu, hanya saja bukan konstruk yang dituju secara penuh.", "score": 8 },
+                { "label": "B", "text": "Instrumen ini sepenuhnya tidak berguna dan harus dirombak total dari nol.", "score": 6 },
+                { "label": "C", "text": "Instrumen ini butuh ditambah lebih banyak item pertanyaan supaya makin akurat.", "score": 4 },
+                { "label": "D", "text": "Valid tapi tidak Reliable.", "score": 0 },
+                { "label": "E", "text": "Reliable (Konsisten) tapi tidak Valid.", "score": 10 }
             ]
         },
         {
             "id": "dres-8",
             "question": "Banyak responden meninggalkan kuesioner online di tengah jalan (Drop-off rate tinggi). Penyebab terbesarnya biasanya?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Kuesioner terlalu panjang, pertanyaan repetitif, atau skala likert membingungkan (Survey Fatigue).",
-                    "score": 10
-                },
-                {
-                    "label": "B",
-                    "text": "Warna kuesioner kurang menarik.",
-                    "score": 0
-                },
-                {
-                    "label": "C",
-                    "text": "Karena kuesioner tersebut anonim.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Kuesioner terlalu panjang saja, tanpa masalah repetisi atau skala yang membingungkan.", "score": 8 },
+                { "label": "B", "text": "Kuesioner tidak memberikan insentif/reward bagi responden yang mengisi sampai selesai.", "score": 6 },
+                { "label": "C", "text": "Kuesioner diakses lewat perangkat mobile yang tampilannya kurang responsive/rapi.", "score": 4 },
+                { "label": "D", "text": "Karena kuesioner tersebut anonim.", "score": 0 },
+                { "label": "E", "text": "Kuesioner terlalu panjang, pertanyaan repetitif, atau skala likert membingungkan (Survey Fatigue).", "score": 10 }
             ]
         },
         {
             "id": "dres-9",
             "question": "Dalam riset pricing (harga), untuk mengetahui kesediaan membayar user secara tidak langsung, metode yang sering digunakan adalah?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Bertanya langsung 'Berapa harga yang Anda inginkan?'.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Van Westendorp Price Sensitivity Meter atau Conjoint Analysis.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Memberikan harga acak secara gratis.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Melihat harga kompetitor sejenis di pasar dan menetapkan harga serupa (competitor-based pricing).", "score": 4 },
+                { "label": "B", "text": "Bertanya langsung 'Berapa harga yang Anda inginkan?'.", "score": 0 },
+                { "label": "C", "text": "Van Westendorp Price Sensitivity Meter atau Conjoint Analysis.", "score": 10 },
+                { "label": "D", "text": "Gabor-Granger Method (menanyakan kesediaan membeli pada serangkaian harga berbeda secara bertahap).", "score": 8 },
+                { "label": "E", "text": "Melakukan A/B Testing harga langsung di pasar (menampilkan harga berbeda ke segmen berbeda dan mengukur konversi).", "score": 6 }
             ]
         },
         {
             "id": "dres-10",
             "question": "Sebagai Strategy Analyst, kamu menemukan bahwa CAC (Customer Acquisition Cost) perusahaan melebihi LTV (Lifetime Value). Apa rekomendasi bisnismu?",
             "options": [
-                {
-                    "label": "A",
-                    "text": "Meningkatkan budget iklan (bakar uang) agar menang volume.",
-                    "score": 0
-                },
-                {
-                    "label": "B",
-                    "text": "Bisnis ini tidak berkelanjutan; sarankan untuk efisiensi marketing, naikkan retention, atau inovasi pricing/upselling.",
-                    "score": 10
-                },
-                {
-                    "label": "C",
-                    "text": "Pecat seluruh tim sales.",
-                    "score": 0
-                }
+                { "label": "A", "text": "Meningkatkan budget iklan (bakar uang) agar menang volume.", "score": 0 },
+                { "label": "B", "text": "Bisnis ini tidak berkelanjutan; sarankan untuk efisiensi marketing, naikkan retention, atau inovasi pricing/upselling.", "score": 10 },
+                { "label": "C", "text": "Bisnis ini tidak berkelanjutan; fokuskan dulu ke retention & pricing sebelum menambah budget akuisisi baru.", "score": 8 },
+                { "label": "D", "text": "Fokus mengejar pertumbuhan jumlah user (growth-at-all-cost) dulu, baru cari profitabilitas setelah mencapai skala besar.", "score": 6 },
+                { "label": "E", "text": "Meningkatkan harga produk secara drastis untuk menutup gap CAC-LTV dengan cepat.", "score": 4 }
             ]
         }
     ],
