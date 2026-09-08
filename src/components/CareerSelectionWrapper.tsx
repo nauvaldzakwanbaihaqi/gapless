@@ -5,7 +5,7 @@ import { JobRole } from '@/types'; // Import dari file baru
 import { CAREER_PROFILES } from '@/data/gaplessData';
 import { useRouter } from 'next/navigation';
 
-import { Sparkles, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 
 interface WrapperProps {
@@ -42,9 +42,6 @@ export function CareerSelectionWrapper({ roles }: WrapperProps) {
 
             <div className="relative z-10 max-w-6xl mx-auto">
                 <div className="text-center mb-16">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium mb-6" style={{ background: 'rgba(37,99,235,0.08)', border: '1px solid rgba(37,99,235,0.2)', color: '#1d4ed8' }}>
-                        <Sparkles size={14} /> Pilih Karir Spesifik
-                    </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
                         Eksplorasi <span className="gradient-text">Jalur Kariermu</span>
                     </h1>
