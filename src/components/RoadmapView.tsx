@@ -141,18 +141,22 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
         <div className="space-y-8">
           {roadmapWithProgress.map((phase, phaseIdx) => {
             const isCompleted = phase.progress === 1;
-            const isLocked = !isPro && phaseIdx >= 2;
-            const isActivePhase = !isCompleted && !isLocked && (phaseIdx === 0 || roadmapWithProgress[phaseIdx - 1].progress === 1);
+            const isProLocked = !isPro && phaseIdx >= 2;
+            // Prasyarat: Seluruh fase sebelumnya (fase 0 s.d. phaseIdx-1) wajib selesai 100%
+            const isPrereqLocked = !isProLocked && phaseIdx > 0 && roadmapWithProgress.slice(0, phaseIdx).some(p => p.progress < 1);
+            const isPhaseLocked = isProLocked || isPrereqLocked;
+            const isActivePhase = !isCompleted && !isPhaseLocked && (phaseIdx === 0 || roadmapWithProgress[phaseIdx - 1].progress === 1);
 
-            let isPreviousCompleted = true; // reset for each phase
+            let isPreviousCompleted = !isPhaseLocked; // Hanya terbuka jika fase ini tidak terkunci
 
             return (
               <motion.div
                 key={phase.phase || phaseIdx}
+                id={`phase-card-${phaseIdx}`}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 + phaseIdx * 0.15 }}
-                className="relative"
+                className="relative scroll-mt-24"
               >
                 {/* Phase Card */}
                 <div
@@ -160,19 +164,56 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
                     isActivePhase ? 'border-2 border-blue-600 ring-4 ring-blue-50 shadow-md' : 'border border-slate-200 shadow-sm'
                   }`}
                 >
-                  {isLocked && (
+                  {/* Pro Lock Overlay */}
+                  {isProLocked && (
                     <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center backdrop-blur-xs bg-white/40">
-                      <div className="bg-white/90 backdrop-blur-md border border-slate-100 p-8 rounded-3xl shadow-xl flex flex-col items-center max-w-sm">
-                        <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 border border-slate-100">
-                          <Lock className="w-6 h-6 text-slate-700" />
+                      <div className="bg-white/95 backdrop-blur-md border border-slate-100 p-8 rounded-3xl shadow-xl flex flex-col items-center max-w-sm">
+                        <div className="w-14 h-14 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-full flex items-center justify-center shadow-md mb-4 text-white">
+                          <Lock className="w-6 h-6" />
                         </div>
-                        <h4 className="font-bold text-slate-900 text-xl mb-3">Fase Terkunci</h4>
+                        <span className="text-[11px] font-extrabold px-3 py-1 rounded-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white uppercase tracking-wider mb-2 shadow-xs">
+                          Akses Eksklusif Pro
+                        </span>
+                        <h4 className="font-bold text-slate-900 text-xl mb-2">Fase Khusus Pro</h4>
                         <p className="text-sm text-slate-500 mb-6 px-2 leading-relaxed">
-                          Upgrade ke paket Student Pro untuk membuka fase roadmap tingkat lanjut dan maksimalkan potensimu.
+                          Upgrade ke paket Student Pro untuk membuka seluruh fase kurikulum lanjutan dan maksimalkan potensimu.
                         </p>
-                        <Link href="/pricing" className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full text-sm font-bold transition-all shadow-md hover:shadow-lg w-full">
+                        <Link href="/pricing" className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-full text-sm font-bold transition-all shadow-md hover:shadow-lg w-full">
                           Upgrade Sekarang
                         </Link>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Prerequisite Sequential Lock Overlay (Beda tampilan dengan Pro) */}
+                  {isPrereqLocked && (
+                    <div className="absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center backdrop-blur-xs bg-slate-50/40">
+                      <div className="bg-white/95 backdrop-blur-md border border-amber-200/80 p-8 rounded-3xl shadow-xl flex flex-col items-center max-w-sm">
+                        <div className="w-14 h-14 bg-amber-50 border border-amber-200 rounded-full flex items-center justify-center shadow-xs mb-4 text-amber-600">
+                          <Lock className="w-6 h-6" />
+                        </div>
+                        <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800 uppercase tracking-wider mb-2 border border-amber-200">
+                          Prasyarat Belum Selesai
+                        </span>
+                        <h4 className="font-bold text-slate-900 text-xl mb-2">Fase {phase.phase || (phaseIdx + 1)} Terkunci</h4>
+                        <p className="text-sm text-slate-600 mb-6 px-2 leading-relaxed">
+                          Selesaikan seluruh modul pada <strong>Fase {phaseIdx} ({roadmapWithProgress[phaseIdx - 1]?.title || `Fase ${phaseIdx}`})</strong> terlebih dahulu untuk membuka materi pada fase ini.
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const targetEl = document.getElementById(`phase-card-${phaseIdx - 1}`);
+                            if (targetEl) {
+                              targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                          }}
+                          className="bg-slate-900 hover:bg-slate-800 text-white px-6 py-3 rounded-full text-sm font-bold transition-all shadow-md hover:shadow-lg w-full flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                          <span>Lanjutkan Fase {phaseIdx}</span>
+                          <span className="text-xs bg-slate-800 border border-slate-700 px-2 py-0.5 rounded-full font-semibold">
+                            {Math.round((roadmapWithProgress[phaseIdx - 1]?.progress || 0) * 100)}%
+                          </span>
+                        </button>
                       </div>
                     </div>
                   )}
@@ -214,12 +255,12 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
                   <div className="space-y-3">
                     {phase.modules.map((mod, modIdx) => {
                       const isModuleCompleted = phase.completedModules.includes(mod);
-                      const isAvailable = !isModuleCompleted && isPreviousCompleted;
+                      const isAvailable = !isPhaseLocked && !isModuleCompleted && isPreviousCompleted;
                       const isLockedSeq = !isModuleCompleted && !isAvailable;
                       
-                      isPreviousCompleted = isModuleCompleted;
-                      
-                      const isPremiumLocked = isLocked;
+                      if (!isPhaseLocked) {
+                        isPreviousCompleted = isModuleCompleted;
+                      }
 
                       return (
                         <div key={mod}>
@@ -232,6 +273,7 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
                               const slug = slugify(mod);
                               const assessmentId = overrideData?.id || context.currentAssessmentId;
                               const href = assessmentId ? `/roadmap/${assessmentId}/modul/${slug}` : undefined;
+                              const isItemLocked = isLockedSeq || isPhaseLocked;
                               
                               const inner = (
                                 <div className={`flex items-center justify-between p-4 rounded-2xl border transition-all ${
@@ -250,12 +292,12 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
                                       ) : isAvailable ? (
                                         <div className="w-5 h-5 rounded-full border-2 border-slate-300 ml-0.5" />
                                       ) : (
-                                        <Lock className="w-5 h-5 text-slate-400" />
+                                        <Lock className={`w-5 h-5 ${isPrereqLocked ? 'text-amber-500/70' : 'text-slate-400'}`} />
                                       )}
                                     </div>
                                     <span
                                       className={`font-semibold text-sm md:text-base ${
-                                        isLockedSeq ? 'text-slate-400' : 'text-slate-800'
+                                        isItemLocked ? 'text-slate-400' : 'text-slate-800'
                                       }`}
                                     >
                                       {mod}
@@ -268,22 +310,27 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
                                         Terpenuhi
                                       </span>
                                     )}
-                                    {isLockedSeq && !isPremiumLocked && (
+                                    {isLockedSeq && !isPhaseLocked && (
                                       <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-[11px] font-bold tracking-wide">
                                         Selesaikan Modul Sebelumnya
+                                      </span>
+                                    )}
+                                    {isPrereqLocked && !isModuleCompleted && (
+                                      <span className="hidden sm:inline-flex px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-[11px] font-bold tracking-wide border border-amber-200/50">
+                                        Selesaikan Fase {phaseIdx}
                                       </span>
                                     )}
                                     
                                     <ChevronDown 
                                       className={`w-5 h-5 shrink-0 transition-transform duration-200 ${
-                                        isLockedSeq ? 'text-slate-300' : 'text-slate-500'
+                                        isItemLocked ? 'text-slate-300' : 'text-slate-500'
                                       } -rotate-90`} 
                                     />
                                   </div>
                                 </div>
                               );
 
-                              if (href && !isLockedSeq) {
+                              if (href && !isItemLocked) {
                                 return (
                                   <Link href={href} className="block w-full">
                                     {inner}
@@ -293,9 +340,9 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
 
                               return (
                                 <div
-                                  role={!isLockedSeq ? "button" : undefined}
-                                  tabIndex={!isLockedSeq ? 0 : -1}
-                                  onClick={() => !isLockedSeq && handleModuleClick(mod, isLockedSeq)}
+                                  role={!isItemLocked ? "button" : undefined}
+                                  tabIndex={!isItemLocked ? 0 : -1}
+                                  onClick={() => !isItemLocked && handleModuleClick(mod, isItemLocked)}
                                   className="block w-full"
                                 >
                                   {inner}

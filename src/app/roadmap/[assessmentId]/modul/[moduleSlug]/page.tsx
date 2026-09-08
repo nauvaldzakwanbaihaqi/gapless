@@ -112,7 +112,38 @@ export default async function ModuleDetailPage({ params }: { params: Promise<{ a
 
   const phaseData = activeRoadmap[targetPhaseIndex];
   
-  // 5. Cek apakah modul ini sudah selesai
+  // 5. Validasi apakah fase sebelumnya sudah selesai (Phase Gating)
+  if (targetPhaseIndex > 0) {
+    let allPreviousPhasesCompleted = true;
+    for (let pi = 0; pi < targetPhaseIndex; pi++) {
+      const prevPhase = activeRoadmap[pi];
+      for (let mi = 0; mi < prevPhase.modules.length; mi++) {
+        const mSlug = slugify(prevPhase.modules[mi]);
+        let mDone = !!moduleStatuses[mSlug];
+        if (!mDone) {
+          const skill = profile.skills[mi % profile.skills.length];
+          if (skill) {
+            const skillRatings = (result.skillRatings as Record<string, number>) || {};
+            const userLevel = skillRatings[skill.name] ?? 0;
+            if (userLevel >= skill.required) {
+              mDone = true;
+            }
+          }
+        }
+        if (!mDone) {
+          allPreviousPhasesCompleted = false;
+          break;
+        }
+      }
+      if (!allPreviousPhasesCompleted) break;
+    }
+
+    if (!allPreviousPhasesCompleted) {
+      redirect(`/roadmap?assessmentId=${assessmentId}`);
+    }
+  }
+  
+  // 6. Cek apakah modul ini sudah selesai
   // Logic completion: dari manual moduleStatuses ATAU dari skillRatings awal
   let isCompleted = !!moduleStatuses[moduleSlug];
   
