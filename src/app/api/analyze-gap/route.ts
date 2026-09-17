@@ -81,73 +81,60 @@ SKILL GAP DATA: ${gapSummary}
 
 Berikan analisis terstruktur menggunakan Bahasa Indonesia yang profesional dan memotivasi.`;
 
-    // 3. Eksekusi AI dengan Multi-Tier Fallback (Gemini -> DeepSeek -> Heuristik)
+    // 3. Eksekusi AI dengan Multi-Tier Fallback (Gemini 3.6 Flash -> Gemini 3.1 Flash Lite -> Heuristik)
     let object;
-    let engineUsed = 'gemini-3.7-flash';
+    let engineUsed = 'gemini-3.6-flash';
 
     try {
       if (process.env.GEMINI_API_KEY) {
         const result = await generateObject({
-          model: google('gemini-3.7-flash'),
+          model: google('gemini-3.6-flash'),
           schema: GapInsightSchema,
           system: systemPrompt,
           prompt: userPrompt,
           temperature: 0.5,
+          maxRetries: 0,
+          abortSignal: AbortSignal.timeout(8000),
         });
         object = result.object;
       } else {
         throw new Error('GEMINI_API_KEY missing');
       }
     } catch (primaryError: any) {
-      console.warn('⚠️ Gemini 3.7 Flash terkendala, mencoba fallback ke DeepSeek V4 Flash...', primaryError?.message);
+      console.warn('⚠️ Gemini 3.6 Flash terkendala, mencoba fallback ke Gemini 3.1 Flash Lite...', primaryError?.message);
       try {
-        if (process.env.DEEPSEEK_API_KEY) {
-          const deepseekResult = await generateObject({
-            model: deepseek('deepseek-v4-flash'),
+        if (process.env.GEMINI_API_KEY) {
+          const liteResult = await generateObject({
+            model: google('gemini-3.1-flash-lite'),
             schema: GapInsightSchema,
             system: systemPrompt,
             prompt: userPrompt,
             temperature: 0.5,
+            maxRetries: 0,
+            abortSignal: AbortSignal.timeout(8000),
           });
-          object = deepseekResult.object;
-          engineUsed = 'deepseek-v4-flash';
+          object = liteResult.object;
+          engineUsed = 'gemini-3.1-flash-lite';
         } else {
-          throw new Error('DEEPSEEK_API_KEY missing');
+          throw new Error('GEMINI_API_KEY missing');
         }
-      } catch (deepseekError: any) {
-        console.warn('⚠️ DeepSeek terkendala, mencoba fallback ke Gemini Lite...', deepseekError?.message);
-        try {
-          if (process.env.GEMINI_API_KEY) {
-            const liteResult = await generateObject({
-              model: google('gemini-3.1-flash-lite'),
-              schema: GapInsightSchema,
-              system: systemPrompt,
-              prompt: userPrompt,
-              temperature: 0.5,
-            });
-            object = liteResult.object;
-            engineUsed = 'gemini-3.1-flash-lite';
-          } else {
-            throw new Error('GEMINI_API_KEY missing');
-          }
-        } catch (liteError: any) {
-          console.warn('⚠️ Semua LLM API terkendala, menggunakan analisis kesenjangan terstruktur...', liteError?.message);
-          
-          const matching = skillGapData
-            .filter(s => s.current >= s.required)
-            .map(s => `Pemahaman kompetensi pada ${s.name} sudah memenuhi standar yang diharapkan.`);
-          const gaps = skillGapData
-            .filter(s => s.current < s.required)
-            .map(s => `Perlu peningkatan pada ${s.name} (level saat ini: ${s.current} dari target ${s.required}).`);
+      } catch (liteError: any) {
+        console.warn('⚠️ Semua LLM API terkendala, menggunakan analisis kesenjangan terstruktur...', liteError?.message);
+        
+        const matching = skillGapData
+          .filter(s => s.current >= s.required)
+          .map(s => `Pemahaman kompetensi pada ${s.name} sudah memenuhi standar yang diharapkan.`);
+        const gaps = skillGapData
+          .filter(s => s.current < s.required)
+          .map(s => `Perlu peningkatan pada ${s.name} (level saat ini: ${s.current} dari target ${s.required}).`);
 
-          object = {
-            basis_penilaian: 'Berdasarkan profil role yang kamu pilih',
-            kesesuaian: matching.length > 0 ? matching.slice(0, 3) : [`Fondasi awal yang baik untuk memulai pemahaman peran ${roleName}.`],
-            kekurangan: gaps.length > 0 ? gaps.slice(0, 3) : [`Pertajam keterampilan teknis melalui pengerjaan proyek studi kasus nyata.`],
-            catatan_singkat: `Tingkatkan kompetensimu secara terarah melalui modul-modul roadmap ${roleName} yang telah dirancang.`
-          };
-          engineUsed = 'structured-heuristic';
-        }
+        object = {
+          basis_penilaian: 'Berdasarkan profil role yang kamu pilih',
+          kesesuaian: matching.length > 0 ? matching.slice(0, 3) : [`Fondasi awal yang baik untuk memulai pemahaman peran ${roleName}.`],
+          kekurangan: gaps.length > 0 ? gaps.slice(0, 3) : [`Pertajam keterampilan teknis melalui pengerjaan proyek studi kasus nyata.`],
+          catatan_singkat: `Tingkatkan kompetensimu secara terarah melalui modul-modul roadmap ${roleName} yang telah dirancang.`
+        };
+        engineUsed = 'structured-heuristic';
       }
     }
 

@@ -10,11 +10,14 @@ import type { CareerProfile } from '@/data/gaplessData';
 import type { RoadmapNode } from '@/contexts/CareerContext';
 
 
+import { SkillReadinessCard } from '@/components/SkillReadinessCard';
+
 export interface RoadmapViewProps {
   overrideData?: {
     id?: string;
     selectedCareer: CareerProfile | null;
     roadmapWithProgress: RoadmapNode[];
+    skillRatings?: Record<string, number>;
   };
 }
 
@@ -24,6 +27,7 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
   const context = useGaplessContext();
   const selectedCareer = overrideData?.selectedCareer || context.selectedCareer;
   const roadmapWithProgress = overrideData?.roadmapWithProgress || context.roadmapWithProgress;
+  const skillRatings = overrideData?.skillRatings || context.skillRatings || {};
   const resetProgress = context.resetProgress;
   const { session, status } = useAuthGuard();
   const router = useRouter();
@@ -95,7 +99,6 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
     (sum, p) => sum + p.completedModules.length,
     0
   );
-  const overallProgress = totalModules > 0 ? completedModules / totalModules : 0;
 
   return (
     <div className="min-h-screen bg-space">
@@ -105,36 +108,34 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-8"
         >
-          <div className="inline-flex items-center px-5 py-2 rounded-full mb-6 bg-slate-100/80 border border-slate-200/50">
+          <div className="inline-flex items-center px-5 py-2 rounded-full mb-4 bg-slate-100/80 border border-slate-200/50">
             <span className="text-sm font-semibold text-slate-700">
-              Roadmap Belajar
+              Roadmap Belajar Terstruktur
             </span>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-4 mx-auto max-w-4xl leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 mb-3 mx-auto max-w-4xl leading-tight">
             Roadmap {selectedCareer.title}
           </h1>
-          <p className="text-slate-500 text-base md:text-lg max-w-2xl mx-auto mb-12">
-            Jalur belajar personal 4 fase. Modul yang sudah kamu penuhi
-            akan ditandai selesai secara otomatis.
+          <p className="text-slate-500 text-base md:text-lg max-w-2xl mx-auto">
+            Jalur belajar personal 4 fase dengan metrik kesiapan kompetensi industri.
           </p>
+        </motion.div>
 
-          {/* Overall Progress */}
-          <div className="max-w-2xl mx-auto">
-            <div className="flex items-center justify-between text-sm md:text-base font-medium text-slate-500 mb-3">
-              <span>Progres Keseluruhan</span>
-              <span>{Math.round(overallProgress * 100)}% Selesai</span>
-            </div>
-            <div className="progress-track h-2.5 bg-slate-200">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${overallProgress * 100}%` }}
-                transition={{ duration: 1, delay: 0.3 }}
-                className="progress-fill h-full bg-blue-600"
-              />
-            </div>
-          </div>
+        {/* Skill Readiness & Progress Overview */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+        >
+          <SkillReadinessCard
+            career={selectedCareer}
+            skillRatings={skillRatings}
+            completedModulesCount={completedModules}
+            totalModulesCount={totalModules}
+            assessmentId={overrideData?.id || context.currentAssessmentId || undefined}
+          />
         </motion.div>
 
         {/* Timeline */}

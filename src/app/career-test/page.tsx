@@ -35,10 +35,10 @@ export default async function CareerTestPage() {
           </p>
           <div className="flex flex-col gap-3">
             <Link 
-              href="/pricing"
-              className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors"
+              href="/pricing?upgrade=auto"
+              className="w-full py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl transition-colors shadow-md"
             >
-              Upgrade ke Pro
+              Upgrade ke Pro (Akses Instan)
             </Link>
             <Link 
               href="/"

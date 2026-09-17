@@ -98,27 +98,57 @@ Trait dimensions: The Thinker (data-driven, logical, analytical), The Creator (i
 Analyze their answer patterns in depth. Reference specific traits. Be specific, not generic. 
 Berikan hasil analisis sepenuhnya menggunakan Bahasa Indonesia yang profesional, memotivasi, dan mudah dipahami.`;
 
-    // 3. Logika Pemilihan Model AI
-    let modelToUse;
-    if (selectedAI === 'gemini') {
-      modelToUse = google('gemini-3.1-flash-lite'); // Gemini API model fallback
-      console.log('🤖 Menggunakan Engine: Gemini 3.1 Flash Lite');
-    } else {
-      modelToUse = groq('openai/gpt-oss-20b');
-      console.log('🤖 Menggunakan Engine: Groq GPT OSS 20B');
+    // 3. Eksekusi AI dengan Multi-Tier Fallback
+    let object;
+    let engineUsed = 'gemini-3.6-flash';
+
+    try {
+      if (process.env.GEMINI_API_KEY) {
+        const result = await generateObject({
+          model: google('gemini-3.6-flash'),
+          schema: AIInsightSchema,
+          system: systemPrompt,
+          prompt: userPrompt,
+          temperature: 0.7,
+          maxRetries: 0,
+          abortSignal: AbortSignal.timeout(8000),
+        });
+        object = result.object;
+      } else {
+        throw new Error('GEMINI_API_KEY missing');
+      }
+    } catch (primaryErr: any) {
+      console.warn('⚠️ Gemini 3.6 Flash terkendala, mencoba fallback ke Gemini 3.1 Flash Lite...', primaryErr?.message);
+      try {
+        if (process.env.GEMINI_API_KEY) {
+          const liteResult = await generateObject({
+            model: google('gemini-3.1-flash-lite'),
+            schema: AIInsightSchema,
+            system: systemPrompt,
+            prompt: userPrompt,
+            temperature: 0.7,
+            maxRetries: 0,
+            abortSignal: AbortSignal.timeout(8000),
+          });
+          object = liteResult.object;
+          engineUsed = 'gemini-3.1-flash-lite';
+        } else {
+          throw new Error('GEMINI_API_KEY missing');
+        }
+      } catch (liteErr: any) {
+        console.warn('⚠️ Semua LLM API terkendala, menggunakan analisis kepribadian terstruktur...', liteErr?.message);
+        object = {
+          personality_summary: `Kamu memiliki pola kepribadian dominan ${dominantTrait} dengan kombinasi cara berpikir analitis dan fokus pada dampak nyata.`,
+          reasoning: `Berdasarkan jawaban asesmenmu, kamu menunjukkan kecenderungan kuat pada aspek ${dominantTrait}. Kamu merasa paling nyaman dalam lingkungan yang memberikan kejelasan peran dan ruang untuk berkembang.`,
+          traits: [dominantTrait, 'Problem Solving', 'Adaptability', 'Critical Thinking', 'Collaboration'],
+          strengths: ['Analytical Mindset', 'Structured Execution', 'Fast Learner', 'Detail Oriented', 'Team Player'],
+        };
+        engineUsed = 'structured-heuristic';
+      }
     }
 
-    // 4. Tembak AI yang dipilih dengan Structured Output
-    const { object } = await generateObject({
-      model: modelToUse,
-      schema: AIInsightSchema,
-      system: systemPrompt,
-      prompt: userPrompt,
-      temperature: 0.7,
-    });
-
     return NextResponse.json({
-      ai_engine_used: selectedAI,
+      ai_engine_used: engineUsed,
       personality_summary: object.personality_summary,
       reasoning: object.reasoning,
       traits: object.traits,

@@ -111,26 +111,30 @@ export async function POST(req: Request) {
 
     let moduleInsightData: any;
     try {
-      console.log(`[MODULE INSIGHT] Memanggil DeepSeek untuk ${moduleName}...`);
+      console.log(`[MODULE INSIGHT] Memanggil Gemini 3.6 Flash untuk ${moduleName}...`);
       const { object } = await generateObject({
-        model: deepseek('deepseek-v4-flash'),
+        model: google('gemini-3.6-flash'),
         schema: ModuleInsightSchema,
         prompt: prompt,
         temperature: 0.7,
+        maxRetries: 0,
+        abortSignal: AbortSignal.timeout(8000),
       });
       moduleInsightData = object;
-    } catch (deepseekErr: any) {
-      console.warn(`[MODULE INSIGHT FALLBACK] DeepSeek terkendala (${deepseekErr?.message}), mencoba Gemini 3.7 Flash...`);
+    } catch (geminiErr: any) {
+      console.warn(`[MODULE INSIGHT FALLBACK] Gemini 3.6 Flash terkendala (${geminiErr?.message}), mencoba Gemini 3.1 Flash Lite...`);
       try {
         const { object } = await generateObject({
-          model: google('gemini-3.7-flash'),
+          model: google('gemini-3.1-flash-lite'),
           schema: ModuleInsightSchema,
           prompt: prompt,
           temperature: 0.7,
+          maxRetries: 0,
+          abortSignal: AbortSignal.timeout(8000),
         });
         moduleInsightData = object;
-      } catch (geminiErr: any) {
-        console.warn(`[MODULE INSIGHT FALLBACK] Gemini terkendala (${geminiErr?.message}), menggunakan kurikulum standar...`);
+      } catch (liteErr: any) {
+        console.warn(`[MODULE INSIGHT FALLBACK] Gemini Lite terkendala (${liteErr?.message}), menggunakan kurikulum standar...`);
         moduleInsightData = {
           target: `Menguasai konsep esensial dan penerapan praktis dari ${moduleName} untuk peran ${roleName}.`,
           duration: 'Estimasi 2-4 Jam',

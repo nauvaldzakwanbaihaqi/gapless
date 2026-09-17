@@ -35,7 +35,12 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
     return history.find(h => h.id === selectedId) || history[0];
   }, [history, selectedId]);
 
-  const [overrideData, setOverrideData] = useState<{ id: string; selectedCareer: any; roadmapWithProgress: RoadmapNode[] } | undefined>(undefined);
+  const [overrideData, setOverrideData] = useState<{ 
+    id: string; 
+    selectedCareer: any; 
+    roadmapWithProgress: RoadmapNode[];
+    skillRatings?: Record<string, number>;
+  } | undefined>(undefined);
   const [isLoadingRoadmap, setIsLoadingRoadmap] = useState(false);
 
   useEffect(() => {
@@ -53,8 +58,9 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
           return;
         }
 
+        const rawSkillRatings = (selectedHistory.skillRatings as Record<string, number>) || {};
+
         const buildRoadmap = (rawRoadmap: CurriculumPhase[]) => {
-          const skillRatings = selectedHistory.skillRatings || {};
           return rawRoadmap.map((phase: CurriculumPhase, phaseIdx: number) => {
             const isLockedPhase = !isPro && phaseIdx >= 2;
             if (isLockedPhase) {
@@ -78,8 +84,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
 
               const skill = profile.skills[idx % profile.skills.length];
               if (!skill) return false;
-              const ratings = (skillRatings as Record<string, number>) || {};
-              const userLevel = ratings[skill.name] ?? 0;
+              const userLevel = rawSkillRatings[skill.name] ?? 0;
               return userLevel >= skill.required;
             });
 
@@ -103,6 +108,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
             id: selectedHistory.id,
             selectedCareer: profile,
             roadmapWithProgress: buildRoadmap(data.roadmap),
+            skillRatings: rawSkillRatings,
           });
         } else if (profile.roadmap) {
           console.warn('API roadmap error, fallback to static profile roadmap');
@@ -110,6 +116,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
             id: selectedHistory.id,
             selectedCareer: profile,
             roadmapWithProgress: buildRoadmap(profile.roadmap),
+            skillRatings: rawSkillRatings,
           });
         } else {
           setOverrideData(undefined);
@@ -118,7 +125,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
         console.error('Failed to fetch roadmap:', e);
         const profile = CAREERS.find((c: { title: string }) => c.title === selectedHistory.selectedCareer);
         if (profile && profile.roadmap) {
-          const skillRatings = selectedHistory.skillRatings || {};
+          const rawSkillRatings = (selectedHistory.skillRatings as Record<string, number>) || {};
           const moduleStatuses: Record<string, boolean> = (selectedHistory.moduleStatuses as Record<string, boolean>) || {};
           const slugify = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
@@ -142,8 +149,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
 
               const skill = profile.skills[idx % profile.skills.length];
               if (!skill) return false;
-              const ratings = (skillRatings as Record<string, number>) || {};
-              const userLevel = ratings[skill.name] ?? 0;
+              const userLevel = rawSkillRatings[skill.name] ?? 0;
               return userLevel >= skill.required;
             });
 
@@ -158,6 +164,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
             id: selectedHistory.id,
             selectedCareer: profile,
             roadmapWithProgress: fallbackNodes,
+            skillRatings: rawSkillRatings,
           });
         } else {
           setOverrideData(undefined);

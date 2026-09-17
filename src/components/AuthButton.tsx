@@ -23,9 +23,22 @@ export default function AuthButton() {
                 )}
                 <div className="hidden md:block text-sm">
                     <p className="font-bold text-slate-900 leading-none">{session.user.name}</p>
-                    <p className="text-gray-500 text-[10px] mt-1">
-                        Status: <span className="text-blue-600 font-bold">{session.user.tier || "FREE"}</span>
-                    </p>
+                    <div className="flex items-center gap-1.5 mt-1">
+                        <span className="text-gray-400 text-[10px]">Status:</span>
+                        {session.user.tier === 'Student Pro' || session.user.tier === 'Pro' || session.user.tier === 'PRO' ? (
+                            <span className="inline-flex items-center gap-0.5 bg-linear-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full shadow-2xs">
+                                <span>PRO</span>
+                                <span>👑</span>
+                            </span>
+                        ) : (
+                            <div className="flex items-center gap-1">
+                                <span className="text-slate-500 font-bold text-[10px]">FREE</span>
+                                <a href="/pricing" className="text-[10px] font-bold text-blue-600 hover:text-blue-700 hover:underline">
+                                    (Upgrade)
+                                </a>
+                            </div>
+                        )}
+                    </div>
                 </div>
 
                 <button 

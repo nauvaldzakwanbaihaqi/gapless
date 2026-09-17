@@ -150,36 +150,40 @@ export async function POST(req: Request) {
     })).length(4);
 
     let generatedRoadmapData: any;
-    let engineUsed = 'deepseek';
+    let engineUsed = 'gemini-3.6-flash';
 
     try {
-      console.log(`[LLM] Memanggil DeepSeek untuk ${careerName}...`);
+      console.log(`[LLM] Memanggil Gemini 3.6 Flash untuk ${careerName}...`);
       const { object } = await generateObject({
-        model: deepseek('deepseek-v4-flash'),
+        model: google('gemini-3.6-flash'),
         system: systemPrompt,
         prompt: `Karier: ${careerName}\n\n${onetContextText}`,
         schema: RoadmapSchema,
+        maxRetries: 0,
+        abortSignal: AbortSignal.timeout(8000),
       });
       generatedRoadmapData = object;
-    } catch (deepseekError: any) {
-      console.warn(`[LLM FALLBACK] DeepSeek terkendala (${deepseekError?.message}), mencoba Gemini 3.7 Flash...`);
+    } catch (geminiError: any) {
+      console.warn(`[LLM FALLBACK] Gemini 3.6 Flash terkendala (${geminiError?.message}), mencoba Gemini 3.1 Flash Lite...`);
       try {
         const { object } = await generateObject({
-          model: google('gemini-3.7-flash'),
+          model: google('gemini-3.1-flash-lite'),
           system: systemPrompt,
           prompt: `Karier: ${careerName}\n\n${onetContextText}`,
           schema: RoadmapSchema,
+          maxRetries: 0,
+          abortSignal: AbortSignal.timeout(8000),
         });
         generatedRoadmapData = object;
-        engineUsed = 'gemini-3.7-flash';
-      } catch (geminiError: any) {
-        console.warn(`[LLM FALLBACK] Gemini terkendala (${geminiError?.message}), menggunakan kurikulum profil statis...`);
+        engineUsed = 'gemini-3.1-flash-lite';
+      } catch (liteError: any) {
+        console.warn(`[LLM FALLBACK] Gemini Lite terkendala (${liteError?.message}), menggunakan kurikulum profil statis...`);
         const fallbackProfile = CAREER_PROFILES.find(p => p.title === careerName || p.id === slug);
         if (fallbackProfile && fallbackProfile.roadmap) {
           generatedRoadmapData = fallbackProfile.roadmap;
           engineUsed = 'static-profile';
         } else {
-          throw geminiError;
+          throw liteError;
         }
       }
     }
