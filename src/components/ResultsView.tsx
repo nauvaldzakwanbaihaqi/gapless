@@ -265,9 +265,9 @@ export function ResultsView() {
         >
           <button
             onClick={reset}
-            className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-sm text-slate-400 hover:text-slate-600 underline underline-offset-4 decoration-slate-300 hover:decoration-slate-500 transition-colors cursor-pointer"
           >
-            Ulangi assesmen
+            Ulangi asesmen
           </button>
         </motion.div>
       </div>
