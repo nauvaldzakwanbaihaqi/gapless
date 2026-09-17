@@ -169,7 +169,8 @@ export function useGaplessContext() {
 export function GaplessProvider({ children }: { children: ReactNode }) {
   const { session } = useAuthGuard();
   const userTier = (session?.user as { tier?: string })?.tier || 'Free';
-  const isPro = userTier === 'Student Pro' || userTier === 'Pro';
+  const isPro = Boolean(userTier && (userTier.toLowerCase().includes('pro') || userTier.toLowerCase().includes('premium')));
+
 
   // ── Navigation ──
   const [currentView, setCurrentView] = useState<GaplessView>('assessment');

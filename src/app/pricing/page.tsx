@@ -26,7 +26,8 @@ function PricingContent() {
   const searchParams = useSearchParams();
 
   const userTier = (session?.user as { tier?: string })?.tier || 'Free';
-  const isPro = userTier === 'Student Pro' || userTier === 'Pro' || userTier === 'PRO';
+  const isPro = Boolean(userTier && (userTier.toLowerCase().includes('pro') || userTier.toLowerCase().includes('premium')));
+
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [processStep, setProcessStep] = useState(0); // 0: idle, 1: processing, 2: success

@@ -3,6 +3,8 @@ import Google from "next-auth/providers/google"
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
 // Pastikan path './db' mengarah ke konfigurasi koneksi Drizzle lu yang bener
 import { db } from "./db"
+import { users } from "./db/schema"
+import { eq } from "drizzle-orm"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
     adapter: DrizzleAdapter(db),
@@ -17,14 +19,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     callbacks: {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         async session({ session, user }: any) {
-            if (session.user && user) {
-                session.user.id = user.id;
+            if (session.user) {
+                const userId = user?.id || session.user.id;
+                if (userId) {
+                    session.user.id = userId;
+                    try {
+                        const dbUser = await db
+                            .select({ tier: users.tier })
+                            .from(users)
+                            .where(eq(users.id, userId))
+                            .limit(1);
+                        if (dbUser.length > 0 && dbUser[0].tier) {
+                            session.user.tier = dbUser[0].tier;
+                        }
+                    } catch (e) {
+                        console.error("Error fetching user tier in session:", e);
+                    }
+                }
                 
                 // Hardcode Unlimited / Pro for testing email
                 if (session.user.email === 'nauvaldzakwan17@upi.edu') {
-                    session.user.tier = 'Pro';
-                } else {
-                    session.user.tier = user.tier;
+                    session.user.tier = 'Student Pro';
                 }
             }
             return session;

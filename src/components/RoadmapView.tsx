@@ -19,11 +19,12 @@ export interface RoadmapViewProps {
     roadmapWithProgress: RoadmapNode[];
     skillRatings?: Record<string, number>;
   };
+  isPro?: boolean;
 }
 
 import { useRouter } from 'next/navigation';
 
-export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
+export function RoadmapView({ overrideData, isPro: propIsPro }: RoadmapViewProps = {}) {
   const context = useGaplessContext();
   const selectedCareer = overrideData?.selectedCareer || context.selectedCareer;
   const roadmapWithProgress = overrideData?.roadmapWithProgress || context.roadmapWithProgress;
@@ -89,7 +90,8 @@ export function RoadmapView({ overrideData }: RoadmapViewProps = {}) {
   if (!selectedCareer) return null;
 
   const userTier = (session?.user as { tier?: string })?.tier || 'Free';
-  const isPro = userTier === 'Student Pro' || userTier === 'Pro';
+  const isPro = propIsPro !== undefined ? propIsPro : Boolean(userTier && (userTier.toLowerCase().includes('pro') || userTier.toLowerCase().includes('premium')));
+
 
   const totalModules = roadmapWithProgress.reduce(
     (sum, p) => sum + p.modules.length,

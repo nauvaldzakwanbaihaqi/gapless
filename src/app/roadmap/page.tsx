@@ -71,5 +71,16 @@ export default async function RoadmapPage({ searchParams }: RoadmapPageProps) {
     );
   }
 
-  return <RoadmapClient history={history} initialAssessmentId={assessmentId} />;
+  const userTier = (session.user as { tier?: string })?.tier || 'Free';
+  const isPro = Boolean(userTier && (userTier.toLowerCase().includes('pro') || userTier.toLowerCase().includes('premium')));
+
+  return (
+    <RoadmapClient 
+      history={history} 
+      initialAssessmentId={assessmentId} 
+      serverUserTier={userTier} 
+      serverIsPro={isPro} 
+    />
+  );
 }
+

@@ -18,10 +18,18 @@ type AssessmentResult = {
   moduleStatuses?: unknown;
 };
 
-export default function RoadmapClient({ history, initialAssessmentId }: { history: AssessmentResult[], initialAssessmentId?: string }) {
+interface RoadmapClientProps {
+  history: AssessmentResult[];
+  initialAssessmentId?: string;
+  serverUserTier?: string;
+  serverIsPro?: boolean;
+}
+
+export default function RoadmapClient({ history, initialAssessmentId, serverUserTier, serverIsPro }: RoadmapClientProps) {
   const { session, status } = useAuthGuard();
-  const userTier = (session?.user as { tier?: string })?.tier || 'Free';
-  const isPro = userTier === 'Student Pro' || userTier === 'Pro';
+  const userTier = (session?.user as { tier?: string })?.tier || serverUserTier || 'Free';
+  const isPro = serverIsPro !== undefined ? serverIsPro : Boolean(userTier && (userTier.toLowerCase().includes('pro') || userTier.toLowerCase().includes('premium')));
+
 
   // Default to initialAssessmentId if valid, else most recent
   const [selectedId, setSelectedId] = useState<string>(() => {
@@ -244,7 +252,7 @@ export default function RoadmapClient({ history, initialAssessmentId }: { histor
           </div>
         ) : overrideData ? (
           <div className="-mt-12">
-            <RoadmapView overrideData={overrideData} />
+            <RoadmapView overrideData={overrideData} isPro={isPro} />
           </div>
         ) : (
           <div className="max-w-4xl mx-auto px-4 py-20 text-center">

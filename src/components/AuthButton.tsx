@@ -15,6 +15,9 @@ export default function AuthButton() {
 
     // Kalau User sudah login
     if (session?.user) {
+        const tier = session.user.tier || '';
+        const isPro = Boolean(tier && (tier.toLowerCase().includes('pro') || tier.toLowerCase().includes('premium')));
+
         return (
             <div className="flex items-center gap-2 md:gap-3 bg-white p-1.5 md:p-2 rounded-full md:rounded-2xl border border-gray-200 shadow-sm">
                 {/* Tampilkan foto profil kalau ada */}
@@ -25,10 +28,9 @@ export default function AuthButton() {
                     <p className="font-bold text-slate-900 leading-none">{session.user.name}</p>
                     <div className="flex items-center gap-1.5 mt-1">
                         <span className="text-gray-400 text-[10px]">Status:</span>
-                        {session.user.tier === 'Student Pro' || session.user.tier === 'Pro' || session.user.tier === 'PRO' ? (
+                        {isPro ? (
                             <span className="inline-flex items-center gap-0.5 bg-linear-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full shadow-2xs">
                                 <span>PRO</span>
-                                <span>👑</span>
                             </span>
                         ) : (
                             <div className="flex items-center gap-1">

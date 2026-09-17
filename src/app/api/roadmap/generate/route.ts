@@ -50,7 +50,8 @@ export async function POST(req: Request) {
     }
 
     const userTier = (session.user as any).tier || 'Free';
-    const isPro = userTier === 'Student Pro' || userTier === 'Pro';
+    const isPro = Boolean(userTier && (userTier.toLowerCase().includes('pro') || userTier.toLowerCase().includes('premium')));
+
 
     const rawBody = await req.json();
     const validationResult = RequestSchema.safeParse(rawBody);
