@@ -7,6 +7,8 @@ import { ASSESSMENT_QUESTIONS, type AssessmentOption } from '@/data/gaplessData'
 import { useGaplessContext } from '@/contexts/CareerContext';
 import { useRouter } from 'next/navigation';
 
+import { Navbar } from '@/components/Navbar';
+
 // Fisher-Yates shuffle — creates a new shuffled array
 function shuffleArray<T>(arr: T[]): T[] {
   const shuffled = [...arr];
@@ -76,12 +78,31 @@ export function AssessmentFlow() {
   // ── Start Screen ──
   if (!started) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-space px-6">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-space px-6 relative overflow-hidden">
+        {/* Animated Navbar (Disappears upwards when assessment starts) */}
+        <AnimatePresence>
+          {!started && (
+            <motion.header
+              key="assessment-navbar"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ 
+                opacity: 0, 
+                y: -80, 
+                transition: { duration: 0.45, ease: [0.4, 0, 0.2, 1] } 
+              }}
+              className="w-full absolute top-0 left-0 right-0 z-50"
+            >
+              <Navbar />
+            </motion.header>
+          )}
+        </AnimatePresence>
+
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: 'easeOut' }}
-          className="text-center max-w-lg"
+          className="text-center max-w-lg pt-16 sm:pt-0"
         >
           <div
             className="flex items-center justify-center w-20 h-20 rounded-2xl mx-auto mb-6"
@@ -121,7 +142,7 @@ export function AssessmentFlow() {
               }
             }}
             disabled={isCheckingActive}
-            className="btn-primary flex items-center gap-2 mx-auto text-base disabled:opacity-70"
+            className="btn-primary flex items-center gap-2 mx-auto text-base disabled:opacity-70 cursor-pointer shadow-md hover:shadow-lg"
           >
             <Brain size={18} />
             {isCheckingActive ? 'Memuat...' : 'Mulai Assesmen'}
@@ -151,7 +172,7 @@ export function AssessmentFlow() {
                 <div className="flex gap-3 justify-end">
                   <button
                     onClick={() => setShowRetakeModal(false)}
-                    className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+                    className="px-4 py-2 rounded-lg text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
                   >
                     Batal
                   </button>
@@ -160,7 +181,7 @@ export function AssessmentFlow() {
                       setShowRetakeModal(false);
                       setStarted(true);
                     }}
-                    className="px-4 py-2 rounded-lg text-sm font-medium bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors border border-blue-500/30"
+                    className="px-4 py-2 rounded-lg text-sm font-medium bg-blue-500/20 text-blue-400 hover:bg-blue-500/30 transition-colors border border-blue-500/30 cursor-pointer"
                   >
                     Ya, Lanjutkan
                   </button>
@@ -172,6 +193,7 @@ export function AssessmentFlow() {
       </div>
     );
   }
+
 
   // ── Completion Screen ──
   if (isAssessmentComplete && currentIdx === total - 1 && answers[question.id] !== undefined) {

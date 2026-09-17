@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 
 import { ArrowRight } from 'lucide-react';
 import Image from 'next/image';
+import { Navbar } from '@/components/Navbar';
 
 interface WrapperProps {
     roles: JobRole[];
@@ -33,14 +34,17 @@ export function CareerSelectionWrapper({ roles }: WrapperProps) {
     }, [reset, setQuizType]);
 
     return (
-        <div className="relative min-h-screen bg-space px-6 py-16 z-10 overflow-hidden">
+        <div className="relative min-h-screen bg-space flex flex-col z-10 overflow-hidden">
+            <Navbar />
+            
             {/* Ambient Background Glows */}
             <div className="pointer-events-none fixed inset-0 overflow-hidden">
                 <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full blur-3xl opacity-50" style={{ background: 'radial-gradient(circle, rgba(37,99,235,0.1), transparent 70%)' }} />
                 <div className="absolute top-1/3 -right-40 w-125 h-125 rounded-full blur-3xl opacity-50" style={{ background: 'radial-gradient(circle, rgba(34,211,238,0.1), transparent 70%)' }} />
             </div>
 
-            <div className="relative z-10 max-w-6xl mx-auto">
+            <div className="relative z-10 max-w-6xl mx-auto px-6 py-12 flex-1 w-full">
+
                 <div className="text-center mb-16">
                     <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4 tracking-tight">
                         Eksplorasi <span className="gradient-text">Jalur Kariermu</span>
