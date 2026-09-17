@@ -30,11 +30,28 @@
   box-sizing: border-box;
 }
 
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"],
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled {
+  cursor: not-allowed;
+}
+
 body {
   font-family: var(--font-inter);
   background: #f8fafc;
   color: #1e293b;
 }
+
 
 /* Custom scrollbar */
 ::-webkit-scrollbar {
