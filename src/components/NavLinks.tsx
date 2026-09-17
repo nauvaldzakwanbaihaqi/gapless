@@ -3,11 +3,18 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "motion/react"; // Pastikan import Framer Motion
+import { motion, AnimatePresence } from "motion/react";
 
-export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
+interface NavLinksProps {
+  authButton: React.ReactNode;
+  variant?: 'light' | 'dark';
+}
+
+
+export function NavLinks({ authButton, variant = 'light' }: NavLinksProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const isDark = variant === 'dark';
 
   const links = [
     { href: "/", label: "Home" },
@@ -31,7 +38,11 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
           className="flex items-center gap-2 transition-transform hover:scale-105"
         >
           <img src="/Asset 1.png" alt="Gapless Explorer Logo" className="h-8 md:h-10 w-auto" />
-          <span className="font-bold text-slate-900 text-xl md:text-2xl">Gapless</span>
+          <span className={`font-bold text-xl md:text-2xl transition-colors ${
+            isDark ? "text-white" : "text-slate-900"
+          }`}>
+            Gapless
+          </span>
         </Link>
       </motion.div>
 
@@ -63,8 +74,12 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
               href={link.href}
               className={`text-[15px] whitespace-nowrap transition-colors ${
                 pathname === link.href
-                  ? "text-slate-900 font-semibold"
-                  : "text-slate-700 hover:text-slate-900 font-normal"
+                  ? isDark 
+                    ? "text-white font-bold" 
+                    : "text-slate-900 font-semibold"
+                  : isDark 
+                    ? "text-slate-300 hover:text-white font-normal" 
+                    : "text-slate-700 hover:text-slate-900 font-normal"
               }`}
             >
               {link.label}
@@ -85,7 +100,9 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
         {/* Mobile Hamburger Toggle */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-slate-800 p-2 focus:outline-none"
+          className={`md:hidden p-2 focus:outline-none transition-colors ${
+            isDark ? "text-slate-200 hover:text-white" : "text-slate-800 hover:text-slate-900"
+          }`}
           aria-label="Toggle menu"
         >
           <svg
@@ -122,7 +139,11 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            className="absolute top-full left-0 right-0 bg-white shadow-lg border-b border-gray-100 py-4 px-6 flex flex-col gap-4 md:hidden z-50"
+            className={`absolute top-full left-0 right-0 py-4 px-6 flex flex-col gap-4 md:hidden z-50 rounded-2xl shadow-xl ${
+              isDark 
+                ? "bg-slate-900/95 backdrop-blur-md border border-slate-800 text-white" 
+                : "bg-white border-b border-gray-100 text-slate-800"
+            }`}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
@@ -135,8 +156,12 @@ export function NavLinks({ authButton }: { authButton: React.ReactNode }) {
                 onClick={() => setIsOpen(false)}
                 className={`block py-2 text-base transition-colors ${
                   pathname === link.href
-                    ? "text-slate-900 font-semibold"
-                    : "text-slate-700 hover:text-slate-900"
+                    ? isDark 
+                      ? "text-blue-400 font-bold" 
+                      : "text-slate-900 font-semibold"
+                    : isDark 
+                      ? "text-slate-300 hover:text-white" 
+                      : "text-slate-700 hover:text-slate-900"
                 }`}
               >
                 {link.label}

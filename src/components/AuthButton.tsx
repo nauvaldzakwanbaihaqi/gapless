@@ -4,12 +4,17 @@ import { signIn, signOut } from "next-auth/react";
 import { useAuthGuard } from "@/hooks/useAuthGuard";
 import { LogOut } from "lucide-react";
 
-export default function AuthButton() {
+interface AuthButtonProps {
+    variant?: 'light' | 'dark';
+}
+
+export default function AuthButton({ variant = 'light' }: AuthButtonProps) {
     const { session, status } = useAuthGuard();
+    const isDark = variant === 'dark';
 
     if (status === "loading") {
         return (
-            <div className="bg-gray-200 animate-pulse h-10 w-40 rounded-full"></div>
+            <div className={`${isDark ? 'bg-slate-800' : 'bg-gray-200'} animate-pulse h-10 w-40 rounded-full`}></div>
         );
     }
 
@@ -19,23 +24,29 @@ export default function AuthButton() {
         const isPro = Boolean(tier && (tier.toLowerCase().includes('pro') || tier.toLowerCase().includes('premium')));
 
         return (
-            <div className="flex items-center gap-2 md:gap-3 bg-white p-1.5 md:p-2 rounded-full md:rounded-2xl border border-gray-200 shadow-sm">
+            <div className={`flex items-center gap-2 md:gap-3 p-1.5 md:p-2 rounded-full md:rounded-2xl border transition-all ${
+                isDark 
+                    ? 'bg-slate-800/90 border-slate-700/80 shadow-md backdrop-blur-xs' 
+                    : 'bg-white border-gray-200 shadow-sm'
+            }`}>
                 {/* Tampilkan foto profil kalau ada */}
                 {session.user.image && (
                     <img src={session.user.image} alt="Profile" className="w-7 h-7 md:w-8 md:h-8 rounded-full" referrerPolicy="no-referrer" />
                 )}
                 <div className="hidden md:block text-sm">
-                    <p className="font-bold text-slate-900 leading-none">{session.user.name}</p>
+                    <p className={`font-bold leading-none ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                        {session.user.name}
+                    </p>
                     <div className="flex items-center gap-1.5 mt-1">
-                        <span className="text-gray-400 text-[10px]">Status:</span>
+                        <span className={`text-[10px] ${isDark ? 'text-slate-400' : 'text-gray-400'}`}>Status:</span>
                         {isPro ? (
                             <span className="inline-flex items-center gap-0.5 bg-linear-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-black text-[10px] px-2 py-0.5 rounded-full shadow-2xs">
                                 <span>PRO</span>
                             </span>
                         ) : (
                             <div className="flex items-center gap-1">
-                                <span className="text-slate-500 font-bold text-[10px]">FREE</span>
-                                <a href="/pricing" className="text-[10px] font-bold text-blue-600 hover:text-blue-700 hover:underline">
+                                <span className={`font-bold text-[10px] ${isDark ? 'text-slate-300' : 'text-slate-500'}`}>FREE</span>
+                                <a href="/pricing" className={`text-[10px] font-bold hover:underline ${isDark ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>
                                     (Upgrade)
                                 </a>
                             </div>
@@ -45,7 +56,11 @@ export default function AuthButton() {
 
                 <button 
                     onClick={() => signOut()}
-                    className="bg-red-50 hover:bg-red-100 md:bg-red-500 md:hover:bg-red-600 text-red-600 md:text-white p-1.5 md:px-3 md:py-1.5 text-sm rounded-full md:rounded-xl font-semibold transition-all ml-0 md:ml-2 flex items-center justify-center"
+                    className={`p-1.5 md:px-3 md:py-1.5 text-sm rounded-full md:rounded-xl font-semibold transition-all ml-0 md:ml-2 flex items-center justify-center cursor-pointer ${
+                        isDark
+                            ? 'bg-red-500/20 hover:bg-red-500/30 text-red-300 md:bg-red-600 md:hover:bg-red-700 md:text-white'
+                            : 'bg-red-50 hover:bg-red-100 md:bg-red-500 md:hover:bg-red-600 text-red-600 md:text-white'
+                    }`}
                     aria-label="Logout"
                 >
                     <span className="hidden md:inline">Logout</span>
@@ -59,7 +74,11 @@ export default function AuthButton() {
     return (
         <button 
             onClick={() => signIn("google", { callbackUrl: "/" })}
-            className="bg-slate-900 hover:bg-slate-800 text-white p-2 md:px-6 md:py-2.5 rounded-full font-semibold transition-all flex items-center gap-2 shadow-sm"
+            className={`${
+                isDark
+                    ? 'bg-white hover:bg-slate-100 text-slate-950'
+                    : 'bg-slate-900 hover:bg-slate-800 text-white'
+            } p-2 md:px-6 md:py-2.5 rounded-full font-semibold transition-all flex items-center gap-2 shadow-sm cursor-pointer`}
             aria-label="Login via Google"
         >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">

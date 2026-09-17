@@ -70,7 +70,7 @@ export default async function CertificatePage({
   return (
     <div className="min-h-screen flex flex-col bg-slate-900 text-slate-100">
       <div className="print:hidden">
-        <Navbar />
+        <Navbar variant="dark" />
       </div>
       <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8">
         <CertificateClient
